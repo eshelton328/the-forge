@@ -1,0 +1,52 @@
+kibot:
+  version: 1
+
+outputs:
+  - name: schematic_pdf
+    comment: "Schematic PDF"
+    type: pdf_sch_print
+    dir: output/docs
+    options:
+      output: '%f_schematic.pdf'
+
+  - name: board_top
+    comment: "Top layer board render"
+    type: pcbdraw
+    dir: output/docs
+    options:
+      format: png
+      dpi: 300
+      output: '%f_top.png'
+
+  - name: board_bottom
+    comment: "Bottom layer board render"
+    type: pcbdraw
+    dir: output/docs
+    options:
+      format: png
+      dpi: 300
+      bottom: true
+      output: '%f_bottom.png'
+
+  - name: interactive_bom
+    comment: "Interactive HTML BOM"
+    type: ibom
+    dir: output/docs
+    options:
+      name_format: '%f_ibom'
+
+  - name: step_model
+    comment: "3D STEP model"
+    type: step
+    dir: output/docs
+    options:
+      output: '%f_3d.step'
+
+groups:
+  - name: docs
+    outputs:
+      - schematic_pdf
+      - board_top
+      - board_bottom
+      - interactive_bom
+      - step_model

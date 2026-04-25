@@ -1,0 +1,8 @@
+name: s3-dev-board
+description: ESP32-S3-WROOM-1 development board with TPS63070 buck-boost and USB-C
+layers: 4
+copper_weight: 1oz
+thickness: 1.6mm
+fab_targets:
+  - jlcpcb-4layer
+  - pcbway-4layer

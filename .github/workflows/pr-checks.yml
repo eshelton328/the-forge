@@ -1,0 +1,120 @@
+name: KiCad Design Checks
+
+on:
+  pull_request:
+    paths:
+      - 'boards/**'
+      - 'libs/**'
+      - 'fab-rules/**'
+
+jobs:
+  detect-boards:
+    runs-on: ubuntu-latest
+    outputs:
+      boards: ${{ steps.detect.outputs.boards }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed boards
+        id: detect
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            | grep -E '^(boards/|libs/|fab-rules/)' \
+            | grep -oP '^boards/\K[^/]+' \
+            | sort -u || true)
+
+          # If libs/ or fab-rules/ changed, test all boards
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -qE '^(libs/|fab-rules/)'; then
+            CHANGED=$(ls -d boards/*/ 2>/dev/null | xargs -I{} basename {} | sort -u)
+          fi
+
+          if [ -z "$CHANGED" ]; then
+            echo "boards=[]" >> "$GITHUB_OUTPUT"
+          else
+            BOARDS=$(echo "$CHANGED" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+            echo "boards=$BOARDS" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report detected boards
+        run: echo "Boards to check:\ ${{ steps.detect.outputs.boards }}"
+
+  erc:
+    needs: detect-boards
+    if: needs.detect-boards.outputs.boards != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run ERC
+        uses: actions-for-kicad/kicad-actions@v2-k10.0
+        with:
+          schematic_file_name: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch
+          run_erc: true
+          erc_output_file_name: boards/${{ matrix.board }}/erc.json
+
+      - name: Upload ERC report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erc-${{ matrix.board }}
+          path: boards/${{ matrix.board }}/erc.json
+
+  drc:
+    needs: detect-boards
+    if: needs.detect-boards.outputs.boards != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run DRC (default rules)
+        uses: actions-for-kicad/kicad-actions@v2-k10.0
+        with:
+          pcb_file_name: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
+          run_drc: true
+          drc_output_file_name: boards/${{ matrix.board }}/drc-default.json
+
+      - name: Upload DRC report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drc-default-${{ matrix.board }}
+          path: boards/${{ matrix.board }}/drc-default.json
+
+  fab-drc:
+    needs: detect-boards
+    if: needs.detect-boards.outputs.boards != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install KiCad CLI
+        run: |
+          sudo add-apt-repository --yes ppa:kicad/kicad-dev-nightly
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends kicad-nightly
+
+      - name: Run multi-fab DRC
+        run: |
+          export PATH="/usr/bin:$PATH"
+          bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
+
+      - name: Upload fab DRC reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drc-fabs-${{ matrix.board }}
+          path: boards/${{ matrix.board }}/drc-*.json

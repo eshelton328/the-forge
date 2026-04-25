@@ -1,0 +1,110 @@
+kibot:
+  version: 1
+
+outputs:
+  - name: pcbway_gerbers
+    comment: "Gerbers compatible with PCBWay"
+    type: gerber
+    dir: output/pcbway
+    options:
+      exclude_edge_layer: false
+      exclude_pads_from_silkscreen: true
+      plot_sheet_reference: false
+      plot_footprint_refs: true
+      plot_footprint_values: false
+      force_plot_invisible_refs_vals: false
+      tent_vias: true
+      use_protel_extensions: false
+      create_gerber_job_file: true
+      gerber_precision: 4.6
+      use_gerber_x2_attributes: true
+      use_gerber_net_attributes: true
+      line_width: 0.1
+      subtract_mask_from_silk: true
+    layers:
+      - F.Cu
+      - B.Cu
+      - In1.Cu
+      - In2.Cu
+      - F.SilkS
+      - B.SilkS
+      - F.Mask
+      - B.Mask
+      - Edge.Cuts
+
+  - name: pcbway_drill
+    comment: "Drill files compatible with PCBWay"
+    type: excellon
+    dir: output/pcbway
+    options:
+      pth_and_npth_single_file: false
+      pth_id: '-PTH'
+      npth_id: '-NPTH'
+      metric_units: true
+      map: gerber
+      output: "%f%i.%x"
+
+  - name: pcbway_bom
+    comment: "BOM for PCBWay"
+    type: bom
+    dir: output/pcbway
+    options:
+      output: '%f_bom_pcbway.%x'
+      ref_separator: ','
+      columns:
+        - field: References
+          name: Designator
+        - field: Value
+          name: "Value/Description"
+        - Footprint
+        - field: 'MPN'
+          name: 'Manufacturer Part Number'
+      csv:
+        hide_pcb_info: true
+        hide_stats_info: true
+        quote_all: true
+
+  - name: pcbway_position
+    comment: "Pick and place file for PCBWay"
+    type: position
+    dir: output/pcbway
+    options:
+      output: '%f_cpl_pcbway.%x'
+      format: CSV
+      units: millimeters
+      separate_files_for_front_and_back: false
+      only_smd: true
+      columns:
+        - id: Ref
+          name: Designator
+        - Val
+        - Package
+        - id: PosX
+          name: "Mid X"
+        - id: PosY
+          name: "Mid Y"
+        - id: Rot
+          name: Rotation
+        - id: Side
+          name: Layer
+
+  - name: pcbway_zip
+    comment: "ZIP file ready to upload to PCBWay"
+    type: compress
+    dir: output
+    options:
+      output: '%f_pcbway.%x'
+      files:
+        - from_output: pcbway_gerbers
+          dest: /
+        - from_output: pcbway_drill
+          dest: /
+
+groups:
+  - name: pcbway
+    outputs:
+      - pcbway_gerbers
+      - pcbway_drill
+      - pcbway_bom
+      - pcbway_position
+      - pcbway_zip
