@@ -42,9 +42,9 @@
 	(constraint text_height (min 1mm))
 )
 
-(rule "JLCPCB: Pad to Silkscreen"
-	(layer outer)
-	(condition "A.Type == 'pad' && B.Layer == '?.Silkscreen'")
+(rule "JLCPCB: Pad to silkscreen"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'pad' && (B.Type == 'text' || B.Type == 'graphic')")
 	(constraint silk_clearance (min 0.15mm))
 )
 

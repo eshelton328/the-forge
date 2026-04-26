@@ -5,6 +5,8 @@ name: KiCad Design Checks
 on:
   pull_request:
 
+permissions: {}
+
 concurrency:
   group: kicad-${{ github.head_ref }}
   cancel-in-progress: true
@@ -77,7 +79,7 @@ jobs:
             -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0 \
+            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli sch erc \
@@ -112,7 +114,7 @@ jobs:
             -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0 \
+            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli pcb drc \
@@ -149,7 +151,7 @@ jobs:
             -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0 \
+            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
@@ -176,8 +178,9 @@ jobs:
 
       - name: Download KiCad report artifacts
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
-          pattern: '{erc-*,drc-*,drc-fabs-*}'
+          pattern: '{erc-*,drc-*}'
           path: ci-artifacts
 
       - name: List downloaded artifacts
@@ -185,14 +188,16 @@ jobs:
         run: ls -laR ci-artifacts 2>/dev/null || echo "ci-artifacts directory not found"
 
       - name: Compose PR comment
+        if: always()
         env:
           GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           ERC_RESULT: ${{ needs.erc.result }}
           DRC_RESULT: ${{ needs.drc.result }}
           FAB_DRC_RESULT: ${{ needs.fab-drc.result }}
-        run: bash scripts/ci/compose-kicad-failure-comment.sh ci-artifacts | tee pr-comment.md
+        run: bash scripts/ci/compose-kicad-report-comment.sh ci-artifacts | tee pr-comment.md
 
       - name: Post sticky PR comment
+        if: always()
         uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
         with:
           header: kicad-design-checks
