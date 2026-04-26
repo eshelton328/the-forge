@@ -18,7 +18,7 @@
 (rule "PCBWay: Trace spacing, outer layer"
 	(constraint clearance (min 0.1mm))
 	(layer outer)
-	(condition "A.Type == 'track' && B.Type == A.Type")
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
 )
 
 (rule "PCBWay: Trace width, inner layer"
@@ -30,7 +30,7 @@
 (rule "PCBWay: Trace spacing, inner layer"
 	(constraint clearance (min 0.1mm))
 	(layer inner)
-	(condition "A.Type == 'track' && B.Type == A.Type")
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
 )
 
 # --- Drill / hole size ---

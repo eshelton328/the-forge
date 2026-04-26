@@ -19,7 +19,7 @@
 
 (rule "JLCPCB: Track spacing, outer layer (1oz copper)"
 	(layer outer)
-	(condition "A.Type == 'track' && B.Type == A.Type")
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
 	(constraint clearance (min 0.127mm))
 )
 
@@ -31,7 +31,7 @@
 
 (rule "JLCPCB: Track spacing, inner layer"
 	(layer inner)
-	(condition "A.Type == 'track' && B.Type == A.Type")
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
 	(constraint clearance (min 0.1mm))
 )
 
