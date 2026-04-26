@@ -71,9 +71,8 @@ print_grouped() {
       "<summary>\($icon) <b><code>\(.[0].type)</code></b> — \(length) \($sev)</summary>",
       "",
       .[0].description,
-      (.[0:5][] | select((.items // []) | length > 0)
+      (.[] | select((.items // []) | length > 0)
         | "- " + ([.items[].description // "(no details)"] | map("`\(.)`") | join(" / "))),
-      (if length > 5 then "", "*… and \(length - 5) more*" else empty end),
       "",
       "</details>",
       ""
