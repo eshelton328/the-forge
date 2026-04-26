@@ -5,6 +5,10 @@ name: KiCad Design Checks
 on:
   pull_request:
 
+concurrency:
+  group: kicad-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   detect-boards:
     runs-on: ubuntu-latest
@@ -28,7 +32,7 @@ jobs:
             if ls -d boards/*/ >/dev/null 2>&1; then
               ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u
             else
-              echo ""
+              return
             fi
           }
 
@@ -53,7 +57,7 @@ jobs:
           fi
 
       - name: Report detected boards
-        run: echo "Boards to check:\ ${{ steps.detect.outputs.boards }}"
+        run: echo "Boards to check: ${{ steps.detect.outputs.boards }}"
 
   erc:
     needs: detect-boards
@@ -75,9 +79,7 @@ jobs:
             -w /workspace \
             kicad/kicad:10.0 \
             bash -c '
-              mkdir -p "$HOME/.config/kicad/10.0"
-              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
-              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli sch erc \
                 --exit-code-violations \
                 --format json \
@@ -112,9 +114,7 @@ jobs:
             -w /workspace \
             kicad/kicad:10.0 \
             bash -c '
-              mkdir -p "$HOME/.config/kicad/10.0"
-              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
-              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli pcb drc \
                 --exit-code-violations \
                 --refill-zones \
@@ -151,9 +151,7 @@ jobs:
             -w /workspace \
             kicad/kicad:10.0 \
             bash -c '
-              mkdir -p "$HOME/.config/kicad/10.0"
-              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
-              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              source /workspace/scripts/ci/setup-kicad-env.sh
               bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
             '
 
@@ -164,9 +162,9 @@ jobs:
           name: drc-fabs-${{ matrix.board }}
           path: boards/${{ matrix.board }}/drc-*.json
 
-  kicad-failure-report:
-    name: Post KiCad failure summary on PR
-    if: always() && github.event_name == 'pull_request' && !cancelled() && (needs.erc.result == 'failure' || needs.drc.result == 'failure' || needs.fab-drc.result == 'failure')
+  kicad-report:
+    name: Post KiCad design check summary on PR
+    if: always() && github.event_name == 'pull_request' && !cancelled()
     needs: [erc, drc, fab-drc]
     runs-on: ubuntu-latest
     permissions:
@@ -179,6 +177,7 @@ jobs:
       - name: Download KiCad report artifacts
         uses: actions/download-artifact@v4
         with:
+          pattern: '{erc-*,drc-*,drc-fabs-*}'
           path: ci-artifacts
 
       - name: List downloaded artifacts
@@ -194,7 +193,7 @@ jobs:
         run: bash scripts/ci/compose-kicad-failure-comment.sh ci-artifacts | tee pr-comment.md
 
       - name: Post sticky PR comment
-        uses: marocchino/sticky-pull-request-comment@v2.9.1
+        uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
         with:
           header: kicad-design-checks
           path: pr-comment.md

@@ -95,5 +95,5 @@ DRC rules for each fab house are stored in `fab-rules/` as `.kicad_dru` files. C
 
 | Fab House | Rule File | Source |
 |-----------|-----------|--------|
-| JLCPCB (4-layer) | `jlcpcb-4layer.kicad_dru` | [Cimos/KiCad-CustomDesignRules](https://github.com/Cimos/KiCad-CustomDesignRules) |
-| PCBWay (4-layer) | `pcbway-4layer.kicad_dru` | [Cimos/KiCad-CustomDesignRules](https://github.com/Cimos/KiCad-CustomDesignRules) |
+| JLCPCB (4-layer) | `jlcpcb-4layer.kicad_dru` | [labtroll/KiCad-DesignRules](https://github.com/labtroll/KiCad-DesignRules) |
+| PCBWay (4-layer) | `pcbway-4layer.kicad_dru` | [pcbway/PCBWay-Design-Rules](https://github.com/pcbway/PCBWay-Design-Rules) |
