@@ -1,65 +1,103 @@
 name: KiCad Design Checks
 
+# Run on every PR so CI/shared changes (.github, kibot, scripts, etc.) are still validated.
+# (A narrow "paths" filter was hiding the whole workflow when a PR only touched those dirs.)
 on:
   pull_request:
-    paths:
-      - 'boards/**'
-      - 'libs/**'
-      - 'fab-rules/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kicad-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  KICAD_IMAGE: "kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6"
 
 jobs:
   detect-boards:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       boards: ${{ steps.detect.outputs.boards }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
-      - name: Detect changed boards
+      - name: Detect which boards to check
         id: detect
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep -E '^(boards/|libs/|fab-rules/)' \
-            | grep -oP '^boards/\K[^/]+' \
-            | sort -u || true)
+          set -euo pipefail
+          BASE="origin/$BASE_REF"
+          files=$(git diff --name-only "$BASE...HEAD" || true)
 
-          # If libs/ or fab-rules/ changed, test all boards
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -qE '^(libs/|fab-rules/)'; then
-            CHANGED=$(ls -d boards/*/ 2>/dev/null | xargs -I{} basename {} | sort -u)
+          all_boards() {
+            ls -d boards/*/ 2>/dev/null | xargs -rn1 basename | sort -u || true
+          }
+
+          # Shared or fab paths → validate every board (CI, libs, or rules can affect all designs)
+          if echo "$files" | grep -qE '^(libs/|fab-rules/|\.github/|kibot/|scripts/)' || echo "$files" | grep -qE '^Makefile$'; then
+            CHANGED=$(all_boards)
+          # Touch under boards/<name>/ → check those project(s) only
+          elif echo "$files" | grep -qE '^boards/'; then
+            CHANGED=$(echo "$files" | grep -E '^boards/[^/]+/' | cut -d/ -f2 | sort -u)
+          # e.g. README, docs, license only — skip heavy KiCad runs
+          else
+            CHANGED=""
           fi
 
           if [ -z "$CHANGED" ]; then
             echo "boards=[]" >> "$GITHUB_OUTPUT"
+            echo "No hardware or shared-design paths in this diff — KiCad jobs skipped (see workflow comment)."
           else
             BOARDS=$(echo "$CHANGED" | jq -R -s -c 'split("\n") | map(select(. != ""))')
             echo "boards=$BOARDS" >> "$GITHUB_OUTPUT"
+            echo "Boards to check: $BOARDS"
           fi
 
       - name: Report detected boards
-        run: echo "Boards to check:\ ${{ steps.detect.outputs.boards }}"
+        env:
+          BOARDS: ${{ steps.detect.outputs.boards }}
+        run: 'echo "Boards to check: $BOARDS"'
 
   erc:
     needs: detect-boards
     if: needs.detect-boards.outputs.boards != '[]'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run ERC
-        uses: actions-for-kicad/kicad-actions@v2-k10.0
-        with:
-          schematic_file_name: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch
-          run_erc: true
-          erc_output_file_name: boards/${{ matrix.board }}/erc.json
+        env:
+          BOARD: ${{ matrix.board }}
+        run: |
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            "$KICAD_IMAGE" \
+            bash -c '
+              source /workspace/scripts/ci/setup-kicad-env.sh
+              kicad-cli sch erc \
+                --exit-code-violations \
+                --format json \
+                --output "boards/$BOARD/erc.json" \
+                "boards/$BOARD/$BOARD.kicad_sch"
+            '
 
       - name: Upload ERC report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: erc-${{ matrix.board }}
@@ -69,30 +107,38 @@ jobs:
     needs: detect-boards
     if: needs.detect-boards.outputs.boards != '[]'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run DRC (default rules, schematic parity)
-        # kicad-actions does not pass --schematic-parity; use kicad-cli in official KiCad 10 image
+        env:
+          BOARD: ${{ matrix.board }}
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0 \
-            kicad-cli pcb drc \
-              --exit-code-violations \
-              --refill-zones \
-              --schematic-parity \
-              --format json \
-              --output "boards/${{ matrix.board }}/drc-default.json" \
-              "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb"
+            "$KICAD_IMAGE" \
+            bash -c '
+              source /workspace/scripts/ci/setup-kicad-env.sh
+              kicad-cli pcb drc \
+                --exit-code-violations \
+                --refill-zones \
+                --schematic-parity \
+                --format json \
+                --output "boards/$BOARD/drc-default.json" \
+                "boards/$BOARD/$BOARD.kicad_pcb"
+            '
 
       - name: Upload DRC report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: drc-default-${{ matrix.board }}
@@ -102,25 +148,81 @@ jobs:
     needs: detect-boards
     if: needs.detect-boards.outputs.boards != '[]'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run multi-fab DRC
-        # Same KiCad 10.x as DRC job (avoids mismatch with kicad-nightly)
+        env:
+          BOARD: ${{ matrix.board }}
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0 \
-            bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
+            "$KICAD_IMAGE" \
+            bash -c '
+              source /workspace/scripts/ci/setup-kicad-env.sh
+              bash scripts/run-drc-all-fabs.sh "boards/$BOARD"
+            '
 
       - name: Upload fab DRC reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: drc-fabs-${{ matrix.board }}
-          path: boards/${{ matrix.board }}/drc-*.json
+          path: boards/${{ matrix.board }}/drc-fab-*.json
+
+  kicad-report:
+    name: Post KiCad design check summary on PR
+    if: always() && !cancelled() && needs.detect-boards.outputs.boards != '[]'
+    needs: [detect-boards, erc, drc, fab-drc]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 1
+
+      - name: Download ERC report artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
+        with:
+          pattern: erc-*
+          path: ci-artifacts
+
+      - name: Download DRC report artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
+        with:
+          pattern: drc-*
+          path: ci-artifacts
+
+      - name: List downloaded artifacts
+        if: always()
+        run: ls -laR ci-artifacts 2>/dev/null || echo "ci-artifacts directory not found"
+
+      - name: Compose PR comment
+        if: always()
+        env:
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ERC_RESULT: ${{ needs.erc.result }}
+          DRC_RESULT: ${{ needs.drc.result }}
+          FAB_DRC_RESULT: ${{ needs.fab-drc.result }}
+        run: bash scripts/ci/compose-kicad-report-comment.sh ci-artifacts | tee pr-comment.md
+
+      - name: Post sticky PR comment
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
+        with:
+          header: kicad-design-checks
+          path: pr-comment.md
