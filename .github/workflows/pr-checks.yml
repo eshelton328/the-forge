@@ -57,7 +57,7 @@ jobs:
           fi
 
       - name: Report detected boards
-        run: echo "Boards to check: ${{ steps.detect.outputs.boards }}"
+        run: 'echo "Boards to check: ${{ steps.detect.outputs.boards }}"'
 
   erc:
     needs: detect-boards
