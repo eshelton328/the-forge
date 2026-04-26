@@ -69,6 +69,7 @@ jobs:
       - name: Run ERC
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
@@ -97,9 +98,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run DRC (default rules, schematic parity)
-        # kicad-actions does not pass --schematic-parity; use kicad-cli in official KiCad 10 image
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
@@ -130,9 +131,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run multi-fab DRC
-        # Same KiCad 10.x as DRC job (avoids mismatch with kicad-nightly)
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
