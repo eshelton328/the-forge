@@ -48,7 +48,7 @@
 
 (rule "PCBWay: PTH hole size"
 	(constraint hole_size (min 0.2mm) (max 6.2mm))
-	(condition "A.Type != 'Via' && A.isPlated()")
+	(condition "A.Type != 'via' && A.isPlated()")
 )
 
 (rule "PCBWay: Non-plated hole size"
@@ -59,7 +59,7 @@
 (rule "PCBWay: Pad size"
 	(constraint hole_size (min 0.5mm))
 	(constraint annular_width (min 0.25mm))
-	(condition "A.Type == 'Pad' && A.isPlated()")
+	(condition "A.Type == 'pad' && A.isPlated()")
 )
 
 (rule "PCBWay: Castellated hole size"
@@ -101,7 +101,7 @@
 
 (rule "PCBWay: Pad to pad (without hole), different nets"
 	(constraint clearance (min 0.127mm))
-	(condition "A.Type == 'Pad' && B.Type == 'Pad'")
+	(condition "A.Type == 'pad' && B.Type == 'pad'")
 )
 
 (rule "PCBWay: NPTH to track"
@@ -116,12 +116,12 @@
 
 (rule "PCBWay: PTH to track"
 	(constraint hole_clearance (min 0.33mm))
-	(condition "A.isPlated() && A.Type != 'Via' && B.Type == 'track'")
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
 )
 
 (rule "PCBWay: Pad to track"
 	(constraint clearance (min 0.2mm))
-	(condition "A.isPlated() && A.Type != 'Via' && B.Type == 'track'")
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
 )
 
 # --- Board edge ---

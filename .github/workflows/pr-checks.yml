@@ -18,7 +18,7 @@ jobs:
     outputs:
       boards: ${{ steps.detect.outputs.boards }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
@@ -30,7 +30,7 @@ jobs:
           files=$(git diff --name-only "$BASE...HEAD" || true)
 
           all_boards() {
-            ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u || true
+            ls -d boards/*/ 2>/dev/null | xargs -rn1 basename | sort -u || true
           }
 
           # Shared or fab paths → validate every board (CI, libs, or rules can affect all designs)
@@ -65,13 +65,16 @@ jobs:
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run ERC
+        env:
+          BOARD: ${{ matrix.board }}
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
             -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
@@ -80,12 +83,12 @@ jobs:
               kicad-cli sch erc \
                 --exit-code-violations \
                 --format json \
-                --output "boards/${{ matrix.board }}/erc.json" \
-                "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch"
+                --output "boards/$BOARD/erc.json" \
+                "boards/$BOARD/$BOARD.kicad_sch"
             '
 
       - name: Upload ERC report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: erc-${{ matrix.board }}
@@ -100,13 +103,16 @@ jobs:
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run DRC (default rules, schematic parity)
+        env:
+          BOARD: ${{ matrix.board }}
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
             -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
@@ -117,12 +123,12 @@ jobs:
                 --refill-zones \
                 --schematic-parity \
                 --format json \
-                --output "boards/${{ matrix.board }}/drc-default.json" \
-                "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb"
+                --output "boards/$BOARD/drc-default.json" \
+                "boards/$BOARD/$BOARD.kicad_pcb"
             '
 
       - name: Upload DRC report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: drc-default-${{ matrix.board }}
@@ -137,29 +143,30 @@ jobs:
       matrix:
         board: ${{ fromJson(needs.detect-boards.outputs.boards) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Run multi-fab DRC
+        env:
+          BOARD: ${{ matrix.board }}
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
             -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
-              bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
+              bash scripts/run-drc-all-fabs.sh "boards/$BOARD"
             '
 
       - name: Upload fab DRC reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: drc-fabs-${{ matrix.board }}
-          path: |
-            boards/${{ matrix.board }}/drc-*.json
-            !boards/${{ matrix.board }}/drc-default.json
+          path: boards/${{ matrix.board }}/drc-fab-*.json
 
   kicad-report:
     name: Post KiCad design check summary on PR
@@ -170,19 +177,19 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 1
 
       - name: Download ERC report artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         continue-on-error: true
         with:
           pattern: erc-*
           path: ci-artifacts
 
       - name: Download DRC report artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         continue-on-error: true
         with:
           pattern: drc-*

@@ -196,7 +196,7 @@ fi
 fab_files=()
 while IFS= read -r f; do
   [ -n "$f" ] && fab_files+=("$f")
-done < <(find "$ARTIFACTS_DIR" -name 'drc-*.json' ! -name 'drc-default.json' -type f 2>/dev/null | sort)
+done < <(find "$ARTIFACTS_DIR" -name 'drc-fab-*.json' -type f 2>/dev/null | sort)
 
 if [ "${#fab_files[@]}" -eq 0 ]; then
   echo "| Fab DRC | — | $(result_label "$fab_drc_result") |" >> "$SUMMARY_FILE"
@@ -205,7 +205,7 @@ else
     artifact_dir=$(basename "$(dirname "$f")")
     board=$(board_from_artifact_dir "$artifact_dir" "drc-fabs-")
     fab_name=$(basename "$f" .json)
-    fab_name="${fab_name#drc-}"
+    fab_name="${fab_name#drc-fab-}"
 
     all='(.violations // [])[]?'
     errors=$(count_errors "$all" "$f")

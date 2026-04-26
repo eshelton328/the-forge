@@ -40,7 +40,7 @@ for FAB in $FAB_TARGETS; do
 
     cp "$FAB_RULE" "$DRU_FILE"
 
-    REPORT_FILE="$BOARD_DIR/drc-$FAB.json"
+    REPORT_FILE="$BOARD_DIR/drc-fab-$FAB.json"
 
     if kicad-cli pcb drc \
         --output "$REPORT_FILE" \

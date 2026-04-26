@@ -39,7 +39,7 @@
 
 (rule "JLCPCB: Silkscreen text"
 	(layer "?.Silkscreen")
-	(condition "A.Type == 'Text' || A.Type == 'Text Box'")
+	(condition "A.Type == 'text' || A.Type == 'text box'")
 	(constraint text_thickness (min 0.15mm))
 	(constraint text_height (min 1mm))
 )
