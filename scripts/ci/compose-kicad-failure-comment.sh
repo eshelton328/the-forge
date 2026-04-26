@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Emits a markdown body for a PR comment when KiCad design checks fail.
-# Reads uploaded JSON reports under ARTIFACTS_DIR (from download-artifact).
+# Emits a markdown PR comment summarizing KiCad design check results.
+# Reads JSON reports under ARTIFACTS_DIR (from download-artifact).
 # Expects: ERC_RESULT, DRC_RESULT, FAB_DRC_RESULT, and optionally GITHUB_RUN_URL.
 
 set -euo pipefail
@@ -23,203 +23,220 @@ if [ ! -d "$ARTIFACTS_DIR" ]; then
 	mkdir -p "$ARTIFACTS_DIR"
 fi
 
-# download-artifact@v4 puts each artifact in a subdirectory named after the
-# artifact (e.g. erc-s3-dev-board/, drc-default-s3-dev-board/).  Strip the
-# known prefix to recover the real board name.
+# download-artifact@v4 names subdirectories after the artifact.
+# Strip the known prefix to recover the board name.
 board_from_artifact_dir() {
-	local dir_name="$1"
-	local prefix="$2"
+	local dir_name="$1" prefix="$2"
 	echo "${dir_name#"$prefix"}"
 }
 
-echo "### KiCad design checks failed"
-echo ""
-echo "Workflow run: $RUN_URL"
-echo ""
-echo "| Check | Outcome |"
-echo "| --- | --- |"
-echo "| ERC (schematic) | \`${erc_result}\` |"
-echo "| DRC (default) | \`${drc_result}\` |"
-echo "| DRC (fab rules) | \`${fab_drc_result}\` |"
-echo ""
-echo "#### Details"
-echo ""
-
-print_erc_excerpt() {
-	local file_path="$1"
-	local artifact_dir
-	artifact_dir=$(basename "$(dirname "$file_path")")
-	local board
-	board=$(board_from_artifact_dir "$artifact_dir" "erc-")
-
-	local count
-	count=$(jq -r '[.sheets[]? | .violations[]?] | length' "$file_path" 2>/dev/null || echo "0")
-
-	echo "##### ERC — \`$board\`"
-	if [ "$count" = "0" ] || [ -z "$count" ]; then
-		local size
-		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
-		local keys
-		keys=$(jq -r 'keys | join(", ")' "$file_path" 2>/dev/null || echo "(not valid JSON)")
-		echo "_Report found (${size} bytes, top-level keys: ${keys}) but 0 violations parsed._"
-		echo ""
-		echo "<details><summary>Raw JSON (first 40 lines)</summary>"
-		echo ""
-		echo '```json'
-		head -40 "$file_path" 2>/dev/null || echo "(could not read file)"
-		echo '```'
-		echo "</details>"
-		echo ""
-		return 0
+# "N errors, M warnings" with severity icons, or "pass"
+format_counts() {
+	local errors="$1" warnings="$2" parts=""
+	if [ "$errors" -gt 0 ]; then
+		parts="🔴 ${errors} error$([ "$errors" -ne 1 ] && echo s || true)"
 	fi
-
-	echo "- Violations: **$count**"
-	local show=10
-	if [ "$count" -gt "$show" ]; then
-		jq -r --argjson lim "$show" '
-			[.sheets[]? | .violations[]?] | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)
-		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
-		local extra=$((count - show))
-		echo "- _… and $extra more_"
-	else
-		jq -r '
-			[.sheets[]? | .violations[]?][]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)
-		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
+	if [ "$warnings" -gt 0 ]; then
+		[ -n "$parts" ] && parts+=", "
+		parts+="🟡 ${warnings} warning$([ "$warnings" -ne 1 ] && echo s || true)"
 	fi
-	echo ""
+	[ -z "$parts" ] && echo "pass" || echo "$parts"
 }
 
-print_drc_default_excerpt() {
-	local file_path="$1"
-	local artifact_dir
-	artifact_dir=$(basename "$(dirname "$file_path")")
-	local board
-	board=$(board_from_artifact_dir "$artifact_dir" "drc-default-")
-
-	local n_v n_u n_s
-	n_v=$(jq '(.violations // []) | length' "$file_path" 2>/dev/null || echo 0)
-	n_s=$(jq '(.schematic_parity // []) | length' "$file_path" 2>/dev/null || echo 0)
-	n_u=$(jq '(.unconnected_items // []) | length' "$file_path" 2>/dev/null || echo 0)
-
-	echo "##### DRC (default) — \`$board\`"
-	if [ "$n_v" = "0" ] && [ "$n_s" = "0" ] && [ "$n_u" = "0" ]; then
-		local size
-		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
-		local keys
-		keys=$(jq -r 'keys | join(", ")' "$file_path" 2>/dev/null || echo "(not valid JSON)")
-		echo "_Report found (${size} bytes, keys: ${keys}) but 0 items parsed._"
-		echo ""
-		echo "<details><summary>Raw JSON (first 40 lines)</summary>"
-		echo ""
-		echo '```json'
-		head -40 "$file_path" 2>/dev/null || echo "(could not read file)"
-		echo '```'
-		echo "</details>"
-		echo ""
-		return 0
-	fi
-
-	echo "- violations: **$n_v**, schematic_parity: **$n_s**, unconnected: **$n_u**"
-	local total
-	total=$(jq '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?] | length' "$file_path" 2>/dev/null || echo 0)
-	local show=10
-	if [ "$total" -gt "$show" ]; then
-		jq -r --argjson lim "$show" '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?] | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
-		local extra=$((total - show))
-		echo "- _… and $extra more_"
-	else
-		jq -r '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?][]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
-	fi
-	echo ""
+count_errors() {
+	jq -r "[$1 | select(.severity == \"error\")] | length" "$2" 2>/dev/null || echo 0
 }
 
-print_fab_excerpt() {
-	local file_path="$1"
-	local artifact_dir
-	artifact_dir=$(basename "$(dirname "$file_path")")
-	local board
-	board=$(board_from_artifact_dir "$artifact_dir" "drc-fabs-")
-	local name
-	name=$(basename "$file_path" .json)
-
-	local n
-	n=$(jq '(.violations // []) | length' "$file_path" 2>/dev/null || echo 0)
-
-	echo "##### Fab DRC — \`$board\` / \`$name\`"
-	if [ "$n" = "0" ]; then
-		local size
-		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
-		echo "_Report found (${size} bytes) but 0 violations parsed. See the fab-drc job log._"
-		echo ""
-		return 0
-	fi
-
-	echo "- violations: **$n**"
-	local show=10
-	if [ "$n" -gt "$show" ]; then
-		jq -r --argjson lim "$show" '(.violations // []) | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
-		local extra=$((n - show))
-		echo "- _… and $extra more_"
-	else
-		jq -r '(.violations // [])[]
-			| "- " + .severity + ": " + .type + " — " + .description,
-			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
-	fi
-	echo ""
+count_warnings() {
+	jq -r "[$1 | select(.severity == \"warning\")] | length" "$2" 2>/dev/null || echo 0
 }
 
+# Print violations grouped by type as markdown.
+# Errors sort before warnings. Shows one example violation per type.
+# $1 = file, $2 = jq expression that yields an array of violation objects.
+print_grouped() {
+	local file="$1" jq_expr="$2"
+	jq -r "${jq_expr}"'
+		| group_by(.type)
+		| sort_by(if .[0].severity == "error" then 0 else 1 end)
+		| .[]
+		| (if .[0].severity == "error" then "🔴"
+		   elif .[0].severity == "warning" then "🟡"
+		   else "⚪" end) as $icon
+		| (if length == 1 then .[0].severity
+		   else .[0].severity + "s" end) as $sev
+		| "\($icon) **`\(.[0].type)`** — \(length) \($sev)",
+		  "> \(.[0].description)",
+		  (.[0].items // [] | .[] | "> - `\(.description // "(no details)")`"),
+		  ""
+	' "$file" 2>/dev/null || echo "_Could not parse violations._"
+}
+
+# result_label <result_value>  →  "pass" / "failed (no report)" / "skipped" / …
+result_label() {
+	case "$1" in
+		success) echo "pass" ;;
+		failure) echo "_failed (no report)_" ;;
+		skipped) echo "_skipped_" ;;
+		*)       echo "_${1}_" ;;
+	esac
+}
+
+SUMMARY_FILE=$(mktemp)
+DETAILS_FILE=$(mktemp)
+trap 'rm -f "$SUMMARY_FILE" "$DETAILS_FILE"' EXIT
+
+# ===========================================================================
+#  ERC
+# ===========================================================================
 erc_files=()
 while IFS= read -r f; do
 	[ -n "$f" ] && erc_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'erc.json' -type f 2>/dev/null | sort)
 
 if [ "${#erc_files[@]}" -eq 0 ]; then
-	echo "_No \`erc.json\` artifacts found (job may have failed before generating a report)._"
-	echo ""
+	echo "| ERC | — | $(result_label "$erc_result") |" >> "$SUMMARY_FILE"
 else
 	for f in "${erc_files[@]}"; do
-		print_erc_excerpt "$f"
+		artifact_dir=$(basename "$(dirname "$f")")
+		board=$(board_from_artifact_dir "$artifact_dir" "erc-")
+
+		all='.sheets[]? | .violations[]?'
+		errors=$(count_errors "$all" "$f")
+		warnings=$(count_warnings "$all" "$f")
+		total=$((errors + warnings))
+
+		echo "| ERC | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+
+		if [ "$total" -gt 0 ]; then
+			{
+				echo "---"
+				echo ""
+				echo "<details>"
+				echo "<summary><strong>ERC — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo ""
+				print_grouped "$f" '[.sheets[]? | .violations[]?]'
+				echo "</details>"
+				echo ""
+			} >> "$DETAILS_FILE"
+		fi
 	done
 fi
 
+# ===========================================================================
+#  DRC (default rules)
+# ===========================================================================
 drc_def_files=()
 while IFS= read -r f; do
 	[ -n "$f" ] && drc_def_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'drc-default.json' -type f 2>/dev/null | sort)
 
 if [ "${#drc_def_files[@]}" -eq 0 ]; then
-	echo "_No \`drc-default.json\` artifacts found (job may have failed before generating a report)._"
-	echo ""
+	echo "| DRC | — | $(result_label "$drc_result") |" >> "$SUMMARY_FILE"
 else
 	for f in "${drc_def_files[@]}"; do
-		print_drc_default_excerpt "$f"
+		artifact_dir=$(basename "$(dirname "$f")")
+		board=$(board_from_artifact_dir "$artifact_dir" "drc-default-")
+
+		all='(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?'
+		errors=$(count_errors "$all" "$f")
+		warnings=$(count_warnings "$all" "$f")
+		total=$((errors + warnings))
+
+		echo "| DRC | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+
+		if [ "$total" -gt 0 ]; then
+			n_v=$(jq '(.violations // []) | length' "$f" 2>/dev/null || echo 0)
+			n_s=$(jq '(.schematic_parity // []) | length' "$f" 2>/dev/null || echo 0)
+			n_u=$(jq '(.unconnected_items // []) | length' "$f" 2>/dev/null || echo 0)
+
+			{
+				echo "---"
+				echo ""
+				echo "<details>"
+				echo "<summary><strong>DRC — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo ""
+
+				if [ "$n_v" -gt 0 ]; then
+					echo "**Violations** ($n_v)"
+					echo ""
+					print_grouped "$f" '[(.violations // [])[]?]'
+				fi
+
+				if [ "$n_s" -gt 0 ]; then
+					echo "**Schematic parity** ($n_s)"
+					echo ""
+					print_grouped "$f" '[(.schematic_parity // [])[]?]'
+				fi
+
+				if [ "$n_u" -gt 0 ]; then
+					echo "**Unconnected items** ($n_u)"
+					echo ""
+					print_grouped "$f" '[(.unconnected_items // [])[]?]'
+				fi
+
+				echo "</details>"
+				echo ""
+			} >> "$DETAILS_FILE"
+		fi
 	done
 fi
 
-# Fab: drc-<fab>.json but not drc-default.json
+# ===========================================================================
+#  Fab DRC
+# ===========================================================================
 fab_files=()
 while IFS= read -r f; do
 	[ -n "$f" ] && fab_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'drc-*.json' ! -name 'drc-default.json' -type f 2>/dev/null | sort)
 
 if [ "${#fab_files[@]}" -eq 0 ]; then
-	echo "_No fab \`drc-*.json\` artifacts found (job may have failed before generating a report)._"
-	echo ""
+	echo "| Fab DRC | — | $(result_label "$fab_drc_result") |" >> "$SUMMARY_FILE"
 else
 	for f in "${fab_files[@]}"; do
-		print_fab_excerpt "$f"
+		artifact_dir=$(basename "$(dirname "$f")")
+		board=$(board_from_artifact_dir "$artifact_dir" "drc-fabs-")
+		fab_name=$(basename "$f" .json)
+		fab_name="${fab_name#drc-}"
+
+		all='(.violations // [])[]?'
+		errors=$(count_errors "$all" "$f")
+		warnings=$(count_warnings "$all" "$f")
+		total=$((errors + warnings))
+
+		echo "| Fab: ${fab_name} | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+
+		if [ "$total" -gt 0 ]; then
+			{
+				echo "---"
+				echo ""
+				echo "<details>"
+				echo "<summary><strong>Fab DRC: ${fab_name} — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo ""
+				print_grouped "$f" '[(.violations // [])[]?]'
+				echo "</details>"
+				echo ""
+			} >> "$DETAILS_FILE"
+		fi
 	done
 fi
 
+# ===========================================================================
+#  Assemble final output
+# ===========================================================================
+echo "### KiCad Design Checks"
 echo ""
-echo "— _Comment from workflow \`KiCad Design Checks\` (updates on the next run)._"
+echo "[View workflow run]($RUN_URL)"
+echo ""
+echo "| Check | Board | Result |"
+echo "|:------|:------|:-------|"
+cat "$SUMMARY_FILE"
+
+if [ -s "$DETAILS_FILE" ]; then
+	echo ""
+	cat "$DETAILS_FILE"
+fi
+
+echo ""
+echo "---"
+echo "_Updated by **KiCad Design Checks** on each push._"
