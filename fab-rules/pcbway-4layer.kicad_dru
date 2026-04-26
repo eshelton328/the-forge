@@ -101,7 +101,7 @@
 
 (rule "PCBWay: Pad to pad (without hole), different nets"
 	(constraint clearance (min 0.127mm))
-	(condition "A.Type == 'pad' && B.Type == 'pad'")
+	(condition "A.Type == 'pad' && B.Type == 'pad' && A.Net != B.Net")
 )
 
 (rule "PCBWay: NPTH to track"

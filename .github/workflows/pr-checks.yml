@@ -12,6 +12,9 @@ concurrency:
   group: kicad-${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  KICAD_IMAGE: kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6
+
 jobs:
   detect-boards:
     runs-on: ubuntu-latest
@@ -54,7 +57,9 @@ jobs:
           fi
 
       - name: Report detected boards
-        run: 'echo "Boards to check: ${{ steps.detect.outputs.boards }}"'
+        env:
+          BOARDS: ${{ steps.detect.outputs.boards }}
+        run: echo "Boards to check: $BOARDS"
 
   erc:
     needs: detect-boards
@@ -77,7 +82,7 @@ jobs:
             -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
+            ${{ env.KICAD_IMAGE }} \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli sch erc \
@@ -115,7 +120,7 @@ jobs:
             -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
+            ${{ env.KICAD_IMAGE }} \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               kicad-cli pcb drc \
@@ -155,7 +160,7 @@ jobs:
             -e BOARD \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
-            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
+            ${{ env.KICAD_IMAGE }} \
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               bash scripts/run-drc-all-fabs.sh "boards/$BOARD"
@@ -170,8 +175,8 @@ jobs:
 
   kicad-report:
     name: Post KiCad design check summary on PR
-    if: always() && !cancelled()
-    needs: [erc, drc, fab-drc]
+    if: always() && !cancelled() && needs.detect-boards.outputs.boards != '[]'
+    needs: [detect-boards, erc, drc, fab-drc]
     runs-on: ubuntu-latest
     permissions:
       contents: read
