@@ -6,7 +6,7 @@
     (property "Value" "TPS630701RNMR" (id 1) (at 0 0 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Footprint" "RNM0015A" (id 2) (at 0 0 0)
+    (property "Footprint" "TPS63070:TPS63070" (id 2) (at 0 0 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
     (property "Datasheet" "https://www.ti.com/lit/gpn/tps63070" (id 3) (at 0 0 0)
