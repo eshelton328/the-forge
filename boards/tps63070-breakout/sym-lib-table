@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "TPS630701 Buck-Boost") (type "KiCad") (uri "${KIPRJMOD}/../../libs/symbols/TPS630701-Buck-Boost.kicad_sym") (options "") (descr "TPS630701 buck-boost converter symbol"))
+)

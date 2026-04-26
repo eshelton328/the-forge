@@ -18,6 +18,7 @@ jobs:
       matrix:
         board:
           - s3-dev-board
+          - tps63070-breakout
     steps:
       - uses: actions/checkout@v4
 

@@ -1,0 +1,7 @@
+name: tps63070-breakout
+description: TPS63070 3.3V buck-boost breakout board
+layers: 2
+copper_weight: 1oz
+thickness: 1.6mm
+fab_targets: []
+# No 2-layer fab rules yet — add jlcpcb-2layer / pcbway-2layer to fab-rules/ when available

@@ -8,7 +8,8 @@ Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 the-forge/
 ├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
-│   └── s3-dev-board/ # ESP32-S3 development board
+│   ├── s3-dev-board/        # ESP32-S3 development board
+│   └── tps63070-breakout/   # TPS63070 buck-boost breakout
 ├── fab-rules/        # DRC rule templates per fab house
 ├── kibot/            # KiBot output generation configs
 ├── libs/             # Shared libraries (symbols, footprints, 3D models)
@@ -21,6 +22,7 @@ the-forge/
 | Board | Description | Layers | Status |
 |-------|-------------|--------|--------|
 | [s3-dev-board](boards/s3-dev-board/) | ESP32-S3-WROOM-1 dev board with TPS63070 buck-boost, USB-C | 4 | In Development |
+| [tps63070-breakout](boards/tps63070-breakout/) | TPS63070 3.3V buck-boost breakout board | 2 | Migrated |
 
 ## CI/CD Pipeline
 
