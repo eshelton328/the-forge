@@ -60,7 +60,7 @@ jobs:
       - name: Report detected boards
         env:
           BOARDS: ${{ steps.detect.outputs.boards }}
-        run: echo "Boards to check: $BOARDS"
+        run: 'echo "Boards to check: $BOARDS"'
 
   erc:
     needs: detect-boards
