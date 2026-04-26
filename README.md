@@ -25,6 +25,7 @@ the-forge/
 ## CI/CD Pipeline
 
 Every pull request automatically runs:
+- **PR title** must follow [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `feat:`, `fix:`, `chore:`, `ci:`)
 - **ERC** (Electrical Rules Check) on schematics
 - **DRC** (Design Rules Check) against multiple fab house rules (JLCPCB, PCBWay)
 
