@@ -1,4 +1,4 @@
-# the-forge
+# The Forge
 
 Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 
