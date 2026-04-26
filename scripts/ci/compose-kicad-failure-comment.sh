@@ -68,12 +68,11 @@ print_grouped() {
 		| "<details>",
 		  "<summary>\($icon) <b><code>\(.[0].type)</code></b> — \(length) \($sev)</summary>",
 		  "",
-		  (.[0:5][] |
-		    "\(.description)",
-		    ((.items // [])[] | "- `\(.description // "(no details)")`"),
-		    ""
-		  ),
-		  (if length > 5 then "*… and \(length - 5) more*", "" else empty end),
+		  .[0].description,
+		  (.[0:5][] | select((.items // []) | length > 0)
+		    | "- " + ([.items[].description // "(no details)"] | map("`\(.)`") | join(" / "))),
+		  (if length > 5 then "", "*… and \(length - 5) more*" else empty end),
+		  "",
 		  "</details>",
 		  ""
 	' "$file" 2>/dev/null | sed 's/^/> /' || echo "> _Could not parse violations._"
