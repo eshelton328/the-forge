@@ -6,6 +6,7 @@ Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 
 ```
 circuit-forge/
+├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
 │   └── s3-dev-board/ # ESP32-S3 development board
 ├── fab-rules/        # DRC rule templates per fab house
@@ -43,15 +44,32 @@ pip install kibot kikit       # Automation tools
 
 ### Running checks locally
 
+From the repository root, the **Makefile** is the usual entry point:
+
 ```bash
-# ERC
-kicad-cli sch erc --exit-code-violations boards/s3-dev-board/s3-dev-board.kicad_sch
+make help        # list targets
+make check       # ERC + DRC + multi-fab DRC (default board: s3-dev-board)
+make erc         # Electrical Rules Check only
+make drc         # board DRC (project design rules)
+make fab-drc     # DRC with JLCPCB and PCBWay rule files from fab-rules/
+make clean       # remove generated *.json reports under the board directory
+```
 
-# DRC with default rules
-kicad-cli pcb drc --exit-code-violations boards/s3-dev-board/s3-dev-board.kicad_pcb
+`kicad-cli` is picked up from your `PATH` if present; on macOS it falls back to
+`/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`. Override with
+`KICAD_CLI=/path/to/kicad-cli make check`. Use another board with
+`make BOARD=other-board check`.
 
-# DRC against all target fab houses
-bash scripts/run-drc-all-fabs.sh boards/s3-dev-board
+Raw commands (equivalent to the Makefile):
+
+```bash
+kicad-cli sch erc --exit-code-violations --format json -o boards/s3-dev-board/erc.json \
+  boards/s3-dev-board/s3-dev-board.kicad_sch
+
+kicad-cli pcb drc --exit-code-violations --refill-zones --format json \
+  -o boards/s3-dev-board/drc-default.json boards/s3-dev-board/s3-dev-board.kicad_pcb
+
+./scripts/run-drc-all-fabs.sh boards/s3-dev-board
 ```
 
 ### Adding a new board
