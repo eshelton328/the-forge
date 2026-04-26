@@ -44,21 +44,27 @@ pip install kibot kikit       # Automation tools
 
 ### Running checks locally
 
-From the repository root, the **Makefile** is the usual entry point:
+From the repository root, the **Makefile** is the usual entry point. **Each command checks one board** — the one named by `BOARD` (default: `s3-dev-board`). Nothing scans every board unless you ask for that explicitly.
 
 ```bash
-make help        # list targets
-make check       # ERC + DRC + multi-fab DRC (default board: s3-dev-board)
-make erc         # Electrical Rules Check only
-make drc         # board DRC (project design rules)
-make fab-drc     # DRC with JLCPCB and PCBWay rule files from fab-rules/
-make clean       # remove generated *.json reports under the board directory
+make help           # list targets
+make list-boards    # show board folder names you can pass as BOARD=...
+
+# Default single board (s3-dev-board)
+make check          # ERC + DRC + multi-fab DRC
+make drc
+
+# A different board (folder and .kicad_* basename must match)
+make check BOARD=other-board
+make drc BOARD=other-board
+
+# Optional: run make check for every board under boards/ (e.g. before a release)
+make check-all
 ```
 
 `kicad-cli` is picked up from your `PATH` if present; on macOS it falls back to
 `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`. Override with
-`KICAD_CLI=/path/to/kicad-cli make check`. Use another board with
-`make BOARD=other-board check`.
+`KICAD_CLI=/path/to/kicad-cli make check`.
 
 Raw commands (equivalent to the Makefile):
 
