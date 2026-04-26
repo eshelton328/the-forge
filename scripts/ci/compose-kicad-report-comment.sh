@@ -256,7 +256,7 @@ else
   for d in "$TMPDIR_BOARDS"/*/; do
     [ -d "$d" ] && boards+=("$(basename "$d")")
   done
-  IFS=$'\n' boards=($(sort <<<"${boards[*]}")); unset IFS
+  mapfile -t boards < <(printf '%s\n' "${boards[@]}" | sort)
 
   if [ "${#boards[@]}" -eq 0 ]; then
     echo "All checks passed — no ERC, DRC, or fab-rule violations found."
