@@ -1,11 +1,11 @@
-# circuit-forge
+# the-forge
 
 Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 
 ## Repository Structure
 
 ```
-circuit-forge/
+the-forge/
 ├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
 │   └── s3-dev-board/ # ESP32-S3 development board
@@ -73,7 +73,7 @@ Raw commands (equivalent to the Makefile):
 kicad-cli sch erc --exit-code-violations --format json -o boards/s3-dev-board/erc.json \
   boards/s3-dev-board/s3-dev-board.kicad_sch
 
-kicad-cli pcb drc --exit-code-violations --refill-zones --format json \
+kicad-cli pcb drc --exit-code-violations --refill-zones --schematic-parity --format json \
   -o boards/s3-dev-board/drc-default.json boards/s3-dev-board/s3-dev-board.kicad_pcb
 
 ./scripts/run-drc-all-fabs.sh boards/s3-dev-board

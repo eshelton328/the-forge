@@ -1,4 +1,4 @@
-# circuit-forge — local KiCad checks
+# the-forge — local KiCad checks
 #
 # One board at a time. Pick the board in either form:
 #   make drc BOARD=my-board
@@ -50,7 +50,7 @@ endif
 .PHONY: help versions erc drc fab-drc check clean list-boards check-all
 
 help:
-	@echo "circuit-forge — KiCad local checks (one board per command)"
+	@echo "the-forge — KiCad local checks (one board per command)"
 	@echo ""
 	@echo "  default BOARD: $(DEFAULT_BOARD)"
 	@echo ""
@@ -87,10 +87,10 @@ erc: $(SCH)
 
 drc: $(PCB)
 	@command -v "$(KICAD_CLI)" >/dev/null 2>&1 || { echo "kicad-cli not found. Set KICAD_CLI=... or add KiCad to PATH."; exit 1; }
-	$(KICAD_CLI) pcb drc --exit-code-violations --refill-zones \
+	$(KICAD_CLI) pcb drc --exit-code-violations --refill-zones --schematic-parity \
 		--format json -o $(DRC_JSON) \
 		$(PCB)
-	@echo "OK: DRC — report: $(DRC_JSON)"
+	@echo "OK: DRC — report: $(DRC_JSON) (incl. schematic parity)"
 
 fab-drc: $(PCB) $(BOARD_DIR)/board.yml
 	$(FAB_SCRIPT) $(BOARD_DIR)
