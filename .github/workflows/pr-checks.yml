@@ -139,3 +139,35 @@ jobs:
         with:
           name: drc-fabs-${{ matrix.board }}
           path: boards/${{ matrix.board }}/drc-*.json
+
+  kicad-failure-report:
+    name: Post KiCad failure summary on PR
+    if: always() && github.event_name == 'pull_request' && !cancelled() && (needs.erc.result == 'failure' || needs.drc.result == 'failure' || needs.fab-drc.result == 'failure')
+    needs: [erc, drc, fab-drc]
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Download KiCad report artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ci-artifacts
+          if-no-artifact-found: ignore
+
+      - name: Compose PR comment
+        env:
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ERC_RESULT: ${{ needs.erc.result }}
+          DRC_RESULT: ${{ needs.drc.result }}
+          FAB_DRC_RESULT: ${{ needs.fab-drc.result }}
+        run: bash scripts/ci/compose-kicad-failure-comment.sh ci-artifacts | tee pr-comment.md
+
+      - name: Post sticky PR comment
+        uses: marocchino/sticky-pull-request-comment@v2.9.1
+        with:
+          header: kicad-design-checks
+          path: pr-comment.md
