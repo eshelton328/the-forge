@@ -51,8 +51,8 @@ count_warnings() {
 	jq -r "[$1 | select(.severity == \"warning\")] | length" "$2" 2>/dev/null || echo 0
 }
 
-# Print violations grouped by type as markdown.
-# Errors sort before warnings. Lists every violation with its items.
+# Print violations grouped by type as blockquote-indented nested <details>.
+# Errors sort before warnings. Shows up to 5 example violations per type.
 # $1 = file, $2 = jq expression that yields an array of violation objects.
 print_grouped() {
 	local file="$1" jq_expr="$2"
@@ -66,16 +66,17 @@ print_grouped() {
 		| (if length == 1 then .[0].severity
 		   else .[0].severity + "s" end) as $sev
 		| "<details>",
-		  "<summary>\($icon) <strong><code>\(.[0].type)</code></strong> — \(length) \($sev)</summary>",
+		  "<summary>\($icon) <b><code>\(.[0].type)</code></b> — \(length) \($sev)</summary>",
 		  "",
-		  (.[] |
-		    "> \(.description // "(no details)")",
-		    ((.items // [])[] | ">   - `\(.description // "(no details)")`")
+		  (.[0:5][] |
+		    "\(.description)",
+		    ((.items // [])[] | "- `\(.description // "(no details)")`"),
+		    ""
 		  ),
-		  "",
+		  (if length > 5 then "*… and \(length - 5) more*", "" else empty end),
 		  "</details>",
 		  ""
-	' "$file" 2>/dev/null || echo "_Could not parse violations._"
+	' "$file" 2>/dev/null | sed 's/^/> /' || echo "> _Could not parse violations._"
 }
 
 # result_label <result_value>  →  "pass" / "failed (no report)" / "skipped" / …
@@ -164,20 +165,20 @@ else
 				echo ""
 
 				if [ "$n_v" -gt 0 ]; then
-					echo "**Violations** ($n_v)"
-					echo ""
+					echo "> **Violations** ($n_v)"
+					echo ">"
 					print_grouped "$f" '[(.violations // [])[]?]'
 				fi
 
 				if [ "$n_s" -gt 0 ]; then
-					echo "**Schematic parity** ($n_s)"
-					echo ""
+					echo "> **Schematic parity** ($n_s)"
+					echo ">"
 					print_grouped "$f" '[(.schematic_parity // [])[]?]'
 				fi
 
 				if [ "$n_u" -gt 0 ]; then
-					echo "**Unconnected items** ($n_u)"
-					echo ""
+					echo "> **Unconnected items** ($n_u)"
+					echo ">"
 					print_grouped "$f" '[(.unconnected_items // [])[]?]'
 				fi
 
