@@ -52,7 +52,7 @@ count_warnings() {
 }
 
 # Print violations grouped by type as markdown.
-# Errors sort before warnings. Shows one example violation per type.
+# Errors sort before warnings. Lists every violation with its items.
 # $1 = file, $2 = jq expression that yields an array of violation objects.
 print_grouped() {
 	local file="$1" jq_expr="$2"
@@ -65,9 +65,15 @@ print_grouped() {
 		   else "⚪" end) as $icon
 		| (if length == 1 then .[0].severity
 		   else .[0].severity + "s" end) as $sev
-		| "\($icon) **`\(.[0].type)`** — \(length) \($sev)",
-		  "> \(.[0].description)",
-		  (.[0].items // [] | .[] | "> - `\(.description // "(no details)")`"),
+		| "<details>",
+		  "<summary>\($icon) <strong><code>\(.[0].type)</code></strong> — \(length) \($sev)</summary>",
+		  "",
+		  (.[] |
+		    "> \(.description // "(no details)")",
+		    ((.items // [])[] | ">   - `\(.description // "(no details)")`")
+		  ),
+		  "",
+		  "</details>",
 		  ""
 	' "$file" 2>/dev/null || echo "_Could not parse violations._"
 }
