@@ -5,7 +5,8 @@ name: KiCad Design Checks
 on:
   pull_request:
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
   group: kicad-${{ github.head_ref }}
@@ -29,13 +30,7 @@ jobs:
           files=$(git diff --name-only "$BASE...HEAD" || true)
 
           all_boards() {
-            # Do not let the test `ls` print to stdout — it was being captured by
-            # CHANGED=$(all_boards) and duplicated every board (e.g. boards/foo/ + foo).
-            if ls -d boards/*/ >/dev/null 2>&1; then
-              ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u
-            else
-              return
-            fi
+            ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u || true
           }
 
           # Shared or fab paths → validate every board (CI, libs, or rules can affect all designs)
@@ -172,6 +167,7 @@ jobs:
     needs: [erc, drc, fab-drc]
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
