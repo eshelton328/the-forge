@@ -29,6 +29,8 @@ Every pull request automatically runs:
 - **ERC** (Electrical Rules Check) on schematics
 - **DRC** (Design Rules Check) against multiple fab house rules (JLCPCB, PCBWay)
 
+The KiCad workflow always runs, but it only **executes** ERC/DRC for boards that are in scope: changes under `boards/<name>/`, or anything under `libs/`, `fab-rules/`, `.github/`, `kibot/`, `scripts/`, or the root `Makefile` (in which case all boards are checked). Doc-only diffs (e.g. just `README.md`) skip the heavy KiCad jobs to save time.
+
 On release tags, the pipeline generates:
 - Fab-ready Gerber/drill ZIPs per fab house
 - BOM and component placement files

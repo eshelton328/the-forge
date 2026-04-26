@@ -1,11 +1,9 @@
 name: KiCad Design Checks
 
+# Run on every PR so CI/shared changes (.github, kibot, scripts, etc.) are still validated.
+# (A narrow "paths" filter was hiding the whole workflow when a PR only touched those dirs.)
 on:
   pull_request:
-    paths:
-      - 'boards/**'
-      - 'libs/**'
-      - 'fab-rules/**'
 
 jobs:
   detect-boards:
@@ -17,24 +15,39 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect changed boards
+      - name: Detect which boards to check
         id: detect
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep -E '^(boards/|libs/|fab-rules/)' \
-            | grep -oP '^boards/\K[^/]+' \
-            | sort -u || true)
+          set -euo pipefail
+          BASE="origin/${{ github.base_ref }}"
+          files=$(git diff --name-only "$BASE...HEAD" || true)
 
-          # If libs/ or fab-rules/ changed, test all boards
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -qE '^(libs/|fab-rules/)'; then
-            CHANGED=$(ls -d boards/*/ 2>/dev/null | xargs -I{} basename {} | sort -u)
+          all_boards() {
+            if ls -d boards/*/ 2>/dev/null; then
+              ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u
+            else
+              echo ""
+            fi
+          }
+
+          # Shared or fab paths → validate every board (CI, libs, or rules can affect all designs)
+          if echo "$files" | grep -qE '^(libs/|fab-rules/|\.github/|kibot/|scripts/)' || echo "$files" | grep -qE '^Makefile$'; then
+            CHANGED=$(all_boards)
+          # Touch under boards/<name>/ → check those project(s) only
+          elif echo "$files" | grep -qE '^boards/'; then
+            CHANGED=$(echo "$files" | grep -E '^boards/[^/]+/' | cut -d/ -f2 | sort -u)
+          # e.g. README, docs, license only — skip heavy KiCad runs
+          else
+            CHANGED=""
           fi
 
           if [ -z "$CHANGED" ]; then
             echo "boards=[]" >> "$GITHUB_OUTPUT"
+            echo "No hardware or shared-design paths in this diff — KiCad jobs skipped (see workflow comment)."
           else
             BOARDS=$(echo "$CHANGED" | jq -R -s -c 'split("\n") | map(select(. != ""))')
             echo "boards=$BOARDS" >> "$GITHUB_OUTPUT"
+            echo "Boards to check: $BOARDS"
           fi
 
       - name: Report detected boards
