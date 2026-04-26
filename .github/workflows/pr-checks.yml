@@ -28,9 +28,11 @@ jobs:
 
       - name: Detect which boards to check
         id: detect
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
-          BASE="origin/${{ github.base_ref }}"
+          BASE="origin/$BASE_REF"
           files=$(git diff --name-only "$BASE...HEAD" || true)
 
           all_boards() {

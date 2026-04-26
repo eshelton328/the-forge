@@ -127,6 +127,6 @@
 
 (rule "JLCPCB: Pad/via to pad/via"
 	(layer outer)
-	(condition "A.isPlated() && B.isPlated() && A.Net != B.Net")
+	(condition "(A.Type == 'pad' || A.Type == 'via') && (B.Type == 'pad' || B.Type == 'via') && A.Net != B.Net")
 	(constraint clearance (min 0.127mm))
 )
