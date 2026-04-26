@@ -119,7 +119,7 @@ else
 				echo "---"
 				echo ""
 				echo "<details>"
-				echo "<summary><strong>ERC — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo "<summary><strong>ERC</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
 				echo ""
 				print_grouped "$f" '[.sheets[]? | .violations[]?]'
 				echo "</details>"
@@ -160,7 +160,7 @@ else
 				echo "---"
 				echo ""
 				echo "<details>"
-				echo "<summary><strong>DRC — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo "<summary><strong>DRC</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
 				echo ""
 
 				if [ "$n_v" -gt 0 ]; then
@@ -217,7 +217,7 @@ else
 				echo "---"
 				echo ""
 				echo "<details>"
-				echo "<summary><strong>Fab DRC: ${fab_name} — ${board}</strong> — $(format_counts "$errors" "$warnings")</summary>"
+				echo "<summary><strong>Fab DRC: ${fab_name}</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
 				echo ""
 				print_grouped "$f" '[(.violations // [])[]?]'
 				echo "</details>"
