@@ -23,7 +23,9 @@ jobs:
           files=$(git diff --name-only "$BASE...HEAD" || true)
 
           all_boards() {
-            if ls -d boards/*/ 2>/dev/null; then
+            # Do not let the test `ls` print to stdout — it was being captured by
+            # CHANGED=$(all_boards) and duplicated every board (e.g. boards/foo/ + foo).
+            if ls -d boards/*/ >/dev/null 2>&1; then
               ls -d boards/*/ 2>/dev/null | xargs -n1 basename | sort -u
             else
               echo ""
