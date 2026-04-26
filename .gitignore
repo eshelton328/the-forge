@@ -42,3 +42,6 @@ output/
 # Local KiCad CLI reports (make erc / drc / fab-drc)
 boards/**/erc.json
 boards/**/drc*.json
+
+# CI temp home for kicad-cli Docker runs
+.kicad-ci-home/

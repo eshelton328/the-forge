@@ -70,14 +70,20 @@ jobs:
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
-            kicad-cli sch erc \
-              --exit-code-violations \
-              --format json \
-              --output "boards/${{ matrix.board }}/erc.json" \
-              "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch"
+            bash -c '
+              mkdir -p "$HOME/.config/kicad/10.0"
+              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
+              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              kicad-cli sch erc \
+                --exit-code-violations \
+                --format json \
+                --output "boards/${{ matrix.board }}/erc.json" \
+                "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch"
+            '
 
       - name: Upload ERC report
         uses: actions/upload-artifact@v4
@@ -101,16 +107,22 @@ jobs:
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
-            kicad-cli pcb drc \
-              --exit-code-violations \
-              --refill-zones \
-              --schematic-parity \
-              --format json \
-              --output "boards/${{ matrix.board }}/drc-default.json" \
-              "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb"
+            bash -c '
+              mkdir -p "$HOME/.config/kicad/10.0"
+              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
+              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              kicad-cli pcb drc \
+                --exit-code-violations \
+                --refill-zones \
+                --schematic-parity \
+                --format json \
+                --output "boards/${{ matrix.board }}/drc-default.json" \
+                "boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb"
+            '
 
       - name: Upload DRC report
         uses: actions/upload-artifact@v4
@@ -134,10 +146,16 @@ jobs:
         run: |
           docker run --rm \
             --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
             -v "$GITHUB_WORKSPACE:/workspace" \
             -w /workspace \
             kicad/kicad:10.0 \
-            bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
+            bash -c '
+              mkdir -p "$HOME/.config/kicad/10.0"
+              cp /usr/share/kicad/template/sym-lib-table "$HOME/.config/kicad/10.0/"
+              cp /usr/share/kicad/template/fp-lib-table  "$HOME/.config/kicad/10.0/"
+              bash scripts/run-drc-all-fabs.sh boards/${{ matrix.board }}
+            '
 
       - name: Upload fab DRC reports
         uses: actions/upload-artifact@v4
