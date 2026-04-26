@@ -78,14 +78,16 @@ print_erc_excerpt() {
 	if [ "$count" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '
 			[.sheets[]? | .violations[]?] | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)
 		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 		local extra=$((count - show))
 		echo "- _… and $extra more_"
 	else
 		jq -r '
 			[.sheets[]? | .violations[]?][]
-			| "- " + .severity + ": " + .type + " — " + .description
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)
 		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 	fi
 	echo ""
@@ -127,12 +129,14 @@ print_drc_default_excerpt() {
 	local show=10
 	if [ "$total" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?] | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
 		local extra=$((total - show))
 		echo "- _… and $extra more_"
 	else
 		jq -r '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?][]
-			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
 	fi
 	echo ""
 }
@@ -162,11 +166,14 @@ print_fab_excerpt() {
 	local show=10
 	if [ "$n" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '(.violations // []) | .[0:$lim][]
-			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 		local extra=$((n - show))
 		echo "- _… and $extra more_"
 	else
-		jq -r '(.violations // [])[] | "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
+		jq -r '(.violations // [])[]
+			| "- " + .severity + ": " + .type + " — " + .description,
+			  (.items[]? | "  - " + .description)' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 	fi
 	echo ""
 }
