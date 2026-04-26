@@ -10,13 +10,13 @@
 # --- Trace width and spacing (4-layer, 1oz and 0.5oz copper) ---
 
 (rule "PCBWay: Trace width, outer layer"
-	(constraint track_width (min 0.09mm))
+	(constraint track_width (min 0.1mm))
 	(layer outer)
 	(condition "A.Type == 'track'")
 )
 
 (rule "PCBWay: Trace spacing, outer layer"
-	(constraint clearance (min 0.09mm))
+	(constraint clearance (min 0.1mm))
 	(layer outer)
 	(condition "A.Type == 'track' && B.Type == A.Type")
 )
@@ -28,7 +28,7 @@
 )
 
 (rule "PCBWay: Trace spacing, inner layer"
-	(constraint clearance (min 0.09mm))
+	(constraint clearance (min 0.1mm))
 	(layer inner)
 	(condition "A.Type == 'track' && B.Type == A.Type")
 )
@@ -36,7 +36,7 @@
 # --- Drill / hole size ---
 
 (rule "PCBWay: Drill hole size (mechanical)"
-	(constraint hole_size (min 0.15mm) (max 6.3mm))
+	(constraint hole_size (min 0.15mm) (max 6.0mm))
 )
 
 # 4-layer standard via
@@ -47,7 +47,7 @@
 )
 
 (rule "PCBWay: PTH hole size"
-	(constraint hole_size (min 0.2mm) (max 6.35mm))
+	(constraint hole_size (min 0.2mm) (max 6.2mm))
 	(condition "A.Type != 'Via' && A.isPlated()")
 )
 

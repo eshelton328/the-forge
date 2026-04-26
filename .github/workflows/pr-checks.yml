@@ -162,11 +162,13 @@ jobs:
         if: always()
         with:
           name: drc-fabs-${{ matrix.board }}
-          path: boards/${{ matrix.board }}/drc-*.json
+          path: |
+            boards/${{ matrix.board }}/drc-*.json
+            !boards/${{ matrix.board }}/drc-default.json
 
   kicad-report:
     name: Post KiCad design check summary on PR
-    if: always() && github.event_name == 'pull_request' && !cancelled()
+    if: always() && !cancelled()
     needs: [erc, drc, fab-drc]
     runs-on: ubuntu-latest
     permissions:
@@ -176,11 +178,18 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Download KiCad report artifacts
+      - name: Download ERC report artifacts
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          pattern: '{erc-*,drc-*}'
+          pattern: erc-*
+          path: ci-artifacts
+
+      - name: Download DRC report artifacts
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: drc-*
           path: ci-artifacts
 
       - name: List downloaded artifacts

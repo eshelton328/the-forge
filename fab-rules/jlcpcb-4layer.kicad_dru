@@ -8,6 +8,8 @@
 # Configured for: 4-layer, 1oz outer copper, standard via (0.3/0.45mm)
 
 # --- Trace width and spacing ---
+# Outer layer: 0.127mm (5 mil) targets JLCPCB's standard process.
+# The advanced process supports 0.09mm (3.5 mil) — lower these if you need it.
 
 (rule "JLCPCB: Track width, outer layer (1oz copper)"
 	(layer outer)
@@ -24,13 +26,13 @@
 (rule "JLCPCB: Track width, inner layer"
 	(layer inner)
 	(condition "A.Type == 'track'")
-	(constraint track_width (min 0.09mm))
+	(constraint track_width (min 0.1mm))
 )
 
 (rule "JLCPCB: Track spacing, inner layer"
 	(layer inner)
 	(condition "A.Type == 'track' && B.Type == A.Type")
-	(constraint clearance (min 0.09mm))
+	(constraint clearance (min 0.1mm))
 )
 
 # --- Silkscreen ---
@@ -73,12 +75,25 @@
 	(constraint hole_size (min 0.6mm))
 )
 
+# --- Via support ---
+
+(rule "JLCPCB: Only through-hole vias supported (4-layer)"
+	(condition "A.Type == 'via'")
+	(constraint assertion "!(A.isBlindBuriedVia() || A.isMicroVia())")
+)
+
 # --- Annular ring ---
 
 (rule "JLCPCB: Annular ring width (via and PTH)"
 	(layer outer)
 	(condition "A.isPlated()")
-	(constraint annular_width (min 0.075mm))
+	(constraint annular_width (min 0.15mm))
+)
+
+(rule "JLCPCB: Annular ring width (NPTH)"
+	(layer outer)
+	(condition "!A.isPlated()")
+	(constraint annular_width (min 0.25mm))
 )
 
 # --- Clearance ---

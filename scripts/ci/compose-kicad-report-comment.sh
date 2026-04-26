@@ -237,7 +237,17 @@ echo ""
 echo "[View workflow run]($RUN_URL)"
 echo ""
 
-if ! grep -qE '🔴|🟡' "$SUMMARY_FILE" 2>/dev/null; then
+all_skipped=true
+for r in "$erc_result" "$drc_result" "$fab_drc_result"; do
+  if [ "$r" != "skipped" ]; then
+    all_skipped=false
+    break
+  fi
+done
+
+if [ "$all_skipped" = true ]; then
+  echo "KiCad checks were **skipped** — no boards in scope for this diff."
+elif ! grep -qE '🔴|🟡' "$SUMMARY_FILE" 2>/dev/null; then
   echo "All checks passed — no ERC, DRC, or fab-rule violations found."
 else
   echo "| Check | Board | Result |"
