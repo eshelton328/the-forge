@@ -40,7 +40,7 @@ jobs:
           }
 
           # Shared or fab paths → validate every board (CI, libs, or rules can affect all designs)
-          if echo "$files" | grep -qE '^(libs/|fab-rules/|\.github/|kibot/|scripts/)' || echo "$files" | grep -qE '^Makefile$'; then
+          if echo "$files" | grep -qE '^(libs/|fab-rules/|\.github/workflows/pr-checks\.yml|kibot/|scripts/)' || echo "$files" | grep -qE '^Makefile$'; then
             CHANGED=$(all_boards)
           # Touch under boards/<name>/ → check those project(s) only
           elif echo "$files" | grep -qE '^boards/'; then

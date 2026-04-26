@@ -1,0 +1,135 @@
+(version 1)
+# PCBWay 2-layer, 1oz copper — Custom Design Rules for KiCad
+#
+# Source: https://github.com/pcbway/PCBWay-Design-Rules (official)
+# Capabilities: https://www.pcbway.com/pcb_prototype/PCB_Manufacturing_Capabilities.html
+# Fetched: 2026-04-26
+#
+# Configured for: 2-layer, 1oz copper, standard via (0.3/0.45mm)
+# Key 2-layer vs 4-layer differences:
+#   - No inner layer rules
+
+# --- Trace width and spacing (2-layer, 1oz copper) ---
+
+(rule "PCBWay: Trace width, outer layer"
+	(constraint track_width (min 0.1mm))
+	(layer outer)
+	(condition "A.Type == 'track'")
+)
+
+(rule "PCBWay: Trace spacing, outer layer"
+	(constraint clearance (min 0.1mm))
+	(layer outer)
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
+)
+
+# --- Drill / hole size ---
+
+(rule "PCBWay: Drill hole size (mechanical)"
+	(constraint hole_size (min 0.15mm) (max 6.0mm))
+)
+
+(rule "PCBWay: Via diameter and hole size"
+	(constraint hole_size (min 0.3mm))
+	(constraint via_diameter (min 0.45mm))
+	(condition "A.Type == 'via'")
+)
+
+(rule "PCBWay: PTH hole size"
+	(constraint hole_size (min 0.2mm) (max 6.2mm))
+	(condition "A.Type != 'via' && A.isPlated()")
+)
+
+(rule "PCBWay: Non-plated hole size"
+	(constraint hole_size (min 0.5mm))
+	(condition "A.Type == 'pad' && !A.isPlated()")
+)
+
+(rule "PCBWay: Pad size"
+	(constraint hole_size (min 0.5mm))
+	(constraint annular_width (min 0.25mm))
+	(condition "A.Type == 'pad' && A.isPlated()")
+)
+
+(rule "PCBWay: Castellated hole size"
+	(constraint hole_size (min 0.6mm))
+	(condition "A.Type == 'pad' && A.Fabrication_Property == 'Castellated pad'")
+)
+
+(rule "PCBWay: Plated slot width"
+	(constraint hole_size (min 0.5mm))
+	(condition "(A.Hole_Size_X != A.Hole_Size_Y) && A.isPlated()")
+)
+
+(rule "PCBWay: Non-plated slot width"
+	(constraint hole_size (min 0.8mm))
+	(condition "(A.Hole_Size_X != A.Hole_Size_Y) && !A.isPlated()")
+)
+
+# --- Clearance ---
+
+(rule "PCBWay: Hole to hole, different nets"
+	(constraint hole_to_hole (min 0.5mm))
+	(condition "A.Net != B.Net")
+)
+
+(rule "PCBWay: Via to track"
+	(constraint hole_clearance (min 0.254mm))
+	(condition "A.Type == 'via' && B.Type == 'track'")
+)
+
+(rule "PCBWay: Via to via, same net"
+	(constraint hole_to_hole (min 0.254mm))
+	(condition "A.Type == 'via' && B.Type == A.Type && A.Net == B.Net")
+)
+
+(rule "PCBWay: Pad to pad (with hole), different nets"
+	(constraint hole_to_hole (min 0.5mm))
+	(condition "A.Type == 'pad' && B.Type == A.Type && A.Net != B.Net")
+)
+
+(rule "PCBWay: Pad to pad (without hole), different nets"
+	(constraint clearance (min 0.127mm))
+	(condition "A.Type == 'pad' && B.Type == 'pad' && A.Net != B.Net")
+)
+
+(rule "PCBWay: NPTH to track"
+	(constraint hole_clearance (min 0.254mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type == 'track'")
+)
+
+(rule "PCBWay: NPTH copper clearance"
+	(constraint hole_clearance (min 0.20mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type != 'track'")
+)
+
+(rule "PCBWay: PTH to track"
+	(constraint hole_clearance (min 0.33mm))
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
+)
+
+(rule "PCBWay: Pad to track"
+	(constraint clearance (min 0.2mm))
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
+)
+
+# --- Board edge ---
+
+(rule "PCBWay: Trace to outline"
+	(constraint edge_clearance (min 0.3mm))
+	(condition "A.Type == 'track'")
+)
+
+# --- Silkscreen ---
+
+(rule "PCBWay: Silkscreen text"
+	(constraint text_thickness (min 0.15mm))
+	(constraint text_height (min 0.8mm))
+	(layer "?.Silkscreen")
+)
+
+(rule "PCBWay: Pad to silkscreen"
+	(constraint silk_clearance (min 0.15mm))
+	(layer outer)
+	(condition "A.Type == 'pad' && (B.Type == 'text' || B.Type == 'graphic')")
+)
