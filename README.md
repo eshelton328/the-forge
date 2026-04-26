@@ -51,12 +51,13 @@ make help           # list targets
 make list-boards    # show board folder names you can pass as BOARD=...
 
 # Default single board (s3-dev-board)
-make check          # ERC + DRC + multi-fab DRC
+make check
 make drc
 
-# A different board (folder and .kicad_* basename must match)
-make check BOARD=other-board
+# A different board — either form (folder and .kicad_* basename must match)
 make drc BOARD=other-board
+make drc other-board
+make check other-board
 
 # Optional: run make check for every board under boards/ (e.g. before a release)
 make check-all

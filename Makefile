@@ -1,14 +1,25 @@
 # circuit-forge — local KiCad checks
 #
-# One board at a time: set BOARD (directory name under boards/), or rely on
-# default BOARD. Nothing here loops all boards unless you use `make check-all`.
-# Examples:
-#   make check                      # same as BOARD=$(DEFAULT_BOARD)
-#   make drc BOARD=feather-datalogger
-#   make list-boards
+# One board at a time. Pick the board in either form:
+#   make drc BOARD=my-board
+#   make drc my-board
+# (Second form: second word = board name; also works for erc, fab-drc, check, clean.)
+# Nothing loops all boards unless you use `make check-all`.
 
-DEFAULT_BOARD := s3-dev-board
-BOARD         ?= $(DEFAULT_BOARD)
+DEFAULT_BOARD     := s3-dev-board
+MAKE_GOAL_1       := $(word 1,$(MAKECMDGOALS))
+MAKE_GOAL_2       := $(word 2,$(MAKECMDGOALS))
+BOARD_TAKES_GOAL2 := erc drc fab-drc check clean
+
+ifeq ($(words $(MAKECMDGOALS)),2)
+  ifneq ($(filter $(MAKE_GOAL_1),$(BOARD_TAKES_GOAL2)),)
+    # `make drc s3-dev-board` — second "target" is really the board name
+    override BOARD := $(MAKE_GOAL_2)
+    BOARD_NOOP     := $(MAKE_GOAL_2)
+  endif
+endif
+
+BOARD        ?= $(DEFAULT_BOARD)
 BOARD_DIR    := boards/$(BOARD)
 SCH          := $(BOARD_DIR)/$(BOARD).kicad_sch
 PCB          := $(BOARD_DIR)/$(BOARD).kicad_pcb
@@ -29,28 +40,35 @@ endif
 ERC_JSON     := $(BOARD_DIR)/erc.json
 DRC_JSON     := $(BOARD_DIR)/drc-default.json
 
+# Consume the second goal so `make drc my-board` does not look for a missing rule
+ifdef BOARD_NOOP
+.PHONY: $(BOARD_NOOP)
+$(BOARD_NOOP):
+	@:
+endif
+
 .PHONY: help versions erc drc fab-drc check clean list-boards check-all
 
 help:
 	@echo "circuit-forge — KiCad local checks (one board per command)"
 	@echo ""
-	@echo "  BOARD=$(DEFAULT_BOARD)   # current default; override: make drc BOARD=name"
+	@echo "  default BOARD: $(DEFAULT_BOARD)"
 	@echo ""
-	@echo "  make list-boards      Show directories under boards/"
+	@echo "  make list-boards      Show board names (folders under boards/)"
 	@echo "  make check            ERC + DRC + multi-fab DRC for ONE board"
-	@echo "  make erc                Electrical Rules Check (schematic)"
-	@echo "  make drc                Design Rules Check (board, project rules)"
-	@echo "  make fab-drc            DRC with JLCPCB + PCBWay fab-rules/"
-	@echo "  make clean              Remove report JSON for that board"
-	@echo "  make versions           Print kicad-cli version"
-	@echo "  make check-all          Run make check for every board (optional sweep)"
+	@echo "  make erc|drc|fab-drc|check|clean   — same, one board at a time"
+	@echo "  make versions"
+	@echo "  make check-all        Run \`make check\` for every board"
 	@echo ""
-	@echo "  make drc BOARD=other   Point at boards/other/other.kicad_*"
-	@echo "  KICAD_CLI=...  make     Override kicad-cli path"
+	@echo "  Choose the board in either way:"
+	@echo "    make drc BOARD=name"
+	@echo "    make drc name              # name = second word (short form)"
+	@echo ""
+	@echo "  KICAD_CLI=...  make          Override kicad-cli path"
 	@echo ""
 
 list-boards:
-	@echo "Boards (use BOARD=<name>):"
+	@echo "Boards:"
 	@for d in boards/*/; do \
 		test -d "$$d" || continue; \
 		echo "  $$(basename "$$d")"; \
