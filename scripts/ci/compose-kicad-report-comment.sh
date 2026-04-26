@@ -42,7 +42,7 @@ format_counts() {
     [ -n "$parts" ] && parts+=", "
     parts+="🟡 ${warnings} warning$(plural "$warnings")"
   fi
-  [ -z "$parts" ] && echo "pass" || echo "$parts"
+  [ -z "$parts" ] && echo "✅ pass" || echo "$parts"
 }
 
 count_errors() {
@@ -82,7 +82,7 @@ print_grouped() {
 # result_label <result_value>  →  "pass" / "failed (no report)" / "skipped" / …
 result_label() {
   case "$1" in
-    success) echo "pass" ;;
+    success) echo "✅ pass" ;;
     failure) echo "_failed (no report)_" ;;
     skipped) echo "_skipped_" ;;
     *)       echo "_${1}_" ;;
