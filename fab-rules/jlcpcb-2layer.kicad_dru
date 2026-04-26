@@ -1,0 +1,124 @@
+(version 1)
+# JLCPCB 2-layer, 1oz copper — Custom Design Rules for KiCad
+#
+# Source: https://github.com/labtroll/KiCad-DesignRules (MIT)
+# Capabilities: https://jlcpcb.com/capabilities/pcb-capabilities
+# Fetched: 2026-04-26
+#
+# Configured for: 2-layer, 1oz outer copper, standard via (0.3/0.6mm)
+# Key 2-layer vs 4-layer differences:
+#   - Minimum via drill 0.3mm (vs 0.2mm for 4-layer)
+#   - Minimum via pad  0.6mm (vs 0.45mm for 4-layer)
+#   - No inner layer rules
+
+# --- Trace width and spacing ---
+# 2-layer, 1oz copper: 0.127mm (5 mil) is JLCPCB's standard process.
+
+(rule "JLCPCB: Track width, outer layer (1oz copper)"
+	(layer outer)
+	(condition "A.Type == 'track'")
+	(constraint track_width (min 0.127mm))
+)
+
+(rule "JLCPCB: Track spacing, outer layer (1oz copper)"
+	(layer outer)
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
+	(constraint clearance (min 0.127mm))
+)
+
+# --- Silkscreen ---
+
+(rule "JLCPCB: Silkscreen text"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'text' || A.Type == 'text box'")
+	(constraint text_thickness (min 0.15mm))
+	(constraint text_height (min 1mm))
+)
+
+(rule "JLCPCB: Pad to silkscreen"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'pad' && (B.Type == 'text' || B.Type == 'graphic')")
+	(constraint silk_clearance (min 0.15mm))
+)
+
+# --- Board edge ---
+
+(rule "JLCPCB: Edge (routed) to track clearance"
+	(condition "A.Type == 'track'")
+	(constraint edge_clearance (min 0.3mm))
+)
+
+# --- Drill / hole size ---
+# 2-layer minimum PTH drill is 0.3mm (4-layer allows 0.2mm)
+
+(rule "JLCPCB: Hole diameter"
+	(constraint hole_size (min 0.3mm) (max 6.3mm))
+)
+
+(rule "JLCPCB: Hole (NPTH) diameter"
+	(layer outer)
+	(condition "!A.isPlated()")
+	(constraint hole_size (min 0.5mm))
+)
+
+(rule "JLCPCB: Hole (castellated) diameter"
+	(layer outer)
+	(condition "A.Type == 'pad' && A.Fabrication_Property == 'Castellated pad'")
+	(constraint hole_size (min 0.6mm))
+)
+
+# --- Via support ---
+
+(rule "JLCPCB: Only through-hole vias supported (2-layer)"
+	(condition "A.Type == 'via'")
+	(constraint assertion "!(A.isBlindBuriedVia() || A.isMicroVia())")
+)
+
+# --- Annular ring ---
+
+(rule "JLCPCB: Annular ring width (via and PTH)"
+	(layer outer)
+	(condition "A.isPlated()")
+	(constraint annular_width (min 0.15mm))
+)
+
+(rule "JLCPCB: Annular ring width (NPTH)"
+	(layer outer)
+	(condition "!A.isPlated()")
+	(constraint annular_width (min 0.25mm))
+)
+
+# --- Clearance ---
+
+(rule "JLCPCB: Hole to hole, different nets"
+	(layer outer)
+	(condition "A.Net != B.Net")
+	(constraint hole_to_hole (min 0.5mm))
+)
+
+(rule "JLCPCB: Hole to hole, same net"
+	(layer outer)
+	(condition "A.Net == B.Net")
+	(constraint hole_to_hole (min 0.254mm))
+)
+
+(rule "JLCPCB: Track to NPTH hole"
+	(condition "!A.isPlated() && B.Type == 'track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.254mm))
+)
+
+(rule "JLCPCB: Track to PTH hole"
+	(condition "A.isPlated() && B.Type == 'track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.33mm))
+)
+
+(rule "JLCPCB: Track to pad"
+	(condition "A.Type == 'pad' && B.Type == 'track' && A.Net != B.Net")
+	(constraint clearance (min 0.2mm))
+)
+
+(rule "JLCPCB: Pad/via to pad/via"
+	(layer outer)
+	(condition "(A.Type == 'pad' || A.Type == 'via') && (B.Type == 'pad' || B.Type == 'via') && A.Net != B.Net")
+	(constraint clearance (min 0.127mm))
+)

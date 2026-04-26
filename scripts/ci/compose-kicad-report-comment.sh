@@ -42,7 +42,7 @@ format_counts() {
     [ -n "$parts" ] && parts+=", "
     parts+="🟡 ${warnings} warning$(plural "$warnings")"
   fi
-  [ -z "$parts" ] && echo "pass" || echo "$parts"
+  [ -z "$parts" ] && echo "✅" || echo "$parts"
 }
 
 count_errors() {
@@ -71,9 +71,8 @@ print_grouped() {
       "<summary>\($icon) <b><code>\(.[0].type)</code></b> — \(length) \($sev)</summary>",
       "",
       .[0].description,
-      (.[0:5][] | select((.items // []) | length > 0)
+      (.[] | select((.items // []) | length > 0)
         | "- " + ([.items[].description // "(no details)"] | map("`\(.)`") | join(" / "))),
-      (if length > 5 then "", "*… and \(length - 5) more*" else empty end),
       "",
       "</details>",
       ""
@@ -83,16 +82,23 @@ print_grouped() {
 # result_label <result_value>  →  "pass" / "failed (no report)" / "skipped" / …
 result_label() {
   case "$1" in
-    success) echo "pass" ;;
+    success) echo "✅" ;;
     failure) echo "_failed (no report)_" ;;
     skipped) echo "_skipped_" ;;
     *)       echo "_${1}_" ;;
   esac
 }
 
-SUMMARY_FILE=$(mktemp)
-DETAILS_FILE=$(mktemp)
-trap 'rm -f "$SUMMARY_FILE" "$DETAILS_FILE"' EXIT
+TMPDIR_BOARDS=$(mktemp -d)
+trap 'rm -rf "$TMPDIR_BOARDS"' EXIT
+
+# Per-board temp files: $TMPDIR_BOARDS/<board>/summary and details
+init_board() {
+  local board="$1"
+  local dir="$TMPDIR_BOARDS/$board"
+  mkdir -p "$dir"
+  touch "$dir/summary" "$dir/details"
+}
 
 # ===========================================================================
 #  ERC
@@ -102,31 +108,30 @@ while IFS= read -r f; do
   [ -n "$f" ] && erc_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'erc.json' -type f 2>/dev/null | sort)
 
-if [ "${#erc_files[@]}" -eq 0 ]; then
-  echo "| ERC | — | $(result_label "$erc_result") |" >> "$SUMMARY_FILE"
+if [ "${#erc_files[@]}" -eq 0 ] && [ "$erc_result" != "skipped" ]; then
+  : # no fallback row needed in per-board layout
 else
   for f in "${erc_files[@]}"; do
     artifact_dir=$(basename "$(dirname "$f")")
     board=$(board_from_artifact_dir "$artifact_dir" "erc-")
+    init_board "$board"
 
     all='.sheets[]? | .violations[]?'
     errors=$(count_errors "$all" "$f")
     warnings=$(count_warnings "$all" "$f")
     total=$((errors + warnings))
 
-    echo "| ERC | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+    echo "| ERC | $(format_counts "$errors" "$warnings") |" >> "$TMPDIR_BOARDS/$board/summary"
 
     if [ "$total" -gt 0 ]; then
       {
-        echo "---"
-        echo ""
         echo "<details>"
-        echo "<summary><strong>ERC</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
+        echo "<summary><strong>ERC</strong> — $(format_counts "$errors" "$warnings")</summary>"
         echo ""
         print_grouped "$f" '[.sheets[]? | .violations[]?]'
         echo "</details>"
         echo ""
-      } >> "$DETAILS_FILE"
+      } >> "$TMPDIR_BOARDS/$board/details"
     fi
   done
 fi
@@ -139,19 +144,20 @@ while IFS= read -r f; do
   [ -n "$f" ] && drc_def_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'drc-default.json' -type f 2>/dev/null | sort)
 
-if [ "${#drc_def_files[@]}" -eq 0 ]; then
-  echo "| DRC | — | $(result_label "$drc_result") |" >> "$SUMMARY_FILE"
+if [ "${#drc_def_files[@]}" -eq 0 ] && [ "$drc_result" != "skipped" ]; then
+  : # no fallback row needed
 else
   for f in "${drc_def_files[@]}"; do
     artifact_dir=$(basename "$(dirname "$f")")
     board=$(board_from_artifact_dir "$artifact_dir" "drc-default-")
+    init_board "$board"
 
     all='(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?'
     errors=$(count_errors "$all" "$f")
     warnings=$(count_warnings "$all" "$f")
     total=$((errors + warnings))
 
-    echo "| DRC | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+    echo "| DRC | $(format_counts "$errors" "$warnings") |" >> "$TMPDIR_BOARDS/$board/summary"
 
     if [ "$total" -gt 0 ]; then
       n_v=$(jq '(.violations // []) | length' "$f" 2>/dev/null || echo 0)
@@ -159,10 +165,8 @@ else
       n_u=$(jq '(.unconnected_items // []) | length' "$f" 2>/dev/null || echo 0)
 
       {
-        echo "---"
-        echo ""
         echo "<details>"
-        echo "<summary><strong>DRC</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
+        echo "<summary><strong>DRC</strong> — $(format_counts "$errors" "$warnings")</summary>"
         echo ""
 
         if [ "$n_v" -gt 0 ]; then
@@ -185,7 +189,7 @@ else
 
         echo "</details>"
         echo ""
-      } >> "$DETAILS_FILE"
+      } >> "$TMPDIR_BOARDS/$board/details"
     fi
   done
 fi
@@ -198,39 +202,38 @@ while IFS= read -r f; do
   [ -n "$f" ] && fab_files+=("$f")
 done < <(find "$ARTIFACTS_DIR" -name 'drc-fab-*.json' -type f 2>/dev/null | sort)
 
-if [ "${#fab_files[@]}" -eq 0 ]; then
-  echo "| Fab DRC | — | $(result_label "$fab_drc_result") |" >> "$SUMMARY_FILE"
+if [ "${#fab_files[@]}" -eq 0 ] && [ "$fab_drc_result" != "skipped" ]; then
+  : # no fallback row needed
 else
   for f in "${fab_files[@]}"; do
     artifact_dir=$(basename "$(dirname "$f")")
     board=$(board_from_artifact_dir "$artifact_dir" "drc-fabs-")
     fab_name=$(basename "$f" .json)
     fab_name="${fab_name#drc-fab-}"
+    init_board "$board"
 
     all='(.violations // [])[]?'
     errors=$(count_errors "$all" "$f")
     warnings=$(count_warnings "$all" "$f")
     total=$((errors + warnings))
 
-    echo "| Fab: ${fab_name} | \`$board\` | $(format_counts "$errors" "$warnings") |" >> "$SUMMARY_FILE"
+    echo "| Fab: ${fab_name} | $(format_counts "$errors" "$warnings") |" >> "$TMPDIR_BOARDS/$board/summary"
 
     if [ "$total" -gt 0 ]; then
       {
-        echo "---"
-        echo ""
         echo "<details>"
-        echo "<summary><strong>Fab DRC: ${fab_name}</strong> (${board}) — $(format_counts "$errors" "$warnings")</summary>"
+        echo "<summary><strong>Fab DRC: ${fab_name}</strong> — $(format_counts "$errors" "$warnings")</summary>"
         echo ""
         print_grouped "$f" '[(.violations // [])[]?]'
         echo "</details>"
         echo ""
-      } >> "$DETAILS_FILE"
+      } >> "$TMPDIR_BOARDS/$board/details"
     fi
   done
 fi
 
 # ===========================================================================
-#  Assemble final output
+#  Assemble final output — grouped by board
 # ===========================================================================
 echo "### KiCad Design Checks"
 echo ""
@@ -247,19 +250,44 @@ done
 
 if [ "$all_skipped" = true ]; then
   echo "KiCad checks were **skipped** — no boards in scope for this diff."
-elif ! grep -qE '🔴|🟡' "$SUMMARY_FILE" 2>/dev/null; then
-  echo "All checks passed — no ERC, DRC, or fab-rule violations found."
 else
-  echo "| Check | Board | Result |"
-  echo "|:------|:------|:-------|"
-  cat "$SUMMARY_FILE"
+  boards=()
+  for d in "$TMPDIR_BOARDS"/*/; do
+    [ -d "$d" ] && boards+=("$(basename "$d")")
+  done
+  mapfile -t boards < <(printf '%s\n' "${boards[@]}" | sort)
 
-  if [ -s "$DETAILS_FILE" ]; then
-    echo ""
-    cat "$DETAILS_FILE"
+  if [ "${#boards[@]}" -eq 0 ]; then
+    echo "All checks passed — no ERC, DRC, or fab-rule violations found."
+  else
+    has_issues=false
+    for board in "${boards[@]}"; do
+      if grep -qE '🔴|🟡' "$TMPDIR_BOARDS/$board/summary" 2>/dev/null; then
+        has_issues=true
+        break
+      fi
+    done
+
+    if [ "$has_issues" = false ]; then
+      echo "All checks passed — no ERC, DRC, or fab-rule violations found."
+    else
+      for board in "${boards[@]}"; do
+        echo "#### \`${board}\`"
+        echo ""
+        echo "| Check | Result |"
+        echo "|:------|:-------|"
+        cat "$TMPDIR_BOARDS/$board/summary"
+        echo ""
+
+        if [ -s "$TMPDIR_BOARDS/$board/details" ]; then
+          cat "$TMPDIR_BOARDS/$board/details"
+        fi
+
+        echo "---"
+        echo ""
+      done
+    fi
   fi
 fi
 
-echo ""
-echo "---"
 echo "_Updated by **KiCad Design Checks** on each push._"

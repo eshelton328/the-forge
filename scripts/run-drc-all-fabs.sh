@@ -19,7 +19,12 @@ if [ ! -f "$BOARD_YML" ]; then
     exit 1
 fi
 
-FAB_TARGETS=$(grep '^\s*-\s' "$BOARD_YML" | sed 's/^\s*-\s*//')
+FAB_TARGETS=$(grep '^\s*-\s' "$BOARD_YML" | sed 's/^\s*-\s*//' || true)
+
+if [ -z "$FAB_TARGETS" ]; then
+    echo "No fab targets defined in board.yml — skipping fab DRC"
+    exit 0
+fi
 
 FAILED=0
 PASS_LIST=""

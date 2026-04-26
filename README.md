@@ -8,7 +8,8 @@ Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 the-forge/
 ├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
-│   └── s3-dev-board/ # ESP32-S3 development board
+│   ├── s3-dev-board/        # ESP32-S3 development board
+│   └── tps63070-breakout/   # TPS63070 buck-boost breakout
 ├── fab-rules/        # DRC rule templates per fab house
 ├── kibot/            # KiBot output generation configs
 ├── libs/             # Shared libraries (symbols, footprints, 3D models)
@@ -21,6 +22,7 @@ the-forge/
 | Board | Description | Layers | Status |
 |-------|-------------|--------|--------|
 | [s3-dev-board](boards/s3-dev-board/) | ESP32-S3-WROOM-1 dev board with TPS63070 buck-boost, USB-C | 4 | In Development |
+| [tps63070-breakout](boards/tps63070-breakout/) | TPS63070 3.3V buck-boost breakout board | 2 | Migrated |
 
 ## CI/CD Pipeline
 
@@ -29,7 +31,7 @@ Every pull request automatically runs:
 - **ERC** (Electrical Rules Check) on schematics
 - **DRC** (Design Rules Check) against multiple fab house rules (JLCPCB, PCBWay)
 
-The KiCad workflow always runs, but it only **executes** ERC/DRC for boards that are in scope: changes under `boards/<name>/`, or anything under `libs/`, `fab-rules/`, `.github/`, `kibot/`, `scripts/`, or the root `Makefile` (in which case all boards are checked). Doc-only diffs (e.g. just `README.md`) skip the heavy KiCad jobs to save time.
+The KiCad workflow always runs, but it only **executes** ERC/DRC for boards that are in scope: changes under `boards/<name>/` check only those boards, while changes to `libs/`, `fab-rules/`, `kibot/`, `scripts/`, the root `Makefile`, or `.github/workflows/pr-checks.yml` trigger checks on all boards. Doc-only diffs (e.g. just `README.md`) skip the heavy KiCad jobs to save time.
 
 On release tags, the pipeline generates:
 - Fab-ready Gerber/drill ZIPs per fab house
@@ -95,5 +97,7 @@ DRC rules for each fab house are stored in `fab-rules/` as `.kicad_dru` files. C
 
 | Fab House | Rule File | Source |
 |-----------|-----------|--------|
+| JLCPCB (2-layer) | `jlcpcb-2layer.kicad_dru` | [labtroll/KiCad-DesignRules](https://github.com/labtroll/KiCad-DesignRules) + [JLCPCB Capabilities](https://jlcpcb.com/capabilities/pcb-capabilities) |
 | JLCPCB (4-layer) | `jlcpcb-4layer.kicad_dru` | [labtroll/KiCad-DesignRules](https://github.com/labtroll/KiCad-DesignRules) |
+| PCBWay (2-layer) | `pcbway-2layer.kicad_dru` | [pcbway/PCBWay-Design-Rules](https://github.com/pcbway/PCBWay-Design-Rules) + [PCBWay Capabilities](https://www.pcbway.com/pcb_prototype/PCB_Manufacturing_Capabilities.html) |
 | PCBWay (4-layer) | `pcbway-4layer.kicad_dru` | [pcbway/PCBWay-Design-Rules](https://github.com/pcbway/PCBWay-Design-Rules) |
