@@ -156,7 +156,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: ci-artifacts
-          if-no-artifact-found: ignore
+
+      - name: List downloaded artifacts
+        if: always()
+        run: ls -laR ci-artifacts 2>/dev/null || echo "ci-artifacts directory not found"
 
       - name: Compose PR comment
         env:

@@ -23,6 +23,15 @@ if [ ! -d "$ARTIFACTS_DIR" ]; then
 	mkdir -p "$ARTIFACTS_DIR"
 fi
 
+# download-artifact@v4 puts each artifact in a subdirectory named after the
+# artifact (e.g. erc-s3-dev-board/, drc-default-s3-dev-board/).  Strip the
+# known prefix to recover the real board name.
+board_from_artifact_dir() {
+	local dir_name="$1"
+	local prefix="$2"
+	echo "${dir_name#"$prefix"}"
+}
+
 echo "### KiCad design checks failed"
 echo ""
 echo "Workflow run: $RUN_URL"
@@ -33,36 +42,50 @@ echo "| ERC (schematic) | \`${erc_result}\` |"
 echo "| DRC (default) | \`${drc_result}\` |"
 echo "| DRC (fab rules) | \`${fab_drc_result}\` |"
 echo ""
-echo "#### Details from report files (when present)"
+echo "#### Details"
 echo ""
 
 print_erc_excerpt() {
 	local file_path="$1"
+	local artifact_dir
+	artifact_dir=$(basename "$(dirname "$file_path")")
 	local board
-	board=$(basename "$(dirname "$file_path")")
+	board=$(board_from_artifact_dir "$artifact_dir" "erc-")
+
 	local count
 	count=$(jq -r '[.sheets[]? | .violations[]?] | length' "$file_path" 2>/dev/null || echo "0")
+
 	echo "##### ERC — \`$board\`"
 	if [ "$count" = "0" ] || [ -z "$count" ]; then
-		echo "_No \`violations\` in JSON, or file unreadable. See the ERC job log._"
+		local size
+		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
+		local keys
+		keys=$(jq -r 'keys | join(", ")' "$file_path" 2>/dev/null || echo "(not valid JSON)")
+		echo "_Report found (${size} bytes, top-level keys: ${keys}) but 0 violations parsed._"
+		echo ""
+		echo "<details><summary>Raw JSON (first 40 lines)</summary>"
+		echo ""
+		echo '```json'
+		head -40 "$file_path" 2>/dev/null || echo "(could not read file)"
+		echo '```'
+		echo "</details>"
 		echo ""
 		return 0
 	fi
-	echo "- Violations in report: **$count**"
-	local show
-	show=10
+
+	echo "- Violations: **$count**"
+	local show=10
 	if [ "$count" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '
 			[.sheets[]? | .violations[]?] | .[0:$lim][]
-			| "- (" + .severity + ") " + .type + " — " + .description
+			| "- " + .severity + ": " + .type + " — " + .description
 		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
-		local extra
-		extra=$((count - show))
+		local extra=$((count - show))
 		echo "- _… and $extra more_"
 	else
 		jq -r '
 			[.sheets[]? | .violations[]?][]
-			| "- (" + .severity + ") " + .type + " — " + .description
+			| "- " + .severity + ": " + .type + " — " + .description
 		' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 	fi
 	echo ""
@@ -70,61 +93,80 @@ print_erc_excerpt() {
 
 print_drc_default_excerpt() {
 	local file_path="$1"
+	local artifact_dir
+	artifact_dir=$(basename "$(dirname "$file_path")")
 	local board
-	board=$(basename "$(dirname "$file_path")")
+	board=$(board_from_artifact_dir "$artifact_dir" "drc-default-")
+
 	local n_v n_u n_s
 	n_v=$(jq '(.violations // []) | length' "$file_path" 2>/dev/null || echo 0)
 	n_s=$(jq '(.schematic_parity // []) | length' "$file_path" 2>/dev/null || echo 0)
 	n_u=$(jq '(.unconnected_items // []) | length' "$file_path" 2>/dev/null || echo 0)
+
 	echo "##### DRC (default) — \`$board\`"
 	if [ "$n_v" = "0" ] && [ "$n_s" = "0" ] && [ "$n_u" = "0" ]; then
-		echo "_No DRC \`violations\` in JSON, or file unreadable. See the DRC job log._"
+		local size
+		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
+		local keys
+		keys=$(jq -r 'keys | join(", ")' "$file_path" 2>/dev/null || echo "(not valid JSON)")
+		echo "_Report found (${size} bytes, keys: ${keys}) but 0 items parsed._"
+		echo ""
+		echo "<details><summary>Raw JSON (first 40 lines)</summary>"
+		echo ""
+		echo '```json'
+		head -40 "$file_path" 2>/dev/null || echo "(could not read file)"
+		echo '```'
+		echo "</details>"
 		echo ""
 		return 0
 	fi
-	echo "- violations: **$n_v**, schematic_parity: **$n_s**, unconnected_items: **$n_u**"
+
+	echo "- violations: **$n_v**, schematic_parity: **$n_s**, unconnected: **$n_u**"
 	local total
 	total=$(jq '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?] | length' "$file_path" 2>/dev/null || echo 0)
-	local show
-	show=10
+	local show=10
 	if [ "$total" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?] | .[0:$lim][]
-			| "- (" + .severity + ") " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
-		local extra
-		extra=$((total - show))
+			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
+		local extra=$((total - show))
 		echo "- _… and $extra more_"
 	else
 		jq -r '[(.violations // [])[]?, (.schematic_parity // [])[]?, (.unconnected_items // [])[]?][]
-			| "- (" + .severity + ") " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
+			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list DRC items (parse error)._"
 	fi
 	echo ""
 }
 
 print_fab_excerpt() {
 	local file_path="$1"
+	local artifact_dir
+	artifact_dir=$(basename "$(dirname "$file_path")")
 	local board
-	board=$(basename "$(dirname "$file_path")")
+	board=$(board_from_artifact_dir "$artifact_dir" "drc-fabs-")
 	local name
 	name=$(basename "$file_path" .json)
+
 	local n
 	n=$(jq '(.violations // []) | length' "$file_path" 2>/dev/null || echo 0)
+
 	echo "##### Fab DRC — \`$board\` / \`$name\`"
 	if [ "$n" = "0" ]; then
-		echo "_No \`violations\` in JSON, or file unreadable. See the fab-drc job log._"
+		local size
+		size=$(wc -c < "$file_path" 2>/dev/null | tr -d ' ')
+		echo "_Report found (${size} bytes) but 0 violations parsed. See the fab-drc job log._"
 		echo ""
 		return 0
 	fi
-	echo "- violations in report: **$n**"
-	local show
-	show=10
+
+	echo "- violations: **$n**"
+	local show=10
 	if [ "$n" -gt "$show" ]; then
 		jq -r --argjson lim "$show" '(.violations // []) | .[0:$lim][]
-			| "- (" + .severity + ") " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
-		local extra
-		extra=$((n - show))
+			| "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
+		local extra=$((n - show))
 		echo "- _… and $extra more_"
 	else
-		jq -r '(.violations // [])[] | "- (" + .severity + ") " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
+		jq -r '(.violations // [])[] | "- " + .severity + ": " + .type + " — " + .description' "$file_path" 2>/dev/null || echo "- _Could not list violations (parse error)._"
 	fi
 	echo ""
 }
@@ -135,7 +177,7 @@ while IFS= read -r f; do
 done < <(find "$ARTIFACTS_DIR" -name 'erc.json' -type f 2>/dev/null | sort)
 
 if [ "${#erc_files[@]}" -eq 0 ]; then
-	echo "_No \`erc.json\` artifacts found (job may have failed before upload)._"
+	echo "_No \`erc.json\` artifacts found (job may have failed before generating a report)._"
 	echo ""
 else
 	for f in "${erc_files[@]}"; do
@@ -149,7 +191,7 @@ while IFS= read -r f; do
 done < <(find "$ARTIFACTS_DIR" -name 'drc-default.json' -type f 2>/dev/null | sort)
 
 if [ "${#drc_def_files[@]}" -eq 0 ]; then
-	echo "_No \`drc-default.json\` artifacts found._"
+	echo "_No \`drc-default.json\` artifacts found (job may have failed before generating a report)._"
 	echo ""
 else
 	for f in "${drc_def_files[@]}"; do
@@ -164,7 +206,7 @@ while IFS= read -r f; do
 done < <(find "$ARTIFACTS_DIR" -name 'drc-*.json' ! -name 'drc-default.json' -type f 2>/dev/null | sort)
 
 if [ "${#fab_files[@]}" -eq 0 ]; then
-	echo "_No fab \`drc-*.json\` artifacts found._"
+	echo "_No fab \`drc-*.json\` artifacts found (job may have failed before generating a report)._"
 	echo ""
 else
 	for f in "${fab_files[@]}"; do
