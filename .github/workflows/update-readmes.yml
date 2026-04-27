@@ -76,7 +76,7 @@ jobs:
                 bash /workspace/scripts/run-drc-all-fabs.sh "boards/$board" || true
                 shopt -s nullglob
                 for f in boards/$board/drc-fab-*.json; do
-                  mv "$f" "boards/$board/docs/$(basename "$f")"
+                  mv "\$f" "boards/$board/docs/\${f##*/}"
                 done
               "
           done
