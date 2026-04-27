@@ -7,9 +7,9 @@ Handles three fenced regions (delimited by HTML comment markers):
     Rebuilt from whichever image files exist in boards/<name>/docs/.
 
   <!-- drc-summary-start --> … <!-- drc-summary-end -->
-    Rebuilt from ERC/DRC JSON in boards/<name>/docs/. Format matches the PR
-    comment from scripts/ci/compose-kicad-report-comment.sh (summary table +
-    nested details, all violations listed).
+    Rebuilt from ERC, default DRC, and fab DRC JSON in boards/<name>/docs/
+    (erc.json, drc.json, drc-fab-*.json). Format matches the PR comment from
+    scripts/ci/compose-kicad-report-comment.sh.
 
   <!-- validation-summary-start --> … <!-- validation-summary-end -->
     Rebuilt by running validate_board.py against the board.
@@ -210,26 +210,34 @@ def _outer_details(title: str, counts: str, body_lines: list[str]) -> list[str]:
     ]
 
 
+def _fab_violations(data: dict[str, object]) -> list[dict[str, object]]:
+    """Fab DRC reports only use the top-level violations array (see compose script)."""
+    return [v for v in (data.get("violations") or []) if isinstance(v, dict)]
+
+
 def _build_drc_section(board_name: str, docs_dir: Path) -> str:
-    """Build DRC/ERC block matching PR comment format (compose-kicad-report-comment.sh)."""
+    """Build DRC/ERC/fab block matching PR comment (compose-kicad-report-comment.sh)."""
     lines: list[str] = [
         DRC_START,
-        "## Design Rule Checks",
+        "## KiCad design checks",
         "",
-        "_Same layout as the KiCad check summary on pull requests. Auto-generated on merge to main._",
+        "_Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). "
+        "Auto-generated on merge to main._",
         "",
     ]
 
     erc_path = docs_dir / "erc.json"
     drc_path = docs_dir / "drc.json"
+    fab_paths = sorted(docs_dir.glob("drc-fab-*.json"))
 
-    if not erc_path.exists() and not drc_path.exists():
-        lines += ["_No DRC/ERC reports available yet._", "", DRC_END]
+    if not erc_path.exists() and not drc_path.exists() and not fab_paths:
+        lines += ["_No check reports in docs/ yet (run the update-readmes workflow on main)._", "", DRC_END]
         return "\n".join(lines)
 
     # Summary table: | Check | Result |  (align with PR)
     row_erc: str | None = None
     row_drc: str | None = None
+    fab_table_rows: list[tuple[str, str]] = []
     body_parts: list[str] = []
 
     if erc_path.exists():
@@ -270,7 +278,24 @@ def _build_drc_section(board_name: str, docs_dir: Path) -> str:
                 _outer_details("DRC", row_drc, inner2),
             )
 
-    if row_erc is not None or row_drc is not None:
+    for fp in fab_paths:
+        fab_name = fp.name.removeprefix("drc-fab-").removesuffix(".json")
+        fdata = _load_json(fp)
+        fviol = _fab_violations(fdata)
+        fe, fw = _count_severity(fviol)
+        ftotal = fe + fw
+        fc = _format_counts(fe, fw)
+        fab_table_rows.append((fab_name, fc))
+        if ftotal > 0:
+            body_parts.extend(
+                _outer_details(
+                    f"Fab DRC: {fab_name}",
+                    fc,
+                    _grouped_type_blocks(fviol),
+                ),
+            )
+
+    if row_erc is not None or row_drc is not None or fab_table_rows:
         lines += [
             "| Check | Result |",
             "|:------|:-------|",
@@ -279,6 +304,8 @@ def _build_drc_section(board_name: str, docs_dir: Path) -> str:
             lines.append(f"| ERC | {row_erc} |")
         if row_drc is not None:
             lines.append(f"| DRC | {row_drc} |")
+        for fab_name, fc in fab_table_rows:
+            lines.append(f"| Fab: {fab_name} | {fc} |")
         lines.append("")
 
     lines.extend(body_parts)
