@@ -103,5 +103,5 @@ jobs:
           git diff --cached --quiet && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "docs: auto-update board images and validation summaries"
+          git commit -m "docs: auto-update board images and validation summaries [skip ci]"
           git push
