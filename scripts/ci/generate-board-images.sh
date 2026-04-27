@@ -3,11 +3,10 @@
 #
 # Outputs (written to boards/<name>/docs/):
 #   schematic.svg          — full schematic (multi-page → one SVG per page)
-#   pcb-all-layers.svg     — composite of all copper + silkscreen + mask + edge
-#   pcb-F_Cu.svg           — front copper + edge cuts
-#   pcb-B_Cu.svg           — back copper + edge cuts
-#   3d-front.png           — 3D render, top side
-#   3d-back.png            — 3D render, bottom side
+#   pcb-top.png            — PCB layout, top side (orthographic 3D render)
+#   pcb-bottom.png         — PCB layout, bottom side (orthographic 3D render)
+#   3d-front.png           — 3D perspective render, front
+#   3d-back.png            — 3D perspective render, back
 #
 # Usage:  bash scripts/ci/generate-board-images.sh boards/<name>
 # Expects kicad-cli on PATH (run inside the KiCad Docker image in CI).
@@ -51,36 +50,31 @@ else
   echo "No schematic found at $SCH_FILE — skipping."
 fi
 
-# ── PCB layer SVGs ────────────────────────────────────────────────────
+# ── PCB + 3D renders ─────────────────────────────────────────────────
 if [ -f "$PCB_FILE" ]; then
-  echo "Exporting PCB layer SVGs..."
+  echo "Rendering PCB layout views..."
 
-  kicad-cli pcb export svg \
-    --output "$DOCS_DIR/pcb-F_Cu.svg" \
-    --layers "F.Cu,Edge.Cuts" \
-    --page-size-mode 2 \
-    --exclude-drawing-sheet \
+  kicad-cli pcb render \
+    --output "$DOCS_DIR/pcb-top.png" \
+    --side top \
+    --preset follow_pcb_editor \
+    --background transparent \
+    --width 1600 --height 1200 \
+    --quality basic \
     "$PCB_FILE"
-  echo "  → pcb-F_Cu.svg"
+  echo "  → pcb-top.png"
 
-  kicad-cli pcb export svg \
-    --output "$DOCS_DIR/pcb-B_Cu.svg" \
-    --layers "B.Cu,Edge.Cuts" \
-    --page-size-mode 2 \
-    --exclude-drawing-sheet \
+  kicad-cli pcb render \
+    --output "$DOCS_DIR/pcb-bottom.png" \
+    --side bottom \
+    --preset follow_pcb_editor \
+    --background transparent \
+    --width 1600 --height 1200 \
+    --quality basic \
     "$PCB_FILE"
-  echo "  → pcb-B_Cu.svg"
+  echo "  → pcb-bottom.png"
 
-  kicad-cli pcb export svg \
-    --output "$DOCS_DIR/pcb-all-layers.svg" \
-    --layers "F.Cu,B.Cu,F.SilkS,B.SilkS,F.Mask,B.Mask,Edge.Cuts" \
-    --page-size-mode 2 \
-    --exclude-drawing-sheet \
-    "$PCB_FILE"
-  echo "  → pcb-all-layers.svg"
-
-  # ── 3D renders ────────────────────────────────────────────────────
-  echo "Rendering 3D views..."
+  echo "Rendering 3D perspective views..."
 
   kicad-cli pcb render \
     --output "$DOCS_DIR/3d-front.png" \
@@ -88,7 +82,10 @@ if [ -f "$PCB_FILE" ]; then
     --background transparent \
     --width 1600 --height 1200 \
     --quality high \
-    "$PCB_FILE" || echo "  ⚠ 3D front render failed (missing 3D models?)"
+    --floor \
+    --perspective \
+    --rotate "-25,0,15" \
+    "$PCB_FILE" || echo "  ⚠ 3D front render failed"
 
   kicad-cli pcb render \
     --output "$DOCS_DIR/3d-back.png" \
@@ -96,7 +93,10 @@ if [ -f "$PCB_FILE" ]; then
     --background transparent \
     --width 1600 --height 1200 \
     --quality high \
-    "$PCB_FILE" || echo "  ⚠ 3D back render failed (missing 3D models?)"
+    --floor \
+    --perspective \
+    --rotate "25,0,-15" \
+    "$PCB_FILE" || echo "  ⚠ 3D back render failed"
 
   echo "  → 3d-front.png, 3d-back.png"
 else

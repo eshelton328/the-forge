@@ -47,9 +47,9 @@ _Auto-generated on merge to main._
 
 ### PCB Layout
 
-| Front Copper | Back Copper | All Layers |
-| :---: | :---: | :---: |
-| ![F.Cu](docs/pcb-F_Cu.svg) | ![B.Cu](docs/pcb-B_Cu.svg) | ![All](docs/pcb-all-layers.svg) |
+| Top | Bottom |
+| :---: | :---: |
+| ![Top](docs/pcb-top.png) | ![Bottom](docs/pcb-bottom.png) |
 
 ### 3D Render
 

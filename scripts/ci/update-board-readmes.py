@@ -56,26 +56,21 @@ def _build_images_section(board_name: str, docs_dir: Path) -> str:
         if extra_pages:
             lines.append("")
 
-    fcu = docs_dir / "pcb-F_Cu.svg"
-    bcu = docs_dir / "pcb-B_Cu.svg"
-    allsvg = docs_dir / "pcb-all-layers.svg"
-    if fcu.exists() or bcu.exists() or allsvg.exists():
+    pcb_top = docs_dir / "pcb-top.png"
+    pcb_bot = docs_dir / "pcb-bottom.png"
+    if pcb_top.exists() or pcb_bot.exists():
         lines += ["### PCB Layout", ""]
         header = "| "
         divider = "| "
         images = "| "
-        if fcu.exists():
-            header += "Front Copper | "
+        if pcb_top.exists():
+            header += "Top | "
             divider += ":---: | "
-            images += "![F.Cu](docs/pcb-F_Cu.svg) | "
-        if bcu.exists():
-            header += "Back Copper | "
+            images += "![Top](docs/pcb-top.png) | "
+        if pcb_bot.exists():
+            header += "Bottom | "
             divider += ":---: | "
-            images += "![B.Cu](docs/pcb-B_Cu.svg) | "
-        if allsvg.exists():
-            header += "All Layers | "
-            divider += ":---: | "
-            images += "![All](docs/pcb-all-layers.svg) | "
+            images += "![Bottom](docs/pcb-bottom.png) | "
         lines += [header.rstrip(" | ") + " |",
                   divider.rstrip(" | ") + " |",
                   images.rstrip(" | ") + " |", ""]
@@ -100,8 +95,8 @@ def _build_images_section(board_name: str, docs_dir: Path) -> str:
                   images.rstrip(" | ") + " |", ""]
 
     if not any((docs_dir / f).exists() for f in [
-        "schematic.svg", "pcb-F_Cu.svg", "pcb-B_Cu.svg",
-        "pcb-all-layers.svg", "3d-front.png", "3d-back.png",
+        "schematic.svg", "pcb-top.png", "pcb-bottom.png",
+        "3d-front.png", "3d-back.png",
     ]):
         lines += ["_No images generated yet. Images are created on merge to main._", ""]
 
