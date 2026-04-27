@@ -1,0 +1,142 @@
+(version 1)
+# PCBWay 2-layer, 1oz copper, ADVANCED process — Custom Design Rules for KiCad
+#
+# Capabilities: https://www.pcbway.com/pcb_prototype/PCB_Manufacturing_Capabilities.html
+# Fetched: 2026-04-26
+#
+# Advanced process allows tighter vias and clearances at higher cost.
+# Use pcbway-2layer-standard.kicad_dru for the cheap standard process.
+#
+# Key differences from standard:
+#   - Minimum via drill 0.2mm (standard: 0.3mm)
+#   - Minimum via pad 0.35mm (standard: 0.45mm)
+#   - Tighter clearances to match advanced capabilities
+
+# --- Trace width and spacing (2-layer, 1oz copper) ---
+# Same as standard.
+
+(rule "PCBWay Adv: Trace width, outer layer"
+	(constraint track_width (min 0.1mm))
+	(layer outer)
+	(condition "A.Type == 'track'")
+)
+
+(rule "PCBWay Adv: Trace spacing, outer layer"
+	(constraint clearance (min 0.1mm))
+	(layer outer)
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
+)
+
+# --- Drill / hole size ---
+# Advanced process: 0.2mm minimum drill (standard: 0.3mm)
+
+(rule "PCBWay Adv: Drill hole size (mechanical)"
+	(constraint hole_size (min 0.15mm) (max 6.0mm))
+)
+
+(rule "PCBWay Adv: Via diameter and hole size"
+	(constraint hole_size (min 0.2mm))
+	(constraint via_diameter (min 0.35mm))
+	(condition "A.Type == 'via'")
+)
+
+(rule "PCBWay Adv: PTH hole size"
+	(constraint hole_size (min 0.2mm) (max 6.2mm))
+	(condition "A.Type != 'via' && A.isPlated()")
+)
+
+(rule "PCBWay Adv: Non-plated hole size"
+	(constraint hole_size (min 0.5mm))
+	(condition "A.Type == 'pad' && !A.isPlated()")
+)
+
+(rule "PCBWay Adv: Pad size"
+	(constraint hole_size (min 0.5mm))
+	(constraint annular_width (min 0.15mm))
+	(condition "A.Type == 'pad' && A.isPlated()")
+)
+
+(rule "PCBWay Adv: Castellated hole size"
+	(constraint hole_size (min 0.6mm))
+	(condition "A.Type == 'pad' && A.Fabrication_Property == 'Castellated pad'")
+)
+
+(rule "PCBWay Adv: Plated slot width"
+	(constraint hole_size (min 0.5mm))
+	(condition "(A.Hole_Size_X != A.Hole_Size_Y) && A.isPlated()")
+)
+
+(rule "PCBWay Adv: Non-plated slot width"
+	(constraint hole_size (min 0.8mm))
+	(condition "(A.Hole_Size_X != A.Hole_Size_Y) && !A.isPlated()")
+)
+
+# --- Clearance ---
+
+(rule "PCBWay Adv: Hole to hole, different nets"
+	(constraint hole_to_hole (min 0.5mm))
+	(condition "A.Net != B.Net")
+)
+
+(rule "PCBWay Adv: Via to track"
+	(constraint hole_clearance (min 0.2mm))
+	(condition "A.Type == 'via' && B.Type == 'track'")
+)
+
+(rule "PCBWay Adv: Via to via, same net"
+	(constraint hole_to_hole (min 0.254mm))
+	(condition "A.Type == 'via' && B.Type == A.Type && A.Net == B.Net")
+)
+
+(rule "PCBWay Adv: Pad to pad (with hole), different nets"
+	(constraint hole_to_hole (min 0.5mm))
+	(condition "A.Type == 'pad' && B.Type == A.Type && A.Net != B.Net")
+)
+
+(rule "PCBWay Adv: Pad to pad (without hole), different nets"
+	(constraint clearance (min 0.127mm))
+	(condition "A.Type == 'pad' && B.Type == 'pad' && A.Net != B.Net")
+)
+
+(rule "PCBWay Adv: NPTH to track"
+	(constraint hole_clearance (min 0.254mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type == 'track'")
+)
+
+(rule "PCBWay Adv: NPTH copper clearance"
+	(constraint hole_clearance (min 0.20mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type != 'track'")
+)
+
+(rule "PCBWay Adv: PTH to track"
+	(constraint hole_clearance (min 0.25mm))
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
+)
+
+(rule "PCBWay Adv: Pad to track"
+	(constraint clearance (min 0.127mm))
+	(condition "A.isPlated() && A.Type != 'via' && B.Type == 'track'")
+)
+
+# --- Board edge ---
+# Same as standard.
+
+(rule "PCBWay Adv: Trace to outline"
+	(constraint edge_clearance (min 0.3mm))
+	(condition "A.Type == 'track'")
+)
+
+# --- Silkscreen ---
+# Same as standard.
+
+(rule "PCBWay Adv: Silkscreen text"
+	(constraint text_thickness (min 0.15mm))
+	(constraint text_height (min 0.8mm))
+	(layer "?.Silkscreen")
+)
+
+(rule "PCBWay Adv: Pad to silkscreen"
+	(constraint silk_clearance (min 0.15mm))
+	(layer outer)
+	(condition "A.Type == 'pad' && (B.Type == 'text' || B.Type == 'graphic')")
+)
