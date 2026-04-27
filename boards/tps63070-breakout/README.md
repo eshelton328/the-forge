@@ -39,7 +39,7 @@ The output voltage is set by the feedback resistor divider (R2/R3): `V_OUT = V_R
 <!-- board-images-start -->
 ## Board Images
 
-_Auto-generated on merge to main. Run `make board-images tps63070-breakout` to regenerate locally._
+_Auto-generated on merge to main._
 
 ### Schematic
 
@@ -48,14 +48,15 @@ _Auto-generated on merge to main. Run `make board-images tps63070-breakout` to r
 ### PCB Layout
 
 | Front Copper | Back Copper | All Layers |
-|:---:|:---:|:---:|
+| :---: | :---: | :---: |
 | ![F.Cu](docs/pcb-F_Cu.svg) | ![B.Cu](docs/pcb-B_Cu.svg) | ![All](docs/pcb-all-layers.svg) |
 
 ### 3D Render
 
 | Front | Back |
-|:---:|:---:|
+| :---: | :---: |
 | ![Front](docs/3d-front.png) | ![Back](docs/3d-back.png) |
+
 <!-- board-images-end -->
 
 <!-- validation-summary-start -->
