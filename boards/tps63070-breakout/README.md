@@ -54,17 +54,121 @@ _Auto-generated on merge to main._
 <!-- board-images-end -->
 
 <!-- drc-summary-start -->
-## Design Rule Checks
+## KiCad design checks
 
-_Auto-generated on merge to main._
+_Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). Auto-generated on merge to main._
 
-### ERC (Electrical Rules) ✅
+| Check | Result |
+|:------|:-------|
+| ERC | ✅ |
+| DRC | ✅ |
+| Fab: jlcpcb-2layer-advanced | 🟡 26 warnings |
+| Fab: pcbway-2layer-advanced | 🟡 41 warnings |
 
-No violations.
+<details>
+<summary><strong>Fab DRC: jlcpcb-2layer-advanced</strong> — 🟡 26 warnings</summary>
 
-### DRC (Design Rules) ✅
+> <details>
+> <summary>🟡 <b><code>text_height</code></b> — 13 warnings</summary>
+>
+> Text height out of range (rule 'JLCPCB Adv: Silkscreen text' min height 1.0000 mm; actual 0.8000 mm)
+> - `Reference field of C3`
+> - `Reference field of C2`
+> - `Reference field of R1`
+> - `Reference field of C8`
+> - `Reference field of C7`
+> - `Reference field of U1`
+> - `Reference field of C6`
+> - `Reference field of C5`
+> - `Reference field of C1`
+> - `Reference field of R4`
+> - `Reference field of C4`
+> - `Reference field of R2`
+> - `Reference field of R3`
+>
+> </details>
+>
+> <details>
+> <summary>🟡 <b><code>text_thickness</code></b> — 13 warnings</summary>
+>
+> Text thickness out of range (rule 'JLCPCB Adv: Silkscreen text' min thickness 0.1500 mm; actual 0.1000 mm)
+> - `Reference field of C3`
+> - `Reference field of C2`
+> - `Reference field of R1`
+> - `Reference field of C8`
+> - `Reference field of C7`
+> - `Reference field of U1`
+> - `Reference field of C6`
+> - `Reference field of C5`
+> - `Reference field of C1`
+> - `Reference field of R4`
+> - `Reference field of C4`
+> - `Reference field of R2`
+> - `Reference field of R3`
+>
+> </details>
+>
+</details>
 
-No violations.
+<details>
+<summary><strong>Fab DRC: pcbway-2layer-advanced</strong> — 🟡 41 warnings</summary>
+
+> <details>
+> <summary>🟡 <b><code>silk_overlap</code></b> — 28 warnings</summary>
+>
+> Silkscreen clearance (PCBWay Adv: Pad to silkscreen clearance 0.1500 mm; actual 0.1000 mm)
+> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of C3 on F.Cu`
+> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
+> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of C3 on F.Cu`
+> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
+> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R1 on F.Cu`
+> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of R1 on F.Cu`
+> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R1 on F.Cu`
+> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of R1 on F.Cu`
+> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
+> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of C5 on F.Cu`
+> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
+> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of C5 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R4 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R4 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R4 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R4 on F.Cu`
+> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
+> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
+> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
+> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R2 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R2 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R2 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R2 on F.Cu`
+> - `Segment of R3 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R3 on F.Cu`
+> - `Segment of R3 on F.Silkscreen` / `Pad 2 [GND] of R3 on F.Cu`
+> - `Segment of R3 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R3 on F.Cu`
+> - `Segment of R3 on F.Silkscreen` / `Pad 2 [GND] of R3 on F.Cu`
+>
+> </details>
+>
+> <details>
+> <summary>🟡 <b><code>text_thickness</code></b> — 13 warnings</summary>
+>
+> Text thickness out of range (rule 'PCBWay Adv: Silkscreen text' min thickness 0.1500 mm; actual 0.1000 mm)
+> - `Reference field of C3`
+> - `Reference field of C2`
+> - `Reference field of R1`
+> - `Reference field of C8`
+> - `Reference field of C7`
+> - `Reference field of U1`
+> - `Reference field of C6`
+> - `Reference field of C5`
+> - `Reference field of C1`
+> - `Reference field of R4`
+> - `Reference field of C4`
+> - `Reference field of R2`
+> - `Reference field of R3`
+>
+> </details>
+>
+</details>
 
 <!-- drc-summary-end -->
 
