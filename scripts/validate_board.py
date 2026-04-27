@@ -268,6 +268,73 @@ def check_capacitor_budget(
     return violations
 
 
+def _parse_resistance_ohms(raw: str) -> float:
+    """Best-effort parse of resistance value strings to ohms."""
+    s = raw.strip()
+    s = s.replace("\u03a9", "").replace("\u03c9", "").replace("\u2126", "")  # Ω ω Ω
+    s = s.lower().strip()
+    s = re.sub(r"ohms?$", "", s).strip()
+    m = re.match(r"^([\d.]+)\s*(k|m|meg)?$", s)
+    if not m:
+        return 0.0
+    num = float(m.group(1))
+    unit = m.group(2) or ""
+    return num * {"": 1.0, "k": 1e3, "m": 1e6, "meg": 1e6}.get(unit, 1.0)
+
+
+def check_voltage_divider(
+    components: list[Component],
+    rules: dict[str, object],
+) -> list[Violation]:
+    """Verify feedback divider produces expected output voltage.
+
+    Uses: V_OUT = V_REF * (1 + R_upper / R_lower).
+    """
+    violations: list[Violation] = []
+    by_ref = {c.reference: c for c in components}
+
+    v_ref = float(rules.get("v_ref", 0))  # type: ignore[arg-type]
+    expected_v = float(rules.get("expected_voltage", 0))  # type: ignore[arg-type]
+    tolerance_pct = float(rules.get("tolerance_percent", 1.0))  # type: ignore[arg-type]
+    upper_ref: str = rules.get("upper_ref", "")  # type: ignore[assignment]
+    lower_ref: str = rules.get("lower_ref", "")  # type: ignore[assignment]
+
+    if not all([v_ref, expected_v, upper_ref, lower_ref]):
+        violations.append(
+            Violation("voltage_divider", "incomplete config: need v_ref, expected_voltage, upper_ref, lower_ref")
+        )
+        return violations
+
+    upper = by_ref.get(upper_ref)
+    lower = by_ref.get(lower_ref)
+    if upper is None:
+        violations.append(Violation("voltage_divider", f"upper resistor {upper_ref} not found"))
+        return violations
+    if lower is None:
+        violations.append(Violation("voltage_divider", f"lower resistor {lower_ref} not found"))
+        return violations
+
+    r_upper = _parse_resistance_ohms(upper.value)
+    r_lower = _parse_resistance_ohms(lower.value)
+    if r_lower == 0:
+        violations.append(Violation("voltage_divider", f"{lower_ref} value '{lower.value}' parses to 0\u03a9"))
+        return violations
+
+    actual_v = v_ref * (1.0 + r_upper / r_lower)
+    error_pct = abs(actual_v - expected_v) / expected_v * 100.0
+
+    if error_pct > tolerance_pct:
+        violations.append(
+            Violation(
+                "voltage_divider",
+                f"V_OUT = {actual_v:.3f}V (expected {expected_v}V \u00b1{tolerance_pct}%)"
+                f" from {upper_ref}={upper.value}, {lower_ref}={lower.value}, V_REF={v_ref}V",
+            )
+        )
+
+    return violations
+
+
 def check_bom_rules(
     components: list[Component],
     rules: dict[str, object],
@@ -301,6 +368,7 @@ _CHECKERS = [
     ("required_components", check_required_components, lambda comps, nets: comps),
     ("required_nets", check_required_nets, lambda comps, nets: nets),
     ("capacitor_budget", check_capacitor_budget, lambda comps, nets: comps),
+    ("voltage_divider", check_voltage_divider, lambda comps, nets: comps),
     ("bom_rules", check_bom_rules, lambda comps, nets: comps),
 ]
 
