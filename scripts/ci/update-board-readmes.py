@@ -134,9 +134,21 @@ def update_readme(board_dir: Path) -> bool:
 
 
 def main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("board", nargs="?", default=None,
+                        help="Single board name to update (default: all boards)")
+    args = parser.parse_args()
+
     boards_dir = REPO_ROOT / "boards"
+    if args.board:
+        candidates = [boards_dir / args.board]
+    else:
+        candidates = sorted(boards_dir.iterdir())
+
     changed: list[str] = []
-    for board_dir in sorted(boards_dir.iterdir()):
+    for board_dir in candidates:
         if not board_dir.is_dir():
             continue
         if not (board_dir / "README.md").exists():
