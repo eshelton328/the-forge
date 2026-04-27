@@ -11,6 +11,9 @@
 #
 # Usage:  bash scripts/ci/generate-board-images.sh boards/<name>
 # Expects kicad-cli on PATH (run inside the KiCad Docker image in CI).
+#
+# 3D models: set KICAD10_3DMODEL_DIR to point at the standard library.
+# The workflow downloads the needed libraries and sets this variable.
 
 set -euo pipefail
 
@@ -32,7 +35,6 @@ if [ -f "$SCH_FILE" ]; then
     --exclude-drawing-sheet \
     "$SCH_FILE"
 
-  # kicad-cli outputs one SVG per schematic page; rename for clarity
   page=0
   for svg in "$SCH_TMP"/*.svg; do
     [ -f "$svg" ] || continue

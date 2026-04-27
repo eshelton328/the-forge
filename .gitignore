@@ -48,3 +48,6 @@ boards/**/*.kicad_dru
 
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/
+
+# Local cache (3D models, etc.)
+.cache/
