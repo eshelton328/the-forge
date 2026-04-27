@@ -787,7 +787,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3843,7 +3843,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 			(at 144.78 109.22 0)
 			(hide yes)
 			(show_name no)
