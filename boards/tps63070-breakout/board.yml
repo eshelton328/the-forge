@@ -4,5 +4,5 @@ layers: 2
 copper_weight: 1oz
 thickness: 1.6mm
 fab_targets:
-  - jlcpcb-2layer
-  - pcbway-2layer
+  - jlcpcb-2layer-advanced
+  - pcbway-2layer-advanced

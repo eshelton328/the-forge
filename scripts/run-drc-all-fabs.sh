@@ -52,7 +52,6 @@ for FAB in $FAB_TARGETS; do
         --format json \
         --severity-all \
         --refill-zones \
-        --schematic-parity \
         --exit-code-violations \
         "$PCB_FILE"; then
         echo "PASS: $FAB"

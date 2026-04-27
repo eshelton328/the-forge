@@ -775,7 +775,7 @@
 					)
 				)
 			)
-			(property "Footprint" "RNM0015A"
+			(property "Footprint" "TPS63070:TPS63070"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -787,7 +787,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -927,7 +927,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin power_out line
 					(at -20.32 -2.54 0)
 					(length 5.08)
 					(name "VAUX"
@@ -999,7 +999,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin power_out line
 					(at 20.32 12.7 180)
 					(length 5.08)
 					(name "VOUT"
@@ -1017,7 +1017,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at 20.32 15.24 180)
 					(length 5.08)
 					(name "VOUT"
@@ -1035,7 +1035,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin passive line
 					(at 20.32 20.32 180)
 					(length 5.08)
 					(name "L2"
@@ -1053,7 +1053,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at 20.32 -15.24 180)
 					(length 5.08)
 					(name "PGND"
@@ -1071,7 +1071,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin passive line
 					(at -20.32 20.32 0)
 					(length 5.08)
 					(name "L1"
@@ -1107,7 +1107,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at -20.32 12.7 0)
 					(length 5.08)
 					(name "VIN"
@@ -1274,6 +1274,121 @@
 								(size 1.27 1.27)
 							)
 						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
 					)
 				)
 			)
@@ -1583,10 +1698,22 @@
 		(uuid "b7c0eb5d-cd0e-4c0c-9a52-3bd2c7945c28")
 	)
 	(junction
+		(at 54.61 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c99d254c-1ebf-4df0-bff1-01d129263a5e")
+	)
+	(junction
 		(at 201.93 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ce76933e-63f7-41b1-87b8-a3dc3674694a")
+	)
+	(junction
+		(at 62.23 86.36)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e030b710-393b-4fc4-82dd-07da4b33bd21")
 	)
 	(junction
 		(at 83.82 86.36)
@@ -3716,7 +3843,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 			(at 144.78 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -4106,6 +4233,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 62.23 86.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bfe03d14-51e4-426b-9e2e-a90741cf9428")
+		(property "Reference" "#FLG01"
+			(at 62.23 84.455 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 62.23 81.28 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 62.23 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 62.23 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "7d5a7443-18ad-4e95-8731-8879872e6549")
+		)
+		(instances
+			(project "tps63070-breakout"
+				(path "/ea61c388-f91e-4e19-943d-4b2b1fa83a03"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 83.82 92.71 0)
 		(unit 1)
@@ -4416,6 +4621,84 @@
 			(project "tps63070-breakout"
 				(path "/ea61c388-f91e-4e19-943d-4b2b1fa83a03"
 					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 54.61 105.41 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fcb1143a-0b8a-4a5b-8b70-3e9026fc2e7d")
+		(property "Reference" "#FLG02"
+			(at 54.61 103.505 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 54.61 100.33 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 54.61 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 54.61 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 54.61 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2a288fd3-c95e-49bc-9973-720a7842bc02")
+		)
+		(instances
+			(project "tps63070-breakout"
+				(path "/ea61c388-f91e-4e19-943d-4b2b1fa83a03"
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)

@@ -154,7 +154,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -194,6 +194,12 @@
 		(path "/278523d3-c2f9-4452-8098-782f52588f96")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -308,7 +314,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -348,6 +354,12 @@
 		(path "/fefb9938-9d20-477f-beec-d7591f83640d")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -460,7 +472,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -488,6 +500,12 @@
 		(path "/5d5147c8-dd5d-4361-bb6a-d696e0c3fa57")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -637,7 +655,7 @@
 			(size 0.98 3.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "Net-(U1-L1)")
-			(pinfunction "1")
+			(pinfunction "1_1")
 			(pintype "passive")
 			(solder_mask_margin 0.102)
 			(uuid "fae2ae58-aaef-4723-95d3-b3518be51de0")
@@ -647,7 +665,7 @@
 			(size 0.98 3.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "Net-(U1-L2)")
-			(pinfunction "2")
+			(pinfunction "2_2")
 			(pintype "passive")
 			(solder_mask_margin 0.102)
 			(uuid "5500566c-0f59-47b5-a7ac-680b5fcc70f7")
@@ -693,7 +711,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -733,6 +751,12 @@
 		(path "/54a79265-c476-4202-97b4-9fa947aac5e5")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -847,7 +871,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -887,6 +911,12 @@
 		(path "/5e40902e-63e7-429e-9086-d2a135b6cfbb")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1001,7 +1031,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1041,6 +1071,12 @@
 		(path "/88f6ce3c-fe10-45b0-8775-e6489e876a7c")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1182,7 +1218,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(pinfunction "Pin_1")
+			(pinfunction "Pin_1_1")
 			(pintype "passive")
 			(uuid "d73526aa-4ae1-4bab-a863-cbf0909721f6")
 		)
@@ -1193,7 +1229,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
-			(pinfunction "Pin_2")
+			(pinfunction "Pin_2_2")
 			(pintype "passive")
 			(uuid "f4d87f84-4dd3-47dc-9932-ab68c8c33ef0")
 		)
@@ -1204,7 +1240,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/VIN 2v to 16v")
-			(pinfunction "Pin_3")
+			(pinfunction "Pin_3_3")
 			(pintype "passive")
 			(uuid "51a34b47-f237-486f-9e23-8ccaa737a5ba")
 		)
@@ -1215,7 +1251,7 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/VOUT +3.3v")
-			(pinfunction "Pin_4")
+			(pinfunction "Pin_4_4")
 			(pintype "passive")
 			(uuid "80854b53-62b1-4603-a2e9-e649785d3a75")
 		)
@@ -1260,7 +1296,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -1300,6 +1336,12 @@
 		(path "/fe77c2ae-0b14-4f8f-bbcf-2c90c87b62f1")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1414,7 +1456,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1444,6 +1486,12 @@
 		(path "/91eca797-ddac-4a39-a4a9-2d64096e64e0")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "11" "12" "13" "14" "15" "3" "1" "9" "8" "7" "5" "6" "2" "10" "4")
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_poly
@@ -1568,7 +1616,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-EN)")
-			(pinfunction "PS_SYNC")
+			(pinfunction "PS_SYNC_1")
 			(pintype "input")
 			(uuid "924c242f-ceed-4695-b52d-ad00c58aac49")
 		)
@@ -1578,7 +1626,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-PG)")
-			(pinfunction "PG")
+			(pinfunction "PG_2")
 			(pintype "open_collector")
 			(uuid "e3fb61a0-2e42-487d-a891-04bdbf15641d")
 		)
@@ -1588,8 +1636,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-VAUX)")
-			(pinfunction "VAUX")
-			(pintype "unspecified")
+			(pinfunction "VAUX_3")
+			(pintype "power_out")
 			(uuid "eebcf2c7-ace6-40d6-83e4-beded99d0f12")
 		)
 		(pad "4" smd roundrect
@@ -1598,7 +1646,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "GND")
-			(pinfunction "GND")
+			(pinfunction "GND_4")
 			(pintype "power_in")
 			(uuid "00fbee44-b52d-4d39-9192-9918c9c65c40")
 		)
@@ -1608,7 +1656,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-FB)")
-			(pinfunction "FB")
+			(pinfunction "FB_5")
 			(pintype "output")
 			(uuid "ca5a1b44-3a6f-422d-a9f8-4495757a76ad")
 		)
@@ -1618,7 +1666,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "GND")
-			(pinfunction "FB2")
+			(pinfunction "FB2_6")
 			(pintype "input")
 			(uuid "53b0585c-907b-45c9-9596-a7ee2adbef3a")
 		)
@@ -1627,8 +1675,8 @@
 			(size 0.25 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "/VOUT +3.3v")
-			(pinfunction "VOUT")
-			(pintype "power_in")
+			(pinfunction "VOUT_7")
+			(pintype "power_out")
 			(thermal_bridge_angle 90)
 			(options
 				(clearance outline)
@@ -1692,8 +1740,8 @@
 			)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "/VOUT +3.3v")
-			(pinfunction "VOUT")
-			(pintype "power_in")
+			(pinfunction "VOUT_8")
+			(pintype "passive")
 			(thermal_bridge_angle 90)
 			(options
 				(clearance outline)
@@ -1755,8 +1803,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-L2)")
-			(pinfunction "L2")
-			(pintype "unspecified")
+			(pinfunction "L2_9")
+			(pintype "passive")
 			(uuid "23a56315-18df-4632-a080-4d8bbc684243")
 		)
 		(pad "9" smd roundrect
@@ -1765,8 +1813,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-L2)")
-			(pinfunction "L2")
-			(pintype "unspecified")
+			(pinfunction "L2_9")
+			(pintype "passive")
 			(uuid "84aec9ae-492e-4438-af1e-c5ab7ee54823")
 		)
 		(pad "10" smd roundrect
@@ -1775,8 +1823,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "GND")
-			(pinfunction "PGND")
-			(pintype "power_in")
+			(pinfunction "PGND_10")
+			(pintype "passive")
 			(uuid "5255f026-8517-43fd-81f6-d481e9e30cf2")
 		)
 		(pad "10" smd roundrect
@@ -1785,8 +1833,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "GND")
-			(pinfunction "PGND")
-			(pintype "power_in")
+			(pinfunction "PGND_10")
+			(pintype "passive")
 			(uuid "1db8a4f2-d288-445b-b43c-822d37977e9f")
 		)
 		(pad "11" smd roundrect
@@ -1795,8 +1843,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-L1)")
-			(pinfunction "L1")
-			(pintype "unspecified")
+			(pinfunction "L1_11")
+			(pintype "passive")
 			(uuid "9f92b0fe-77a8-4fac-91df-20837b7513bb")
 		)
 		(pad "11" smd roundrect
@@ -1805,8 +1853,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-L1)")
-			(pinfunction "L1")
-			(pintype "unspecified")
+			(pinfunction "L1_11")
+			(pintype "passive")
 			(uuid "d6a1cd9f-73ab-4e82-a787-875e93f87d1f")
 		)
 		(pad "12" smd custom
@@ -1814,7 +1862,7 @@
 			(size 0.25 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "/VIN 2v to 16v")
-			(pinfunction "VIN")
+			(pinfunction "VIN_12")
 			(pintype "power_in")
 			(thermal_bridge_angle 90)
 			(options
@@ -1879,8 +1927,8 @@
 			)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "/VIN 2v to 16v")
-			(pinfunction "VIN")
-			(pintype "power_in")
+			(pinfunction "VIN_13")
+			(pintype "passive")
 			(thermal_bridge_angle 90)
 			(options
 				(clearance outline)
@@ -1942,7 +1990,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "Net-(U1-EN)")
-			(pinfunction "EN")
+			(pinfunction "EN_14")
 			(pintype "input")
 			(uuid "447db80e-3ccf-4192-8b5b-439562fe0e22")
 		)
@@ -1952,7 +2000,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
 			(net "GND")
-			(pinfunction "VSEL")
+			(pinfunction "VSEL_15")
 			(pintype "input")
 			(uuid "7cfd53b3-13f8-45a2-8f94-44ba49c69684")
 		)
@@ -1997,7 +2045,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2037,6 +2085,12 @@
 		(path "/38410ba8-6936-4116-bda0-7299b8525634")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2151,7 +2205,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2191,6 +2245,12 @@
 		(path "/b7b0fbd4-5ef4-4ed5-95b2-691f8b9dbe8a")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2305,7 +2365,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2345,6 +2405,12 @@
 		(path "/e4a1019d-69ff-4ac5-be32-e687c6b86f29")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2459,7 +2525,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2499,6 +2565,12 @@
 		(path "/6938108b-c749-48b4-84a8-13b35de3fc0c")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2613,7 +2685,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2653,6 +2725,12 @@
 		(path "/e1f4784c-3a15-4381-be91-b6f782373947")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2767,7 +2845,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -2807,6 +2885,12 @@
 		(path "/8081de83-6c37-4422-8140-e9268f946319")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2921,7 +3005,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" ""
 			(at 0 0 180)
 			(layer "F.Fab")
 			(hide yes)
@@ -2961,6 +3045,12 @@
 		(path "/1ae70124-7245-41be-92ab-7f95c4df0c5d")
 		(sheetname "/")
 		(sheetfile "tps63070-breakout.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -3605,7 +3695,7 @@
 	(via
 		(at 55.42 47.36)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(free yes)
 		(capping no)
@@ -3776,7 +3866,7 @@
 	(via
 		(at 78.29 59.15)
 		(size 0.5)
-		(drill 0.25)
+		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(free yes)
 		(capping no)
@@ -4097,20 +4187,28 @@
 		(uuid "f5195968-5264-40cc-b14c-8abf3ce1ade7")
 	)
 	(segment
-		(start 67.52 58.35)
-		(end 67.79 58.62)
+		(start 66.055 54.482)
+		(end 66.77 55.197)
 		(width 0.3)
 		(layer "F.Cu")
-		(net "Net-(U1-VAUX)")
-		(uuid "1cbc6fc4-3370-4427-b4bf-a34f8fdb0249")
+		(net "Net-(U1-L1)")
+		(uuid "223af409-b531-4f10-bfe9-0f591b2cb0f3")
 	)
 	(segment
-		(start 67.52 57.51)
-		(end 67.52 58.35)
+		(start 66.77 55.197)
+		(end 66.77 55.972)
 		(width 0.3)
 		(layer "F.Cu")
-		(net "Net-(U1-VAUX)")
-		(uuid "ad202de1-386c-497a-bcc6-e0f1f3d40793")
+		(net "Net-(U1-L1)")
+		(uuid "8d799c69-6993-435d-bf27-d5c9704e4a3b")
+	)
+	(segment
+		(start 66.055 51.65)
+		(end 66.055 54.482)
+		(width 0.6)
+		(layer "F.Cu")
+		(net "Net-(U1-L1)")
+		(uuid "ddc67798-d6e3-49cd-9e98-f1db6da9f141")
 	)
 	(segment
 		(start 67.77 55.972)
@@ -4135,30 +4233,6 @@
 		(layer "F.Cu")
 		(net "Net-(U1-L2)")
 		(uuid "31822b09-449e-4983-a526-f32dd601bf78")
-	)
-	(segment
-		(start 66.055 54.482)
-		(end 66.77 55.197)
-		(width 0.3)
-		(layer "F.Cu")
-		(net "Net-(U1-L1)")
-		(uuid "223af409-b531-4f10-bfe9-0f591b2cb0f3")
-	)
-	(segment
-		(start 66.77 55.197)
-		(end 66.77 55.972)
-		(width 0.3)
-		(layer "F.Cu")
-		(net "Net-(U1-L1)")
-		(uuid "8d799c69-6993-435d-bf27-d5c9704e4a3b")
-	)
-	(segment
-		(start 66.055 51.65)
-		(end 66.055 54.482)
-		(width 0.6)
-		(layer "F.Cu")
-		(net "Net-(U1-L1)")
-		(uuid "ddc67798-d6e3-49cd-9e98-f1db6da9f141")
 	)
 	(segment
 		(start 64.88 56.61)
@@ -4217,6 +4291,38 @@
 		(uuid "f9264794-7c28-46ed-8c59-f80f3f398a1f")
 	)
 	(segment
+		(start 67.02 57.51)
+		(end 67.02 59.48)
+		(width 0.3)
+		(layer "F.Cu")
+		(net "Net-(U1-PG)")
+		(uuid "0df80845-cb13-4608-a41f-8207aad06d43")
+	)
+	(segment
+		(start 67.02 59.48)
+		(end 66.45 60.05)
+		(width 0.3)
+		(layer "F.Cu")
+		(net "Net-(U1-PG)")
+		(uuid "f1bf0746-5950-465d-a2f5-da605f501285")
+	)
+	(segment
+		(start 67.52 58.35)
+		(end 67.79 58.62)
+		(width 0.3)
+		(layer "F.Cu")
+		(net "Net-(U1-VAUX)")
+		(uuid "1cbc6fc4-3370-4427-b4bf-a34f8fdb0249")
+	)
+	(segment
+		(start 67.52 57.51)
+		(end 67.52 58.35)
+		(width 0.3)
+		(layer "F.Cu")
+		(net "Net-(U1-VAUX)")
+		(uuid "ad202de1-386c-497a-bcc6-e0f1f3d40793")
+	)
+	(segment
 		(start 69.67 57.51)
 		(end 69.67 57.66)
 		(width 0.4)
@@ -4247,22 +4353,6 @@
 		(layer "F.Cu")
 		(net "Net-(U1-FB)")
 		(uuid "98aa9334-28dc-4ed7-beba-010b27b974c1")
-	)
-	(segment
-		(start 67.02 57.51)
-		(end 67.02 59.48)
-		(width 0.3)
-		(layer "F.Cu")
-		(net "Net-(U1-PG)")
-		(uuid "0df80845-cb13-4608-a41f-8207aad06d43")
-	)
-	(segment
-		(start 67.02 59.48)
-		(end 66.45 60.05)
-		(width 0.3)
-		(layer "F.Cu")
-		(net "Net-(U1-PG)")
-		(uuid "f1bf0746-5950-465d-a2f5-da605f501285")
 	)
 	(zone
 		(net "/VIN 2v to 16v")

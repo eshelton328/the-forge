@@ -43,5 +43,8 @@ output/
 boards/**/erc.json
 boards/**/drc*.json
 
+# Board-level DRU files (fab rules are copied here temporarily by CI)
+boards/**/*.kicad_dru
+
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/

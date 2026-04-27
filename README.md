@@ -95,9 +95,13 @@ kicad-cli pcb drc --exit-code-violations --refill-zones --schematic-parity --for
 
 DRC rules for each fab house are stored in `fab-rules/` as `.kicad_dru` files. CI swaps these in and runs DRC to tell you which fabs your design is compatible with.
 
-| Fab House | Rule File | Source |
-|-----------|-----------|--------|
-| JLCPCB (2-layer) | `jlcpcb-2layer.kicad_dru` | [labtroll/KiCad-DesignRules](https://github.com/labtroll/KiCad-DesignRules) + [JLCPCB Capabilities](https://jlcpcb.com/capabilities/pcb-capabilities) |
-| JLCPCB (4-layer) | `jlcpcb-4layer.kicad_dru` | [labtroll/KiCad-DesignRules](https://github.com/labtroll/KiCad-DesignRules) |
-| PCBWay (2-layer) | `pcbway-2layer.kicad_dru` | [pcbway/PCBWay-Design-Rules](https://github.com/pcbway/PCBWay-Design-Rules) + [PCBWay Capabilities](https://www.pcbway.com/pcb_prototype/PCB_Manufacturing_Capabilities.html) |
-| PCBWay (4-layer) | `pcbway-4layer.kicad_dru` | [pcbway/PCBWay-Design-Rules](https://github.com/pcbway/PCBWay-Design-Rules) |
+2-layer rules come in two tiers: **standard** (cheapest process, looser minimums) and **advanced** (tighter vias/clearances, higher cost). Each board declares which tier it targets in `board.yml`.
+
+| Fab House | Rule File | Notes |
+|-----------|-----------|-------|
+| JLCPCB 2L Standard | `jlcpcb-2layer-standard.kicad_dru` | 0.3mm via drill, 0.15mm annular ring |
+| JLCPCB 2L Advanced | `jlcpcb-2layer-advanced.kicad_dru` | 0.2mm via drill, 0.1mm annular ring |
+| JLCPCB 4L | `jlcpcb-4layer.kicad_dru` | |
+| PCBWay 2L Standard | `pcbway-2layer-standard.kicad_dru` | 0.3mm via drill, 0.45mm via pad |
+| PCBWay 2L Advanced | `pcbway-2layer-advanced.kicad_dru` | 0.2mm via drill, 0.35mm via pad |
+| PCBWay 4L | `pcbway-4layer.kicad_dru` | |
