@@ -47,7 +47,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -60,6 +60,7 @@ help:
 	@echo "  make versions"
 	@echo "  make validate         Board-level checks (checks.yml)"
 	@echo "  make validate-all     Run \`make validate\` for every board"
+	@echo "  make update-readmes   Regenerate validation summaries in board READMEs"
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo ""
 	@echo "  Choose the board in either way:"
@@ -116,6 +117,9 @@ validate-all:
 		python3 scripts/validate_board.py "$$d"; \
 	done; \
 	echo "validate-all: all boards passed."
+
+update-readmes:
+	python3 scripts/ci/update-board-readmes.py
 
 # Run the full check sequence for each subdirectory of boards/ (for release prep / CI-like local runs)
 check-all:

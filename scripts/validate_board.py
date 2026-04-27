@@ -373,6 +373,71 @@ _CHECKERS = [
 ]
 
 
+def _compute_summary(
+    key: str,
+    rules: object,
+    components: list[Component],
+    nets: set[str],
+) -> str:
+    """Return a human-readable summary line for a check category."""
+    by_ref = {c.reference: c for c in components}
+
+    if key == "required_components" and isinstance(rules, dict):
+        found = sum(1 for ref in rules if ref in by_ref)
+        return f"{found}/{len(rules)} components present"
+
+    if key == "required_nets" and isinstance(rules, list):
+        found = sum(1 for n in rules if n in nets)
+        return f"{found}/{len(rules)} nets present"
+
+    if key == "capacitor_budget" and isinstance(rules, dict):
+        parts: list[str] = []
+        for group_name, group in rules.items():
+            if not isinstance(group, dict):
+                continue
+            refs: list[str] = group.get("refs", [])
+            min_uf: float = float(group.get("min_total_uf", 0))
+            total = sum(_parse_capacitance_uf(by_ref[r].value) for r in refs if r in by_ref)
+            if min_uf > 0:
+                parts.append(f"{group_name}: {total:.0f}\u00b5F (min {min_uf:.0f}\u00b5F)")
+            else:
+                parts.append(f"{group_name}: {', '.join(refs)}")
+        return "; ".join(parts)
+
+    if key == "voltage_divider" and isinstance(rules, dict):
+        v_ref = float(rules.get("v_ref", 0))
+        expected_v = float(rules.get("expected_voltage", 0))
+        upper_ref: str = rules.get("upper_ref", "")
+        lower_ref: str = rules.get("lower_ref", "")
+        upper = by_ref.get(upper_ref)
+        lower = by_ref.get(lower_ref)
+        if upper and lower:
+            r_upper = _parse_resistance_ohms(upper.value)
+            r_lower = _parse_resistance_ohms(lower.value)
+            if r_lower > 0:
+                actual_v = v_ref * (1.0 + r_upper / r_lower)
+                error_pct = abs(actual_v - expected_v) / expected_v * 100.0
+                return (
+                    f"V_OUT = {actual_v:.3f}V (target {expected_v}V, {error_pct:.2f}% error)"
+                    f" \u2014 {upper_ref}={upper.value}, {lower_ref}={lower.value},"
+                    f" V_REF={v_ref}V"
+                )
+        return "could not compute"
+
+    if key == "bom_rules" and isinstance(rules, dict):
+        parts_list: list[str] = []
+        if rules.get("require_footprint"):
+            parts_list.append("footprints required")
+        if rules.get("no_duplicate_refs"):
+            parts_list.append("no duplicate refs")
+        ds_refs = rules.get("require_datasheet_on", [])
+        if ds_refs:
+            parts_list.append(f"datasheets on {', '.join(ds_refs)}")
+        return "; ".join(parts_list) if parts_list else "no rules"
+
+    return ""
+
+
 def validate_board(board_dir: Path) -> dict[str, object]:
     """Run all configured checks for *board_dir*. Returns JSON-serialisable dict."""
     checks_path = board_dir / "checks.yml"
@@ -402,11 +467,13 @@ def validate_board(board_dir: Path) -> dict[str, object]:
         data = data_selector(components, nets)
         violations = checker(data, config[key])  # type: ignore[arg-type]
         total_violations += len(violations)
+        summary = _compute_summary(key, config[key], components, nets)
         check_results.append(
             {
                 "category": key,
                 "status": "fail" if violations else "pass",
                 "violations": [{"message": v.message} for v in violations],
+                "summary": summary,
             }
         )
 

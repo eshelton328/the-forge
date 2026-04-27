@@ -259,22 +259,39 @@ for f in "${val_files[@]}"; do
     echo "| Validation | ✅ |" >> "$TMPDIR_BOARDS/$board/summary"
   else
     echo "| Validation | 🔴 ${n_violations} violation$(plural "$n_violations") |" >> "$TMPDIR_BOARDS/$board/summary"
+  fi
 
-    {
+  # Always show validation details (summaries on pass, violations on fail)
+  {
+    if [ "$passed" = "true" ]; then
+      echo "<details>"
+      echo "<summary><strong>Validation</strong> — ✅ all checks passed</summary>"
+      echo ""
+      jq -r '
+        .checks[]
+        | "> ✅ **\(.category)** — \(.summary // "ok")"
+      ' "$f" 2>/dev/null || echo "> _Could not parse validation results._"
+      echo ""
+      echo "</details>"
+      echo ""
+    else
       echo "<details>"
       echo "<summary><strong>Validation</strong> — 🔴 ${n_violations} violation$(plural "$n_violations")</summary>"
       echo ""
       jq -r '
         .checks[]
-        | select(.status == "fail")
-        | "> **\(.category)**",
-          ("> " + (.violations[] | "- `\(.message)`")),
-          ">"
+        | if .status == "pass"
+          then "> ✅ **\(.category)** — \(.summary // "ok")"
+          else "> 🔴 **\(.category)** — \(.summary // "fail")",
+               ("> " + (.violations[] | "- `\(.message)`")),
+               ">"
+          end
       ' "$f" 2>/dev/null || echo "> _Could not parse validation results._"
+      echo ""
       echo "</details>"
       echo ""
-    } >> "$TMPDIR_BOARDS/$board/details"
-  fi
+    fi
+  } >> "$TMPDIR_BOARDS/$board/details"
 done
 
 # ===========================================================================
@@ -305,33 +322,21 @@ else
   if [ "${#boards[@]}" -eq 0 ]; then
     echo "All checks passed — no ERC, DRC, or fab-rule violations found."
   else
-    has_issues=false
     for board in "${boards[@]}"; do
-      if grep -qE '🔴|🟡' "$TMPDIR_BOARDS/$board/summary" 2>/dev/null; then
-        has_issues=true
-        break
+      echo "#### \`${board}\`"
+      echo ""
+      echo "| Check | Result |"
+      echo "|:------|:-------|"
+      cat "$TMPDIR_BOARDS/$board/summary"
+      echo ""
+
+      if [ -s "$TMPDIR_BOARDS/$board/details" ]; then
+        cat "$TMPDIR_BOARDS/$board/details"
       fi
+
+      echo "---"
+      echo ""
     done
-
-    if [ "$has_issues" = false ]; then
-      echo "All checks passed — no ERC, DRC, or fab-rule violations found."
-    else
-      for board in "${boards[@]}"; do
-        echo "#### \`${board}\`"
-        echo ""
-        echo "| Check | Result |"
-        echo "|:------|:-------|"
-        cat "$TMPDIR_BOARDS/$board/summary"
-        echo ""
-
-        if [ -s "$TMPDIR_BOARDS/$board/details" ]; then
-          cat "$TMPDIR_BOARDS/$board/details"
-        fi
-
-        echo "---"
-        echo ""
-      done
-    fi
   fi
 fi
 
