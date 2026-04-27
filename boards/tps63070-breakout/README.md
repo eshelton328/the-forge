@@ -1,6 +1,6 @@
 # TPS63070 Buck-Boost Breakout
 
-Standalone breakout board for the [TPS63070](https://www.ti.com/lit/gpn/tps63070) buck-boost converter. Provides a regulated 3.3V output from a wide input voltage range (2V–16V).
+Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/tps63070.pdf) buck-boost converter. Provides a regulated 3.3V output from a wide input voltage range (2V–16V).
 
 ## Specifications
 
@@ -15,7 +15,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/gpn/tps63070
 
 | Ref | Value | Part Number | Datasheet |
 |-----|-------|-------------|-----------|
-| U1 | TPS63070 | TPS630701RNMR | [TI TPS63070](https://www.ti.com/lit/gpn/tps63070) |
+| U1 | TPS63070 | TPS630701RNMR | [TI TPS63070](https://www.ti.com/lit/ds/symlink/tps63070.pdf) |
 | L1 | 1.5µH | XFL4020-152MEC | [Coilcraft XFL4020](https://www.coilcraft.com/en-us/products/power/shielded-inductors/molded-inductors/xfl/xfl4020/) |
 | C1, C2, C3 | 10µF | — | Input decoupling |
 | C4 | 0.1µF | — | VAUX decoupling |
@@ -29,7 +29,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/gpn/tps63070
 
 ## Output Voltage Variants
 
-The output voltage is set by the feedback resistor divider (R1/R2). See the [TPS63070 datasheet](https://www.ti.com/lit/gpn/tps63070) §8.2.1 for the formula and recommended values.
+The output voltage is set by the feedback resistor divider (R1/R2). See the [TPS63070 datasheet](https://www.ti.com/lit/ds/symlink/tps63070.pdf) §8.2.1 for the formula and recommended values.
 
 | Output Voltage | R1 | R2 | Status |
 |---------------|-----|-----|--------|
