@@ -671,7 +671,7 @@
 			(uuid "5500566c-0f59-47b5-a7ac-680b5fcc70f7")
 		)
 		(embedded_fonts no)
-		(model "${KIPRJMOD}/footprints/TPS63070.pretty/XFL4020-152MEC.step"
+		(model "${KIPRJMOD}/../../libs/footprints/TPS63070.pretty/XFL4020-152MEC.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2005,7 +2005,7 @@
 			(uuid "7cfd53b3-13f8-45a2-8f94-44ba49c69684")
 		)
 		(embedded_fonts no)
-		(model "/Users/erik/Downloads/TPS63070RNMT/TPS63070RNMT.step"
+		(model "${KIPRJMOD}/../../libs/footprints/TPS63070.pretty/TPS63070RNMT.step"
 			(offset
 				(xyz 0 1.125 0)
 			)

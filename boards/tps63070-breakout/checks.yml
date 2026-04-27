@@ -1,0 +1,63 @@
+# Board validation rules for tps63070-breakout
+# Used by scripts/validate_board.py to verify design intent beyond ERC/DRC.
+
+required_components:
+  U1:
+    value: "TPS63070"
+    footprint_lib: "TPS63070"
+  L1:
+    value: "1.5µH"
+  C1:
+    value: "10µF"
+  C2:
+    value: "10µF"
+  C3:
+    value: "10µF"
+  C4:
+    value: "0.1µF"
+  C5:
+    value: "10µF"
+  C6:
+    value: "22µF"
+  C7:
+    value: "22µF"
+  C8:
+    value: "22µF"
+  R1:
+    value: "10kΩ"
+  R2:
+    value: "470kΩ"
+  R3:
+    value: "150kΩ"
+  R4:
+    value: "100kΩ"
+  J1: {}
+
+required_nets:
+  - "GND"
+  - "VOUT +3.3v"
+  - "VIN 2v to 16v"
+
+capacitor_budget:
+  input:
+    min_total_uf: 20
+    refs: [C1, C2, C3]
+  output:
+    min_total_uf: 60
+    refs: [C5, C6, C7, C8]
+  decoupling:
+    refs: [C4]
+
+# TPS63070 feedback divider: V_OUT = V_REF * (1 + R_upper / R_lower)
+# V_REF = 0.8V per datasheet section 9.2.2.1 (Table 4: 470k/150k = 3.3V)
+voltage_divider:
+  v_ref: 0.8
+  expected_voltage: 3.3
+  tolerance_percent: 2.0
+  upper_ref: R2
+  lower_ref: R3
+
+bom_rules:
+  require_footprint: true
+  no_duplicate_refs: true
+  require_datasheet_on: [U1]
