@@ -28,7 +28,6 @@ if [ -f "$SCH_FILE" ]; then
   SCH_TMP=$(mktemp -d)
   kicad-cli sch export svg \
     --output "$SCH_TMP" \
-    --no-background-color \
     --exclude-drawing-sheet \
     "$SCH_FILE"
 
