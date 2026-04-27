@@ -9,7 +9,7 @@
 DEFAULT_BOARD     := s3-dev-board
 MAKE_GOAL_1       := $(word 1,$(MAKECMDGOALS))
 MAKE_GOAL_2       := $(word 2,$(MAKECMDGOALS))
-BOARD_TAKES_GOAL2 := erc drc fab-drc check clean
+BOARD_TAKES_GOAL2 := erc drc fab-drc check clean validate
 
 ifeq ($(words $(MAKECMDGOALS)),2)
   ifneq ($(filter $(MAKE_GOAL_1),$(BOARD_TAKES_GOAL2)),)
@@ -47,7 +47,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -58,6 +58,8 @@ help:
 	@echo "  make check            ERC + DRC + multi-fab DRC for ONE board"
 	@echo "  make erc|drc|fab-drc|check|clean   — same, one board at a time"
 	@echo "  make versions"
+	@echo "  make validate         Board-level checks (checks.yml)"
+	@echo "  make validate-all     Run \`make validate\` for every board"
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo ""
 	@echo "  Choose the board in either way:"
@@ -102,6 +104,18 @@ check: erc drc fab-drc
 
 clean:
 	rm -f $(ERC_JSON) $(DRC_JSON) $(BOARD_DIR)/drc-*.json
+
+validate:
+	python3 scripts/validate_board.py $(BOARD_DIR)
+
+validate-all:
+	@set -e; for d in boards/*/; do \
+		b=$$(basename "$$d"); \
+		test -f "$$d/checks.yml" || { echo "skip: $$b (no checks.yml)"; continue; }; \
+		echo "========== validate: $$b =========="; \
+		python3 scripts/validate_board.py "$$d"; \
+	done; \
+	echo "validate-all: all boards passed."
 
 # Run the full check sequence for each subdirectory of boards/ (for release prep / CI-like local runs)
 check-all:

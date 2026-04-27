@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Emits a markdown PR comment summarizing KiCad design check results.
 # Reads JSON reports under ARTIFACTS_DIR (from download-artifact).
-# Expects: ERC_RESULT, DRC_RESULT, FAB_DRC_RESULT, and optionally GITHUB_RUN_URL.
+# Expects: ERC_RESULT, DRC_RESULT, FAB_DRC_RESULT, VALIDATE_RESULT, and optionally GITHUB_RUN_URL.
 
 set -euo pipefail
 
@@ -17,6 +17,7 @@ fi
 erc_result="${ERC_RESULT:-unknown}"
 drc_result="${DRC_RESULT:-unknown}"
 fab_drc_result="${FAB_DRC_RESULT:-unknown}"
+validate_result="${VALIDATE_RESULT:-unknown}"
 
 if [ ! -d "$ARTIFACTS_DIR" ]; then
   ARTIFACTS_DIR="/tmp/empty-kicad-artifacts"
@@ -233,6 +234,50 @@ else
 fi
 
 # ===========================================================================
+#  Board Validation (checks.yml)
+# ===========================================================================
+val_files=()
+while IFS= read -r f; do
+  [ -n "$f" ] && val_files+=("$f")
+done < <(find "$ARTIFACTS_DIR" -name 'validation.json' -type f 2>/dev/null | sort)
+
+for f in "${val_files[@]}"; do
+  artifact_dir=$(basename "$(dirname "$f")")
+  board=$(board_from_artifact_dir "$artifact_dir" "validation-")
+  init_board "$board"
+
+  skipped=$(jq -r '.skipped // false' "$f" 2>/dev/null)
+  if [ "$skipped" = "true" ]; then
+    echo "| Validation | _skipped_ |" >> "$TMPDIR_BOARDS/$board/summary"
+    continue
+  fi
+
+  passed=$(jq -r '.passed // true' "$f" 2>/dev/null)
+  n_violations=$(jq -r '.total_violations // 0' "$f" 2>/dev/null)
+
+  if [ "$passed" = "true" ]; then
+    echo "| Validation | ✅ |" >> "$TMPDIR_BOARDS/$board/summary"
+  else
+    echo "| Validation | 🔴 ${n_violations} violation$(plural "$n_violations") |" >> "$TMPDIR_BOARDS/$board/summary"
+
+    {
+      echo "<details>"
+      echo "<summary><strong>Validation</strong> — 🔴 ${n_violations} violation$(plural "$n_violations")</summary>"
+      echo ""
+      jq -r '
+        .checks[]
+        | select(.status == "fail")
+        | "> **\(.category)**",
+          ("> " + (.violations[] | "- `\(.message)`")),
+          ">"
+      ' "$f" 2>/dev/null || echo "> _Could not parse validation results._"
+      echo "</details>"
+      echo ""
+    } >> "$TMPDIR_BOARDS/$board/details"
+  fi
+done
+
+# ===========================================================================
 #  Assemble final output — grouped by board
 # ===========================================================================
 echo "### KiCad Design Checks"
@@ -241,7 +286,7 @@ echo "[View workflow run]($RUN_URL)"
 echo ""
 
 all_skipped=true
-for r in "$erc_result" "$drc_result" "$fab_drc_result"; do
+for r in "$erc_result" "$drc_result" "$fab_drc_result" "$validate_result"; do
   if [ "$r" != "skipped" ]; then
     all_skipped=false
     break
