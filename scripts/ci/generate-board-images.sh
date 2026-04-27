@@ -3,10 +3,8 @@
 #
 # Outputs (written to boards/<name>/docs/):
 #   schematic.svg          — full schematic (multi-page → one SVG per page)
-#   pcb-top.png            — PCB layout, top side (orthographic 3D render)
-#   pcb-bottom.png         — PCB layout, bottom side (orthographic 3D render)
-#   3d-front.png           — 3D perspective render, front
-#   3d-back.png            — 3D perspective render, back
+#   pcb-top.png            — PCB top side with silkscreen (high-quality 3D render)
+#   pcb-bottom.png         — PCB bottom side with silkscreen (high-quality 3D render)
 #
 # Usage:  bash scripts/ci/generate-board-images.sh boards/<name>
 # Expects kicad-cli on PATH (run inside the KiCad Docker image in CI).
@@ -50,55 +48,27 @@ else
   echo "No schematic found at $SCH_FILE — skipping."
 fi
 
-# ── PCB + 3D renders ─────────────────────────────────────────────────
+# ── PCB top/bottom renders ───────────────────────────────────────────
 if [ -f "$PCB_FILE" ]; then
-  echo "Rendering PCB layout views..."
-
+  echo "Rendering PCB top..."
   kicad-cli pcb render \
     --output "$DOCS_DIR/pcb-top.png" \
     --side top \
-    --preset follow_pcb_editor \
     --background transparent \
     --width 1600 --height 1200 \
-    --quality basic \
+    --quality high \
     "$PCB_FILE"
   echo "  → pcb-top.png"
 
+  echo "Rendering PCB bottom..."
   kicad-cli pcb render \
     --output "$DOCS_DIR/pcb-bottom.png" \
     --side bottom \
-    --preset follow_pcb_editor \
     --background transparent \
     --width 1600 --height 1200 \
-    --quality basic \
+    --quality high \
     "$PCB_FILE"
   echo "  → pcb-bottom.png"
-
-  echo "Rendering 3D perspective views..."
-
-  kicad-cli pcb render \
-    --output "$DOCS_DIR/3d-front.png" \
-    --side top \
-    --background transparent \
-    --width 1600 --height 1200 \
-    --quality high \
-    --floor \
-    --perspective \
-    --rotate "-25,0,15" \
-    "$PCB_FILE" || echo "  ⚠ 3D front render failed"
-
-  kicad-cli pcb render \
-    --output "$DOCS_DIR/3d-back.png" \
-    --side bottom \
-    --background transparent \
-    --width 1600 --height 1200 \
-    --quality high \
-    --floor \
-    --perspective \
-    --rotate "25,0,-15" \
-    "$PCB_FILE" || echo "  ⚠ 3D back render failed"
-
-  echo "  → 3d-front.png, 3d-back.png"
 else
   echo "No PCB found at $PCB_FILE — skipping."
 fi

@@ -51,12 +51,6 @@ _Auto-generated on merge to main._
 | :---: | :---: |
 | ![Top](docs/pcb-top.png) | ![Bottom](docs/pcb-bottom.png) |
 
-### 3D Render
-
-| Front | Back |
-| :---: | :---: |
-| ![Front](docs/3d-front.png) | ![Back](docs/3d-back.png) |
-
 <!-- board-images-end -->
 
 <!-- validation-summary-start -->

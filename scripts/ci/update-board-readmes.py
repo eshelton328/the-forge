@@ -75,28 +75,8 @@ def _build_images_section(board_name: str, docs_dir: Path) -> str:
                   divider.rstrip(" | ") + " |",
                   images.rstrip(" | ") + " |", ""]
 
-    front_3d = docs_dir / "3d-front.png"
-    back_3d = docs_dir / "3d-back.png"
-    if front_3d.exists() or back_3d.exists():
-        lines += ["### 3D Render", ""]
-        header = "| "
-        divider = "| "
-        images = "| "
-        if front_3d.exists():
-            header += "Front | "
-            divider += ":---: | "
-            images += "![Front](docs/3d-front.png) | "
-        if back_3d.exists():
-            header += "Back | "
-            divider += ":---: | "
-            images += "![Back](docs/3d-back.png) | "
-        lines += [header.rstrip(" | ") + " |",
-                  divider.rstrip(" | ") + " |",
-                  images.rstrip(" | ") + " |", ""]
-
     if not any((docs_dir / f).exists() for f in [
         "schematic.svg", "pcb-top.png", "pcb-bottom.png",
-        "3d-front.png", "3d-back.png",
     ]):
         lines += ["_No images generated yet. Images are created on merge to main._", ""]
 
