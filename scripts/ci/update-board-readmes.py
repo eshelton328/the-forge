@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Regenerate auto-generated sections in each board's README.md.
 
-Handles two fenced regions (delimited by HTML comment markers):
+Handles three fenced regions (delimited by HTML comment markers):
 
   <!-- board-images-start --> … <!-- board-images-end -->
     Rebuilt from whichever image files exist in boards/<name>/docs/.
+
+  <!-- drc-summary-start --> … <!-- drc-summary-end -->
+    Rebuilt from ERC/DRC JSON reports in boards/<name>/docs/.
 
   <!-- validation-summary-start --> … <!-- validation-summary-end -->
     Rebuilt by running validate_board.py against the board.
@@ -14,6 +17,7 @@ Prints which files were changed so the caller can decide whether to commit.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -24,6 +28,8 @@ from validate_board import validate_board  # noqa: E402
 
 IMG_START = "<!-- board-images-start -->"
 IMG_END = "<!-- board-images-end -->"
+DRC_START = "<!-- drc-summary-start -->"
+DRC_END = "<!-- drc-summary-end -->"
 VAL_START = "<!-- validation-summary-start -->"
 VAL_END = "<!-- validation-summary-end -->"
 
@@ -84,6 +90,86 @@ def _build_images_section(board_name: str, docs_dir: Path) -> str:
     return "\n".join(lines)
 
 
+def _parse_kicad_report(report_path: Path) -> dict[str, dict[str, int]]:
+    """Parse a KiCad ERC/DRC JSON report and return violation counts by type and severity."""
+    data = json.loads(report_path.read_text())
+    counts: dict[str, dict[str, int]] = {}
+
+    violations: list[dict[str, object]] = []
+    for sheet in data.get("sheets", []):
+        violations.extend(sheet.get("violations", []))  # type: ignore[arg-type]
+    for v in data.get("violations", []):
+        violations.append(v)  # type: ignore[arg-type]
+
+    for v in violations:
+        vtype = str(v.get("type", "unknown"))
+        severity = str(v.get("severity", "warning"))
+        if vtype not in counts:
+            counts[vtype] = {"error": 0, "warning": 0}
+        counts[vtype][severity] = counts[vtype].get(severity, 0) + 1
+
+    return counts
+
+
+def _severity_emoji(errors: int, warnings: int) -> str:
+    if errors > 0:
+        return "🔴"
+    if warnings > 0:
+        return "🟡"
+    return "✅"
+
+
+def _build_drc_section(board_name: str, docs_dir: Path) -> str:
+    """Build the DRC/ERC summary markdown block from JSON reports."""
+    lines = [
+        DRC_START,
+        "## Design Rule Checks",
+        "",
+        "_Auto-generated on merge to main._",
+        "",
+    ]
+
+    erc_path = docs_dir / "erc.json"
+    drc_path = docs_dir / "drc.json"
+
+    if not erc_path.exists() and not drc_path.exists():
+        lines += ["_No DRC/ERC reports available yet._", ""]
+        lines.append(DRC_END)
+        return "\n".join(lines)
+
+    for label, path in [("ERC (Electrical Rules)", erc_path),
+                         ("DRC (Design Rules)", drc_path)]:
+        if not path.exists():
+            continue
+        counts = _parse_kicad_report(path)
+        total_errors = sum(c.get("error", 0) for c in counts.values())
+        total_warnings = sum(c.get("warning", 0) for c in counts.values())
+        emoji = _severity_emoji(total_errors, total_warnings)
+
+        if total_errors == 0 and total_warnings == 0:
+            lines += [f"### {label} {emoji}", "", "No violations.", ""]
+            continue
+
+        summary_parts: list[str] = []
+        if total_errors:
+            summary_parts.append(f"{total_errors} error{'s' if total_errors != 1 else ''}")
+        if total_warnings:
+            summary_parts.append(f"{total_warnings} warning{'s' if total_warnings != 1 else ''}")
+        lines += [f"### {label} {emoji} {', '.join(summary_parts)}", ""]
+        lines += ["| Violation | Severity | Count |",
+                   "|-----------|----------|-------|"]
+        for vtype in sorted(counts):
+            for severity in ("error", "warning"):
+                count = counts[vtype].get(severity, 0)
+                if count > 0:
+                    sev_emoji = "🔴" if severity == "error" else "🟡"
+                    lines.append(f"| {vtype} | {sev_emoji} {severity} | {count} |")
+        lines.append("")
+
+    lines.append(DRC_END)
+    return "\n".join(lines)
+
+
 def _build_validation_section(result: dict[str, object]) -> str:
     """Build the validation-summary markdown block."""
     lines = [
@@ -119,6 +205,10 @@ def update_readme(board_dir: Path) -> bool:
     if docs_dir.is_dir() and text.find(IMG_START) != -1:
         section = _build_images_section(board_dir.name, docs_dir)
         text = _replace_section(text, IMG_START, IMG_END, section)
+
+    if docs_dir.is_dir() and text.find(DRC_START) != -1:
+        section = _build_drc_section(board_dir.name, docs_dir)
+        text = _replace_section(text, DRC_START, DRC_END, section)
 
     if (board_dir / "checks.yml").exists() and text.find(VAL_START) != -1:
         result = validate_board(board_dir)

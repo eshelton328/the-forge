@@ -6870,7 +6870,7 @@
 			(uuid "3996de6e-8253-450e-85b7-1f9f2a5db29c")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR02")
 					(unit 1)
@@ -6952,7 +6952,7 @@
 			(uuid "bd5c1e4d-39ef-4542-a8e0-20f8770b1397")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R6")
 					(unit 1)
@@ -7029,7 +7029,7 @@
 			(uuid "b4e93990-ba50-459d-b022-a68d026c68b4")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR022")
 					(unit 1)
@@ -7111,7 +7111,7 @@
 			(uuid "4b4dff09-27e6-4e3a-a73b-81296890cab8")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "D2")
 					(unit 1)
@@ -7193,7 +7193,7 @@
 			(uuid "45490610-b4ac-4507-a67a-8a60e615fdfd")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "SW2")
 					(unit 1)
@@ -7392,7 +7392,7 @@
 			(uuid "ca9115c8-4a1d-4116-a0fc-f1cfe73327d1")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "U2")
 					(unit 1)
@@ -7470,7 +7470,7 @@
 			(uuid "e6cc286d-097f-4256-acd1-d97d435998a4")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR026")
 					(unit 1)
@@ -7547,7 +7547,7 @@
 			(uuid "2fb89389-8ef2-41ac-ba70-0e87a7e46109")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR013")
 					(unit 1)
@@ -7629,7 +7629,7 @@
 			(uuid "7b322655-90ca-4564-becf-e5c905e765bd")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C4")
 					(unit 1)
@@ -7711,7 +7711,7 @@
 			(uuid "6e034520-bce3-4a00-8aa6-91ca44158bd5")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R9")
 					(unit 1)
@@ -7791,7 +7791,7 @@
 			(uuid "607ae72b-4d0a-4dcb-aaa1-549758789740")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "SW1")
 					(unit 1)
@@ -7868,7 +7868,7 @@
 			(uuid "917d6e2d-32c6-4718-9f4f-6a434231378b")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR028")
 					(unit 1)
@@ -7945,7 +7945,7 @@
 			(uuid "fc76b22b-78cd-47aa-94eb-6dae166fcdba")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR016")
 					(unit 1)
@@ -8026,7 +8026,7 @@
 			(uuid "d2dedb80-72b5-436d-8b1c-940f77e31b50")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R3")
 					(unit 1)
@@ -8103,7 +8103,7 @@
 			(uuid "5143a997-a14c-4540-af74-5dafedc6eda5")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR017")
 					(unit 1)
@@ -8185,7 +8185,7 @@
 			(uuid "b83c8f9a-a080-495b-9bcc-389b5beb42e9")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R11")
 					(unit 1)
@@ -8267,7 +8267,7 @@
 			(uuid "449ec630-c864-49dd-aa00-79fadf301f8b")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "SW3")
 					(unit 1)
@@ -8349,7 +8349,7 @@
 			(uuid "018efb1c-2a28-4a75-b366-0340655cea1c")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R10")
 					(unit 1)
@@ -8445,7 +8445,7 @@
 			(uuid "3b9d4f37-2d4f-40c1-9ef7-6ca3ea587010")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "U3")
 					(unit 1)
@@ -8523,7 +8523,7 @@
 			(uuid "f09c85aa-f97c-47f1-bf11-f02cbe4ed164")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR024")
 					(unit 1)
@@ -8605,7 +8605,7 @@
 			(uuid "75d0cd5d-4655-483d-a23c-b8186f62225d")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C10")
 					(unit 1)
@@ -8683,7 +8683,7 @@
 			(uuid "caa013dc-ca5f-434e-9879-ea581d93504b")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR020")
 					(unit 1)
@@ -8765,7 +8765,7 @@
 			(uuid "7175bc24-56c6-4c9d-995f-8b94666e1f5c")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C9")
 					(unit 1)
@@ -8886,7 +8886,7 @@
 			(uuid "72b705b0-10e4-4200-ac75-f45449bd9c02")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "U1")
 					(unit 1)
@@ -8966,7 +8966,7 @@
 			(uuid "57d3f8a4-c089-4d4e-8fcb-69bfea340310")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "L1")
 					(unit 1)
@@ -9048,7 +9048,7 @@
 			(uuid "778e491b-00f8-4869-8b21-89a8715e4d93")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R1")
 					(unit 1)
@@ -9125,7 +9125,7 @@
 			(uuid "862a5b01-b5b0-466a-b6de-22c10cc2e0e1")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR05")
 					(unit 1)
@@ -9206,7 +9206,7 @@
 			(uuid "a8087962-710f-4a17-91ba-c64573bca238")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R7")
 					(unit 1)
@@ -9287,7 +9287,7 @@
 			(uuid "573b8de6-3049-4e34-982c-64ac3a284bd2")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C12")
 					(unit 1)
@@ -9406,7 +9406,7 @@
 			(uuid "03713008-29af-4e52-b5e3-272ba4b09d4a")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "J3")
 					(unit 1)
@@ -9483,7 +9483,7 @@
 			(uuid "d1d6de20-32ae-47bd-a724-23766402f971")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR08")
 					(unit 1)
@@ -9560,7 +9560,7 @@
 			(uuid "5ca8f129-aa3f-4163-a3a9-885cc4b9a570")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR04")
 					(unit 1)
@@ -9642,7 +9642,7 @@
 			(uuid "03760ee5-1855-4d7a-bf84-b3d027407055")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R4")
 					(unit 1)
@@ -9719,7 +9719,7 @@
 			(uuid "46c79986-1606-4ba9-8fcf-c5825191cf78")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR019")
 					(unit 1)
@@ -9797,7 +9797,7 @@
 			(uuid "8b1670d1-d445-48c5-9dcc-4f88bff02818")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR01")
 					(unit 1)
@@ -9874,7 +9874,7 @@
 			(uuid "e6b33508-aff1-431c-a063-c7705c19d702")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR03")
 					(unit 1)
@@ -9952,7 +9952,7 @@
 			(uuid "335f628b-af86-4824-8059-938c322e9ccf")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR011")
 					(unit 1)
@@ -10036,7 +10036,7 @@
 			(uuid "4cdb6000-a98a-4d97-a8d6-234dfc8f14fa")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "Q1")
 					(unit 1)
@@ -10129,7 +10129,7 @@
 			(uuid "3c035020-3b01-4eb8-ad0d-33e4d83e77c1")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "D3")
 					(unit 1)
@@ -10210,7 +10210,7 @@
 			(uuid "3f796da5-464b-4860-a992-d774457c4ef7")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C1")
 					(unit 1)
@@ -10287,7 +10287,7 @@
 			(uuid "e563fcaf-2e87-4e11-a3ee-44e4b11c8acc")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR029")
 					(unit 1)
@@ -10368,7 +10368,7 @@
 			(uuid "f92ab8f6-8494-4f58-9ad8-a7bd99a1823f")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C6")
 					(unit 1)
@@ -10489,7 +10489,7 @@
 			(uuid "edb33372-2c58-4c95-b897-9133a131bc94")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "J1")
 					(unit 1)
@@ -10571,7 +10571,7 @@
 			(uuid "12cc95dc-7726-4e4e-a44e-3665d6e4e4c4")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R2")
 					(unit 1)
@@ -10648,7 +10648,7 @@
 			(uuid "d097bdd4-9383-4045-98ed-24702ebab041")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR021")
 					(unit 1)
@@ -10725,7 +10725,7 @@
 			(uuid "2d7ac732-9dbc-4890-986f-c02aeb5dfd5c")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR09")
 					(unit 1)
@@ -10818,7 +10818,7 @@
 			(uuid "fd3ce579-bba8-4a94-a597-690a23c9122c")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "D1")
 					(unit 1)
@@ -10899,7 +10899,7 @@
 			(uuid "6116de6a-c2ae-440c-be4b-4c75442d8463")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R5")
 					(unit 1)
@@ -10976,7 +10976,7 @@
 			(uuid "316a70a4-81ae-4a56-82d9-df3ba64f0adc")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR018")
 					(unit 1)
@@ -11053,7 +11053,7 @@
 			(uuid "c218b6ed-4048-4315-a3c6-0fb6fca120bf")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR010")
 					(unit 1)
@@ -11134,7 +11134,7 @@
 			(uuid "ebe257c2-f2eb-4155-8cf0-306dee215020")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C11")
 					(unit 1)
@@ -11216,7 +11216,7 @@
 			(uuid "61d49723-e35b-476c-882b-b49259200f03")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R8")
 					(unit 1)
@@ -11293,7 +11293,7 @@
 			(uuid "b5268874-7297-4701-9cb8-b6f55659a313")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR014")
 					(unit 1)
@@ -11370,7 +11370,7 @@
 			(uuid "b9b3e762-98a5-4184-be90-b9ff4b6125a3")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR027")
 					(unit 1)
@@ -11447,7 +11447,7 @@
 			(uuid "f160a8a9-648f-47eb-a224-bc9c4b4c64a7")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR07")
 					(unit 1)
@@ -11528,7 +11528,7 @@
 			(uuid "aac2c51a-12ab-4593-a26c-dad19c7cebbc")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C5")
 					(unit 1)
@@ -11605,7 +11605,7 @@
 			(uuid "41cf3657-88f3-48b4-8132-db3f9fe84f29")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR015")
 					(unit 1)
@@ -11683,7 +11683,7 @@
 			(uuid "4309d2bb-5760-4173-87e3-61c24f809a13")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR025")
 					(unit 1)
@@ -11760,7 +11760,7 @@
 			(uuid "549cfc5b-afba-4b16-93e8-d59af7a4ff51")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR023")
 					(unit 1)
@@ -11841,7 +11841,7 @@
 			(uuid "523fda52-b055-4ff2-a194-e06229a91c11")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C2")
 					(unit 1)
@@ -11919,7 +11919,7 @@
 			(uuid "8a7eec4e-d8aa-45ec-9f7a-e585ea838306")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR012")
 					(unit 1)
@@ -12040,7 +12040,7 @@
 			(uuid "91055a2c-f2af-4279-88ca-8e6772ed9d8a")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "J2")
 					(unit 1)
@@ -12121,7 +12121,7 @@
 			(uuid "1ea2bf7b-c405-4f21-841e-3c59c4923392")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C7")
 					(unit 1)
@@ -12202,7 +12202,7 @@
 			(uuid "cbd5b401-6898-45ec-ab6c-814d69677a8a")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C8")
 					(unit 1)
@@ -12283,7 +12283,7 @@
 			(uuid "ce40f9a4-c55d-4d4e-a1f7-bc4634ab5693")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C3")
 					(unit 1)
@@ -12360,7 +12360,7 @@
 			(uuid "bae61e0b-7b82-4377-b510-294da8e14d27")
 		)
 		(instances
-			(project "s3-dev-board"
+			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR06")
 					(unit 1)

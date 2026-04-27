@@ -9,7 +9,7 @@ on:
       board:
         description: 'Board to generate files for'
         required: true
-        default: 's3-dev-board'
+        default: 'esp32s3-devkit'
 
 jobs:
   fab-files:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         board:
-          - s3-dev-board
+          - esp32s3-devkit
           - tps63070-breakout
     steps:
       - uses: actions/checkout@v4

@@ -486,7 +486,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "s3-dev-board.kicad_pro",
+    "filename": "esp32s3-devkit.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -653,8 +653,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "s3-dev-board.kicad_sch",
-        "name": "s3-dev-board",
+        "filename": "esp32s3-devkit.kicad_sch",
+        "name": "esp32s3-devkit",
         "uuid": "7924bd8b-2498-4d76-899d-c0ad5a514485"
       }
     ],
@@ -664,7 +664,7 @@
   "sheets": [
     [
       "7924bd8b-2498-4d76-899d-c0ad5a514485",
-      "s3-dev-board"
+      "esp32s3-devkit"
     ]
   ],
   "text_variables": {},

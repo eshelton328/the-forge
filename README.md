@@ -8,7 +8,7 @@ Hardware design monorepo for KiCad PCB projects with automated CI/CD.
 the-forge/
 ├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
-│   ├── s3-dev-board/        # ESP32-S3 development board
+│   ├── esp32s3-devkit/        # ESP32-S3 development board
 │   └── tps63070-breakout/   # TPS63070 buck-boost breakout
 ├── fab-rules/        # DRC rule templates per fab house
 ├── kibot/            # KiBot output generation configs
@@ -21,7 +21,7 @@ the-forge/
 
 | Board | Description | Layers | Status |
 |-------|-------------|--------|--------|
-| [s3-dev-board](boards/s3-dev-board/) | ESP32-S3-WROOM-1 dev board with TPS63070 buck-boost, USB-C | 4 | In Development |
+| [esp32s3-devkit](boards/esp32s3-devkit/) | ESP32-S3-WROOM-1 dev board with TPS63070 buck-boost, USB-C | 4 | In Development |
 | [tps63070-breakout](boards/tps63070-breakout/) | TPS63070 3.3V buck-boost breakout board | 2 | Migrated |
 
 ## CI/CD Pipeline
@@ -49,13 +49,13 @@ pip install kibot kikit       # Automation tools
 
 ### Running checks locally
 
-From the repository root, the **Makefile** is the usual entry point. **Each command checks one board** — the one named by `BOARD` (default: `s3-dev-board`). Nothing scans every board unless you ask for that explicitly.
+From the repository root, the **Makefile** is the usual entry point. **Each command checks one board** — the one named by `BOARD` (default: `esp32s3-devkit`). Nothing scans every board unless you ask for that explicitly.
 
 ```bash
 make help           # list targets
 make list-boards    # show board folder names you can pass as BOARD=...
 
-# Default single board (s3-dev-board)
+# Default single board (esp32s3-devkit)
 make check
 make drc
 
@@ -75,13 +75,13 @@ make check-all
 Raw commands (equivalent to the Makefile):
 
 ```bash
-kicad-cli sch erc --exit-code-violations --format json -o boards/s3-dev-board/erc.json \
-  boards/s3-dev-board/s3-dev-board.kicad_sch
+kicad-cli sch erc --exit-code-violations --format json -o boards/esp32s3-devkit/erc.json \
+  boards/esp32s3-devkit/esp32s3-devkit.kicad_sch
 
 kicad-cli pcb drc --exit-code-violations --refill-zones --schematic-parity --format json \
-  -o boards/s3-dev-board/drc-default.json boards/s3-dev-board/s3-dev-board.kicad_pcb
+  -o boards/esp32s3-devkit/drc-default.json boards/esp32s3-devkit/esp32s3-devkit.kicad_pcb
 
-./scripts/run-drc-all-fabs.sh boards/s3-dev-board
+./scripts/run-drc-all-fabs.sh boards/esp32s3-devkit
 ```
 
 ### Adding a new board

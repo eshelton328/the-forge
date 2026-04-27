@@ -1,4 +1,4 @@
-name: s3-dev-board
+name: esp32s3-devkit
 description: ESP32-S3-WROOM-1 development board with TPS63070 buck-boost and USB-C
 layers: 4
 copper_weight: 1oz

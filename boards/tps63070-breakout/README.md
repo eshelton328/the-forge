@@ -53,6 +53,9 @@ _Auto-generated on merge to main._
 
 <!-- board-images-end -->
 
+<!-- drc-summary-start -->
+<!-- drc-summary-end -->
+
 <!-- validation-summary-start -->
 ## Validation Summary
 

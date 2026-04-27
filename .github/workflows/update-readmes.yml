@@ -39,7 +39,7 @@ jobs:
       - name: Fetch needed 3D models
         run: bash scripts/ci/fetch-3d-models.sh .cache/3dmodels
 
-      - name: Generate board images
+      - name: Generate board images and run DRC/ERC
         run: |
           input_board="${{ inputs.board }}"
           if [ -n "$input_board" ]; then
@@ -50,7 +50,7 @@ jobs:
           for d in "${boards[@]}"; do
             board=$(basename "$d")
             test -f "$d/$board.kicad_pcb" || continue
-            echo "========== images: $board =========="
+            echo "========== $board =========="
             docker run --rm \
               --user "$(id -u):$(id -g)" \
               -e HOME=/workspace/.kicad-ci-home \
@@ -61,10 +61,20 @@ jobs:
               bash -c "
                 source /workspace/scripts/ci/setup-kicad-env.sh
                 bash /workspace/scripts/ci/generate-board-images.sh boards/$board
+                echo '--- ERC ---'
+                kicad-cli sch erc \
+                  --format json \
+                  -o boards/$board/docs/erc.json \
+                  boards/$board/$board.kicad_sch || true
+                echo '--- DRC ---'
+                kicad-cli pcb drc \
+                  --format json \
+                  -o boards/$board/docs/drc.json \
+                  boards/$board/$board.kicad_pcb || true
               "
           done
 
-      - name: Upload generated images
+      - name: Upload board artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: board-images
