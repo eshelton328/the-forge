@@ -7,7 +7,9 @@ Handles three fenced regions (delimited by HTML comment markers):
     Rebuilt from whichever image files exist in boards/<name>/docs/.
 
   <!-- drc-summary-start --> … <!-- drc-summary-end -->
-    Rebuilt from ERC/DRC JSON reports in boards/<name>/docs/.
+    Rebuilt from ERC/DRC JSON in boards/<name>/docs/. Format matches the PR
+    comment from scripts/ci/compose-kicad-report-comment.sh (summary table +
+    nested details, all violations listed).
 
   <!-- validation-summary-start --> … <!-- validation-summary-end -->
     Rebuilt by running validate_board.py against the board.
@@ -90,42 +92,131 @@ def _build_images_section(board_name: str, docs_dir: Path) -> str:
     return "\n".join(lines)
 
 
-def _parse_kicad_report(report_path: Path) -> dict[str, dict[str, int]]:
-    """Parse a KiCad ERC/DRC JSON report and return violation counts by type and severity."""
-    data = json.loads(report_path.read_text())
-    counts: dict[str, dict[str, int]] = {}
+def _load_json(path: Path) -> dict[str, object]:
+    return json.loads(path.read_text())
 
-    violations: list[dict[str, object]] = []
+
+def _erc_violations(data: dict[str, object]) -> list[dict[str, object]]:
+    out: list[dict[str, object]] = []
     for sheet in data.get("sheets", []):
-        violations.extend(sheet.get("violations", []))  # type: ignore[arg-type]
-    for v in data.get("violations", []):
-        violations.append(v)  # type: ignore[arg-type]
-
-    for v in violations:
-        vtype = str(v.get("type", "unknown"))
-        severity = str(v.get("severity", "warning"))
-        if vtype not in counts:
-            counts[vtype] = {"error": 0, "warning": 0}
-        counts[vtype][severity] = counts[vtype].get(severity, 0) + 1
-
-    return counts
+        if not isinstance(sheet, dict):
+            continue
+        out.extend(sheet.get("violations", []))  # type: ignore[arg-type]
+    return out
 
 
-def _severity_emoji(errors: int, warnings: int) -> str:
+def _drc_violation_lists(data: dict[str, object]) -> tuple[
+        list[dict[str, object]], list[dict[str, object]], list[dict[str, object]]]:
+    v = [x for x in (data.get("violations") or []) if isinstance(x, dict)]
+    s = [x for x in (data.get("schematic_parity") or []) if isinstance(x, dict)]
+    u = [x for x in (data.get("unconnected_items") or []) if isinstance(x, dict)]
+    return (v, s, u)  # type: ignore[return-value]
+
+
+def _count_severity(violations: list[dict[str, object]]) -> tuple[int, int]:
+    errors = sum(1 for v in violations if v.get("severity") == "error")
+    warnings = sum(1 for v in violations if v.get("severity") == "warning")
+    return (errors, warnings)
+
+
+def _format_counts(errors: int, warnings: int) -> str:
+    """Match scripts/ci/compose-kicad-report-comment.sh format_counts()."""
+    parts: list[str] = []
     if errors > 0:
-        return "🔴"
+        parts.append(
+            f"🔴 {errors} error{'' if errors == 1 else 's'}",
+        )
     if warnings > 0:
+        parts.append(
+            f"🟡 {warnings} warning{'' if warnings == 1 else 's'}",
+        )
+    if not parts:
+        return "✅"
+    return ", ".join(parts)
+
+
+def _icon_for_severity(severity: str) -> str:
+    if severity == "error":
+        return "🔴"
+    if severity == "warning":
         return "🟡"
-    return "✅"
+    return "⚪"
+
+
+def _grouped_type_blocks(violations: list[dict[str, object]]) -> list[str]:
+    """Same grouping as compose-kicad-report-comment.sh print_grouped (all items)."""
+    if not violations:
+        return []
+    from collections import defaultdict
+
+    by_type: dict[str, list[dict[str, object]]] = defaultdict(list)
+    for v in violations:
+        t = str(v.get("type", "unknown"))
+        by_type[t].append(v)
+
+    def sort_key(t: str) -> tuple:
+        g = by_type[t]
+        s0 = str(g[0].get("severity", "warning"))
+        err_first = 0 if s0 == "error" else 1
+        return (err_first, t)
+
+    out: list[str] = []
+    for t in sorted(by_type, key=sort_key):
+        group = by_type[t]
+        s0 = str(group[0].get("severity", "warning"))
+        icon = _icon_for_severity(s0)
+        n = len(group)
+        if n == 1:
+            w = "error" if s0 == "error" else "warning" if s0 == "warning" else s0
+        else:
+            w = "errors" if s0 == "error" else "warnings" if s0 == "warning" else f"{s0}s"
+        out += [
+            "<details>",
+            f"<summary>{icon} <b><code>{t}</code></b> — {n} {w}</summary>",
+            "",
+        ]
+        out.append(str(group[0].get("description", "")))
+        for v in group:
+            items = v.get("items")
+            if isinstance(items, list) and len(items) > 0:
+                parts = " / ".join(
+                    f"`{str(it.get('description', '(no details)'))}`"
+                    for it in items
+                    if isinstance(it, dict)
+                )
+                if parts:
+                    out.append(f"- {parts}")
+            else:
+                out.append(
+                    f"- `{str(v.get('description', '(no details)'))}`",
+                )
+        out += ["", "</details>", ""]
+    return out
+
+
+def _blockquote_block(lines: list[str]) -> list[str]:
+    return [f"> {line}" if line else ">" for line in lines]
+
+
+def _outer_details(title: str, counts: str, body_lines: list[str]) -> list[str]:
+    bq = _blockquote_block(body_lines)
+    return [
+        "<details>",
+        f"<summary><strong>{title}</strong> — {counts}</summary>",
+        "",
+        *bq,
+        "</details>",
+        "",
+    ]
 
 
 def _build_drc_section(board_name: str, docs_dir: Path) -> str:
-    """Build the DRC/ERC summary markdown block from JSON reports."""
-    lines = [
+    """Build DRC/ERC block matching PR comment format (compose-kicad-report-comment.sh)."""
+    lines: list[str] = [
         DRC_START,
         "## Design Rule Checks",
         "",
-        "_Auto-generated on merge to main._",
+        "_Same layout as the KiCad check summary on pull requests. Auto-generated on merge to main._",
         "",
     ]
 
@@ -133,38 +224,64 @@ def _build_drc_section(board_name: str, docs_dir: Path) -> str:
     drc_path = docs_dir / "drc.json"
 
     if not erc_path.exists() and not drc_path.exists():
-        lines += ["_No DRC/ERC reports available yet._", ""]
-        lines.append(DRC_END)
+        lines += ["_No DRC/ERC reports available yet._", "", DRC_END]
         return "\n".join(lines)
 
-    for label, path in [("ERC (Electrical Rules)", erc_path),
-                         ("DRC (Design Rules)", drc_path)]:
-        if not path.exists():
-            continue
-        counts = _parse_kicad_report(path)
-        total_errors = sum(c.get("error", 0) for c in counts.values())
-        total_warnings = sum(c.get("warning", 0) for c in counts.values())
-        emoji = _severity_emoji(total_errors, total_warnings)
+    # Summary table: | Check | Result |  (align with PR)
+    row_erc: str | None = None
+    row_drc: str | None = None
+    body_parts: list[str] = []
 
-        if total_errors == 0 and total_warnings == 0:
-            lines += [f"### {label} {emoji}", "", "No violations.", ""]
-            continue
+    if erc_path.exists():
+        data = _load_json(erc_path)
+        ev = _erc_violations(data)
+        e_ct, w_ct = _count_severity(ev)
+        total = e_ct + w_ct
+        row_erc = _format_counts(e_ct, w_ct)
+        if total > 0:
+            inner = _grouped_type_blocks(ev)
+            body_parts.extend(
+                _outer_details("ERC", row_erc, inner),
+            )
 
-        summary_parts: list[str] = []
-        if total_errors:
-            summary_parts.append(f"{total_errors} error{'s' if total_errors != 1 else ''}")
-        if total_warnings:
-            summary_parts.append(f"{total_warnings} warning{'s' if total_warnings != 1 else ''}")
-        lines += [f"### {label} {emoji} {', '.join(summary_parts)}", ""]
-        lines += ["| Violation | Severity | Count |",
-                   "|-----------|----------|-------|"]
-        for vtype in sorted(counts):
-            for severity in ("error", "warning"):
-                count = counts[vtype].get(severity, 0)
-                if count > 0:
-                    sev_emoji = "🔴" if severity == "error" else "🟡"
-                    lines.append(f"| {vtype} | {sev_emoji} {severity} | {count} |")
+    if drc_path.exists():
+        ddata = _load_json(drc_path)
+        dv, ds, du = _drc_violation_lists(ddata)
+        allv = list(dv) + list(ds) + list(du)
+        e_ct, w_ct = _count_severity(allv)
+        total = e_ct + w_ct
+        row_drc = _format_counts(e_ct, w_ct)
+        if total > 0:
+            inner2: list[str] = []
+            n_v, n_s, n_u = len(dv), len(ds), len(du)
+            if n_v > 0:
+                inner2.append(f"**Violations** ({n_v})")
+                inner2.append("")
+                inner2.extend(_grouped_type_blocks(dv))
+            if n_s > 0:
+                inner2.append(f"**Schematic parity** ({n_s})")
+                inner2.append("")
+                inner2.extend(_grouped_type_blocks(ds))
+            if n_u > 0:
+                inner2.append(f"**Unconnected items** ({n_u})")
+                inner2.append("")
+                inner2.extend(_grouped_type_blocks(du))
+            body_parts.extend(
+                _outer_details("DRC", row_drc, inner2),
+            )
+
+    if row_erc is not None or row_drc is not None:
+        lines += [
+            "| Check | Result |",
+            "|:------|:-------|",
+        ]
+        if row_erc is not None:
+            lines.append(f"| ERC | {row_erc} |")
+        if row_drc is not None:
+            lines.append(f"| DRC | {row_drc} |")
         lines.append("")
+
+    lines.extend(body_parts)
 
     lines.append(DRC_END)
     return "\n".join(lines)
