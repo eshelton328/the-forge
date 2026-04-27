@@ -2,6 +2,11 @@ name: Update Board READMEs
 
 on:
   workflow_dispatch:
+    inputs:
+      board:
+        description: "Board name (e.g. tps63070-breakout). Leave blank for all boards."
+        required: false
+        type: string
   push:
     branches: [main]
     paths:
@@ -36,7 +41,13 @@ jobs:
 
       - name: Generate board images
         run: |
-          for d in boards/*/; do
+          input_board="${{ inputs.board }}"
+          if [ -n "$input_board" ]; then
+            boards=("boards/$input_board")
+          else
+            boards=(boards/*/)
+          fi
+          for d in "${boards[@]}"; do
             board=$(basename "$d")
             test -f "$d/$board.kicad_pcb" || continue
             echo "========== images: $board =========="
@@ -83,7 +94,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Regenerate README sections
-        run: python scripts/ci/update-board-readmes.py
+        run: python scripts/ci/update-board-readmes.py ${{ inputs.board }}
 
       - name: Commit if changed
         run: |
