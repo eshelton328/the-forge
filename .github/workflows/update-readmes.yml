@@ -15,6 +15,7 @@ on:
       - "scripts/validate_board.py"
       - "scripts/ci/update-board-readmes.py"
       - "scripts/ci/generate-board-images.sh"
+      - "scripts/run-drc-all-fabs.sh"
 
 permissions:
   contents: write
@@ -71,6 +72,12 @@ jobs:
                   --format json \
                   -o boards/$board/docs/drc.json \
                   boards/$board/$board.kicad_pcb || true
+                echo '--- Fab DRC ---'
+                bash /workspace/scripts/run-drc-all-fabs.sh "boards/$board" || true
+                shopt -s nullglob
+                for f in boards/$board/drc-fab-*.json; do
+                  mv "$f" "boards/$board/docs/$(basename "$f")"
+                done
               "
           done
 
