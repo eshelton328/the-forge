@@ -219,7 +219,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/9fc800b8-b3db-4ab0-aaab-3fb959361c0a")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -424,7 +424,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/82719c64-0bc4-42d2-b5ee-427bd85b2072")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -578,7 +578,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b8644c70-d906-497e-9033-2126bf964492")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -720,7 +720,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/ed1ead2b-96c2-4ea9-863b-9bb9c2c0aa6a")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -1148,7 +1148,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/da7d5282-53c3-4530-b785-9421b888fb41")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1302,7 +1302,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/ca4ba52f-fe2e-4706-8b80-df2159e8d636")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1446,7 +1446,7 @@
 		(property ki_fp_filters "RNM0015A")
 		(path "/651337ce-53d5-4884-92cc-ce23b6278bde")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2045,7 +2045,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/4973b648-5d56-4ba7-bea1-49033f65709e")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2199,7 +2199,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/fae79d62-bd61-4d61-b20a-863572dc7f96")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2351,7 +2351,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/74d50bb9-0dc8-4ecf-b6af-ecd9d4ba30c6")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2509,7 +2509,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/7a548c21-8f58-49db-bf70-784bb3abe88e")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -2669,7 +2669,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/3cb8b7c5-40c3-4dfa-bcc1-56934be55ccf")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2815,7 +2815,7 @@
 		(property ki_fp_filters "ESP32?S3?WROOM?1*")
 		(path "/10b29a24-a192-4e4c-98b6-7f117a091698")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -3743,7 +3743,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/b5f6f5d2-6ac7-4199-8c82-9d7583c8b817")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4171,7 +4171,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/5f0ce6d7-670a-41c6-9b2c-eac8d60e34f2")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -4323,7 +4323,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/441a659d-c74b-41c6-85d2-f2d90a2eb7c8")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4483,7 +4483,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/c3bef4b4-d790-43e6-a0b8-dd963e04b371")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -4635,7 +4635,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/4e5443ac-ce19-49d5-9312-e26309ad6ac0")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -4999,7 +4999,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ec5e6ba7-ce89-4cc0-8872-080cbcf4c105")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -5142,7 +5142,7 @@
 		)
 		(path "/0f5f500c-c0c9-4af4-9880-bdda8d2edee7")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -5729,7 +5729,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/2a0dbaa0-49cf-4036-9056-aae27f4cfc19")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -5883,7 +5883,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/7173d53e-7f13-43ff-8779-4bc975e4aae4")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6037,7 +6037,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/073f6ca6-a7ea-49f0-8042-93a623d5993b")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6191,7 +6191,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/a8b58ec6-8dcf-4dba-b238-886bd8422dba")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6345,7 +6345,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/f123e129-5fc1-43a2-89bd-f24892e8f875")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6496,7 +6496,7 @@
 		)
 		(path "/9db1a3d4-03ba-400b-9ccd-ae51eee4bd57")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -6880,7 +6880,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/3104108f-5222-4c7c-b57b-2f16ef51328c")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7034,7 +7034,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/b2d2d06e-2cde-40b0-9b71-a60607d2500c")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7189,7 +7189,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/c2670ed0-605b-4cef-bb1d-c3f3b00041fa")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7394,7 +7394,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/c7d7008f-3bf1-4361-9789-da93e76c6820")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7548,7 +7548,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/f529aa88-c176-4d90-8852-bd6fb83e0c5b")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7692,7 +7692,7 @@
 		(property ki_fp_filters "TO-???* *_Diode_* *SingleDiode* D_*")
 		(path "/0a61737b-b65d-4f41-a733-9a252ec3ed50")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -7971,7 +7971,7 @@
 		)
 		(path "/456b3f2d-9131-4960-8c06-2f8ffacb21fa")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8558,7 +8558,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/59bca926-76da-4d35-b327-8d5195d3cf33")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -8698,7 +8698,7 @@
 		(property ki_fp_filters "Choke_* *Coil* Inductor_* L_*")
 		(path "/685ffbf7-b8a2-44fe-991f-63db643a412d")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -8870,7 +8870,7 @@
 			(uuid "643041d3-8009-41c6-b437-ce01604fe022")
 		)
 		(embedded_fonts no)
-		(model "/Users/erik/Workspaces/Electronics/s3-dev-board/footprints/TPS63070.pretty/XFL4020-152MEC.step"
+		(model "/Users/erik/Workspaces/Electronics/esp32s3-devkit/footprints/TPS63070.pretty/XFL4020-152MEC.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -8938,7 +8938,7 @@
 		)
 		(path "/33a8b58e-1143-4b71-b8b0-86b97483a75c")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(units
 			(unit
 				(name "A")
@@ -9246,7 +9246,7 @@
 		(property ki_fp_filters "USB*C*Receptacle*")
 		(path "/7aeeb542-8ff8-4cc2-adec-48d0d55b553e")
 		(sheetname "/")
-		(sheetfile "s3-dev-board.kicad_sch")
+		(sheetfile "esp32s3-devkit.kicad_sch")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line

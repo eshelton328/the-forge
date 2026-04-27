@@ -6,14 +6,14 @@
 # (Second form: second word = board name; also works for erc, fab-drc, check, clean.)
 # Nothing loops all boards unless you use `make check-all`.
 
-DEFAULT_BOARD     := s3-dev-board
+DEFAULT_BOARD     := esp32s3-devkit
 MAKE_GOAL_1       := $(word 1,$(MAKECMDGOALS))
 MAKE_GOAL_2       := $(word 2,$(MAKECMDGOALS))
 BOARD_TAKES_GOAL2 := erc drc fab-drc check clean validate board-images
 
 ifeq ($(words $(MAKECMDGOALS)),2)
   ifneq ($(filter $(MAKE_GOAL_1),$(BOARD_TAKES_GOAL2)),)
-    # `make drc s3-dev-board` — second "target" is really the board name
+    # `make drc esp32s3-devkit` — second "target" is really the board name
     override BOARD := $(MAKE_GOAL_2)
     BOARD_NOOP     := $(MAKE_GOAL_2)
   endif
