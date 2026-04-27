@@ -23,8 +23,9 @@ Development board built around the [ESP32-S3-WROOM-1](https://www.espressif.com/
 | J2, J3 | Conn_01x16 | GPIO breakout headers |
 | L1 | 1.5µH | Buck-boost inductor |
 | Q1 | P-MOSFET | Power path control |
-| SW1 | Push | Boot button |
-| SW2 | SPST | On/Off switch |
+| SW1 | ON/OFF | SPST — main power switch |
+| SW2 | RESET | Push — ESP32 reset |
+| SW3 | BOOT | Push — boot / download mode |
 | LED1, LED2 | LED | Status indicators |
 
 <!-- board-images-start -->
