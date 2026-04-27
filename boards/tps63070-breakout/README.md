@@ -36,6 +36,28 @@ The output voltage is set by the feedback resistor divider (R2/R3): `V_OUT = V_R
 | 3.3V | 470kΩ | 150kΩ | Default configuration |
 | 5V | — | — | Planned ([#4](https://github.com/eshelton328/the-forge/issues/4)) |
 
+<!-- board-images-start -->
+## Board Images
+
+_Auto-generated on merge to main. Run `make board-images tps63070-breakout` to regenerate locally._
+
+### Schematic
+
+![Schematic](docs/schematic.svg)
+
+### PCB Layout
+
+| Front Copper | Back Copper | All Layers |
+|:---:|:---:|:---:|
+| ![F.Cu](docs/pcb-F_Cu.svg) | ![B.Cu](docs/pcb-B_Cu.svg) | ![All](docs/pcb-all-layers.svg) |
+
+### 3D Render
+
+| Front | Back |
+|:---:|:---:|
+| ![Front](docs/3d-front.png) | ![Back](docs/3d-back.png) |
+<!-- board-images-end -->
+
 <!-- validation-summary-start -->
 ## Validation Summary
 

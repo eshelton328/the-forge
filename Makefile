@@ -9,7 +9,7 @@
 DEFAULT_BOARD     := s3-dev-board
 MAKE_GOAL_1       := $(word 1,$(MAKECMDGOALS))
 MAKE_GOAL_2       := $(word 2,$(MAKECMDGOALS))
-BOARD_TAKES_GOAL2 := erc drc fab-drc check clean validate
+BOARD_TAKES_GOAL2 := erc drc fab-drc check clean validate board-images
 
 ifeq ($(words $(MAKECMDGOALS)),2)
   ifneq ($(filter $(MAKE_GOAL_1),$(BOARD_TAKES_GOAL2)),)
@@ -47,7 +47,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -60,6 +60,7 @@ help:
 	@echo "  make versions"
 	@echo "  make validate         Board-level checks (checks.yml)"
 	@echo "  make validate-all     Run \`make validate\` for every board"
+	@echo "  make board-images     Generate docs/ images (schematic, PCB, 3D)"
 	@echo "  make update-readmes   Regenerate validation summaries in board READMEs"
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo ""
@@ -117,6 +118,9 @@ validate-all:
 		python3 scripts/validate_board.py "$$d"; \
 	done; \
 	echo "validate-all: all boards passed."
+
+board-images:
+	bash scripts/ci/generate-board-images.sh $(BOARD_DIR)
 
 update-readmes:
 	python3 scripts/ci/update-board-readmes.py
