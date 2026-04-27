@@ -54,6 +54,18 @@ _Auto-generated on merge to main._
 <!-- board-images-end -->
 
 <!-- drc-summary-start -->
+## Design Rule Checks
+
+_Auto-generated on merge to main._
+
+### ERC (Electrical Rules) ✅
+
+No violations.
+
+### DRC (Design Rules) ✅
+
+No violations.
+
 <!-- drc-summary-end -->
 
 <!-- validation-summary-start -->

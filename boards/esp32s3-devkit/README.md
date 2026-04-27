@@ -46,6 +46,27 @@ _Auto-generated on merge to main._
 <!-- board-images-end -->
 
 <!-- drc-summary-start -->
+## Design Rule Checks
+
+_Auto-generated on merge to main._
+
+### ERC (Electrical Rules) 🔴 3 errors, 4 warnings
+
+| Violation | Severity | Count |
+|-----------|----------|-------|
+| lib_symbol_mismatch | 🟡 warning | 1 |
+| pin_to_pin | 🟡 warning | 3 |
+| power_pin_not_driven | 🔴 error | 3 |
+
+### DRC (Design Rules) 🔴 8 errors, 4 warnings
+
+| Violation | Severity | Count |
+|-----------|----------|-------|
+| clearance | 🔴 error | 7 |
+| hole_clearance | 🔴 error | 1 |
+| lib_footprint_mismatch | 🟡 warning | 2 |
+| silk_edge_clearance | 🟡 warning | 2 |
+
 <!-- drc-summary-end -->
 
 ## Status
