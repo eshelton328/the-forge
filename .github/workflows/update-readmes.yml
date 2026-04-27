@@ -23,15 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Fetch needed 3D models
-        run: bash scripts/ci/fetch-3d-models.sh .cache/3dmodels
-
       - name: Cache 3D models
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4
         with:
           path: .cache/3dmodels
           key: kicad-3dmodels-${{ hashFiles('boards/**/*.kicad_pcb') }}
           restore-keys: kicad-3dmodels-
+
+      - name: Fetch needed 3D models
+        run: bash scripts/ci/fetch-3d-models.sh .cache/3dmodels
 
       - name: Generate board images
         run: |

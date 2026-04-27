@@ -37,7 +37,8 @@ downloaded=0
 skipped=0
 failed=0
 
-for file in $needed_files; do
+while IFS= read -r file; do
+  [ -z "$file" ] && continue
   lib_dir=$(dirname "$file")
   dest="$TARGET/$file"
   mkdir -p "$TARGET/$lib_dir"
@@ -56,7 +57,7 @@ for file in $needed_files; do
     rm -f "$dest"
     failed=$((failed + 1))
   fi
-done
+done <<< "$needed_files"
 
 echo ""
 echo "Done: $downloaded downloaded, $skipped cached, $failed failed"
