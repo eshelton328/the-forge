@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Run ngspice against a sim.yml + netlist; write report; exit non-zero on limit fail.
 
-Issue #44 — fixture-backed loop (no KiCad).
+Supports either a single ``netlist:`` path or ``assembly:`` (main + optional includes + mandatory
+``sim/overlay.cir``) per issue #45 — assembled deck is written to ``sim/assembled.cir`` before run.
 
 Usage:
   python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml
-  python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml --report /tmp/out.md
+  python3 scripts/sim/run_sim.py --config boards/tps63070-breakout/sim.yml --report /tmp/out.md
 
 Exit codes: 0 = all limits pass, 1 = limit fail or simulator error, 2 = usage/config error.
 """
@@ -23,6 +24,7 @@ if str(_REPO_ROOT) not in sys.path:
 
 import yaml
 
+from scripts.sim.assemble import write_assembled_deck
 from scripts.sim.config import SimConfig, load_sim_config
 from scripts.sim.measure_parse import (
     check_limits,
@@ -54,6 +56,9 @@ def run_flow(config_path: Path, report_path: Path | None, ngspice_override: str 
     except FileNotFoundError as e:
         print(str(e), file=sys.stderr)
         return 2
+
+    if cfg.assembly is not None:
+        write_assembled_deck(cfg.config_dir, cfg.assembly, cfg.netlist_path)
 
     ver = read_ngspice_version(ngspice_exe)
     sim = run_batch(ngspice_exe, cfg.netlist_path)

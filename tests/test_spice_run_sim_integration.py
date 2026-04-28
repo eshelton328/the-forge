@@ -13,6 +13,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RUN_SIM = REPO_ROOT / "scripts" / "sim" / "run_sim.py"
 SMOKE_YML = REPO_ROOT / "sim" / "fixtures" / "rc_divider" / "sim.yml"
+BOARD_SIM_YML = REPO_ROOT / "boards" / "tps63070-breakout" / "sim.yml"
 SIM_ENV_PATH = "/opt/homebrew/bin:/usr/local/bin"
 
 
@@ -81,3 +82,30 @@ def test_run_sim_fails_when_limit_tight(tmp_path: Path) -> None:
         env=_ngspice_env(),
     )
     assert proc.returncode == 1, proc.stderr + proc.stdout
+
+
+@needs_ngspice
+def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
+    report = tmp_path / "report.md"
+    proc = subprocess.run(
+        [
+            sys.executable,
+            str(RUN_SIM),
+            "--config",
+            str(BOARD_SIM_YML),
+            "--report",
+            str(report),
+        ],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+        env=_ngspice_env(),
+    )
+    assert proc.returncode == 0, proc.stderr + proc.stdout
+    text = report.read_text()
+    assert "PASS" in text
+    assert "v_n2" in text
+    assembled = BOARD_SIM_YML.parent / "sim" / "assembled.cir"
+    assert assembled.is_file()
+    assert "overlay.cir" in assembled.read_text()

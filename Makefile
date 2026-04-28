@@ -47,7 +47,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture sim-board
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -64,6 +64,7 @@ help:
 	@echo "  make update-readmes   Regenerate validation summaries in board READMEs"
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo "  make sim-fixture      Run ngspice smoke (sim/fixtures/rc_divider) — requires ngspice on PATH"
+	@echo "  make sim-board        Run ngspice on boards/tps63070-breakout (assembled deck) — requires ngspice"
 	@echo ""
 	@echo "  Choose the board in either way:"
 	@echo "    make drc BOARD=name"
@@ -135,6 +136,14 @@ sim-fixture:
 	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
 	python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml --report sim/fixtures/rc_divider/spice-report.md
 	@echo OK: Spice fixture report written to sim/fixtures/rc_divider/spice-report.md
+
+sim-board:
+	@PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
+	command -v ngspice >/dev/null 2>&1 || \
+	{ echo "ngspice not found — brew install ngspice or set NGSPICE=/path/to/ngspice"; exit 1; }; \
+	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
+	python3 scripts/sim/run_sim.py --config boards/tps63070-breakout/sim.yml --report boards/tps63070-breakout/docs/spice-report.md
+	@echo OK: Board spice report written to boards/tps63070-breakout/docs/spice-report.md
 
 check-all:
 	@set -e; for d in boards/*/; do \

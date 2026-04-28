@@ -1,0 +1,9 @@
+* Board smoke main netlist (placeholder until KiCad SPICE export — issue #46).
+* Same RC divider as sim/fixtures/rc_divider for assembled-deck integration.
+
+.title tps63070_breakout_sim_main
+V1 1 0 DC 10
+R1 1 2 1k
+R2 2 0 1k
+.op
+.end

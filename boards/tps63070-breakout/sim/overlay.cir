@@ -1,0 +1,2 @@
+* Board overlay — always included after main by the assembler (issue #45).
+* Stub: comments only; extend with stimulus / probes / tweaks per design.
