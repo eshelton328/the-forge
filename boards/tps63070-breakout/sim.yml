@@ -3,13 +3,13 @@ spec_version: 1
 spice_engine: ngspice
 
 assembly:
-  main: sim/main.cir
+  main: sim/kicad_export.cir
   includes: []
 
 scenarios:
-  - id: divider_op
+  - id: vin_bias_op
     measures:
-      - id: v_n2
-        op_node: "2"
-        min: 4.99
-        max: 5.01
+      - id: v_vin
+        op_node: "/VIN_2v_to_16v"
+        min: 9.99
+        max: 10.01

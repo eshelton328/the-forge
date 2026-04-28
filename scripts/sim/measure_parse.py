@@ -6,18 +6,37 @@ import re
 
 
 def parse_dc_op_node_voltage(log_text: str, node: str) -> float | None:
-    """Read V(node) from ngspice DC operating-point listing (tabular output).
+    """Read a node voltage from ngspice DC operating-point listing.
 
-    Matches lines like ``V(2)                             5.000000e+00`` which
-    ngspice prints when ``.op`` runs. ``node`` is the numeric net label inside ().
+    Handles:
+
+    - Numeric nets: ``V(2) …`` (batch output)
+    - Named nets inside ``V()`` if ngspice prints them that way
+    - KiCad-style power nets: ``/vin_2v_to_16v …`` (ngspice lowercases; leading ``/`` optional in ``node``)
     """
     if not node.strip():
         return None
+    target = node.strip().lower()
+    variants: set[str] = {target}
+    if target.startswith("/"):
+        variants.add(target[1:])
+    else:
+        variants.add(f"/{target}")
+
     for m in re.finditer(
-        r"(?im)^\s*[Vv]\(\s*(\d+)\s*\)\s+([\d.eE+-]+)\s*$",
+        r"(?im)^\s*[Vv]\(\s*([^)]+?)\s*\)\s+([\d.eE+-]+)\s*$",
         log_text,
     ):
-        if m.group(1) == node.strip():
+        raw = m.group(1).strip().lower()
+        if raw in variants:
+            return float(m.group(2))
+
+    for m in re.finditer(
+        r"(?im)^\s*([a-z_/][a-z0-9_/]*)\s+([\d.eE+-]+)\s*$",
+        log_text,
+    ):
+        raw = m.group(1).strip().lower()
+        if raw in variants:
             return float(m.group(2))
     return None
 

@@ -55,6 +55,9 @@ sim/fixtures/**/spice-report.md
 # Assembled SPICE decks (scripts/sim/assemble.py)
 boards/**/sim/assembled.cir
 
+# KiCad → SPICE export consumed by assembly (scripts/sim/export_kicad_spice.py)
+boards/**/sim/kicad_export.cir
+
 # Generated board SPICE reports (make sim-board / run_sim.py)
 boards/**/docs/spice-report.md
 
