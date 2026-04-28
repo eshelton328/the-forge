@@ -49,5 +49,11 @@ boards/**/*.kicad_dru
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/
 
+# ngspice fixture reports (scripts/sim/run_sim.py)
+sim/fixtures/**/spice-report.md
+
+# Local issue body scratch files (optional)
+sim/issue-bodies/
+
 # Local cache (3D models, etc.)
 .cache/

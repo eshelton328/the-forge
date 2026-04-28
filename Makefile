@@ -47,7 +47,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -63,6 +63,7 @@ help:
 	@echo "  make board-images     Generate docs/ images (schematic, PCB, 3D)"
 	@echo "  make update-readmes   Regenerate validation summaries in board READMEs"
 	@echo "  make check-all        Run \`make check\` for every board"
+	@echo "  make sim-fixture      Run ngspice smoke (sim/fixtures/rc_divider) — requires ngspice on PATH"
 	@echo ""
 	@echo "  Choose the board in either way:"
 	@echo "    make drc BOARD=name"
@@ -126,6 +127,15 @@ update-readmes:
 	python3 scripts/ci/update-board-readmes.py
 
 # Run the full check sequence for each subdirectory of boards/ (for release prep / CI-like local runs)
+# Homebrew dirs are prepended — `make` often runs with a minimal PATH (no `/opt/homebrew/bin`).
+sim-fixture:
+	@PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
+	command -v ngspice >/dev/null 2>&1 || \
+	{ echo "ngspice not found — brew install ngspice or set NGSPICE=/path/to/ngspice"; exit 1; }; \
+	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
+	python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml --report sim/fixtures/rc_divider/spice-report.md
+	@echo OK: Spice fixture report written to sim/fixtures/rc_divider/spice-report.md
+
 check-all:
 	@set -e; for d in boards/*/; do \
 		b=$$(basename "$$d"); \

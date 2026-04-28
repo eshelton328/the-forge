@@ -1,0 +1,9 @@
+* Spice smoke fixture — resistive divider (DC OP). Node 2 sits at 5 V.
+* Used by scripts/sim/run_sim.py acceptance tests (issue #44).
+
+.title rc_divider_fixture
+V1 1 0 DC 10
+R1 1 2 1k
+R2 2 0 1k
+.op
+.end
