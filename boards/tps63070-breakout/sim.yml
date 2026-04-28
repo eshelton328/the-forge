@@ -1,0 +1,15 @@
+# Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
+spec_version: 1
+spice_engine: ngspice
+
+assembly:
+  main: sim/main.cir
+  includes: []
+
+scenarios:
+  - id: divider_op
+    measures:
+      - id: v_n2
+        op_node: "2"
+        min: 4.99
+        max: 5.01

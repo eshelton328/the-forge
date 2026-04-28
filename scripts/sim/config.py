@@ -8,6 +8,8 @@ from typing import Any
 
 import yaml
 
+from scripts.sim.assemble import ASSEMBLED_REL, OVERLAY_REL, AssemblySpec
+
 
 @dataclass(frozen=True)
 class MeasureSpec:
@@ -36,6 +38,7 @@ class SimConfig:
     netlist_path: Path
     config_dir: Path
     scenarios: tuple[ScenarioSpec, ...]
+    assembly: AssemblySpec | None
 
 
 def _require_mapping(data: Any, context: str) -> dict[str, Any]:
@@ -76,6 +79,37 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
     return tuple(measures)
 
 
+def _parse_assembly(root: dict[str, Any], cfg_dir: Path) -> AssemblySpec:
+    asm = root.get("assembly")
+    if asm is None:
+        raise ValueError("assembly block missing")
+    am = _require_mapping(asm, "assembly")
+    main_raw = am.get("main")
+    if not isinstance(main_raw, str) or not main_raw.strip():
+        raise ValueError("assembly.main must be a non-empty string path relative to sim.yml")
+    inc_raw = am.get("includes", [])
+    if inc_raw is None:
+        inc_raw = []
+    if not isinstance(inc_raw, list):
+        raise ValueError("assembly.includes must be a list when present")
+    includes_out: list[str] = []
+    for i, item in enumerate(inc_raw):
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(f"assembly.includes[{i}] must be a non-empty string")
+        includes_out.append(item.strip())
+    main_path = (cfg_dir / main_raw.strip()).resolve()
+    if not main_path.is_file():
+        raise ValueError(f"assembly.main not found: {main_path}")
+    overlay_path = (cfg_dir / OVERLAY_REL).resolve()
+    if not overlay_path.is_file():
+        raise ValueError(f"overlay required at {overlay_path}")
+    for i, rel in enumerate(includes_out):
+        p = (cfg_dir / rel).resolve()
+        if not p.is_file():
+            raise ValueError(f"assembly.includes[{i}] not found: {p}")
+    return AssemblySpec(main_rel=main_raw.strip(), includes_rel=tuple(includes_out))
+
+
 def load_sim_config(config_path: Path) -> SimConfig:
     """Parse sim.yml next to fixtures or boards."""
     raw = yaml.safe_load(config_path.read_text())
@@ -88,13 +122,28 @@ def load_sim_config(config_path: Path) -> SimConfig:
     if engine != "ngspice":
         raise ValueError("spice_engine must be 'ngspice' for now")
 
-    net_rel = root.get("netlist")
-    if not isinstance(net_rel, str) or not net_rel.strip():
-        raise ValueError("netlist must be a non-empty string path relative to the config file")
     cfg_dir = config_path.parent.resolve()
-    net_path = (cfg_dir / net_rel.strip()).resolve()
-    if not net_path.exists():
-        raise ValueError(f"netlist not found: {net_path}")
+    net_rel = root.get("netlist")
+    has_net = isinstance(net_rel, str) and bool(net_rel.strip())
+    has_asm = root.get("assembly") is not None
+
+    if has_net and has_asm:
+        raise ValueError("use either netlist or assembly, not both")
+    if not has_net and not has_asm:
+        raise ValueError("need netlist (single deck) or assembly (include chain)")
+
+    assembly_spec: AssemblySpec | None = None
+    net_path: Path
+    if has_asm:
+        assembly_spec = _parse_assembly(root, cfg_dir)
+        net_path = (cfg_dir / ASSEMBLED_REL).resolve()
+    else:
+        netlist_str = root.get("netlist")
+        if not isinstance(netlist_str, str) or not netlist_str.strip():
+            raise ValueError("netlist must be a non-empty string path relative to the config file")
+        net_path = (cfg_dir / netlist_str.strip()).resolve()
+        if not net_path.is_file():
+            raise ValueError(f"netlist not found: {net_path}")
 
     scenarios_raw = root.get("scenarios")
     if not isinstance(scenarios_raw, list) or not scenarios_raw:
@@ -122,4 +171,5 @@ def load_sim_config(config_path: Path) -> SimConfig:
         netlist_path=net_path,
         config_dir=cfg_dir,
         scenarios=tuple(scenarios_out),
+        assembly=assembly_spec,
     )

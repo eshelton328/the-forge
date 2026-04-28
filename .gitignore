@@ -52,6 +52,12 @@ boards/**/*.kicad_dru
 # ngspice fixture reports (scripts/sim/run_sim.py)
 sim/fixtures/**/spice-report.md
 
+# Assembled SPICE decks (scripts/sim/assemble.py)
+boards/**/sim/assembled.cir
+
+# Generated board SPICE reports (make sim-board / run_sim.py)
+boards/**/docs/spice-report.md
+
 # Local issue body scratch files (optional)
 sim/issue-bodies/
 
