@@ -1,0 +1,14 @@
+Circuit: rc_divider_fixture
+
+Doing analysis at TEMP = 25.000000 and TNOM = 25.000000
+
+Using SPARSE  Direct Linear Solver
+
+
+No. of Data Rows : 1
+
+Measurements for DC analysis
+
+DC measurement: v_n2
+
+v_n2 = 5e+00
