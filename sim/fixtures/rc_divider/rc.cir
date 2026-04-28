@@ -6,5 +6,4 @@ V1 1 0 DC 10
 R1 1 2 1k
 R2 2 0 1k
 .op
-.measure dc v_n2 FIND v(2)
 .end

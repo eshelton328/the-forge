@@ -20,4 +20,6 @@ def test_load_rc_fixture_config() -> None:
     assert len(cfg.scenarios) == 1
     assert cfg.scenarios[0].identifier == "divider_op"
     assert len(cfg.scenarios[0].measures) == 1
-    assert cfg.scenarios[0].measures[0].identifier == "v_n2"
+    m0 = cfg.scenarios[0].measures[0]
+    assert m0.identifier == "v_n2"
+    assert m0.op_node == "2"

@@ -1,6 +1,6 @@
 # Simulation CI — design for scale
 
-**Implemented (issue [#44](https://github.com/eshelton328/the-forge/issues/44)):** Fixture-only runner — `scripts/sim/run_sim.py` reads `sim.yml`, runs `ngspice -b` on a `.cir` netlist, checks `.measure` lines against YAML bounds, writes `spice-report.md`. Example: `sim/fixtures/rc_divider/` and `make sim-fixture`.
+**Implemented (issue [#44](https://github.com/eshelton328/the-forge/issues/44)):** Fixture-only runner — `scripts/sim/run_sim.py` reads `sim.yml`, runs `ngspice -b` on a `.cir` netlist, checks limits against either **`.`measure`** output lines (`measure_id=value`) **or** DC **OP table** voltages (`op_node`). Example: `sim/fixtures/rc_divider/` and **`make sim-fixture`**. **`make`** runs with a **minimal PATH** — the Makefile prepends `/opt/homebrew/bin` so Homebrew **`ngspice`** is visible after `brew install ngspice`.
 
 This repo already scales **hardware checks** like this:
 

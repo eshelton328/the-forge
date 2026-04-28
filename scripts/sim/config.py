@@ -16,6 +16,7 @@ class MeasureSpec:
     identifier: str
     min_value: float | None
     max_value: float | None
+    op_node: str | None
 
 
 @dataclass(frozen=True)
@@ -58,7 +59,20 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
         max_f: float | None = float(max_v) if max_v is not None else None
         if min_f is None and max_f is None:
             raise ValueError(f"{context}[{i}] needs at least one of min / max")
-        measures.append(MeasureSpec(identifier=ident.strip(), min_value=min_f, max_value=max_f))
+        raw_op = m.get("op_node")
+        op_node_val: str | None = (
+            raw_op.strip()
+            if isinstance(raw_op, str) and raw_op.strip()
+            else None
+        )
+        measures.append(
+            MeasureSpec(
+                identifier=ident.strip(),
+                min_value=min_f,
+                max_value=max_f,
+                op_node=op_node_val,
+            ),
+        )
     return tuple(measures)
 
 

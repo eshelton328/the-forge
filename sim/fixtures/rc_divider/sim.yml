@@ -8,6 +8,9 @@ netlist: rc.cir
 scenarios:
   - id: divider_op
     measures:
+      # ngspice batch often prints DC OP table (V(N)=…) but not `.measure`= lines;
+      # use op_node to read the operating-point voltage for that numbered node.
       - id: v_n2
+        op_node: "2"
         min: 4.99
         max: 5.01

@@ -5,6 +5,23 @@ from __future__ import annotations
 import re
 
 
+def parse_dc_op_node_voltage(log_text: str, node: str) -> float | None:
+    """Read V(node) from ngspice DC operating-point listing (tabular output).
+
+    Matches lines like ``V(2)                             5.000000e+00`` which
+    ngspice prints when ``.op`` runs. ``node`` is the numeric net label inside ().
+    """
+    if not node.strip():
+        return None
+    for m in re.finditer(
+        r"(?im)^\s*[Vv]\(\s*(\d+)\s*\)\s+([\d.eE+-]+)\s*$",
+        log_text,
+    ):
+        if m.group(1) == node.strip():
+            return float(m.group(2))
+    return None
+
+
 def parse_measure_value(log_text: str, measure_id: str) -> float | None:
     """Extract numeric value for a .measure name from combined ngspice output.
 

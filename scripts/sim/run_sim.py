@@ -24,7 +24,11 @@ if str(_REPO_ROOT) not in sys.path:
 import yaml
 
 from scripts.sim.config import SimConfig, load_sim_config
-from scripts.sim.measure_parse import check_limits, parse_measure_value
+from scripts.sim.measure_parse import (
+    check_limits,
+    parse_dc_op_node_voltage,
+    parse_measure_value,
+)
 from scripts.sim.ngspice_runner import ngspice_binary, read_ngspice_version, run_batch
 from scripts.sim.report_md import MeasureRowResult, render_report
 
@@ -60,7 +64,20 @@ def run_flow(config_path: Path, report_path: Path | None, ngspice_override: str 
 
     for scenario in cfg.scenarios:
         for m in scenario.measures:
-            raw_val = parse_measure_value(combined, m.identifier)
+            if m.op_node is not None:
+                raw_val = parse_dc_op_node_voltage(combined, m.op_node)
+                missing_reason = (
+                    f"DC OP voltage V({m.op_node}) not found in ngspice output"
+                    if raw_val is None
+                    else None
+                )
+            else:
+                raw_val = parse_measure_value(combined, m.identifier)
+                missing_reason = (
+                    "measure line not found in ngspice output"
+                    if raw_val is None
+                    else None
+                )
             if raw_val is None:
                 rows.append(
                     MeasureRowResult(
@@ -69,7 +86,7 @@ def run_flow(config_path: Path, report_path: Path | None, ngspice_override: str 
                         value_str="(missing)",
                         bounds_str=_bounds_str(m.min_value, m.max_value),
                         passed=False,
-                        detail="measure line not found in ngspice output",
+                        detail=missing_reason,
                     ),
                 )
                 any_fail = True

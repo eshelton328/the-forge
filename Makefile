@@ -127,8 +127,12 @@ update-readmes:
 	python3 scripts/ci/update-board-readmes.py
 
 # Run the full check sequence for each subdirectory of boards/ (for release prep / CI-like local runs)
+# Homebrew dirs are prepended — `make` often runs with a minimal PATH (no `/opt/homebrew/bin`).
 sim-fixture:
-	@command -v ngspice >/dev/null 2>&1 || { echo "ngspice not found — brew install ngspice or set NGSPICE=/path/to/ngspice"; exit 1; }
+	@PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
+	command -v ngspice >/dev/null 2>&1 || \
+	{ echo "ngspice not found — brew install ngspice or set NGSPICE=/path/to/ngspice"; exit 1; }; \
+	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
 	python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml --report sim/fixtures/rc_divider/spice-report.md
 	@echo OK: Spice fixture report written to sim/fixtures/rc_divider/spice-report.md
 
