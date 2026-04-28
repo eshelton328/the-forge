@@ -72,3 +72,17 @@ def test_parse_dc_op_node_voltage_fixture() -> None:
 def test_parse_dc_op_whitespace_tolerance() -> None:
     txt = "\t\tV(\t\t2 )\t\t3e0\n"
     assert parse_dc_op_node_voltage(txt, "2") == pytest.approx(3.0)
+
+
+KICAD_STYLE_NET_LOG = """  Measurements for DC Analysis
+
+	Node                                  Voltage
+	----                                  -------
+	----	-------
+	/vin_2v_to_16v                   1.000000e+01
+"""
+
+
+def test_parse_dc_op_kicad_style_slash_net() -> None:
+    assert parse_dc_op_node_voltage(KICAD_STYLE_NET_LOG, "/VIN_2v_to_16v") == pytest.approx(10.0)
+    assert parse_dc_op_node_voltage(KICAD_STYLE_NET_LOG, "VIN_2v_to_16v") == pytest.approx(10.0)

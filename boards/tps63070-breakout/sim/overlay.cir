@@ -1,2 +1,11 @@
 * Board overlay — always included after main by the assembler (issue #45).
-* Stub: comments only; extend with stimulus / probes / tweaks per design.
+* Slice-3 smoke: bias input rail; slice 4 adds realistic stimulus / loads.
+* With U1 excluded from KiCad SPICE export (#46), a few nets are otherwise floating — bleed for DC OP.
+
+R_SIM_BLEED_VAUX Net-_U1-VAUX_ GND 1G
+R_SIM_BLEED_L1 Net-_U1-L1_ GND 1G
+R_SIM_BLEED_L2 Net-_U1-L2_ GND 1G
+
+VVIN /VIN_2v_to_16v 0 DC 10
+.op
+.end

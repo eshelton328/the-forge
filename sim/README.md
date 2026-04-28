@@ -2,6 +2,8 @@
 
 **Implemented (issue [#44](https://github.com/eshelton328/the-forge/issues/44)):** Fixture-only runner — `scripts/sim/run_sim.py` reads `sim.yml`, runs `ngspice -b` on a `.cir` netlist, checks limits against either **`.`measure`** output lines (`measure_id=value`) **or** DC **OP table** voltages (`op_node`). Example: `sim/fixtures/rc_divider/` and **`make sim-fixture`**. **`make`** runs with a **minimal PATH** — the Makefile prepends `/opt/homebrew/bin` so Homebrew **`ngspice`** is visible after `brew install ngspice`.
 
+**Implemented (issue [#46](https://github.com/eshelton328/the-forge/issues/46)):** KiCad schematic → SPICE — `scripts/sim/export_kicad_spice.py` runs `kicad-cli sch export netlist --format spice` on `boards/<name>/<name>.kicad_sch`, writes `boards/<name>/sim/kicad_export.cir`, and strips the trailing `.end` so `sim/overlay.cir` (included after the export by `assemble.py`) can add sources and analysis cards. **`make sim-export-board BOARD=…`** uses the same **`KICAD_IMAGE`** / Docker volume pattern as **`.github/workflows/pr-checks.yml`** (`/workspace` mount, `setup-kicad-env.sh`). **`make sim-board`** runs export then **`run_sim.py`** for boards with **`sim.yml`**.
+
 This repo already scales **hardware checks** like this:
 
 - **`boards/<name>/checks.yml`** — per-board YAML consumed by **`scripts/validate_board.py`**
@@ -63,7 +65,7 @@ boards/<name>/
 - Spawn **`ngspice -b`** (batch), capture exit status + logs
 - **`Measure`** / grep rules from config → **PASS/FAIL**
 - Markdown report + optional **`REPORT_VERSION=1`** footer for downstream tooling
-- **Optional** **`kicad-cli`** export pipeline when schematic → netlist automation is standardized in this repo
+- **`kicad-cli`** export via **`export_kicad_spice.py`** + **`make sim-export-board`** (Docker image pinned like ERC)
 - **`libs/spice`** holds **deduplicated** vendor libraries (paths referenced by **`sim.yml`**, not duplicated per board when possible)
 
 ### Per board (**`boards/<name>/sim.yml`**)

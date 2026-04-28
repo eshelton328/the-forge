@@ -28,9 +28,18 @@ def _ngspice_available() -> bool:
     return shutil.which("ngspice", path=merged) is not None
 
 
+def _docker_available() -> bool:
+    return shutil.which("docker") is not None
+
+
 needs_ngspice = pytest.mark.skipif(
     not _ngspice_available(),
     reason="ngspice not found (brew install ngspice)",
+)
+
+needs_docker = pytest.mark.skipif(
+    not _docker_available(),
+    reason="docker not available (KiCad export for board sim)",
 )
 
 
@@ -85,7 +94,26 @@ def test_run_sim_fails_when_limit_tight(tmp_path: Path) -> None:
 
 
 @needs_ngspice
+@needs_docker
 def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
+    mk = subprocess.run(
+        ["make", "sim-export-board", "BOARD=tps63070-breakout"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        check=False,
+        env=_ngspice_env(),
+    )
+    if mk.returncode != 0:
+        err = (mk.stderr + mk.stdout).lower()
+        if "docker" in err and (
+            "permission denied" in err
+            or "cannot connect" in err
+            or "connection refused" in err
+        ):
+            pytest.skip("Docker daemon not reachable")
+        pytest.fail(mk.stderr + mk.stdout)
+
     report = tmp_path / "report.md"
     proc = subprocess.run(
         [
@@ -105,7 +133,8 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert proc.returncode == 0, proc.stderr + proc.stdout
     text = report.read_text()
     assert "PASS" in text
-    assert "v_n2" in text
+    assert "v_vin" in text
     assembled = BOARD_SIM_YML.parent / "sim" / "assembled.cir"
     assert assembled.is_file()
     assert "overlay.cir" in assembled.read_text()
+    assert "kicad_export.cir" in assembled.read_text()
