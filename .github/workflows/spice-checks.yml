@@ -31,7 +31,7 @@ jobs:
         id: detect
         env:
           BASE_REF: ${{ github.base_ref }}
-        run: bash scripts/ci/detect-spice-boards.sh
+        run: bash .github/scripts/detect-spice-boards.sh
 
       - name: Report detection
         env:

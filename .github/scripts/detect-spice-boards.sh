@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Emit GitHub Actions outputs for SPICE CI: which boards have sim.yml in scope, and whether
 # to run the lightweight fixture. Intended for pull_request with fetch-depth: 0.
+#
+# Lives under .github/scripts/ so PRs that only add SPICE workflow glue do not match
+# pr-checks.yml's "^scripts/" rule (which would run KiCad checks for every board).
 set -euo pipefail
 
 base_ref="${BASE_REF:-main}"
