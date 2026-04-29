@@ -1,0 +1,136 @@
+name: SPICE simulation
+
+# Board-targeted ngspice runs (opt-in via boards/<name>/sim.yml) plus optional fixture smoke.
+# Path rules live in scripts/ci/detect-spice-boards.sh.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spice-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  KICAD_IMAGE: "kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6"
+
+jobs:
+  detect-spice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      boards: ${{ steps.detect.outputs.boards }}
+      run_fixture: ${{ steps.detect.outputs.run_fixture }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect SPICE scope
+        id: detect
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: bash scripts/ci/detect-spice-boards.sh
+
+      - name: Report detection
+        env:
+          BOARDS: ${{ steps.detect.outputs.boards }}
+          RUN_FIXTURE: ${{ steps.detect.outputs.run_fixture }}
+        run: |
+          echo "boards=$BOARDS"
+          echo "run_fixture=$RUN_FIXTURE"
+
+  spice-fixture:
+    needs: detect-spice
+    if: needs.detect-spice.outputs.run_fixture == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Install ngspice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ngspice
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run RC divider fixture
+        run: |
+          python3 scripts/sim/run_sim.py \
+            --config sim/fixtures/rc_divider/sim.yml \
+            --report sim/fixtures/rc_divider/spice-report.md
+
+      - name: Upload fixture report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: spice-fixture-report
+          path: sim/fixtures/rc_divider/spice-report.md
+
+  spice-board:
+    needs: detect-spice
+    if: needs.detect-spice.outputs.boards != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        board: ${{ fromJson(needs.detect-spice.outputs.boards) }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Export schematic netlist (kicad-cli in Docker)
+        env:
+          BOARD: ${{ matrix.board }}
+        run: |
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            "$KICAD_IMAGE" \
+            bash -c '
+              source /workspace/scripts/ci/setup-kicad-env.sh
+              python3 /workspace/scripts/sim/export_kicad_spice.py \
+                --board-dir "/workspace/boards/$BOARD"
+            '
+
+      - name: Install ngspice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ngspice
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run board SPICE (assemble + ngspice)
+        env:
+          BOARD: ${{ matrix.board }}
+        run: |
+          python3 scripts/sim/run_sim.py \
+            --config "boards/$BOARD/sim.yml" \
+            --report "boards/$BOARD/docs/spice-report.md"
+
+      - name: Upload board SPICE artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: spice-${{ matrix.board }}
+          path: |
+            boards/${{ matrix.board }}/docs/spice-report.md
+            boards/${{ matrix.board }}/sim/assembled.cir
+            boards/${{ matrix.board }}/sim/kicad_export.cir
