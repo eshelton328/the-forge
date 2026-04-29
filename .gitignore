@@ -48,6 +48,7 @@ boards/**/*.kicad_dru
 
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/
+.kicad-export-home/
 
 # ngspice fixture reports (scripts/sim/run_sim.py)
 sim/fixtures/**/spice-report.md

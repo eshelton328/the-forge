@@ -3805,7 +3805,7 @@
 		(at 144.78 109.22 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
@@ -3856,6 +3856,50 @@
 			)
 		)
 		(property "Description" ""
+			(at 144.78 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Type" "SUBCKT"
+			(at 144.78 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Name" "TPS63070_TRANS"
+			(at 144.78 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=PS_SYNC 2=PG 3=VAUX 4=GND 5=FB 6=FB2 7=VOUT_0 8=VOUT_1 9=L2 10=PGND 11=L1 12=VIN_0 13=VIN_1 14=EN 15=VSEL"
+			(at 144.78 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB"
 			(at 144.78 109.22 0)
 			(hide yes)
 			(show_name no)

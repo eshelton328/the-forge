@@ -27,7 +27,10 @@ def test_load_rc_fixture_config() -> None:
 
 
 def test_load_board_assembly_config(tmp_path: Path) -> None:
-    board = tmp_path / "tps63070-breakout"
+    stub_lib = tmp_path / "libs" / "spice" / "tps63070" / "TPS63070_TRANS.LIB"
+    stub_lib.parent.mkdir(parents=True)
+    stub_lib.write_text("* stub\n")
+    board = tmp_path / "boards" / "tps63070-breakout"
     (board / "sim").mkdir(parents=True)
     (board / "sim" / "kicad_export.cir").write_text("* export placeholder\n")
     (board / "sim" / "overlay.cir").write_text("* overlay\n")
@@ -38,6 +41,6 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
     cfg = load_sim_config(yml)
     assert cfg.assembly is not None
     assert cfg.assembly.main_rel == "sim/kicad_export.cir"
-    assert cfg.assembly.includes_rel == ()
+    assert cfg.assembly.includes_rel == ("../../libs/spice/tps63070/TPS63070_TRANS.LIB",)
     assert cfg.netlist_path.name == "assembled.cir"
     assert cfg.netlist_path.parent.name == "sim"

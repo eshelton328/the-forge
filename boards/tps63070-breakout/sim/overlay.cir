@@ -1,11 +1,5 @@
-* Board overlay — always included after main by the assembler (issue #45).
-* Slice-3 smoke: bias input rail; slice 4 adds realistic stimulus / loads.
-* With U1 excluded from KiCad SPICE export (#46), a few nets are otherwise floating — bleed for DC OP.
-
-R_SIM_BLEED_VAUX Net-_U1-VAUX_ GND 1G
-R_SIM_BLEED_L1 Net-_U1-L1_ GND 1G
-R_SIM_BLEED_L2 Net-_U1-L2_ GND 1G
-
+* Board overlay — included after main kicad_export by assemble.py (issue #45).
+* Slice 4: TI TPS63070 subckt in libs/spice via sim.yml .include; KiCad Sim.Pins map on U1.
 VVIN /VIN_2v_to_16v 0 DC 10
 .op
 .end

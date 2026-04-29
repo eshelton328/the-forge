@@ -1,0 +1,24 @@
+* ngspice-oriented behavioral approximation for the TPS63070 port topology.
+*
+* TI’s PSPICE ZIP (product collateral slvmbp8a) uses PSPICE-exclusive double-brace IF() forms
+* in hierarchical gate macros; upstream ngspice batch cannot parse that deck.
+*
+* This file keeps the same .SUBCKT name and pin order so KiCad spice netlists and overlays match.
+* It is only for toolchain / DC sanity (not TI bit-accurate transient behavior). For PSPICE-compatible
+* simulation use TI’s original download from TI.com instead of this stub.
+*
+* Pins: EN FB FB2 GND L1 L2 PG PGND PS_SYNC VAUX VIN_0 VIN_1 VOUT_0 VOUT_1 VSEL
+.SUBCKT TPS63070_TRANS EN FB FB2 GND L1 L2 PG PGND PS_SYNC VAUX VIN_0 VIN_1 VOUT_0 VOUT_1 VSEL
+Bvout VOUT_0 PGND V=(V(EN,GND)>0.8)*(V(VIN_0,GND)>1.5)*(3.3)
+Rl1 L1 VOUT_0 1u
+Rl2 L2 PGND 1u
+Rfb FB GND 1G
+Rf2 FB2 GND 1G
+Rva VAUX PGND 1G
+Ren EN GND 1G
+Rvs VSEL GND 1G
+Rps PS_SYNC PGND 1G
+Rpg PG PGND 10Meg
+Rv1 VIN_0 PGND 1G
+Rv2 VIN_1 PGND 1G
+.ENDS TPS63070_TRANS
