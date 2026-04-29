@@ -21,6 +21,18 @@
     (property "ki_fp_filters" "RNM0015A" (id 6) (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
+    (property "Sim.Type" "SUBCKT" (id 7) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Sim.Name" "TPS63070_TRANS" (id 8) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Sim.Pins" "1=PS_SYNC 2=PG 3=VAUX 4=GND 5=FB 6=FB2 7=VOUT_0 8=VOUT_1 9=L2 10=PGND 11=L1 12=VIN_0 13=VIN_1 14=EN 15=VSEL" (id 9) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB" (id 10) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
     (symbol "TPS630701RNMR_0_1"
       (polyline
         (pts

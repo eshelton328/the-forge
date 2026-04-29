@@ -4,7 +4,8 @@ spice_engine: ngspice
 
 assembly:
   main: sim/kicad_export.cir
-  includes: []
+  includes:
+    - ../../libs/spice/tps63070/TPS63070_TRANS.LIB
 
 scenarios:
   - id: vin_bias_op
