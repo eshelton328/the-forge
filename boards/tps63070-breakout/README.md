@@ -60,10 +60,23 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 
 | Check | Result |
 |:------|:-------|
-| ERC | ✅ |
+| ERC | 🟡 1 warning |
 | DRC | ✅ |
 | Fab: jlcpcb-2layer-advanced | 🟡 26 warnings |
 | Fab: pcbway-2layer-advanced | 🟡 41 warnings |
+
+<details>
+<summary><strong>ERC</strong> — 🟡 1 warning</summary>
+
+> <details>
+> <summary>🟡 <b><code>lib_symbol_mismatch</code></b> — 1 warning</summary>
+>
+> Symbol 'TPS630701RNMR' doesn't match copy in library 'TPS630701 Buck-Boost'
+> - `Symbol U1 [TPS630701RNMR]`
+>
+> </details>
+>
+</details>
 
 <details>
 <summary><strong>Fab DRC: jlcpcb-2layer-advanced</strong> — 🟡 26 warnings</summary>

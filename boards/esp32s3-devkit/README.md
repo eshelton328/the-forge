@@ -54,7 +54,7 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 |:------|:-------|
 | ERC | 🔴 3 errors, 🟡 4 warnings |
 | DRC | 🔴 10 errors, 🟡 4 warnings |
-| Fab: jlcpcb-4layer | 🔴 141 errors, 🟡 7 warnings |
+| Fab: jlcpcb-4layer | 🔴 140 errors, 🟡 7 warnings |
 | Fab: pcbway-4layer | 🔴 30 errors, 🟡 77 warnings |
 
 <details>
@@ -149,7 +149,7 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 </details>
 
 <details>
-<summary><strong>Fab DRC: jlcpcb-4layer</strong> — 🔴 141 errors, 🟡 7 warnings</summary>
+<summary><strong>Fab DRC: jlcpcb-4layer</strong> — 🔴 140 errors, 🟡 7 warnings</summary>
 
 > <details>
 > <summary>🔴 <b><code>annular_width</code></b> — 107 errors</summary>
@@ -268,29 +268,29 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > <details>
 > <summary>🔴 <b><code>clearance</code></b> — 25 errors</summary>
 >
-> Clearance violation (rule 'JLCPCB: Track to pad' clearance 0.2000 mm; actual 0.1750 mm)
+> Clearance violation (rule 'JLCPCB: Track to pad' clearance 0.2000 mm; actual 0.1510 mm)
+> - `Track [GND] on F.Cu, length 0.4747 mm` / `Pad 9 [Net-(U1-L2)] of U1 on F.Cu`
 > - `Pad 6 [GND] of U1 on F.Cu` / `Track [Net-(U1-FB)] on F.Cu, length 0.7100 mm`
 > - `Track [Net-(U1-FB)] on F.Cu, length 1.4425 mm` / `Pad 2 [GND] of R4 on F.Cu`
-> - `Track [GND] on F.Cu, length 0.4747 mm` / `Pad 9 [Net-(U1-L2)] of U1 on F.Cu`
 > - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [/2-16v] on F.Cu, length 0.0707 mm`
 > - `Track [/GPIO14] on F.Cu, length 1.5875 mm` / `Pad 23 [/GPIO21] of U2 on F.Cu`
 > - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.3050 mm`
-> - `Track [/GPIO48] on F.Cu, length 1.4319 mm` / `Pad 26 [/GPIO45] of U2 on F.Cu`
 > - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.5409 mm`
-> - `Pad 2 [Net-(U1-PG)] of U1 on F.Cu` / `Track [Net-(U1-VAUX)] on F.Cu, length 1.0100 mm`
+> - `Track [/GPIO48] on F.Cu, length 1.4319 mm` / `Pad 26 [/GPIO45] of U2 on F.Cu`
 > - `Pad 11 [Net-(U1-L1)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.5030 mm`
+> - `Pad 2 [Net-(U1-PG)] of U1 on F.Cu` / `Track [Net-(U1-VAUX)] on F.Cu, length 1.0100 mm`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.6852 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.0106 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 2.9080 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.0780 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Track [Net-(U1-L1)] on F.Cu, length 0.7276 mm` / `Via [GND] on F.Cu - B.Cu`
-> - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4300 mm`
-> - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4700 mm`
 > - `Track [Net-(U1-L1)] on F.Cu, length 0.0830 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Via [GND] on F.Cu - B.Cu` / `Track [Net-(U1-L1)] on F.Cu, length 2.8830 mm`
+> - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4300 mm`
+> - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4700 mm`
 > - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.7100 mm`
-> - `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.0707 mm` / `Pad B7 [Net-(J3-D--PadA7)] of J3 on F.Cu`
 > - `Pad 2 [GND] of C12 on F.Cu` / `Track [Net-(U3-VBUS)] on F.Cu, length 0.9440 mm`
+> - `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.0707 mm` / `Pad B7 [Net-(J3-D--PadA7)] of J3 on F.Cu`
 > - `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.9600 mm` / `Pad A7 [Net-(J3-D--PadA7)] of J3 on F.Cu`
 > - `Pad B7 [Net-(J3-D--PadA7)] of J3 on F.Cu` / `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.9350 mm`
 > - `Track [Net-(J3-CC2)] on F.Cu, length 1.7100 mm` / `Pad A8 [<no net>] of J3 on F.Cu`
@@ -298,17 +298,16 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > </details>
 >
 > <details>
-> <summary>🔴 <b><code>hole_clearance</code></b> — 9 errors</summary>
+> <summary>🔴 <b><code>hole_clearance</code></b> — 8 errors</summary>
 >
-> Hole clearance violation (rule 'JLCPCB: Track to PTH hole' clearance 0.3300 mm; actual 0.2500 mm)
-> - `Track [/GPIO4] on B.Cu, length 6.1908 mm` / `Via [GND] on F.Cu - B.Cu`
-> - `Pad 9 [Net-(U1-L2)] of U1 on F.Cu` / `Via [GND] on F.Cu - B.Cu`
+> Hole clearance violation (rule 'JLCPCB: Track to PTH hole' clearance 0.3300 mm; actual 0.3225 mm)
 > - `Track [/GPIO5] on B.Cu, length 8.6575 mm` / `Via [/3v3] on F.Cu - B.Cu`
-> - `Track [/GPIO13] on B.Cu, length 13.9548 mm` / `Via [GND] on F.Cu - B.Cu`
+> - `Track [/GPIO4] on B.Cu, length 6.1908 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U3-VBUS)] on F.Cu, length 1.6829 mm` / `Via [/D-] on F.Cu - B.Cu`
+> - `Pad 9 [Net-(U1-L2)] of U1 on F.Cu` / `Via [GND] on F.Cu - B.Cu`
+> - `Track [/GPIO13] on B.Cu, length 13.9548 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/D+] on B.Cu, length 10.1889 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/GPIO12] on F.Cu, length 1.4390 mm` / `Via [/GPIO13] on F.Cu - B.Cu`
-> - `Track [Net-(U1-L1)] on F.Cu, length 0.0830 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Pad 9 [Net-(U1-L2)] of U1 on F.Cu` / `Via [GND] on F.Cu - B.Cu`
 >
 > </details>
@@ -370,10 +369,10 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > Clearance violation (netclass 'Default' clearance 0.1500 mm; actual 0.1322 mm)
 > - `Via [GND] on F.Cu - B.Cu` / `Pad 9 [Net-(U1-L2)] of U1 on F.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.6852 mm` / `Via [GND] on F.Cu - B.Cu`
-> - `Track [Net-(U1-L1)] on F.Cu, length 0.7276 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.0106 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 2.9080 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Via [GND] on F.Cu - B.Cu` / `Track [Net-(U1-L2)] on F.Cu, length 0.0780 mm`
+> - `Track [Net-(U1-L1)] on F.Cu, length 0.7276 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Via [GND] on F.Cu - B.Cu` / `Track [Net-(U1-L1)] on F.Cu, length 2.8830 mm`
 >
 > </details>
