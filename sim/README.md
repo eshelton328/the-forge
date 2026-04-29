@@ -4,6 +4,8 @@
 
 **Implemented (issue [#46](https://github.com/eshelton328/the-forge/issues/46)):** KiCad schematic → SPICE — `scripts/sim/export_kicad_spice.py` runs `kicad-cli sch export netlist --format spicemodel` when using `Sim.*` models (fallback `--netlist-format spice` for passive-only stubs), flattens the KiCad `.subckt`/`… .ends` wrapper and drops duplicated vendor `.include` lines, strips a trailing `.end`, and writes `boards/<name>/sim/kicad_export.cir` consumed by **`assemble.py`**. Symbols need **`Sim.Type`/`Sim.Name`/`Sim.Pins`/`Sim.Library`** (see `libs/symbols/TPS630701-Buck-Boost.kicad_sym` and placement on `TPS630701` in the board schematic). **`make sim-export-board BOARD=…`** uses the same **`KICAD_IMAGE`** / Docker volume pattern as **`.github/workflows/pr-checks.yml`**. **`make sim-board`** runs export then **`run_sim.py`** for boards with **`sim.yml`**.
 
+**GitHub Actions (slice 5 / issue [#48](https://github.com/eshelton328/the-forge/issues/48)):** Workflow [`.github/workflows/spice-checks.yml`](https://github.com/eshelton328/the-forge/blob/main/.github/workflows/spice-checks.yml) runs on pull requests. [`.github/scripts/detect-spice-boards.sh`](https://github.com/eshelton328/the-forge/blob/main/.github/scripts/detect-spice-boards.sh) decides whether to run board simulation (boards with `sim.yml` plus shared paths such as `libs/spice/`, `scripts/sim/`, etc.). **Artifacts** (from the workflow run summary → *Artifacts*): `spice-<board>` uploads `docs/spice-report.md`, `sim/assembled.cir`, and `sim/kicad_export.cir` per opt-in board; `spice-fixture-report` uploads the RC divider markdown when the fixture job runs. **Skipped jobs are normal:** `spice-fixture` is skipped unless `sim/fixtures/` changes (or `scripts/sim/` changes while no board has `sim.yml` yet). In **KiCad Design Checks**, ERC/DRC/fab/validate matrix jobs are skipped when the PR diff does not touch `boards/`, `libs/`, `scripts/`, `Makefile`, or `pr-checks.yml` — doc-only or `.github/workflows/spice-checks.yml`-only PRs often produce that pattern.
+
 This repo already scales **hardware checks** like this:
 
 - **`boards/<name>/checks.yml`** — per-board YAML consumed by **`scripts/validate_board.py`**
@@ -21,7 +23,7 @@ Simulation should follow the **same pattern**: one **reusable runner** + optiona
 | **Per-board specificity** | `boards/<name>/sim.yml` (limits, scenarios, nets to plot) |
 | **Phase 1 first** | Schematic/exported netlist + vendor `.lib` — regressions vs numeric limits |
 | **Phase 2 later** | Optional **parasitic overlay** `.cir` or `.include`, versioned beside board |
-| **CI fit** | Same **board detection** as KiCad checks; optionally **narrow** paths to include `libs/spice/` when shared models change |
+| **CI fit** | **`spice-checks.yml`** + **`detect-spice-boards.sh`**; paths include `libs/spice/`, `scripts/sim/`, `sim/fixtures/`, board trees with `sim.yml` |
 
 Non-goals (initially): proprietary full-board extraction SI suites; EMI sign-off.
 

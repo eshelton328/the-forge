@@ -1,7 +1,7 @@
 name: SPICE simulation
 
 # Board-targeted ngspice runs (opt-in via boards/<name>/sim.yml) plus optional fixture smoke.
-# Path rules live in scripts/ci/detect-spice-boards.sh.
+# Path rules live in .github/scripts/detect-spice-boards.sh.
 on:
   pull_request:
 
