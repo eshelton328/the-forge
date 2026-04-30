@@ -22,9 +22,9 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 1. **Optional `boards/<name>/sim.yml`** — `spec_version: 1`, `spice_engine: ngspice`, either `netlist:` (single deck) or `assembly:` (export + includes + `sim/overlay.cir`), then `scenarios` with DC `op_node` and/or `.measure` limits.
 2. **`export_kicad_spice.py`** — writes gitignored **`sim/kicad_export.cir`** and **`sim/kicad_export_toolchain.txt`** (first line of `kicad-cli --version`) under the board.
 3. **`run_sim.py`** — assembles if needed, runs **`ngspice -b`**, writes markdown via **`scripts/sim/report_md.py`**. Reports include **ngspice** version (`ngspice --version`), **KiCad CLI** line when the export step ran, and **`SIM_KICAD_DOCKER_IMAGE`** when set (CI passes the same digest as `KICAD_IMAGE` in `spice-checks.yml`).
-4. **CI** — `spice-board` matrix runs export in **`KICAD_IMAGE`**, then host **`apt install ngspice`**, then Python. Artifacts per board: `docs/spice-report.md`, `sim/assembled.cir`, `sim/kicad_export.cir`. **`spice-fixture`** runs the RC divider when path detection says so; skipped runs are normal.
+4. **CI** — `spice-board` matrix runs export in **`KICAD_IMAGE`**, then host **`apt install ngspice`**, then Python. Artifacts per board: `docs/spice-report.md`, `sim/assembled.cir`, `sim/kicad_export.cir`. **`spice-fixture`** runs the RC divider only when `detect-spice-boards.sh` sets `run_fixture` (diff touches `sim/fixtures/`, or diff touches `scripts/sim/` while **no** board has `sim.yml` yet); **otherwise that job is skipped**, which is normal.
 
-**Skipped jobs:** `spice-fixture` only when `sim/fixtures/` (or `scripts/sim/` with no opt-in boards) changes — see `detect-spice-boards.sh`. KiCad Design Checks in `pr-checks.yml` may also skip for doc-only SPICE workflow edits — see workflow comments there.
+**KiCad Design Checks** (`pr-checks.yml`) may skip matrix jobs when the PR does not touch their watched paths (e.g. doc-only changes or edits limited to `spice-checks.yml`); see workflow comments there.
 
 ---
 
