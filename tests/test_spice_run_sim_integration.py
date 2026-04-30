@@ -65,6 +65,8 @@ def test_run_sim_rc_fixture_passes(tmp_path: Path) -> None:
     text = report.read_text()
     assert "PASS" in text
     assert "v_n2" in text
+    assert "| KiCad CLI | `—` |" in text
+    assert "| KiCad Docker image (CI) | `—` |" in text
 
 
 @needs_ngspice
@@ -134,6 +136,10 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     text = report.read_text()
     assert "PASS" in text
     assert "v_vin" in text
+    assert "| KiCad CLI | `" in text
+    toolchain = BOARD_SIM_YML.parent / "sim" / "kicad_export_toolchain.txt"
+    assert toolchain.is_file()
+    assert toolchain.read_text().strip() in text
     assembled = BOARD_SIM_YML.parent / "sim" / "assembled.cir"
     assert assembled.is_file()
     assert "overlay.cir" in assembled.read_text()

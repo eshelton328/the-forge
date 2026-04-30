@@ -31,6 +31,22 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
+def write_kicad_toolchain_meta(sim_dir: Path, kicad_cli: str) -> None:
+    """Persist ``kicad-cli --version`` for ``run_sim.py`` report metadata (typically gitignored)."""
+    proc = subprocess.run(
+        [kicad_cli, "--version"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    blob = (proc.stdout or proc.stderr or "").strip()
+    line = blob.splitlines()[0] if blob else "(kicad-cli --version produced no output)"
+    if proc.returncode != 0 and blob:
+        line = f"{line} (exit {proc.returncode})"
+    meta = sim_dir / "kicad_export_toolchain.txt"
+    meta.write_text(line.strip() + "\n")
+
+
 def strip_trailing_spice_end(text: str) -> str:
     """Remove a trailing ``.end`` so an assembled deck can append overlay/analysis."""
     lines = text.splitlines()
@@ -111,6 +127,7 @@ def export_spice_netlist(
         out.write_text(postprocess_spicemodel_flat(raw, board_slug=name))
     else:
         out.write_text(strip_trailing_spice_end(raw))
+    write_kicad_toolchain_meta(out.parent, kicad_cli)
     return out
 
 

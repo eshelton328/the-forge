@@ -25,8 +25,12 @@ def render_report(
     ngspice_version: str,
     netlist_path: Path,
     simulator_returncode: int,
+    kicad_cli_version: str | None = None,
+    kicad_docker_image: str | None = None,
 ) -> str:
     """Build markdown body."""
+    kicad_cli_cell = kicad_cli_version if kicad_cli_version else "—"
+    kicad_img_cell = kicad_docker_image if kicad_docker_image else "—"
     lines: list[str] = [
         "# Spice simulation report",
         "",
@@ -36,6 +40,8 @@ def render_report(
         "| --- | --- |",
         f"| Config | `{config_path}` |",
         f"| Netlist | `{netlist_path}` |",
+        f"| KiCad CLI | `{kicad_cli_cell}` |",
+        f"| KiCad Docker image (CI) | `{kicad_img_cell}` |",
         f"| ngspice | `{ngspice_version}` |",
         f"| Simulator exit | {simulator_returncode} |",
         "",

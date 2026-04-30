@@ -120,6 +120,7 @@ jobs:
       - name: Run board SPICE (assemble + ngspice)
         env:
           BOARD: ${{ matrix.board }}
+          SIM_KICAD_DOCKER_IMAGE: ${{ env.KICAD_IMAGE }}
         run: |
           python3 scripts/sim/run_sim.py \
             --config "boards/$BOARD/sim.yml" \
