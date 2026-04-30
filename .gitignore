@@ -58,6 +58,7 @@ boards/**/sim/assembled.cir
 
 # KiCad → SPICE export consumed by assembly (scripts/sim/export_kicad_spice.py)
 boards/**/sim/kicad_export.cir
+boards/**/sim/kicad_export_toolchain.txt
 
 # Generated board SPICE reports (make sim-board / run_sim.py)
 boards/**/docs/spice-report.md

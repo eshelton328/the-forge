@@ -35,6 +35,14 @@ from scripts.sim.ngspice_runner import ngspice_binary, read_ngspice_version, run
 from scripts.sim.report_md import MeasureRowResult, render_report
 
 
+def _read_kicad_export_toolchain(config_dir: Path) -> str | None:
+    meta = config_dir / "sim" / "kicad_export_toolchain.txt"
+    if not meta.is_file():
+        return None
+    text = meta.read_text().strip()
+    return text or None
+
+
 def _bounds_str(min_v: float | None, max_v: float | None) -> str:
     parts: list[str] = []
     if min_v is not None:
@@ -113,12 +121,16 @@ def run_flow(config_path: Path, report_path: Path | None, ngspice_override: str 
     if sim.returncode != 0:
         any_fail = True
 
+    kicad_line = _read_kicad_export_toolchain(cfg.config_dir)
+    docker_image = os.environ.get("SIM_KICAD_DOCKER_IMAGE")
     report_text = render_report(
         config_path=config_path,
         scenario_results=tuple(rows),
         ngspice_version=ver.raw_line,
         netlist_path=cfg.netlist_path,
         simulator_returncode=sim.returncode,
+        kicad_cli_version=kicad_line,
+        kicad_docker_image=docker_image,
     )
 
     out = report_path or (config_path.parent / "spice-report.md")
