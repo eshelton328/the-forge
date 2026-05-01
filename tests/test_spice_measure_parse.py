@@ -23,14 +23,15 @@ def test_parse_measure_from_golden_file() -> None:
 
 
 @pytest.mark.parametrize(
-    ("line", "expected"),
+    ("line", "measure_key", "expected"),
     (
-        ("v_n2 = 5.000000e+00\n", 5.0),
-        ("VMID =  \t12.500e-03\n", 0.0125),
+        ("v_n2 = 5.000000e+00\n", "v_n2", 5.0),
+        ("VMID =  \t12.500e-03\n", "VMID", 0.0125),
+        ("v_out_steady        =  3.30000e+00\n", "v_out_steady", 3.3),
     ),
 )
-def test_parse_measure_inline(line: str, expected: float) -> None:
-    v = parse_measure_value(line, "v_n2" if "v_n2" in line else "VMID")
+def test_parse_measure_inline(line: str, measure_key: str, expected: float) -> None:
+    v = parse_measure_value(line, measure_key)
     assert v is not None
     assert v == pytest.approx(expected)
 

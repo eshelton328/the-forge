@@ -138,6 +138,8 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert "v_vin" in text
     assert "| Baseline file | `sim/spice_metrics_baseline.json` |" in text
     assert "SIM_BASELINE_COMPARE=true" in text
+    assert "tran_settle" in text
+    assert "v_out_steady" in text
     assert "| KiCad CLI | `" in text
     toolchain = BOARD_SIM_YML.parent / "sim" / "kicad_export_toolchain.txt"
     assert toolchain.is_file()
