@@ -39,6 +39,8 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
         (REPO_ROOT / "boards" / "tps63070-breakout" / "sim.yml").read_text(),
     )
     cfg = load_sim_config(yml)
+    assert len(cfg.scenarios) == 2
+    assert cfg.scenarios[1].identifier == "tran_settle"
     assert cfg.assembly is not None
     assert cfg.assembly.main_rel == "sim/kicad_export.cir"
     assert cfg.assembly.includes_rel == ("../../libs/spice/tps63070/TPS63070_TRANS.LIB",)

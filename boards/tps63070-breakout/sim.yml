@@ -14,3 +14,8 @@ scenarios:
         op_node: "/VIN_2v_to_16v"
         min: 9.99
         max: 10.01
+  - id: tran_settle
+    measures:
+      - id: v_out_steady
+        min: 3.28
+        max: 3.32
