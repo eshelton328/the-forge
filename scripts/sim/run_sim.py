@@ -60,6 +60,16 @@ def _bounds_str(min_v: float | None, max_v: float | None) -> str:
     return ", ".join(parts) if parts else "(unbounded)"
 
 
+def _append_waveform_plot_section(report: str, plot_paths: tuple[str, ...]) -> str:
+    if not plot_paths:
+        return report
+    lines = ["", "## Waveform plots", "", "PNG files (committed path relative to board root):", ""]
+    for rel in plot_paths:
+        lines.append(f"- `{rel}`")
+    lines.append("")
+    return report + "\n".join(lines)
+
+
 def baseline_display_relative(cfg_dir: Path, baseline_file: Path) -> str:
     """Prefer path relative to board root (`sim.yml` directory)."""
     try:
@@ -117,6 +127,7 @@ def run_flow(
     no_baseline: bool,
     write_baseline_path: Path | None,
     write_baseline_ref: str | None,
+    no_plots: bool,
 ) -> int:
     try:
         cfg: SimConfig = load_sim_config(config_path)
@@ -221,6 +232,31 @@ def run_flow(
         baseline_doc_ref=baseline_doc_ref,
     )
 
+    plot_skip = (
+        no_plots
+        or os.environ.get("SIM_NO_PLOTS", "").strip().lower()
+        in (
+            "1",
+            "true",
+            "yes",
+        )
+    )
+    plot_paths: tuple[str, ...] = ()
+    if (not plot_skip) and (not any_fail) and cfg.plots:
+        try:
+            from scripts.sim.plot_extractions import run_wrdata_extractions_then_pngs
+
+            sim_plot_dir = cfg.config_dir / "sim"
+            plot_paths = run_wrdata_extractions_then_pngs(
+                sim_directory=sim_plot_dir,
+                assembled_rel=Path("assembled.cir"),
+                ngspice_exe=ngspice_exe,
+                plot_pairs=tuple((p.png_basename, p.signal) for p in cfg.plots),
+            )
+            report_text = _append_waveform_plot_section(report_text, plot_paths)
+        except (OSError, RuntimeError, ValueError, ImportError) as plot_exc:
+            print(f"warning: waveform plots failed: {plot_exc}", file=sys.stderr)
+
     out = report_path or (config_path.parent / "spice-report.md")
     out.write_text(report_text)
     print(f"Wrote {out}")
@@ -289,6 +325,11 @@ def main() -> None:
         default=None,
         help="Optional ref string stored in JSON when using --write-baseline (e.g. main commit SHA).",
     )
+    parser.add_argument(
+        "--no-plots",
+        action="store_true",
+        help="Skip optional waveform PNG generation even if sim.yml declares plots (#59).",
+    )
     args = parser.parse_args()
     ng_exe = args.ngspice or os.environ.get("NGSPICE")
     code = run_flow(
@@ -299,6 +340,7 @@ def main() -> None:
         no_baseline=args.no_baseline,
         write_baseline_path=args.write_baseline.resolve() if args.write_baseline else None,
         write_baseline_ref=args.write_baseline_ref,
+        no_plots=args.no_plots,
     )
     raise SystemExit(code)
 

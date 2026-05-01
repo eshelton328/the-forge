@@ -41,6 +41,8 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
     cfg = load_sim_config(yml)
     assert len(cfg.scenarios) == 2
     assert cfg.scenarios[1].identifier == "tran_settle"
+    assert len(cfg.plots) == 1
+    assert cfg.plots[0].png_basename == "tran-vout.png"
     assert cfg.assembly is not None
     assert cfg.assembly.main_rel == "sim/kicad_export.cir"
     assert cfg.assembly.includes_rel == ("../../libs/spice/tps63070/TPS63070_TRANS.LIB",)
