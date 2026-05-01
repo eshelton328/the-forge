@@ -1,0 +1,7 @@
+{
+  "baseline_version": 1,
+  "ref": "mainline DC OP expectation (overlay VIN=10 V); revisit after schematic or model churn",
+  "measures": {
+    "vin_bias_op::v_vin": 10.0
+  }
+}
