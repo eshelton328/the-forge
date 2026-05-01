@@ -126,6 +126,29 @@ jobs:
             --config "boards/$BOARD/sim.yml" \
             --report "boards/$BOARD/docs/spice-report.md"
 
+      - name: Detect optional Spice plot PNGs
+        id: spice_plot_pngs
+        if: always()
+        env:
+          BOARD: ${{ matrix.board }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(boards/"$BOARD"/sim/plots/*.png)
+          if [ ${#files[@]} -gt 0 ]; then
+            echo "any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "any=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload board SPICE plot PNGs
+        if: always() && steps.spice_plot_pngs.outputs.any == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: spice-plots-${{ matrix.board }}
+          path: boards/${{ matrix.board }}/sim/plots/*.png
+
       - name: Upload board SPICE artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()

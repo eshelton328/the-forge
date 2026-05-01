@@ -9,6 +9,7 @@ from typing import Any
 import yaml
 
 from scripts.sim.assemble import ASSEMBLED_REL, OVERLAY_REL, AssemblySpec
+from scripts.sim.plot_extractions import validate_plot_png_basename, validate_plot_signal
 
 
 @dataclass(frozen=True)
@@ -19,6 +20,14 @@ class MeasureSpec:
     min_value: float | None
     max_value: float | None
     op_node: str | None
+
+
+@dataclass(frozen=True)
+class PlotSpec:
+    """Optional waveform PNG emitted under ``boards/<name>/sim/plots/`` (#59)."""
+
+    png_basename: str
+    signal: str
 
 
 @dataclass(frozen=True)
@@ -39,6 +48,7 @@ class SimConfig:
     config_dir: Path
     scenarios: tuple[ScenarioSpec, ...]
     assembly: AssemblySpec | None
+    plots: tuple[PlotSpec, ...]
 
 
 def _require_mapping(data: Any, context: str) -> dict[str, Any]:
@@ -77,6 +87,35 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
             ),
         )
     return tuple(measures)
+
+
+def _load_plots(root: dict[str, Any], context: str) -> tuple[PlotSpec, ...]:
+    raw = root.get("plots")
+    if raw is None:
+        return ()
+    if not isinstance(raw, list):
+        raise ValueError(f"{context}plots must be a list when present")
+    out: list[PlotSpec] = []
+    seen_names: set[str] = set()
+    for i, item in enumerate(raw):
+        m = _require_mapping(item, f"{context}plots[{i}]")
+        fname = m.get("file")
+        sig = m.get("signal")
+        if not isinstance(fname, str):
+            raise ValueError(f"{context}plots[{i}] requires string file")
+        if not isinstance(sig, str):
+            raise ValueError(f"{context}plots[{i}] requires string signal")
+        png = validate_plot_png_basename(fname)
+        if png in seen_names:
+            raise ValueError(f"duplicate plots file: {png}")
+        seen_names.add(png)
+        out.append(
+            PlotSpec(
+                png_basename=png,
+                signal=validate_plot_signal(sig),
+            ),
+        )
+    return tuple(out)
 
 
 def _parse_assembly(root: dict[str, Any], cfg_dir: Path) -> AssemblySpec:
@@ -165,6 +204,8 @@ def load_sim_config(config_path: Path) -> SimConfig:
             ScenarioSpec(identifier=sid.strip(), measures=measures),
         )
 
+    plots_out = _load_plots(root, "root.")
+
     return SimConfig(
         spec_version=int(spec_ver),
         spice_engine=str(engine),
@@ -172,4 +213,5 @@ def load_sim_config(config_path: Path) -> SimConfig:
         config_dir=cfg_dir,
         scenarios=tuple(scenarios_out),
         assembly=assembly_spec,
+        plots=plots_out,
     )

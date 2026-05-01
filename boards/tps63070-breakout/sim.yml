@@ -19,3 +19,7 @@ scenarios:
       - id: v_out_steady
         min: 3.28
         max: 3.32
+
+plots:
+  - file: tran-vout.png
+    signal: v(/vout_+3.3v)
