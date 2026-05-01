@@ -61,6 +61,15 @@ def test_load_baseline_file(tmp_path) -> None:
     assert measures["x::y"] == 3.0
 
 
+def test_rejects_bool_measure_value() -> None:
+    assert (
+        parse_baseline_text(
+            '{"baseline_version": 1, "measures": {"x::y": true}}',
+        )
+        is None
+    )
+
+
 def test_rejects_wrong_version() -> None:
     assert parse_baseline_text('{"baseline_version": 2, "measures": {}}') is None
 

@@ -51,7 +51,8 @@ def parse_baseline_text(raw_text: str) -> tuple[dict[str, float], str | None] | 
     for k, v in raw_measures.items():
         if not isinstance(k, str) or not k.strip():
             return None
-        if not isinstance(v, (int, float)):
+        # Reject bool: in Python ``bool`` subclasses ``int`` and would pass isinstance(..., int).
+        if isinstance(v, bool) or type(v) not in (int, float):
             return None
         measures[k.strip()] = float(v)
     ref_val = data.get("ref")
