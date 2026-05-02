@@ -1,9 +1,12 @@
-# Backlog: unified KiCad + ngspice Docker image
+# Unified KiCad + ngspice Docker image
 
-**Status:** Not started — tracked for repo-quality / CI-local parity ([#19](https://github.com/eshelton328/the-forge/issues/19)).
+**Status:** **Done** — [#62](https://github.com/eshelton328/the-forge/issues/62).
 
-Today, **KiCad** runs in the pinned `KICAD_IMAGE` from `.github/workflows/spice-checks.yml` / `pr-checks.yml`, while **ngspice** is installed via `apt` on the GitHub-hosted runner after export. Local developers match that with Docker for KiCad plus Homebrew or system `ngspice`.
+Delivered:
 
-**Goal:** Spike a single `Dockerfile` `FROM` the same digest-pinned KiCad image, layer in a pinned **ngspice** build or distro package, and document one command to run `export_kicad_spice.py` + `run_sim.py` so CI and laptops share one toolchain story.
+- [`sim/docker/Dockerfile`](../docker/Dockerfile) — `FROM` the same digest-pinned `kicad/kicad:10.0` image as CI; **`NGSPICE_DEB_VERSION`** pins the Debian `ngspice` package; Python venv + `requirements.txt` for `run_sim.py`.
+- [`sim/docker/README.md`](../docker/README.md) — build, `docker run`, and Compose examples.
+- **[`.github/workflows/spice-checks.yml`](../../.github/workflows/spice-checks.yml)** — SPICE jobs build this image and run export + simulation **inside** it (no host `apt install ngspice`).
+- **[`scripts/sim/run-spice-in-docker.sh`](../../scripts/sim/run-spice-in-docker.sh)** — local one-command entry point.
 
-**Out of scope for this doc:** changing ERC/DRC jobs (unless the spike proves a net win).
+**Out of scope:** changing ERC/DRC jobs in `pr-checks.yml` (still use the raw `KICAD_IMAGE`).

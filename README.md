@@ -82,6 +82,8 @@ python3 -m pytest tests/
 
 With **`ngspice`** and **Docker** available, `tests/test_spice_run_sim_integration.py` runs end-to-end Spice smoke; otherwise those cases are **skipped** (same as default CI for `pytest.yml`).
 
+**SPICE / simulation (boards with `sim.yml`):** CI builds [`sim/docker/Dockerfile`](sim/docker/Dockerfile) — same KiCad digest as ERC/DRC plus pinned **ngspice** and the repo **`requirements.txt`** — and runs export + `run_sim.py` inside that image ([`sim/README.md`](sim/README.md)). Local parity: **`make sim-board-docker BOARD=tps63070-breakout`** or **`scripts/sim/run-spice-in-docker.sh --board …`**.
+
 Raw commands (equivalent to the Makefile):
 
 ```bash

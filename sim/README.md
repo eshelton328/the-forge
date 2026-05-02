@@ -11,10 +11,11 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 | KiCad → `.cir` | [#46](https://github.com/eshelton328/the-forge/issues/46) | `export_kicad_spice.py`, **`make sim-export-board`**, **`make sim-board`** |
 | Board models + scenarios | [#47](https://github.com/eshelton328/the-forge/issues/47) (+ PR [#53](https://github.com/eshelton328/the-forge/pull/53)) | Vendor `libs/spice/`, `tps63070-breakout` transient/DC checks |
 | PR workflow | [#48](https://github.com/eshelton328/the-forge/issues/48) | [`.github/workflows/spice-checks.yml`](https://github.com/eshelton328/the-forge/blob/main/.github/workflows/spice-checks.yml), [`.github/scripts/detect-spice-boards.sh`](https://github.com/eshelton328/the-forge/blob/main/.github/scripts/detect-spice-boards.sh) |
-| Docs + toolchain in reports | [#49](https://github.com/eshelton328/the-forge/issues/49) | This README as runbook; report lists **KiCad CLI**, **pinned Docker image** (when `SIM_KICAD_DOCKER_IMAGE` is set), **ngspice**; [Docker backlog stub](BACKLOG-docker-image.md) |
+| Docs + toolchain in reports | [#49](https://github.com/eshelton328/the-forge/issues/49) | This README as runbook; report lists **KiCad CLI**, **`SIM_KICAD_DOCKER_IMAGE`** when set, **ngspice**; unified image: **[`sim/docker/`](docker/)** ([BACKLOG-docker-image.md](BACKLOG-docker-image.md) status) |
 | Waveform PNG artifacts | [#59](https://github.com/eshelton328/the-forge/issues/59) | Optional `sim.yml` **`plots:`** → **`wrdata`** + **`matplotlib`** under **`sim/plots/`**; **`--no-plots`** / **`SIM_NO_PLOTS`** |
 | Metrics JSON sidecar | [#60](https://github.com/eshelton328/the-forge/issues/60) | **`scripts/sim/metrics_json.py`** — **`spice-report.metrics.json`** next to **`spice-report.md`** |
 | pytest on PR | [#61](https://github.com/eshelton328/the-forge/issues/61) | [`.github/workflows/pytest.yml`](https://github.com/eshelton328/the-forge/blob/main/.github/workflows/pytest.yml) — **`python3 -m pytest tests/`** |
+| Unified sim Docker image | [#62](https://github.com/eshelton328/the-forge/issues/62) | **`sim/docker/Dockerfile`** (KiCad digest + **`NGSPICE_DEB_VERSION`**) — CI runs export + **`run_sim.py`** inside **`the-forge-sim:ci`**; **`scripts/sim/run-spice-in-docker.sh`**, **`make sim-board-docker`** |
 
 **Baseline deltas:** committed optional JSON per board — **[#58](https://github.com/eshelton328/the-forge/issues/58)**.
 
@@ -24,8 +25,8 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 
 1. **Optional `boards/<name>/sim.yml`** — `spec_version: 1`, `spice_engine: ngspice`, either `netlist:` (single deck) or `assembly:` (export + includes + `sim/overlay.cir`), then `scenarios` with DC `op_node` and/or **`ngspice` `.meas` outputs** from the assembled deck (e.g. **`tps63070-breakout`** uses `.op` + `.tran` in `sim/overlay.cir`; see **[#56](https://github.com/eshelton328/the-forge/issues/56)**).
 2. **`export_kicad_spice.py`** — writes gitignored **`sim/kicad_export.cir`** and **`sim/kicad_export_toolchain.txt`** (first line of `kicad-cli --version`) under the board.
-3. **`run_sim.py`** — assembles if needed, runs **`ngspice -b`**, writes markdown via **`scripts/sim/report_md.py`**, plus a **`spice-report.metrics.json`** sidecar (**[#60](https://github.com/eshelton328/the-forge/issues/60)**). Reports include **ngspice** version (`ngspice --version`), **KiCad CLI** line when the export step ran, and **`SIM_KICAD_DOCKER_IMAGE`** when set (CI passes the same digest as `KICAD_IMAGE` in `spice-checks.yml`). If **`boards/<name>/sim/spice_metrics_baseline.json`** exists (committed snapshot), reports add **Baseline** and **Δ** columns plus `SIM_BASELINE_COMPARE=true` in the footer (`--no-baseline` skips; `--baseline PATH` overrides; **`--write-baseline PATH`** refreshes the file after a green run). Optional **`plots:`** runs a second ngspice pass and writes PNGs plus a **Waveform plots** section (**[#59](https://github.com/eshelton328/the-forge/issues/59)**; **`--no-plots`** / **`SIM_NO_PLOTS=1`** skips).
-4. **CI** — `spice-board` matrix runs export in **`KICAD_IMAGE`**, then host **`apt install ngspice`**, then Python. Artifacts per board: `docs/spice-report.md`, **`docs/spice-report.metrics.json`**, `sim/assembled.cir`, `sim/kicad_export.cir`. When **`sim/plots/*.png`** exist, a second artifact uploads them (`spice-plots-<board>`). **`spice-fixture`** runs the RC divider only when `detect-spice-boards.sh` sets `run_fixture` (diff touches `sim/fixtures/`, or diff touches `scripts/sim/` while **no** board has `sim.yml` yet); **otherwise that job is skipped**, which is normal.
+3. **`run_sim.py`** — assembles if needed, runs **`ngspice -b`**, writes markdown via **`scripts/sim/report_md.py`**, plus a **`spice-report.metrics.json`** sidecar (**[#60](https://github.com/eshelton328/the-forge/issues/60)**). Reports include **ngspice** version (`ngspice --version`), **KiCad CLI** line when the export step ran, and **`SIM_KICAD_DOCKER_IMAGE`** when set (CI sets it to **`the-forge-sim:ci`**, the tag built from **`sim/docker/Dockerfile`**). If **`boards/<name>/sim/spice_metrics_baseline.json`** exists (committed snapshot), reports add **Baseline** and **Δ** columns plus `SIM_BASELINE_COMPARE=true` in the footer (`--no-baseline` skips; `--baseline PATH` overrides; **`--write-baseline PATH`** refreshes the file after a green run). Optional **`plots:`** runs a second ngspice pass and writes PNGs plus a **Waveform plots** section (**[#59](https://github.com/eshelton328/the-forge/issues/59)**; **`--no-plots`** / **`SIM_NO_PLOTS=1`** skips).
+4. **CI** — **`spice-board`** builds **`sim/docker/Dockerfile`** once, then runs export + **`run_sim.py`** for each in-scope board inside **`the-forge-sim:ci`** (**[#62](https://github.com/eshelton328/the-forge/issues/62)**). Workflow uploads **`spice-boards`** (per-board subfolders: `docs/spice-report.md`, **`docs/spice-report.metrics.json`**, `sim/assembled.cir`, `sim/kicad_export.cir`). When **`sim/plots/*.png`** exist, artifact **`spice-plots`** contains `/<board>/*.png`. **`spice-fixture`** uses the same image for the RC divider when `detect-spice-boards.sh` sets `run_fixture` (diff touches `sim/fixtures/`, or diff touches `scripts/sim/` while **no** board has `sim.yml` yet); **otherwise that job is skipped**, which is normal.
 
 **KiCad Design Checks** (`pr-checks.yml`) may skip matrix jobs when the PR does not touch their watched paths (e.g. doc-only changes or edits limited to `spice-checks.yml`); see workflow comments there.
 
@@ -37,39 +38,47 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 
 ```text
 sim/
-├── README.md                    # This runbook
-├── BACKLOG-docker-image.md      # Optional Dockerfile spike (see #19)
+├── README.md
+├── BACKLOG-docker-image.md
+└── docker/                         # Dockerfile, compose, image README (#62)
+
 scripts/sim/
+├── run-spice-in-docker.sh         # Local all-in-container export + sim (#62)
 ├── run_sim.py
 ├── export_kicad_spice.py
 ├── assemble.py
-├── report_md.py                 # Markdown report
+├── report_md.py
 ├── ngspice_runner.py
 ├── config.py
 ├── measure_parse.py
 ├── baseline_metrics.py            # Optional baseline JSON (#58)
-├── metrics_json.py                # spice-report.metrics.json (#60)
-├── plot_extractions.py            # wrdata + PNG (#59)
+├── metrics_json.py
+├── plot_extractions.py
 └── …
-libs/spice/                      # Vendor models + README
+
+scripts/ci/
+└── run-spice-boards-docker.sh      # CI: loop boards in BOARDS_JSON (#62)
+
+libs/spice/                         # Vendor models + README
 boards/<name>/
-├── sim.yml                      # Opt-in
+├── sim.yml
 ├── sim/
-│   ├── overlay.cir              # When using assembly
-│   ├── plots/                  # gitignored — PNGs when sim.yml lists plots (#59)
-│   ├── spice_metrics_baseline.json  # Optional — committed expected measures (see #58)
-│   ├── kicad_export.cir       # gitignored — generated
-│   └── kicad_export_toolchain.txt  # gitignored — kicad-cli --version
+│   ├── overlay.cir
+│   ├── plots/
+│   ├── spice_metrics_baseline.json
+│   ├── kicad_export.cir
+│   └── kicad_export_toolchain.txt
 └── docs/
-    ├── spice-report.md          # gitignored if generated locally; CI artifact
-    └── spice-report.metrics.json  # same — machine-readable sibling (#60)
+    ├── spice-report.md
+    └── spice-report.metrics.json
 ```
 
 ---
 
 ## Maintainer checklist
 
-- [ ] **Pin KiCad:** set `KICAD_IMAGE` digest in `spice-checks.yml` (and `pr-checks.yml` / `Makefile`) together when bumping KiCad.
+- [ ] **Pin KiCad:** set `KICAD_IMAGE` digest in **`sim/docker/Dockerfile`** `FROM`, `spice-checks.yml`, `pr-checks.yml`, `update-readmes.yml`, and **`Makefile`** together when bumping KiCad.
+- [ ] **Pin ngspice (Debian):** when rebasing **`sim/docker/Dockerfile`** on a new KiCad image, re-check `NGSPICE_DEB_VERSION` with `docker run --rm <KICAD_DIGEST> apt-cache policy ngspice`.
 - [ ] **Board opts in:** add `sim.yml` + `sim/overlay.cir` if using `assembly`; symbols need `Sim.*` fields for spicemodel export (`libs/symbols/…`).
 - [ ] **Shared paths:** changing `libs/spice/`, `scripts/sim/`, `sim/fixtures/`, etc. retriggers all boards with `sim.yml` — see detect script.
 - [ ] **Reports:** optional commit of `docs/spice-report.md` (and **`spice-report.metrics.json`**) on `main` for diff visibility; default is artifact-only.
@@ -81,7 +90,6 @@ boards/<name>/
 ## Future (not scheduled)
 
 - **Phase 2:** `sim/parasitics_*.cir` includes for layout-aware decks.
-- **One Docker image:** [BACKLOG-docker-image.md](BACKLOG-docker-image.md) / [#19](https://github.com/eshelton328/the-forge/issues/19).
 
 ---
 
