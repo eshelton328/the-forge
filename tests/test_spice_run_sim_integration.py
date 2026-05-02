@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -67,6 +68,11 @@ def test_run_sim_rc_fixture_passes(tmp_path: Path) -> None:
     assert "v_n2" in text
     assert "| KiCad CLI | `—` |" in text
     assert "| KiCad Docker image (CI) | `—` |" in text
+    metrics_sidecar = tmp_path / "report.metrics.json"
+    assert metrics_sidecar.is_file(), "metrics sidecar beside --report output"
+    mdoc = json.loads(metrics_sidecar.read_text())
+    assert mdoc["metrics_schema_version"] >= 1
+    assert "measures" in mdoc
 
 
 @needs_ngspice
@@ -143,6 +149,13 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert "## Waveform plots" in text
     assert "tran-vout.png" in text
     assert "| KiCad CLI | `" in text
+    met = tmp_path / "report.metrics.json"
+    assert met.is_file()
+    met_doc = json.loads(met.read_text())
+    pngs_rel = met_doc.get("waveform_pngs_rel")
+    assert isinstance(pngs_rel, list)
+    assert any("tran-vout" in str(p) for p in pngs_rel)
+    assert met_doc["toolchain"]["baseline_compare_enabled"] is True
     toolchain = BOARD_SIM_YML.parent / "sim" / "kicad_export_toolchain.txt"
     assert toolchain.is_file()
     assert toolchain.read_text().strip() in text

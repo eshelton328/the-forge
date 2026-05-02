@@ -138,7 +138,7 @@ sim-fixture:
 	{ echo "ngspice not found — brew install ngspice or set NGSPICE=/path/to/ngspice"; exit 1; }; \
 	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
 	python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml --report sim/fixtures/rc_divider/spice-report.md
-	@echo OK: Spice fixture report written to sim/fixtures/rc_divider/spice-report.md
+	@echo OK: Spice fixture report written to sim/fixtures/rc_divider/spice-report.md (+ spice-report.metrics.json)
 
 # KiCad SPICE netlist → boards/<BOARD>/sim/kicad_export.cir (issue #46). Same Docker pattern as ERC in pr-checks.yml.
 sim-export-board:
@@ -162,7 +162,7 @@ sim-board: sim-export-board
 	test -f $(BOARD_DIR)/sim.yml || { echo "no $(BOARD_DIR)/sim.yml — pick a board with sim.yml"; exit 1; }; \
 	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
 	python3 scripts/sim/run_sim.py --config $(BOARD_DIR)/sim.yml --report $(BOARD_DIR)/docs/spice-report.md
-	@echo OK: Board spice report written to $(BOARD_DIR)/docs/spice-report.md
+	@echo OK: Board spice report written to $(BOARD_DIR)/docs/spice-report.md (+ spice-report.metrics.json)
 
 check-all:
 	@set -e; for d in boards/*/; do \

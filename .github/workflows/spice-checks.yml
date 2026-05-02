@@ -73,7 +73,9 @@ jobs:
         if: always()
         with:
           name: spice-fixture-report
-          path: sim/fixtures/rc_divider/spice-report.md
+          path: |
+            sim/fixtures/rc_divider/spice-report.md
+            sim/fixtures/rc_divider/spice-report.metrics.json
 
   spice-board:
     needs: detect-spice
@@ -156,5 +158,6 @@ jobs:
           name: spice-${{ matrix.board }}
           path: |
             boards/${{ matrix.board }}/docs/spice-report.md
+            boards/${{ matrix.board }}/docs/spice-report.metrics.json
             boards/${{ matrix.board }}/sim/assembled.cir
             boards/${{ matrix.board }}/sim/kicad_export.cir

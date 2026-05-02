@@ -40,6 +40,7 @@ from scripts.sim.measure_parse import (
     parse_measure_value,
 )
 from scripts.sim.ngspice_runner import ngspice_binary, read_ngspice_version, run_batch
+from scripts.sim.metrics_json import build_metrics_json_document, metrics_sidecar_path
 from scripts.sim.report_md import MeasureRowResult, render_report
 
 
@@ -196,6 +197,8 @@ def run_flow(
                         bounds_str=_bounds_str(m.min_value, m.max_value),
                         passed=False,
                         detail=missing_reason,
+                        bounds_min=m.min_value,
+                        bounds_max=m.max_value,
                     ),
                 )
                 any_fail = True
@@ -211,6 +214,8 @@ def run_flow(
                     bounds_str=_bounds_str(m.min_value, m.max_value),
                     passed=ok,
                     detail=reason,
+                    bounds_min=m.min_value,
+                    bounds_max=m.max_value,
                 ),
             )
 
@@ -257,9 +262,29 @@ def run_flow(
         except (OSError, RuntimeError, ValueError, ImportError) as plot_exc:
             print(f"warning: waveform plots failed: {plot_exc}", file=sys.stderr)
 
+    use_baseline_compare = baseline_measures is not None
     out = report_path or (config_path.parent / "spice-report.md")
     out.write_text(report_text)
     print(f"Wrote {out}")
+
+    metrics_side = metrics_sidecar_path(out)
+    metrics_side.write_text(
+        build_metrics_json_document(
+            config_path=config_path,
+            netlist_path=cfg.netlist_path,
+            scenario_results=tuple(rows),
+            ngspice_version=ver.raw_line,
+            simulator_returncode=sim.returncode,
+            kicad_cli_version=kicad_line,
+            kicad_docker_image=docker_image,
+            baseline_compare=use_baseline_compare,
+            baseline_relative_display=baseline_rel,
+            baseline_doc_ref=baseline_doc_ref,
+            baseline_measures=baseline_measures,
+            waveform_pngs_rel=plot_paths,
+        ),
+    )
+    print(f"Wrote {metrics_side}")
 
     if write_baseline_path is not None:
         if any_fail:
