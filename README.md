@@ -28,10 +28,11 @@ the-forge/
 
 Every pull request automatically runs:
 - **PR title** must follow [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `feat:`, `fix:`, `chore:`, `ci:`)
+- **`pytest`** on `tests/` (Python **3.12**; see [`.github/workflows/pytest.yml`](.github/workflows/pytest.yml) — Spice integration cases skip unless `ngspice`/Docker exist)
 - **ERC** (Electrical Rules Check) on schematics
 - **DRC** (Design Rules Check) against multiple fab house rules (JLCPCB, PCBWay)
 
-The KiCad workflow always runs, but it only **executes** ERC/DRC for boards that are in scope: changes under `boards/<name>/` check only those boards, while changes to `libs/`, `fab-rules/`, `kibot/`, `scripts/`, the root `Makefile`, or `.github/workflows/pr-checks.yml` trigger checks on all boards. Doc-only diffs (e.g. just `README.md`) skip the heavy KiCad jobs to save time.
+The KiCad workflow always runs, but it only **executes** ERC/DRC for boards that are in scope: changes under `boards/<name>/` check only those boards, while changes to `libs/`, `fab-rules/`, `kibot/`, `scripts/`, the root `Makefile`, or `.github/workflows/pr-checks.yml` trigger checks on all boards. Doc-only diffs (e.g. just `README.md`) skip the heavy KiCad jobs to save time. **`pytest`** (see **`pytest.yml`**) runs on every PR regardless, so Python regressions cannot slip through doc-only merges.
 
 On release tags, the pipeline generates:
 - Fab-ready Gerber/drill ZIPs per fab house
@@ -71,6 +72,15 @@ make check-all
 `kicad-cli` is picked up from your `PATH` if present; on macOS it falls back to
 `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`. Override with
 `KICAD_CLI=/path/to/kicad-cli make check`.
+
+### Python tests (pytest)
+
+```bash
+pip install -r requirements.txt
+python3 -m pytest tests/
+```
+
+With **`ngspice`** and **Docker** available, `tests/test_spice_run_sim_integration.py` runs end-to-end Spice smoke; otherwise those cases are **skipped** (same as default CI for `pytest.yml`).
 
 Raw commands (equivalent to the Makefile):
 
