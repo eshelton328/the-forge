@@ -1,0 +1,12 @@
+# Unified sim toolchain — KiCad CLI + ngspice + Python (repo-root context).
+# See sim/docker/README.md
+
+services:
+  sim:
+    build:
+      context: ../..
+      dockerfile: sim/docker/Dockerfile
+    image: the-forge-sim:local
+    volumes:
+      - ../..:/workspace
+    working_dir: /workspace

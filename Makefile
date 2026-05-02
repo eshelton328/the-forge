@@ -22,7 +22,7 @@ endif
 BOARD        ?= $(DEFAULT_BOARD)
 BOARD_DIR    := boards/$(BOARD)
 SCH          := $(BOARD_DIR)/$(BOARD).kicad_sch
-# Pinned image — keep digest in sync with .github/workflows/pr-checks.yml
+# Pinned image — keep digest in sync with .github/workflows/pr-checks.yml and sim/docker/Dockerfile FROM
 KICAD_IMAGE  ?= kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6
 PCB          := $(BOARD_DIR)/$(BOARD).kicad_pcb
 FAB_SCRIPT   := scripts/run-drc-all-fabs.sh
@@ -49,7 +49,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture sim-export-board sim-board
+.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture sim-export-board sim-board sim-board-docker sim-fixture-docker
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -66,8 +66,10 @@ help:
 	@echo "  make update-readmes   Regenerate validation summaries in board READMEs"
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo "  make sim-fixture      Run ngspice smoke (sim/fixtures/rc_divider) — requires ngspice on PATH"
+	@echo "  make sim-fixture-docker  Same, inside unified sim image (see sim/docker/)"
 	@echo "  make sim-export-board Export KiCad schematic → sim/kicad_export.cir (Docker + KICAD_IMAGE)"
-	@echo "  make sim-board        Export + ngspice for BOARD (default tps63070-breakout) — Docker + ngspice"
+	@echo "  make sim-board        Export + ngspice for BOARD — host Python + host ngspice + Docker for export"
+	@echo "  make sim-board-docker Export + ngspice entirely in unified sim image (#62)"
 	@echo ""
 	@echo "  Choose the board in either way:"
 	@echo "    make drc BOARD=name"
@@ -163,6 +165,17 @@ sim-board: sim-export-board
 	PATH="$$PATH:/opt/homebrew/bin:/usr/local/bin"; \
 	python3 scripts/sim/run_sim.py --config $(BOARD_DIR)/sim.yml --report $(BOARD_DIR)/docs/spice-report.md
 	@echo OK: Board spice report written to $(BOARD_DIR)/docs/spice-report.md (+ spice-report.metrics.json)
+
+sim-board-docker:
+	@command -v docker >/dev/null 2>&1 || { echo "docker required"; exit 1; }; \
+	test -f $(BOARD_DIR)/sim.yml || { echo "no $(BOARD_DIR)/sim.yml — pick a board with sim.yml"; exit 1; }; \
+	bash scripts/sim/run-spice-in-docker.sh --board "$(BOARD)"
+	@echo OK: Board spice report written via unified image ($(BOARD_DIR)/docs/spice-report.md)
+
+sim-fixture-docker:
+	@command -v docker >/dev/null 2>&1 || { echo "docker required"; exit 1; }; \
+	bash scripts/sim/run-spice-in-docker.sh --fixture
+	@echo OK: Fixture report via unified image (sim/fixtures/rc_divider/spice-report.md)
 
 check-all:
 	@set -e; for d in boards/*/; do \

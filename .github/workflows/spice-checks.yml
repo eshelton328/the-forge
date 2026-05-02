@@ -1,6 +1,7 @@
 name: SPICE simulation
 
 # Board-targeted ngspice runs (opt-in via boards/<name>/sim.yml) plus optional fixture smoke.
+# Unified toolchain: sim/docker/Dockerfile (KiCad digest + pinned ngspice + Python venv) — #62.
 # Path rules live in .github/scripts/detect-spice-boards.sh.
 on:
   pull_request:
@@ -14,6 +15,8 @@ concurrency:
 
 env:
   KICAD_IMAGE: "kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6"
+  # Built from sim/docker/Dockerfile; reports use SIM_KICAD_DOCKER_IMAGE for toolchain line.
+  SIM_DOCKER_IMAGE: the-forge-sim:ci
 
 jobs:
   detect-spice:
@@ -45,28 +48,27 @@ jobs:
     needs: detect-spice
     if: needs.detect-spice.outputs.run_fixture == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Install ngspice
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ngspice
-
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Build unified sim image
+        run: docker build -t "$SIM_DOCKER_IMAGE" -f sim/docker/Dockerfile .
 
       - name: Run RC divider fixture
+        env:
+          SIM_KICAD_DOCKER_IMAGE: ${{ env.SIM_DOCKER_IMAGE }}
         run: |
-          python3 scripts/sim/run_sim.py \
-            --config sim/fixtures/rc_divider/sim.yml \
-            --report sim/fixtures/rc_divider/spice-report.md
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e SIM_KICAD_DOCKER_IMAGE \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            "$SIM_DOCKER_IMAGE" \
+            python3 /workspace/scripts/sim/run_sim.py \
+              --config sim/fixtures/rc_divider/sim.yml \
+              --report sim/fixtures/rc_divider/spice-report.md
 
       - name: Upload fixture report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -81,83 +83,63 @@ jobs:
     needs: detect-spice
     if: needs.detect-spice.outputs.boards != '[]'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        board: ${{ fromJson(needs.detect-spice.outputs.boards) }}
+    timeout-minutes: 30
+    env:
+      BOARDS_JSON: ${{ needs.detect-spice.outputs.boards }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Export schematic netlist (kicad-cli in Docker)
+      - name: Build unified sim image
+        run: docker build -t "$SIM_DOCKER_IMAGE" -f sim/docker/Dockerfile .
+
+      - name: Run board SPICE (KiCad export + ngspice in container)
         env:
-          BOARD: ${{ matrix.board }}
-        run: |
-          docker run --rm \
-            --user "$(id -u):$(id -g)" \
-            -e HOME=/workspace/.kicad-ci-home \
-            -e BOARD \
-            -v "$GITHUB_WORKSPACE:/workspace" \
-            -w /workspace \
-            "$KICAD_IMAGE" \
-            bash -c '
-              source /workspace/scripts/ci/setup-kicad-env.sh
-              python3 /workspace/scripts/sim/export_kicad_spice.py \
-                --board-dir "/workspace/boards/$BOARD"
-            '
+          SIM_KICAD_DOCKER_IMAGE: ${{ env.SIM_DOCKER_IMAGE }}
+        run: bash scripts/ci/run-spice-boards-docker.sh
 
-      - name: Install ngspice
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ngspice
-
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run board SPICE (assemble + ngspice)
-        env:
-          BOARD: ${{ matrix.board }}
-          SIM_KICAD_DOCKER_IMAGE: ${{ env.KICAD_IMAGE }}
-        run: |
-          python3 scripts/sim/run_sim.py \
-            --config "boards/$BOARD/sim.yml" \
-            --report "boards/$BOARD/docs/spice-report.md"
-
-      - name: Detect optional Spice plot PNGs
-        id: spice_plot_pngs
+      - name: Stage plot PNGs for artifact
         if: always()
-        env:
-          BOARD: ${{ matrix.board }}
         shell: bash
         run: |
           set -euo pipefail
-          shopt -s nullglob
-          files=(boards/"$BOARD"/sim/plots/*.png)
-          if [ ${#files[@]} -gt 0 ]; then
-            echo "any=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "any=false" >> "$GITHUB_OUTPUT"
-          fi
+          mkdir -p spice-plots-staging
+          for b in $(echo "$BOARDS_JSON" | jq -r '.[]'); do
+            shopt -s nullglob
+            files=(boards/"$b"/sim/plots/*.png)
+            if [ ${#files[@]} -gt 0 ]; then
+              mkdir -p "spice-plots-staging/$b"
+              cp "${files[@]}" "spice-plots-staging/$b/"
+            fi
+          done
 
       - name: Upload board SPICE plot PNGs
-        if: always() && steps.spice_plot_pngs.outputs.any == 'true'
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: spice-plots-${{ matrix.board }}
-          path: boards/${{ matrix.board }}/sim/plots/*.png
+          name: spice-plots
+          path: spice-plots-staging/**/*
+          if-no-files-found: ignore
+
+      - name: Stage board SPICE outputs
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p spice-board-staging
+          for b in $(echo "$BOARDS_JSON" | jq -r '.[]'); do
+            mkdir -p "spice-board-staging/$b"
+            for f in docs/spice-report.md docs/spice-report.metrics.json sim/assembled.cir sim/kicad_export.cir; do
+              p="boards/$b/$f"
+              if [[ -f "$p" ]]; then
+                cp "$p" "spice-board-staging/$b/"
+              fi
+            done
+          done
 
       - name: Upload board SPICE artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: spice-${{ matrix.board }}
-          path: |
-            boards/${{ matrix.board }}/docs/spice-report.md
-            boards/${{ matrix.board }}/docs/spice-report.metrics.json
-            boards/${{ matrix.board }}/sim/assembled.cir
-            boards/${{ matrix.board }}/sim/kicad_export.cir
+          name: spice-boards
+          path: spice-board-staging/**/*
+          if-no-files-found: ignore
