@@ -1,0 +1,38 @@
+name: Python tests
+
+# Lightweight PR gate: Python 3.12 + pytest on `tests/`. Tracks #61 / PRD testing (#43).
+#
+# Policy — integration skips (no extra KiCad Docker here):
+#   `tests/test_spice_run_sim_integration.py` uses pytest.mark.skip when ngspice
+#   and/or Docker is missing. In this job neither is provisioned by default, so those
+#   tests report as skipped (overall job stays green). Full ngspice + assembly runs
+#   stay in `spice-checks.yml` — we avoid duplicating Docker/KiCad cost for pytest.
+#
+# Path filter: none — run on every PR so failures always block merges; installs are cached.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pytest-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
+        run: python3 -m pytest tests/ -v --tb=short

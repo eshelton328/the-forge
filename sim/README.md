@@ -14,6 +14,7 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 | Docs + toolchain in reports | [#49](https://github.com/eshelton328/the-forge/issues/49) | This README as runbook; report lists **KiCad CLI**, **pinned Docker image** (when `SIM_KICAD_DOCKER_IMAGE` is set), **ngspice**; [Docker backlog stub](BACKLOG-docker-image.md) |
 | Waveform PNG artifacts | [#59](https://github.com/eshelton328/the-forge/issues/59) | Optional `sim.yml` **`plots:`** → **`wrdata`** + **`matplotlib`** under **`sim/plots/`**; **`--no-plots`** / **`SIM_NO_PLOTS`** |
 | Metrics JSON sidecar | [#60](https://github.com/eshelton328/the-forge/issues/60) | **`scripts/sim/metrics_json.py`** — **`spice-report.metrics.json`** next to **`spice-report.md`** |
+| pytest on PR | [#61](https://github.com/eshelton328/the-forge/issues/61) | [`.github/workflows/pytest.yml`](https://github.com/eshelton328/the-forge/blob/main/.github/workflows/pytest.yml) — **`python3 -m pytest tests/`** |
 
 **Baseline deltas:** committed optional JSON per board — **[#58](https://github.com/eshelton328/the-forge/issues/58)**.
 
@@ -27,6 +28,8 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 4. **CI** — `spice-board` matrix runs export in **`KICAD_IMAGE`**, then host **`apt install ngspice`**, then Python. Artifacts per board: `docs/spice-report.md`, **`docs/spice-report.metrics.json`**, `sim/assembled.cir`, `sim/kicad_export.cir`. When **`sim/plots/*.png`** exist, a second artifact uploads them (`spice-plots-<board>`). **`spice-fixture`** runs the RC divider only when `detect-spice-boards.sh` sets `run_fixture` (diff touches `sim/fixtures/`, or diff touches `scripts/sim/` while **no** board has `sim.yml` yet); **otherwise that job is skipped**, which is normal.
 
 **KiCad Design Checks** (`pr-checks.yml`) may skip matrix jobs when the PR does not touch their watched paths (e.g. doc-only changes or edits limited to `spice-checks.yml`); see workflow comments there.
+
+**Python tests (`pytest.yml`, [#61](https://github.com/eshelton328/the-forge/issues/61)):** runs on **every PR** — Python **3.12**, `pip install -r requirements.txt`, then **`pytest tests/`**. **`test_spice_run_sim_integration`** is **`skip`**ped when **`ngspice`** or **Docker** is unavailable (normal on this runner), so regressions covered there remain the responsibility of **`spice-checks.yml`** and local smoke runs. No KiCad Docker image is pulled for this job.
 
 ---
 
