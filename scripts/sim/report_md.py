@@ -19,6 +19,8 @@ class MeasureRowResult:
     bounds_str: str
     passed: bool
     detail: str | None
+    bounds_min: float | None = None
+    bounds_max: float | None = None
 
 
 def render_report(

@@ -10,7 +10,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Layers**: 2
 - **Thickness**: 1.6mm
 - **Fab targets**: JLCPCB 2-layer, PCBWay 2-layer
-- **SPICE (ngspice):** CI uploads `docs/spice-report.md` with toolchain + measure table (PR *Actions* → *Artifacts* → `spice-tps63070-breakout`). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
+- **SPICE (ngspice):** CI uploads `docs/spice-report.md` and `docs/spice-report.metrics.json` with toolchain + measure table (PR *Actions* → *Artifacts* → `spice-tps63070-breakout`). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
 
 ## Bill of Materials
 
