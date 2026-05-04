@@ -18,13 +18,13 @@ All `.include` paths in `assembled.cir` are **relative to `sim/`**, so nested in
 
 ### What belongs in `overlay.cir`
 
-- **Analysis cards** for scenarios declared in `sim.yml`: `.op`, `.tran`, `.ac`, `.meas`, sweep directives, and `.end` when the exported main deck does not terminate the run by itself (see [`boards/tps63070-breakout/sim/overlay.cir`](../../boards/tps63070-breakout/sim/overlay.cir)).
+- **Analysis cards** for scenarios declared in `sim.yml`: `.op`, `.tran`, `.ac`, `.meas`, sweep directives, and `.end` when the exported main deck does not terminate the run by itself (see [`boards/tps63070-breakout/sim/overlay.cir`](../boards/tps63070-breakout/sim/overlay.cir)).
 - **Board-local parasitics and refinement**: discrete extra elements that bridge nets already present in `kicad_export.cir` (series inductance on a switching node, capacitor ESL/ESR splits, short interconnect R/L). Keep net names aligned with KiCad SPICE export naming (`v(/netname)` style in `.meas`).
 - **Further modularization**: `.include "extracted_hotloop.cir"` (or similar) **from inside** `overlay.cir`, so the assembler order stays **includes → main → overlay** while extracted snippets live as separate versioned files under `boards/<board>/sim/`.
 
 ### What usually does *not* belong in `overlay.cir`
 
-- **Vendor subcircuits** duplicated per board — prefer one canonical path under **`libs/spice/`** and reference it from **`assembly.includes`** so checksum/license/provenance stay centralized (see **[`libs/spice/README.md`](../../libs/spice/README.md)** for the TPS63070 stub pattern).
+- **Vendor subcircuits** duplicated per board — prefer one canonical path under **`libs/spice/`** and reference it from **`assembly.includes`** so checksum/license/provenance stay centralized (see **[`libs/spice/README.md`](../libs/spice/README.md)** for the TPS63070 stub pattern).
 - **Replacing** the schematic export as the source of topology — `kicad_export.cir` remains the connectivity truth unless export is broken and an explicit escape hatch is documented per board.
 
 ## Evolution path (recommended)
