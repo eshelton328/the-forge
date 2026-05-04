@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # Download only the KiCad 3D model libraries needed by boards in this repo.
 #
-# Scans all .kicad_pcb files for KICAD10_3DMODEL_DIR references, then fetches
-# only the required .3dshapes directories from KiCad's GitLab.
+# Scans all .kicad_pcb files for KICAD10_3DMODEL_DIR (and legacy KICAD9_3DMODEL_DIR)
+# references, then fetches only the required .3dshapes paths from KiCad's GitLab.
 #
 # Usage:  bash scripts/ci/fetch-3d-models.sh [target-dir]
 # Default target: .cache/3dmodels
 #
 # The caller should set KICAD10_3DMODEL_DIR=<target-dir> when running kicad-cli.
+# Legacy boards may still reference KICAD9_3DMODEL_DIR in .kicad_pcb; this script
+# downloads those STEP files into the same tree — set KICAD9_3DMODEL_DIR to the
+# same path as KICAD10_3DMODEL_DIR in CI if needed.
 
 set -euo pipefail
 
@@ -16,18 +19,17 @@ KICAD_3D_REPO="https://gitlab.com/kicad/libraries/kicad-packages3D/-/raw/master"
 
 mkdir -p "$TARGET"
 
-needed_libs=$(grep -roh '\${KICAD10_3DMODEL_DIR}/[^/]*\.3dshapes' boards/ 2>/dev/null \
-  | sed 's|.*3DMODEL_DIR}/||' \
-  | sort -u)
+needed_files=$(
+  {
+    grep -roh '\${KICAD10_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null
+    grep -roh '\${KICAD9_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null
+  } | sed 's|.*3DMODEL_DIR}/||' | sort -u
+)
 
-if [ -z "$needed_libs" ]; then
-  echo "No 3D model libraries referenced — nothing to download."
+if [ -z "$needed_files" ]; then
+  echo "No 3D model files referenced (KICAD9/KICAD10 3DMODEL_DIR) — nothing to download."
   exit 0
 fi
-
-needed_files=$(grep -roh '\${KICAD10_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null \
-  | sed 's|.*3DMODEL_DIR}/||' \
-  | sort -u)
 
 echo "3D model files needed:"
 echo "$needed_files" | sed 's/^/  /'

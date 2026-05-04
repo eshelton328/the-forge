@@ -5313,7 +5313,7 @@
 			(uuid "0d53f036-3128-46dc-8a40-036ca41dc2e6")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_TL3342.step"
+		(model "${KICAD10_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_TL3342.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -8047,7 +8047,7 @@
 			(uuid "3c65f42e-a354-4b9e-a638-ac8f52e19a5e")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
+		(model "${KICAD10_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -8623,7 +8623,7 @@
 			(uuid "9e14db32-0380-41f5-a104-c61f54694566")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_TL3342.step"
+		(model "${KICAD10_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_TL3342.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9020,7 +9020,7 @@
 			(uuid "643041d3-8009-41c6-b437-ce01604fe022")
 		)
 		(embedded_fonts no)
-		(model "/Users/erik/Workspaces/the-forge/libs/footprints/TPS63070.pretty/XFL4020-152MEC.step"
+		(model "${KIPRJMOD}/../../libs/footprints/TPS63070.pretty/XFL4020-152MEC.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9327,7 +9327,7 @@
 			(uuid "d2404bc8-e532-43bf-ae4a-2f94bf43f437")
 		)
 		(embedded_fonts no)
-		(model "${KICAD9_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_CK_RS282G05A3.step"
+		(model "${KICAD10_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPST_CK_RS282G05A3.step"
 			(offset
 				(xyz 0 0 0)
 			)
