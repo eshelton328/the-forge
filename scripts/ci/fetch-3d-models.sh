@@ -21,8 +21,9 @@ mkdir -p "$TARGET"
 
 needed_files=$(
   {
-    grep -roh '\${KICAD10_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null
-    grep -roh '\${KICAD9_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null
+    # grep exits 1 when there are no matches — fine for optional KICAD9 scans.
+    grep -roh '\${KICAD10_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null || true
+    grep -roh '\${KICAD9_3DMODEL_DIR}/[^"]*\.step' boards/ 2>/dev/null || true
   } | sed 's|.*3DMODEL_DIR}/||' | sort -u
 )
 
