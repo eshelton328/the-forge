@@ -1,9 +1,11 @@
 * Board overlay — included after main kicad_export by assemble.py (issue #45).
 * Slice 4: TI TPS63070 subckt in libs/spice via sim.yml .include; KiCad Sim.Pins map on U1.
-* Slice 6+: DC OP for bias check; .tran + .meas for settle check (issue #56).
+* Transient guard scenarios (#56, #76): DC bias for .op, then PWL steps VIN 10 V → 14 V (within 16 V abs max).
 .include "manual_parasitics.cir"
-VVIN /VIN_2v_to_16v 0 DC 10
+VVIN /VIN_2v_to_16v 0 DC 10 PWL(0 10 50u 10 51u 14 250u 14)
 .op
 .tran 100n 250u
 .meas tran v_out_steady FIND v(/vout_+3.3v) AT=250u
+.meas tran v_out_min MIN v(/vout_+3.3v) FROM=1u TO=250u
+.meas tran vout_ripple_pp PP v(/vout_+3.3v) FROM=200u TO=250u
 .end

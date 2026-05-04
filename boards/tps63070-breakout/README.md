@@ -10,7 +10,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Layers**: 2
 - **Thickness**: 1.6mm
 - **Fab targets**: JLCPCB 2-layer, PCBWay 2-layer
-- **SPICE (ngspice):** CI uploads reports under artifact **`spice-boards`** → folder `tps63070-breakout/` (`docs/spice-report.md`, `docs/spice-report.metrics.json`, netlists). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
+- **SPICE (ngspice):** CI uploads reports under artifact **`spice-boards`** → folder `tps63070-breakout/` (`docs/spice-report.md`, `docs/spice-report.metrics.json`, netlists). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md). Scenario limits live in [`sim.yml`](sim.yml); stimulus and `.meas` directives in [`sim/overlay.cir`](sim/overlay.cir). The checked-in TPS63070 library under [`libs/spice/`](../../libs/spice/README.md) is an **ngspice-oriented behavioral stub** — ripple and dynamics may look ideal until that model is enriched; expanded regression targets are tracked in [#76](https://github.com/eshelton328/the-forge/issues/76).
 
 ## Bill of Materials
 

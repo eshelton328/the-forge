@@ -28,6 +28,8 @@ def test_parse_measure_from_golden_file() -> None:
         ("v_n2 = 5.000000e+00\n", "v_n2", 5.0),
         ("VMID =  \t12.500e-03\n", "VMID", 0.0125),
         ("v_out_steady        =  3.30000e+00\n", "v_out_steady", 3.3),
+        ("v_out_min           =  3.30000e+00 at=  2.50000e-04\n", "v_out_min", 3.3),
+        ("vout_ripple_pp      =  1.00000e-02 from=  2.00000e-04 to=  2.50000e-04\n", "vout_ripple_pp", 0.01),
     ),
 )
 def test_parse_measure_inline(line: str, measure_key: str, expected: float) -> None:

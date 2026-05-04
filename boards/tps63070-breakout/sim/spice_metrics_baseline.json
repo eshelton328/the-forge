@@ -1,8 +1,10 @@
 {
   "baseline_version": 1,
-  "ref": "DC OP plus 250 us transient settle (.meas v_out_steady); update after schematic or model churn",
+  "ref": "DC OP @ VIN=10 V; transient with VIN PWL 10→14 V (#76); refresh after schematic/model churn",
   "measures": {
     "vin_bias_op::v_vin": 10.0,
-    "tran_settle::v_out_steady": 3.3
+    "tran_settle::v_out_steady": 3.3,
+    "tran_settle::v_out_min": 3.3,
+    "tran_settle::vout_ripple_pp": 0.0
   }
 }
