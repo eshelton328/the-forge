@@ -1,6 +1,7 @@
 * Board overlay — included after main kicad_export by assemble.py (issue #45).
 * Slice 4: TI TPS63070 subckt in libs/spice via sim.yml .include; KiCad Sim.Pins map on U1.
 * Slice 6+: DC OP for bias check; .tran + .meas for settle check (issue #56).
+.include "manual_parasitics.cir"
 VVIN /VIN_2v_to_16v 0 DC 10
 .op
 .tran 100n 250u
