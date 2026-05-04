@@ -32,7 +32,7 @@ class PlotSpec:
 
 @dataclass(frozen=True)
 class ScenarioSpec:
-    """A named group of measures (one ngspice invocation per scenario v1)."""
+    """A named group of measures (logical grouping; one ngspice run parses all scenarios)."""
 
     identifier: str
     measures: tuple[MeasureSpec, ...]

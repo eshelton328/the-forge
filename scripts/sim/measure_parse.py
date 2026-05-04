@@ -45,12 +45,14 @@ def parse_measure_value(log_text: str, measure_id: str) -> float | None:
     """Extract numeric value for a .measure name from combined ngspice output.
 
     Matches lines like ``v_n2 = 5.000000e+00`` (ngspice batch). First match wins.
+
+    MIN/MAX/PP measures often append ``at=…``, ``from=…``, etc.; accept trailing text on the line.
     """
     if not measure_id.strip():
         return None
     # ngspice may left-pad; allow spaces around =
     pat = re.compile(
-        rf"(?im)^{re.escape(measure_id)}\s*=\s*([\d.eE+-]+)\s*$",
+        rf"(?im)^{re.escape(measure_id)}\s*=\s*([\d.eE+-]+)",
         re.MULTILINE,
     )
     m = pat.search(log_text)
