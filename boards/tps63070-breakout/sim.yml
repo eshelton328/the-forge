@@ -1,5 +1,5 @@
 # Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
-# Scenario expansion: issue #76 — line stress, ripple/MIN guards, load-current step in overlay.cir.
+# Transient scenarios: #76. Small-signal AC: secondary deck sim/ac_small_signal.cir (#79).
 spec_version: 1
 spice_engine: ngspice
 
@@ -32,6 +32,14 @@ scenarios:
       - id: v_out_heavy_load
         min: 3.28
         max: 3.32
+
+secondary_passes:
+  - netlist_rel: sim/ac_small_signal.cir
+    scenarios:
+      - id: ac_small_signal
+        measures:
+          - id: vout_ac_vm
+            max: 1.0
 
 plots:
   - file: tran-vout.png

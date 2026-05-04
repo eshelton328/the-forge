@@ -10,7 +10,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Layers**: 2
 - **Thickness**: 1.6mm
 - **Fab targets**: JLCPCB 2-layer, PCBWay 2-layer
-- **SPICE (ngspice):** CI uploads reports under artifact **`spice-boards`** → folder `tps63070-breakout/` (`docs/spice-report.md`, `docs/spice-report.metrics.json`, netlists). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md). Scenario limits are in [`sim.yml`](sim.yml); stimulus, `.meas`, and the **overlay-only load step** (`II_LOAD` on `/VOUT_+3.3v`, nets from KiCad export) live in [`sim/overlay.cir`](sim/overlay.cir). The checked-in TPS63070 library under [`libs/spice/`](../../libs/spice/README.md) is an **ngspice-oriented behavioral stub** — ripple and dynamics may look ideal until that model is enriched; expanded regression targets are tracked in [#76](https://github.com/eshelton328/the-forge/issues/76).
+- **SPICE (ngspice):** CI uploads reports under artifact **`spice-boards`** → folder `tps63070-breakout/` (`docs/spice-report.md`, `docs/spice-report.metrics.json`, netlists). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md). Scenario limits are in [`sim.yml`](sim.yml); transient stimulus and `.meas` live in [`sim/overlay.cir`](sim/overlay.cir); optional **small-signal AC** runs as a **second ngspice batch** via [`sim.yml`](sim.yml) `secondary_passes` → [`sim/ac_small_signal.cir`](sim/ac_small_signal.cir) ([#79](https://github.com/eshelton328/the-forge/issues/79)). The checked-in TPS63070 library under [`libs/spice/`](../../libs/spice/README.md) is an **ngspice-oriented behavioral stub** — ripple and dynamics may look ideal until that model is enriched; transient regression landed in [#76](https://github.com/eshelton328/the-forge/issues/76).
 
 ### Simulation roadmap (long-term)
 
@@ -20,7 +20,7 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 2. **Impedance** — frequency-domain or port metrics (e.g. output impedance, PDN **|Z(f)|**) using `.ac` / richer models and, where needed, layout-linked overlays ([`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md), [#74](https://github.com/eshelton328/the-forge/issues/74)).
 3. **EMI-oriented reporting** — structured EMI-adjacent summaries where the toolchain supports them (e.g. harmonic estimates, documented coupling assumptions); **not** chamber certification or guaranteed emissions compliance ([PRD #43](https://github.com/eshelton328/the-forge/issues/43) scope boundaries).
 
-**Today:** incremental regression scenarios ship via [#76](https://github.com/eshelton328/the-forge/issues/76).
+**Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); small-signal AC secondary deck ([#79](https://github.com/eshelton328/the-forge/issues/79)).
 
 ## Bill of Materials
 
