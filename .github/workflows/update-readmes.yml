@@ -15,6 +15,7 @@ on:
       - "scripts/validate_board.py"
       - "scripts/ci/update-board-readmes.py"
       - "scripts/ci/generate-board-images.sh"
+      - "scripts/ci/fetch-3d-models.sh"
       - "scripts/run-drc-all-fabs.sh"
 
 permissions:
