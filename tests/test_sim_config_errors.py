@@ -58,6 +58,56 @@ def test_rejects_duplicate_plot_files(tmp_path: Path) -> None:
         load_sim_config(p)
 
 
+def test_rejects_secondary_pass_missing_netlist(tmp_path: Path) -> None:
+    p = tmp_path / "sim.yml"
+    p.write_text(
+        yaml.safe_dump(
+            {
+                "spec_version": 1,
+                "spice_engine": "ngspice",
+                "netlist": "a.cir",
+                "scenarios": [
+                    {
+                        "id": "s",
+                        "measures": [{"id": "m", "min": 0, "max": 1}],
+                    },
+                ],
+                "secondary_passes": [
+                    {
+                        "netlist_rel": "sim/does-not-exist.cir",
+                        "scenarios": [
+                            {"id": "ac", "measures": [{"id": "x", "max": 1}]},
+                        ],
+                    },
+                ],
+            },
+        ),
+    )
+    (tmp_path / "a.cir").write_text("* stub\n.end\n")
+    with pytest.raises(ValueError, match=r"secondary_passes\[0\]\.netlist_rel not found"):
+        load_sim_config(p)
+
+
+def test_rejects_duplicate_primary_scenario_ids(tmp_path: Path) -> None:
+    p = tmp_path / "sim.yml"
+    p.write_text(
+        yaml.safe_dump(
+            {
+                "spec_version": 1,
+                "spice_engine": "ngspice",
+                "netlist": "a.cir",
+                "scenarios": [
+                    {"id": "s", "measures": [{"id": "m", "min": 0, "max": 1}]},
+                    {"id": "s", "measures": [{"id": "m2", "min": 0, "max": 1}]},
+                ],
+            },
+        ),
+    )
+    (tmp_path / "a.cir").write_text("* stub\n.end\n")
+    with pytest.raises(ValueError, match="duplicate scenario id"):
+        load_sim_config(p)
+
+
 def test_rejects_bad_plot_basename(tmp_path: Path) -> None:
     p = tmp_path / "sim.yml"
     p.write_text(

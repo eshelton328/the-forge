@@ -39,6 +39,14 @@ class ScenarioSpec:
 
 
 @dataclass(frozen=True)
+class SecondaryPassSpec:
+    """Additional standalone netlist run after the primary deck (e.g. small-signal ``.ac`` only)."""
+
+    netlist_path: Path
+    scenarios: tuple[ScenarioSpec, ...]
+
+
+@dataclass(frozen=True)
 class SimConfig:
     """Validated top-level config."""
 
@@ -49,6 +57,7 @@ class SimConfig:
     scenarios: tuple[ScenarioSpec, ...]
     assembly: AssemblySpec | None
     plots: tuple[PlotSpec, ...]
+    secondary_passes: tuple[SecondaryPassSpec, ...]
 
 
 def _require_mapping(data: Any, context: str) -> dict[str, Any]:
@@ -113,6 +122,59 @@ def _load_plots(root: dict[str, Any], context: str) -> tuple[PlotSpec, ...]:
             PlotSpec(
                 png_basename=png,
                 signal=validate_plot_signal(sig),
+            ),
+        )
+    return tuple(out)
+
+
+def _load_secondary_passes(
+    root: dict[str, Any],
+    cfg_dir: Path,
+    measure_ids: set[str],
+    scenario_ids: set[str],
+) -> tuple[SecondaryPassSpec, ...]:
+    raw = root.get("secondary_passes")
+    if raw is None:
+        return ()
+    if not isinstance(raw, list):
+        raise ValueError("secondary_passes must be a list when present")
+    out: list[SecondaryPassSpec] = []
+    for i, item in enumerate(raw):
+        pm = _require_mapping(item, f"secondary_passes[{i}]")
+        nrel = pm.get("netlist_rel")
+        if not isinstance(nrel, str) or not nrel.strip():
+            raise ValueError(f"secondary_passes[{i}].netlist_rel must be a non-empty string")
+        npath = (cfg_dir / nrel.strip()).resolve()
+        if not npath.is_file():
+            raise ValueError(f"secondary_passes[{i}].netlist_rel not found: {npath}")
+        scenarios_raw = pm.get("scenarios")
+        if not isinstance(scenarios_raw, list) or not scenarios_raw:
+            raise ValueError(f"secondary_passes[{i}].scenarios must be a non-empty list")
+        scenarios_chunk: list[ScenarioSpec] = []
+        for j, s in enumerate(scenarios_raw):
+            sm = _require_mapping(s, f"secondary_passes[{i}].scenarios[{j}]")
+            sid = sm.get("id")
+            if not isinstance(sid, str) or not sid.strip():
+                raise ValueError(
+                    f"secondary_passes[{i}].scenarios[{j}] requires non-empty string id",
+                )
+            sid_st = sid.strip()
+            if sid_st in scenario_ids:
+                raise ValueError(f"duplicate scenario id (primary or earlier pass): {sid_st}")
+            scenario_ids.add(sid_st)
+            measures = _load_measures(
+                sm.get("measures"),
+                f"secondary_passes[{i}].scenarios[{j}].measures",
+            )
+            for mm in measures:
+                if mm.identifier in measure_ids:
+                    raise ValueError(f"duplicate measure id across config: {mm.identifier}")
+                measure_ids.add(mm.identifier)
+            scenarios_chunk.append(ScenarioSpec(identifier=sid_st, measures=measures))
+        out.append(
+            SecondaryPassSpec(
+                netlist_path=npath,
+                scenarios=tuple(scenarios_chunk),
             ),
         )
     return tuple(out)
@@ -190,21 +252,27 @@ def load_sim_config(config_path: Path) -> SimConfig:
 
     scenarios_out: list[ScenarioSpec] = []
     measure_ids: set[str] = set()
+    scenario_ids: set[str] = set()
     for i, s in enumerate(scenarios_raw):
         sm = _require_mapping(s, f"scenarios[{i}]")
         sid = sm.get("id")
         if not isinstance(sid, str) or not sid.strip():
             raise ValueError(f"scenarios[{i}] requires non-empty string id")
+        sid_st = sid.strip()
+        if sid_st in scenario_ids:
+            raise ValueError(f"duplicate scenario id: {sid_st}")
+        scenario_ids.add(sid_st)
         measures = _load_measures(sm.get("measures"), f"scenarios[{i}].measures")
         for mm in measures:
             if mm.identifier in measure_ids:
                 raise ValueError(f"duplicate measure id across scenarios: {mm.identifier}")
             measure_ids.add(mm.identifier)
         scenarios_out.append(
-            ScenarioSpec(identifier=sid.strip(), measures=measures),
+            ScenarioSpec(identifier=sid_st, measures=measures),
         )
 
     plots_out = _load_plots(root, "root.")
+    secondary_out = _load_secondary_passes(root, cfg_dir, measure_ids, scenario_ids)
 
     return SimConfig(
         spec_version=int(spec_ver),
@@ -214,4 +282,5 @@ def load_sim_config(config_path: Path) -> SimConfig:
         scenarios=tuple(scenarios_out),
         assembly=assembly_spec,
         plots=plots_out,
+        secondary_passes=secondary_out,
     )

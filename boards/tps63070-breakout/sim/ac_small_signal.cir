@@ -1,0 +1,11 @@
+* Small-signal AC pass (#79): DC-only bias + AC on VIN (no PWL — incompatible with ngspice `.meas ac` in batch when a standalone `.op` precedes `.ac` on this deck).
+* VCVS taps `/vout_+3.3v` → `vo_meas` so `.meas` avoids special characters in node names.
+* Run via `sim.yml` `secondary_passes` → second ngspice invocation (`scripts/sim/run_sim.py`).
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+VVIN /VIN_2v_to_16v 0 DC 10 AC 1
+II_LOAD /VOUT_+3.3v GND DC 0.5
+Ecopy vo_meas GND /vout_+3.3v GND 1
+.ac dec 15 100 1meg
+.meas ac vout_ac_vm FIND V(vo_meas) AT=10000
+.end

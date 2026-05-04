@@ -3,6 +3,7 @@
 
 Supports either a single ``netlist:`` path or ``assembly:`` (main + optional includes + mandatory
 ``sim/overlay.cir``) per issue #45 — assembled deck is written to ``sim/assembled.cir`` before run.
+Optional ``secondary_passes`` in ``sim.yml`` run additional standalone netlists (issue #79 — e.g. ``.ac`` decks).
 
 Usage:
   python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml
@@ -33,7 +34,7 @@ from scripts.sim.baseline_metrics import (
     measure_key,
     parse_value_for_delta,
 )
-from scripts.sim.config import SimConfig, load_sim_config
+from scripts.sim.config import ScenarioSpec, SimConfig, load_sim_config
 from scripts.sim.measure_parse import (
     check_limits,
     parse_dc_op_node_voltage,
@@ -59,6 +60,62 @@ def _bounds_str(min_v: float | None, max_v: float | None) -> str:
     if max_v is not None:
         parts.append(f"max {max_v}")
     return ", ".join(parts) if parts else "(unbounded)"
+
+
+def _evaluate_scenario_measures(
+    combined_log: str,
+    scenarios: tuple[ScenarioSpec, ...],
+) -> tuple[list[MeasureRowResult], bool]:
+    """Parse ngspice stdout/stderr for scenario limits; returns rows and whether any limit failed."""
+    rows: list[MeasureRowResult] = []
+    any_fail = False
+    for scenario in scenarios:
+        for m in scenario.measures:
+            if m.op_node is not None:
+                raw_val = parse_dc_op_node_voltage(combined_log, m.op_node)
+                missing_reason = (
+                    f"DC OP voltage V({m.op_node}) not found in ngspice output"
+                    if raw_val is None
+                    else None
+                )
+            else:
+                raw_val = parse_measure_value(combined_log, m.identifier)
+                missing_reason = (
+                    "measure line not found in ngspice output"
+                    if raw_val is None
+                    else None
+                )
+            if raw_val is None:
+                rows.append(
+                    MeasureRowResult(
+                        measure_id=m.identifier,
+                        scenario_id=scenario.identifier,
+                        value_str="(missing)",
+                        bounds_str=_bounds_str(m.min_value, m.max_value),
+                        passed=False,
+                        detail=missing_reason,
+                        bounds_min=m.min_value,
+                        bounds_max=m.max_value,
+                    ),
+                )
+                any_fail = True
+                continue
+            ok, reason = check_limits(raw_val, m.min_value, m.max_value)
+            if not ok:
+                any_fail = True
+            rows.append(
+                MeasureRowResult(
+                    measure_id=m.identifier,
+                    scenario_id=scenario.identifier,
+                    value_str=f"{raw_val:.6g}",
+                    bounds_str=_bounds_str(m.min_value, m.max_value),
+                    passed=ok,
+                    detail=reason,
+                    bounds_min=m.min_value,
+                    bounds_max=m.max_value,
+                ),
+            )
+    return rows, any_fail
 
 
 def _append_waveform_plot_section(report: str, plot_paths: tuple[str, ...]) -> str:
@@ -169,57 +226,21 @@ def run_flow(
     sim = run_batch(ngspice_exe, cfg.netlist_path)
     combined = sim.stdout + "\n" + sim.stderr
 
-    rows: list[MeasureRowResult] = []
-    any_fail = False
+    rows, measure_fail = _evaluate_scenario_measures(combined, cfg.scenarios)
+    any_fail = measure_fail
 
-    for scenario in cfg.scenarios:
-        for m in scenario.measures:
-            if m.op_node is not None:
-                raw_val = parse_dc_op_node_voltage(combined, m.op_node)
-                missing_reason = (
-                    f"DC OP voltage V({m.op_node}) not found in ngspice output"
-                    if raw_val is None
-                    else None
-                )
-            else:
-                raw_val = parse_measure_value(combined, m.identifier)
-                missing_reason = (
-                    "measure line not found in ngspice output"
-                    if raw_val is None
-                    else None
-                )
-            if raw_val is None:
-                rows.append(
-                    MeasureRowResult(
-                        measure_id=m.identifier,
-                        scenario_id=scenario.identifier,
-                        value_str="(missing)",
-                        bounds_str=_bounds_str(m.min_value, m.max_value),
-                        passed=False,
-                        detail=missing_reason,
-                        bounds_min=m.min_value,
-                        bounds_max=m.max_value,
-                    ),
-                )
-                any_fail = True
-                continue
-            ok, reason = check_limits(raw_val, m.min_value, m.max_value)
-            if not ok:
-                any_fail = True
-            rows.append(
-                MeasureRowResult(
-                    measure_id=m.identifier,
-                    scenario_id=scenario.identifier,
-                    value_str=f"{raw_val:.6g}",
-                    bounds_str=_bounds_str(m.min_value, m.max_value),
-                    passed=ok,
-                    detail=reason,
-                    bounds_min=m.min_value,
-                    bounds_max=m.max_value,
-                ),
-            )
+    exit_codes: list[int] = [sim.returncode]
+    if sim.returncode == 0 and cfg.secondary_passes:
+        for sp in cfg.secondary_passes:
+            sim_n = run_batch(ngspice_exe, sp.netlist_path)
+            exit_codes.append(sim_n.returncode)
+            comb_n = sim_n.stdout + "\n" + sim_n.stderr
+            rows_n, fail_n = _evaluate_scenario_measures(comb_n, sp.scenarios)
+            rows.extend(rows_n)
+            any_fail = any_fail or fail_n
 
-    if sim.returncode != 0:
+    simulator_exitcode = max(exit_codes) if exit_codes else 0
+    if simulator_exitcode != 0:
         any_fail = True
 
     kicad_line = _read_kicad_export_toolchain(cfg.config_dir)
@@ -229,7 +250,7 @@ def run_flow(
         scenario_results=tuple(rows),
         ngspice_version=ver.raw_line,
         netlist_path=cfg.netlist_path,
-        simulator_returncode=sim.returncode,
+        simulator_returncode=simulator_exitcode,
         kicad_cli_version=kicad_line,
         kicad_docker_image=docker_image,
         baseline_measures=baseline_measures,
@@ -274,7 +295,7 @@ def run_flow(
             netlist_path=cfg.netlist_path,
             scenario_results=tuple(rows),
             ngspice_version=ver.raw_line,
-            simulator_returncode=sim.returncode,
+            simulator_returncode=simulator_exitcode,
             kicad_cli_version=kicad_line,
             kicad_docker_image=docker_image,
             baseline_compare=use_baseline_compare,
