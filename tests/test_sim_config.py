@@ -39,8 +39,9 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
         (REPO_ROOT / "boards" / "tps63070-breakout" / "sim.yml").read_text(),
     )
     cfg = load_sim_config(yml)
-    assert len(cfg.scenarios) == 2
+    assert len(cfg.scenarios) == 3
     assert cfg.scenarios[1].identifier == "tran_settle"
+    assert cfg.scenarios[2].identifier == "tran_load_step"
     assert len(cfg.plots) == 1
     assert cfg.plots[0].png_basename == "tran-vout.png"
     assert cfg.assembly is not None

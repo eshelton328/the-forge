@@ -1,5 +1,5 @@
 # Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
-# Scenario expansion: issue #76 — transient MIN/PP ripple + VIN PWL line stress in overlay.cir.
+# Scenario expansion: issue #76 — line stress, ripple/MIN guards, load-current step in overlay.cir.
 spec_version: 1
 spice_engine: ngspice
 
@@ -24,6 +24,14 @@ scenarios:
         min: 3.25
       - id: vout_ripple_pp
         max: 0.15
+  - id: tran_load_step
+    measures:
+      - id: v_out_light_load
+        min: 3.25
+        max: 3.35
+      - id: v_out_heavy_load
+        min: 3.28
+        max: 3.32
 
 plots:
   - file: tran-vout.png

@@ -1,10 +1,12 @@
 {
   "baseline_version": 1,
-  "ref": "DC OP @ VIN=10 V; transient with VIN PWL 10→14 V (#76); refresh after schematic/model churn",
+  "ref": "DC OP @ VIN=10 V; PWL VIN + stepped II_LOAD on VOUT (#76); refresh after schematic/model churn",
   "measures": {
     "vin_bias_op::v_vin": 10.0,
     "tran_settle::v_out_steady": 3.3,
     "tran_settle::v_out_min": 3.3,
-    "tran_settle::vout_ripple_pp": 0.0
+    "tran_settle::vout_ripple_pp": 0.0,
+    "tran_load_step::v_out_light_load": 3.3,
+    "tran_load_step::v_out_heavy_load": 3.3
   }
 }
