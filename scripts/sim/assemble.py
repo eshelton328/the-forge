@@ -9,6 +9,8 @@ Contract (fixed order — do not reorder without updating tests and this docstri
 The generated deck is written to ``<config-dir>/sim/assembled.cir`` (overwritten each run).
 All ``.include`` paths in the generated file are relative to ``sim/`` (the output file's directory)
 so ngspice resolves them consistently.
+
+Maintainer note: parasitic evolution and overlay contents — ``sim/OVERLAY-PARASITICS.md``.
 """
 
 from __future__ import annotations
