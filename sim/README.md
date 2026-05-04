@@ -19,6 +19,8 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 
 **Baseline deltas:** committed optional JSON per board — **[#58](https://github.com/eshelton328/the-forge/issues/58)**.
 
+**Overlay / parasitics roadmap (research):** **[`OVERLAY-PARASITICS.md`](OVERLAY-PARASITICS.md)** — contract for **`sim/overlay.cir`**, schematic-only → manual → extraction-backed fragments on the **same** assemble hook ([**#63**](https://github.com/eshelton328/the-forge/issues/63)).
+
 ---
 
 ## How it works
@@ -39,6 +41,7 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 ```text
 sim/
 ├── README.md
+├── OVERLAY-PARASITICS.md           # Overlay contract + parasitic evolution (#63)
 ├── BACKLOG-docker-image.md
 └── docker/                         # Dockerfile, compose, image README (#62)
 
@@ -89,7 +92,7 @@ boards/<name>/
 
 ## Future (not scheduled)
 
-- **Phase 2:** `sim/parasitics_*.cir` includes for layout-aware decks.
+- **Layout-aware decks:** follow **[`OVERLAY-PARASITICS.md`](OVERLAY-PARASITICS.md)** — evolve **`sim/overlay.cir`** (and optional `sim/*.cir` includes pulled from it); same CI driver. Spawn a **tool-specific issue** when an extractor is chosen.
 
 ---
 
