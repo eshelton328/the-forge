@@ -1,0 +1,3 @@
+* Stage B placeholder — optional board-local parasitics (issue #63 roadmap: OVERLAY-PARASITICS.md).
+* Pulled into the assembled deck via .include from overlay.cir; assembler order unchanged.
+* Add discrete L/R/C or .subckt fragments here when modeling hot loops; extraction-backed drops track #74.
