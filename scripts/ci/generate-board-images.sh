@@ -9,8 +9,9 @@
 # Usage:  bash scripts/ci/generate-board-images.sh boards/<name>
 # Expects kicad-cli on PATH (run inside the KiCad Docker image in CI).
 #
-# 3D models: set KICAD10_3DMODEL_DIR to point at the standard library.
-# The workflow downloads the needed libraries and sets this variable.
+# 3D models: set KICAD10_3DMODEL_DIR (and optionally KICAD9_3DMODEL_DIR) to the
+# downloaded package3D cache. Repo-local STEP files can use ${KIPRJMOD}/../../libs/...
+# so they resolve in Docker with -w /workspace.
 
 set -euo pipefail
 
