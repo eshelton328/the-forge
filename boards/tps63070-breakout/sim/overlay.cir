@@ -1,11 +1,15 @@
 * Board overlay — included after main kicad_export by assemble.py (issue #45).
 * Slice 4: TI TPS63070 subckt in libs/spice via sim.yml .include; KiCad Sim.Pins map on U1.
-* Transient guard scenarios (#56, #76): DC bias for .op, then PWL steps VIN 10 V → 14 V (within 16 V abs max).
+* Transient guard scenarios (#56, #76): DC bias for .op; VIN PWL 10 V → 14 V; load-current step ~80 mA → 1 A on VOUT.
 .include "manual_parasitics.cir"
 VVIN /VIN_2v_to_16v 0 DC 10 PWL(0 10 50u 10 51u 14 250u 14)
+* Overlay load only (board connectors unmodeled in KiCad export): sinks current VOUT → GND.
+II_LOAD /VOUT_+3.3v GND PWL(0 0.08 119u 0.08 120u 1 250u 1)
 .op
 .tran 100n 250u
 .meas tran v_out_steady FIND v(/vout_+3.3v) AT=250u
 .meas tran v_out_min MIN v(/vout_+3.3v) FROM=1u TO=250u
 .meas tran vout_ripple_pp PP v(/vout_+3.3v) FROM=200u TO=250u
+.meas tran v_out_light_load FIND v(/vout_+3.3v) AT=110u
+.meas tran v_out_heavy_load FIND v(/vout_+3.3v) AT=245u
 .end
