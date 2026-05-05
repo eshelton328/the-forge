@@ -17,15 +17,23 @@ on:
       - "scripts/ci/generate-board-images.sh"
       - "scripts/ci/fetch-3d-models.sh"
       - "scripts/run-drc-all-fabs.sh"
+      - "scripts/sim/**"
+      - "sim/docker/**"
+      - ".github/workflows/update-readmes.yml"
+      - ".github/scripts/detect-spice-boards-for-push.sh"
+      - "requirements.txt"
+      - "Makefile"
 
 permissions:
   contents: write
 
 env:
   KICAD_IMAGE: "kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6"
+  SIM_DOCKER_IMAGE: the-forge-sim:ci
 
 jobs:
   generate-images:
+    if: ${{ !(github.event_name == 'push' && contains(github.event.head_commit.message, '[skip ci]')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -78,7 +86,7 @@ jobs:
                 bash /workspace/scripts/run-drc-all-fabs.sh "boards/$board" || true
                 shopt -s nullglob
                 for f in boards/$board/drc-fab-*.json; do
-                  mv "\$f" "boards/$board/docs/\${f##*/}"
+                  mv \"\$f\" \"boards/$board/docs/\${f##*/}\"
                 done
               "
           done
@@ -89,10 +97,80 @@ jobs:
           name: board-images
           path: boards/*/docs/
 
-  update-readmes:
-    needs: generate-images
+  run-spice-on-main:
+    if: ${{ !(github.event_name == 'push' && contains(github.event.head_commit.message, '[skip ci]')) }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Pick boards
+        id: pick
+        env:
+          INPUT_BOARD: ${{ inputs.board }}
+        run: |
+          set -euo pipefail
+          EVENT="${{ github.event_name }}"
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            if [ -n "${INPUT_BOARD:-}" ]; then
+              if [ -f "boards/${INPUT_BOARD}/sim.yml" ]; then
+                echo "boards=[\"${INPUT_BOARD}\"]" >> "$GITHUB_OUTPUT"
+              else
+                echo "boards=[]" >> "$GITHUB_OUTPUT"
+              fi
+            else
+              blist=$(for d in boards/*/; do b=$(basename "$d"); [ -f "boards/$b/sim.yml" ] && echo "$b"; done || true)
+              boards_json=$(printf '%s\n' "$blist" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+              echo "boards=$boards_json" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            bash .github/scripts/detect-spice-boards-for-push.sh \
+              "${{ github.event.before }}" \
+              "${{ github.event.after }}"
+          fi
+
+      - name: Build unified sim image
+        if: steps.pick.outputs.boards != '[]'
+        run: docker build -t "$SIM_DOCKER_IMAGE" -f sim/docker/Dockerfile .
+
+      - name: Run board SPICE (KiCad export + ngspice)
+        if: steps.pick.outputs.boards != '[]'
+        env:
+          BOARDS_JSON: ${{ steps.pick.outputs.boards }}
+          SIM_KICAD_DOCKER_IMAGE: ${{ env.SIM_DOCKER_IMAGE }}
+        run: bash scripts/ci/run-spice-boards-docker.sh
+
+      - name: Stage SPICE docs for artifact
+        if: steps.pick.outputs.boards != '[]'
+        env:
+          BOARDS_JSON: ${{ steps.pick.outputs.boards }}
+        run: |
+          set -euo pipefail
+          mkdir -p spice-staging/boards
+          while IFS= read -r b; do
+            [ -z "$b" ] && continue
+            mkdir -p "spice-staging/boards/$b/docs"
+            for f in spice-report.md spice-report.metrics.json; do
+              p="boards/$b/docs/$f"
+              if [[ -f "$p" ]]; then
+                cp "$p" "spice-staging/boards/$b/docs/"
+              fi
+            done
+          done < <(echo "$BOARDS_JSON" | jq -r '.[]')
+
+      - name: Upload SPICE reports for README merge
+        if: steps.pick.outputs.boards != '[]'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: spice-main-outputs
+          path: spice-staging/boards
+
+  update-readmes:
+    needs: [generate-images, run-spice-on-main]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment: the-forge
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -103,6 +181,13 @@ jobs:
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: board-images
+          path: boards/
+
+      - name: Download SPICE reports (optional)
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
+        with:
+          name: spice-main-outputs
           path: boards/
 
       - name: Set up Python
@@ -122,5 +207,5 @@ jobs:
           git diff --cached --quiet && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "docs: auto-update board images and validation summaries [skip ci]"
+          git commit -m "docs: auto-update board images, SPICE reports, and validation summaries [skip ci]"
           git push

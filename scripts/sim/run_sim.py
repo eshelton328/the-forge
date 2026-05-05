@@ -96,6 +96,8 @@ def _evaluate_scenario_measures(
                         detail=missing_reason,
                         bounds_min=m.min_value,
                         bounds_max=m.max_value,
+                        display_title=m.display_title,
+                        display_group=m.display_group,
                     ),
                 )
                 any_fail = True
@@ -113,6 +115,8 @@ def _evaluate_scenario_measures(
                     detail=reason,
                     bounds_min=m.min_value,
                     bounds_max=m.max_value,
+                    display_title=m.display_title,
+                    display_group=m.display_group,
                 ),
             )
     return rows, any_fail

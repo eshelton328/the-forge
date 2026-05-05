@@ -64,9 +64,7 @@ boards/**/sim/kicad_export_toolchain.txt
 # Optional Spice waveform plots (ngspice wrdata + matplotlib, issue #59)
 boards/**/sim/plots/
 
-# Generated board SPICE reports (make sim-board / run_sim.py)
-boards/**/docs/spice-report.md
-boards/**/docs/spice-report.metrics.json
+# Board SPICE reports under docs/ may be committed on main by update-readmes workflow.
 
 # Local issue body scratch files (optional)
 sim/issue-bodies/

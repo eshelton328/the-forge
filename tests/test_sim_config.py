@@ -57,4 +57,30 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
     assert len(cfg.secondary_passes) == 1
     assert cfg.secondary_passes[0].netlist_path.name == "ac_small_signal.cir"
     assert cfg.secondary_passes[0].scenarios[0].identifier == "ac_small_signal"
-    assert cfg.secondary_passes[0].scenarios[0].measures[0].identifier == "vout_ac_vm"
+    assert len(cfg.secondary_passes[0].scenarios[0].measures) == 3
+    assert cfg.secondary_passes[0].scenarios[0].measures[0].identifier == "vout_ac_vm_1k"
+    ac0 = cfg.secondary_passes[0].scenarios[0].measures[0]
+    assert ac0.display_title is not None and "1 kHz" in ac0.display_title
+    assert ac0.display_group == "ac_line_response"
+
+
+def test_load_measure_optional_title_group(tmp_path: Path) -> None:
+    yml = tmp_path / "sim.yml"
+    (tmp_path / "sim").mkdir()
+    (tmp_path / "sim" / "deck.cir").write_text("* x\n")
+    yml.write_text(
+        "spec_version: 1\n"
+        "spice_engine: ngspice\n"
+        "netlist: sim/deck.cir\n"
+        "scenarios:\n"
+        "  - id: only\n"
+        "    measures:\n"
+        "      - id: m1\n"
+        "        title: My title\n"
+        "        group: my_group\n"
+        "        max: 1.0\n",
+    )
+    cfg = load_sim_config(yml)
+    m0 = cfg.scenarios[0].measures[0]
+    assert m0.display_title == "My title"
+    assert m0.display_group == "my_group"

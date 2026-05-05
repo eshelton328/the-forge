@@ -20,6 +20,8 @@ class MeasureSpec:
     min_value: float | None
     max_value: float | None
     op_node: str | None
+    display_title: str | None
+    display_group: str | None
 
 
 @dataclass(frozen=True)
@@ -87,12 +89,26 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
             if isinstance(raw_op, str) and raw_op.strip()
             else None
         )
+        title_raw = m.get("title")
+        display_title: str | None = (
+            title_raw.strip()
+            if isinstance(title_raw, str) and title_raw.strip()
+            else None
+        )
+        group_raw = m.get("group")
+        display_group: str | None = (
+            group_raw.strip()
+            if isinstance(group_raw, str) and group_raw.strip()
+            else None
+        )
         measures.append(
             MeasureSpec(
                 identifier=ident.strip(),
                 min_value=min_f,
                 max_value=max_f,
                 op_node=op_node_val,
+                display_title=display_title,
+                display_group=display_group,
             ),
         )
     return tuple(measures)

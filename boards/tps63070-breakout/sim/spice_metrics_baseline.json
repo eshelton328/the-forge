@@ -8,6 +8,7 @@
     "tran_settle::vout_ripple_pp": 0.0,
     "tran_load_step::v_out_light_load": 3.3,
     "tran_load_step::v_out_heavy_load": 3.3,
+    "ac_small_signal::vout_ac_vm_1k": 0.0,
     "ac_small_signal::vout_ac_vm": 0.0,
     "ac_small_signal::vout_ac_vm_100k": 0.0
   }

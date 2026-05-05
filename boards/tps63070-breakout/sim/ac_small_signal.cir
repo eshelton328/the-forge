@@ -1,4 +1,4 @@
-* Secondary `.ac` pass (#79): DC bias + AC on VIN; `.meas` at **10 kHz** and **100 kHz** on `vo_meas` (stub magnitude often ~0 — regression anchors).
+* Secondary `.ac` pass (#79): DC bias + AC on VIN; `.meas` at **1 kHz**, **10 kHz**, and **100 kHz** on `vo_meas` (stub magnitude often ~0 — regression anchors; 1 kHz adds a mid-band line-to-output anchor).
 * VCVS taps `/vout_+3.3v` → `vo_meas` so `.meas` avoids special characters in node names.
 * Run via `sim.yml` `secondary_passes` → second ngspice invocation (`scripts/sim/run_sim.py`).
 .include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
@@ -9,6 +9,7 @@ VVIN VIN_RAW 0 DC 10 AC 1
 II_LOAD VOUT_LOAD_END GND DC 0.5
 Ecopy vo_meas GND /vout_+3.3v GND 1
 .ac dec 15 100 1meg
+.meas ac vout_ac_vm_1k FIND V(vo_meas) AT=1000
 .meas ac vout_ac_vm FIND V(vo_meas) AT=10000
 .meas ac vout_ac_vm_100k FIND V(vo_meas) AT=100000
 .end

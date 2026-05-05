@@ -21,6 +21,94 @@ class MeasureRowResult:
     detail: str | None
     bounds_min: float | None = None
     bounds_max: float | None = None
+    display_title: str | None = None
+    display_group: str | None = None
+
+
+def _scenario_order(rows: tuple[MeasureRowResult, ...]) -> list[str]:
+    ordered: list[str] = []
+    for row in rows:
+        if row.scenario_id not in ordered:
+            ordered.append(row.scenario_id)
+    return ordered
+
+
+def _render_measures_grouped(
+    *,
+    scenario_results: tuple[MeasureRowResult, ...],
+    use_baseline_compare: bool,
+    baseline_measures: Mapping[str, float] | None,
+) -> list[str]:
+    lines: list[str] = []
+    total = len(scenario_results)
+    n_pass = sum(1 for r in scenario_results if r.passed)
+    n_fail = total - n_pass
+    lines.extend(
+        [
+            "## Executive summary",
+            "",
+            "| Metric | Value |",
+            "| --- | --- |",
+            f"| Measures | {total} |",
+            f"| Passed | {n_pass} |",
+            f"| Failed | {n_fail} |",
+            "",
+        ],
+    )
+    if n_fail > 0:
+        lines.append("**Failed checks:**")
+        lines.append("")
+        for row in scenario_results:
+            if not row.passed:
+                label = row.display_title or row.measure_id
+                extra = f" — {row.detail}" if row.detail else ""
+                lines.append(f"- `{row.scenario_id}` / **{label}**{extra}")
+        lines.append("")
+
+    lines.append("## Results by scenario")
+    lines.append("")
+
+    for sid in _scenario_order(scenario_results):
+        lines.append(f"### `{sid}`")
+        lines.append("")
+        chunk = tuple(r for r in scenario_results if r.scenario_id == sid)
+        if use_baseline_compare:
+            assert baseline_measures is not None
+            lines.extend(
+                [
+                    "| Measure | Value | Baseline | Δ | Bounds | Result |",
+                    "| --- | --- | --- | --- | --- | --- |",
+                ],
+            )
+            for row in chunk:
+                status = "PASS" if row.passed else "FAIL"
+                detail = f" {row.detail}" if row.detail else ""
+                mk = measure_key(row.scenario_id, row.measure_id)
+                baseline_val = baseline_measures.get(mk)
+                current_val = parse_value_for_delta(row.value_str)
+                base_cell, delta_cell = format_delta_cell(current_val, baseline_val)
+                label = row.display_title or row.measure_id
+                lines.append(
+                    f"| {label} | {row.value_str} | {base_cell} | {delta_cell} | "
+                    f"{row.bounds_str} | **{status}**{detail} |",
+                )
+        else:
+            lines.extend(
+                [
+                    "| Measure | Value | Bounds | Result |",
+                    "| --- | --- | --- | --- |",
+                ],
+            )
+            for row in chunk:
+                status = "PASS" if row.passed else "FAIL"
+                detail = f" {row.detail}" if row.detail else ""
+                label = row.display_title or row.measure_id
+                lines.append(
+                    f"| {label} | {row.value_str} | {row.bounds_str} | **{status}**{detail} |",
+                )
+        lines.append("")
+
+    return lines
 
 
 def render_report(
@@ -58,44 +146,16 @@ def render_report(
         lines.append(f"| Baseline file | `{baseline_relative_display}` |")
         doc_ref_cell = baseline_doc_ref if baseline_doc_ref else "—"
         lines.append(f"| Baseline ref (documented) | `{doc_ref_cell}` |")
-    lines.extend(["", "## Measures", ""])
-
-    if use_baseline_compare:
-        lines.extend(
-            [
-                "| Scenario | Measure | Value | Baseline | Δ | Bounds | Result |",
-                "| --- | --- | --- | --- | --- | --- | --- |",
-            ],
-        )
-        assert baseline_measures is not None
-        for row in scenario_results:
-            status = "PASS" if row.passed else "FAIL"
-            detail = f" {row.detail}" if row.detail else ""
-            mk = measure_key(row.scenario_id, row.measure_id)
-            baseline_val = baseline_measures.get(mk)
-            current_val = parse_value_for_delta(row.value_str)
-            base_cell, delta_cell = format_delta_cell(current_val, baseline_val)
-            lines.append(
-                f"| {row.scenario_id} | {row.measure_id} | {row.value_str} | {base_cell} | {delta_cell} | "
-                f"{row.bounds_str} | **{status}**{detail} |",
-            )
-    else:
-        lines.extend(
-            [
-                "| Scenario | Measure | Value | Bounds | Result |",
-                "| --- | --- | --- | --- | --- |",
-            ],
-        )
-        for row in scenario_results:
-            status = "PASS" if row.passed else "FAIL"
-            detail = f" {row.detail}" if row.detail else ""
-            lines.append(
-                f"| {row.scenario_id} | {row.measure_id} | {row.value_str} | {row.bounds_str} | **{status}**{detail} |",
-            )
+    lines.extend(
+        _render_measures_grouped(
+            scenario_results=scenario_results,
+            use_baseline_compare=use_baseline_compare,
+            baseline_measures=baseline_measures,
+        ),
+    )
     all_pass = all(r.passed for r in scenario_results)
     lines.extend(
         [
-            "",
             "## Summary",
             "",
             f"**Overall:** {'PASS' if all_pass else 'FAIL'}",
