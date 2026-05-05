@@ -1,6 +1,6 @@
 # Board overlay (`sim/overlay.cir`) and parasitic evolution
 
-**Tracks:** [issue #63](https://github.com/eshelton328/the-forge/issues/63) (research), [PRD #43](https://github.com/eshelton328/the-forge/issues/43) (US 14, 25).
+**Tracks:** [issue #63](https://github.com/eshelton328/the-forge/issues/63) (research), [issue #74](https://github.com/eshelton328/the-forge/issues/74) (extraction hook / fragments), [PRD #43](https://github.com/eshelton328/the-forge/issues/43) (US 14, 25).
 
 ## Why this exists
 
@@ -20,7 +20,7 @@ All `.include` paths in `assembled.cir` are **relative to `sim/`**, so nested in
 
 - **Analysis cards** for scenarios declared in `sim.yml`: `.op`, `.tran`, `.ac`, `.meas`, sweep directives, and `.end` when the exported main deck does not terminate the run by itself (see [`boards/tps63070-breakout/sim/overlay.cir`](../boards/tps63070-breakout/sim/overlay.cir)).
 - **Board-local parasitics and refinement**: discrete extra elements that bridge nets already present in `kicad_export.cir` (series inductance on a switching node, capacitor ESL/ESR splits, short interconnect R/L). Keep net names aligned with KiCad SPICE export naming (`v(/netname)` style in `.meas`).
-- **Further modularization**: `.include "extracted_hotloop.cir"` (or similar) **from inside** `overlay.cir`, so the assembler order stays **includes → main → overlay** while extracted snippets live as separate versioned files under `boards/<board>/sim/`.
+- **Further modularization**: `.include "extracted_hotloop_fragment.cir"` (or other `extracted_*.cir`) **from inside** `overlay.cir`, so the assembler order stays **includes → main → overlay** while extracted snippets live as separate versioned files under `boards/<board>/sim/`.
 
 ### What usually does *not* belong in `overlay.cir`
 
@@ -35,7 +35,35 @@ All `.include` paths in `assembled.cir` are **relative to `sim/`**, so nested in
 | **B — Manual parasitics** | Overlay adds small L/R/C (or `.subckt` wrappers) for “hot” loops or filters; optionally split into `sim/manual_parasitics.cir` included from overlay for readability. | Unchanged. |
 | **C — Extraction-backed fragments** | Offline tool emits `sim/extracted_*.cir`; overlay adds `.include` of those files (or selective merges). Reviewers see **diffs** on tracked fragments. | **Still unchanged** — same `assemble.py` order; no second pipeline. |
 
-Choosing a specific extractor (KiCad field solver exports, third-party RLGC, etc.) is **out of scope** for this note; when selected, open a **focused implementation issue** for export conventions and file naming under `sim/`.
+First reference board hook: **[#74](https://github.com/eshelton328/the-forge/issues/74)** — `boards/tps63070-breakout/sim/extracted_hotloop_fragment.cir`, pulled into **`overlay.cir`** (assembled transient deck) and into **`ac_small_signal.cir`** so **secondary `.ac` passes** see the same layout-adjacent elements.
+
+Choosing a specific extractor (KiCad-adjacent field solver exports, third-party RLGC, etc.) is **optional per board**; record it under § **Extracted fragments** below once pinned.
+
+### Extracted fragments (`extracted_*.cir`)
+
+**Goal:** committed ASCII fragments under `boards/<board>/sim/` that extend the schematic export with layout-informed passives (or eventually field-solver snippets), always reached via **`.include` from `overlay.cir`** (and from any **standalone secondary netlists** that must stay consistent — e.g. same `.include` lines duplicated there until a shared snippet mechanism exists).
+
+**Committed filenames**
+
+- Prefer stable names such as `extracted_hotloop_fragment.cir`, `extracted_pdn_fragment.cir`, or tool-prefixed stems if multiple domains are tracked separately.
+- Keep files **small and reviewable**; split domains rather than one mega-netlist.
+
+**Refresh command (maintainer contract)**
+
+- Today there is **no** repo-wide extractor CLI — fragments may start as **comment-only stubs** or **hand-maintained** estimates from trace geometry / datasheet ESL.
+- When an automated extractor is adopted for a board, **document in the fragment header** (tool name + version) and add a **copy-pastable shell one-liner** here or in that board’s README under **SPICE → extraction-backed files**, for example:
+  - `make sim-export-board BOARD=tps63070-breakout` *(schematic export only — layout extraction TBD)*  
+  - *Future:* `path/to/extractor --pcb boards/foo/foo.kicad_pcb --out boards/foo/sim/extracted_hotloop_fragment.cir`
+
+**Reviewer expectations**
+
+- Treat diffs like **netlist code**: net names must match KiCad SPICE export conventions; passive values should cite source (rule of thumb, datasheet table, extraction report).
+- Expect **metric baseline updates** when fragments gain real elements — refresh `spice_metrics_baseline.json` after intentional physics changes.
+
+**Non-goals**
+
+- Mandating a commercial extractor for CI.
+- Replacing `kicad_export.cir` as connectivity truth.
 
 ## Spike: hand-authored hot-loop snippet
 

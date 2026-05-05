@@ -1,3 +1,3 @@
-* Stage B placeholder — optional board-local parasitics (issue #63 roadmap: OVERLAY-PARASITICS.md).
-* Pulled into the assembled deck via .include from overlay.cir; assembler order unchanged.
-* Add discrete L/R/C or .subckt fragments here when modeling hot loops; extraction-backed drops track #74.
+* Stage B — optional hand-authored parasitics (issue #63 roadmap: OVERLAY-PARASITICS.md).
+* Included after `extracted_hotloop_fragment.cir` (#74) from overlay.cir / ac_small_signal.cir.
+* Add discrete L/R/C or .subckt fragments here; extraction-backed elements live in `extracted_hotloop_fragment.cir`.
