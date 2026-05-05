@@ -40,6 +40,8 @@ secondary_passes:
         measures:
           - id: vout_ac_vm
             max: 1.0
+          - id: vout_ac_vm_100k
+            max: 1.0
 
 plots:
   - file: tran-vout.png

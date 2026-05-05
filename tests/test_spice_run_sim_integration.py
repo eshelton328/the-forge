@@ -153,6 +153,7 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert "v_out_heavy_load" in text
     assert "ac_small_signal" in text
     assert "vout_ac_vm" in text
+    assert "vout_ac_vm_100k" in text
     assert "## Waveform plots" in text
     assert "tran-vout.png" in text
     assert "| KiCad CLI | `" in text

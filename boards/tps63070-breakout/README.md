@@ -22,6 +22,8 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 
 **Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); small-signal AC secondary deck ([#79](https://github.com/eshelton328/the-forge/issues/79)).
 
+**Repo tracking (scope / prioritization):** EMI-adjacent documentation expectations — [#81](https://github.com/eshelton328/the-forge/issues/81); scheduling non-sim backlog (PRD remainder, hardware variants such as [#4](https://github.com/eshelton328/the-forge/issues/4)) — [#82](https://github.com/eshelton328/the-forge/issues/82).
+
 ## Bill of Materials
 
 | Ref | Value | Part Number | Datasheet |

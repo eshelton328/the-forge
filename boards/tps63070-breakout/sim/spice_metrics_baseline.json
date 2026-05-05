@@ -1,13 +1,14 @@
 {
   "baseline_version": 1,
-  "ref": "Primary transient (#76) + AC secondary deck (#79); refresh after schematic/model churn",
+  "ref": "Distribution parasitic + dual-frequency AC; refresh after schematic/model/overlay churn",
   "measures": {
-    "vin_bias_op::v_vin": 10.0,
-    "tran_settle::v_out_steady": 3.3,
-    "tran_settle::v_out_min": 3.3,
-    "tran_settle::vout_ripple_pp": 0.0,
-    "tran_load_step::v_out_light_load": 3.3,
+    "ac_small_signal::vout_ac_vm": 0.0,
+    "ac_small_signal::vout_ac_vm_100k": 0.0,
     "tran_load_step::v_out_heavy_load": 3.3,
-    "ac_small_signal::vout_ac_vm": 0.0
+    "tran_load_step::v_out_light_load": 3.3,
+    "tran_settle::v_out_min": 3.3,
+    "tran_settle::v_out_steady": 3.3,
+    "tran_settle::vout_ripple_pp": 0.0,
+    "vin_bias_op::v_vin": 10.0
   }
 }

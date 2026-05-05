@@ -15,7 +15,7 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 | Waveform PNG artifacts | [#59](https://github.com/eshelton328/the-forge/issues/59) | Optional `sim.yml` **`plots:`** → **`wrdata`** + **`matplotlib`** under **`sim/plots/`**; **`--no-plots`** / **`SIM_NO_PLOTS`** |
 | Metrics JSON sidecar | [#60](https://github.com/eshelton328/the-forge/issues/60) | **`scripts/sim/metrics_json.py`** — **`spice-report.metrics.json`** next to **`spice-report.md`** |
 | pytest on PR | [#61](https://github.com/eshelton328/the-forge/issues/61) | [`.github/workflows/pytest.yml`](https://github.com/eshelton328/the-forge/blob/main/.github/workflows/pytest.yml) — **`python3 -m pytest tests/`** |
-| Secondary ngspice passes | [#79](https://github.com/eshelton328/the-forge/issues/79) | Optional ``sim.yml`` **`secondary_passes:`** — extra netlists (e.g. **``.ac``**-only deck); ``run_sim.py`` merges measure rows |
+| Secondary ngspice passes | [#79](https://github.com/eshelton328/the-forge/issues/79) | Optional ``sim.yml`` **`secondary_passes:`** — extra netlists (e.g. **``.ac``**-only deck); ``run_sim.py`` merges measure rows. Example: **``ac_small_signal.cir``** may probe multiple frequencies with separate **``.meas ac``** lines. |
 
 **Baseline deltas:** committed optional JSON per board — **[#58](https://github.com/eshelton328/the-forge/issues/58)**.
 
