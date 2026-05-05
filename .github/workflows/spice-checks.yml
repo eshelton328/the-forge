@@ -143,3 +143,51 @@ jobs:
           name: spice-boards
           path: spice-board-staging/**/*
           if-no-files-found: ignore
+
+  spice-pr-comment:
+    name: Post SPICE summary on PR
+    if: always() && !cancelled()
+    needs: [detect-spice, spice-board, spice-fixture]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 1
+
+      - name: Prepare artifact directories
+        run: mkdir -p spice-ci-artifacts/boards spice-ci-artifacts/fixture
+
+      - name: Download board SPICE artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
+        with:
+          name: spice-boards
+          path: spice-ci-artifacts/boards
+
+      - name: Download fixture SPICE artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
+        with:
+          name: spice-fixture-report
+          path: spice-ci-artifacts/fixture
+
+      - name: Compose SPICE PR comment
+        if: always()
+        env:
+          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SPICE_BOARD_RESULT: ${{ needs.spice-board.result }}
+          SPICE_FIXTURE_RESULT: ${{ needs.spice-fixture.result }}
+          SPICE_DETECT_BOARDS: ${{ needs.detect-spice.outputs.boards }}
+          SPICE_RUN_FIXTURE: ${{ needs.detect-spice.outputs.run_fixture }}
+        run: bash scripts/ci/compose-spice-report-comment.sh spice-ci-artifacts | tee spice-pr-comment.md
+
+      - name: Post sticky SPICE comment
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
+        with:
+          header: spice-simulation
+          path: spice-pr-comment.md
