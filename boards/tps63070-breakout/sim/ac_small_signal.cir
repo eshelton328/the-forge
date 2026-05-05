@@ -5,7 +5,7 @@
 .include "kicad_export.cir"
 .include "extracted_hotloop_fragment.cir"
 .include "manual_parasitics.cir"
-VVIN /VIN_2v_to_16v 0 DC 10 AC 1
+VVIN VIN_RAW 0 DC 10 AC 1
 II_LOAD VOUT_LOAD_END GND DC 0.5
 Ecopy vo_meas GND /vout_+3.3v GND 1
 .ac dec 15 100 1meg
