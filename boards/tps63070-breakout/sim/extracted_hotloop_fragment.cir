@@ -1,9 +1,17 @@
 * Stage C — extraction-backed parasitic hook (GitHub issue #74).
 * Included before `manual_parasitics.cir` from `overlay.cir` and `ac_small_signal.cir` so transient + AC passes share the same layout-adjacent augment.
 *
-* Output distribution (hand-maintained estimate): ~20 mΩ + ~2 nH from regulated sense net `/VOUT_+3.3v`
-* (feedback + bulk caps at IC) to load sink node `VOUT_LOAD_END`. `II_LOAD` in overlay / AC deck attaches there.
-* Source: order-of-magnitude trace + connector impedance; replace when extraction tooling is pinned (see sim/OVERLAY-PARASITICS.md).
+* --- Input distribution ---
+* Bench/source attaches at `VIN_RAW`; board `/VIN_2v_to_16v` is after connector/trace (~45 mΩ + ~10 nH, series chain).
+* `VVIN` in overlay / AC deck drives `VIN_RAW`, not `/VIN_2v_to_16v` directly.
+RVIN_DIST VIN_RAW VIN_IN_MID 0.045
+LVIN_DIST VIN_IN_MID /VIN_2v_to_16v 10n
 *
-RVOUT_DIST /VOUT_+3.3v VOUT_LOAD_A 0.02
-LVOUT_DIST VOUT_LOAD_A VOUT_LOAD_END 2n
+* --- Output distribution ---
+* ~22 mΩ + ~3 nH from regulated sense `/VOUT_+3.3v` (FB + bulk caps at IC) to load sink `VOUT_LOAD_END`.
+RVOUT_DIST /VOUT_+3.3v VOUT_LOAD_A 0.022
+LVOUT_DIST VOUT_LOAD_A VOUT_LOAD_END 3n
+*
+* --- Load-side stub ---
+* Order-of-magnitude connector / harness capacitance at far side of output trace (regression anchor only).
+C_LOAD_STUB VOUT_LOAD_END GND 47p
