@@ -19,7 +19,7 @@ Ngspice-based regression tests driven by per-board **`sim.yml`** (opt-in), align
 
 **Baseline deltas:** committed optional JSON per board — **[#58](https://github.com/eshelton328/the-forge/issues/58)**.
 
-**Overlay / parasitics roadmap (research):** **[`OVERLAY-PARASITICS.md`](OVERLAY-PARASITICS.md)** — contract for **`sim/overlay.cir`**, schematic-only → manual → extraction-backed fragments on the **same** assemble hook ([**#63**](https://github.com/eshelton328/the-forge/issues/63)).
+**Overlay / parasitics roadmap (research):** **[`OVERLAY-PARASITICS.md`](OVERLAY-PARASITICS.md)** — contract for **`sim/overlay.cir`**, schematic-only → manual → extraction-backed **`extracted_*.cir`** fragments on the **same** assemble hook ([#63](https://github.com/eshelton328/the-forge/issues/63), hook example [#74](https://github.com/eshelton328/the-forge/issues/74)).
 
 ---
 
@@ -67,6 +67,7 @@ boards/<name>/
 ├── sim.yml
 ├── sim/
 │   ├── overlay.cir
+│   ├── extracted_*.cir            # Optional layout/extraction fragments (#74)
 │   ├── ac_small_signal.cir        # Optional secondary deck (.ac) — #79
 │   ├── plots/
 │   ├── spice_metrics_baseline.json

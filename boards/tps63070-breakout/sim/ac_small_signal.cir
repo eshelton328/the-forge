@@ -3,6 +3,8 @@
 * Run via `sim.yml` `secondary_passes` → second ngspice invocation (`scripts/sim/run_sim.py`).
 .include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
 .include "kicad_export.cir"
+.include "extracted_hotloop_fragment.cir"
+.include "manual_parasitics.cir"
 VVIN /VIN_2v_to_16v 0 DC 10 AC 1
 II_LOAD /VOUT_+3.3v GND DC 0.5
 Ecopy vo_meas GND /vout_+3.3v GND 1
