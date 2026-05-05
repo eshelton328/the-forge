@@ -1,11 +1,9 @@
 * Stage C — extraction-backed parasitic hook (GitHub issue #74).
 * Included before `manual_parasitics.cir` from `overlay.cir` and `ac_small_signal.cir` so transient + AC passes share the same layout-adjacent augment.
 *
-* Committed filename: sim/extracted_hotloop_fragment.cir (ASCII SPICE only; review diffs like netlist code).
-* Refresh: documented in repo sim/OVERLAY-PARASITICS.md section “Extracted fragments”.
-* No extractor is pinned in-repo yet — when elements appear below, extend the header with tool name + version and the shell command used to regenerate (or state hand-maintained rationale).
+* Output distribution (hand-maintained estimate): ~20 mΩ + ~2 nH from regulated sense net `/VOUT_+3.3v`
+* (feedback + bulk caps at IC) to load sink node `VOUT_LOAD_END`. `II_LOAD` in overlay / AC deck attaches there.
+* Source: order-of-magnitude trace + connector impedance; replace when extraction tooling is pinned (see sim/OVERLAY-PARASITICS.md).
 *
-* Example future content (illustrative — validate net names against `kicad_export.cir` before uncommenting):
-* RVOUT_SER /vout_+3.3v INT_VOUT_HOT 0.015
-* LVOUT_SER INT_VOUT_HOT /vout_+3.3v_HOT 2n
-* ... bridge HOT node into feedback network if needed ...
+RVOUT_DIST /VOUT_+3.3v VOUT_LOAD_A 0.02
+LVOUT_DIST VOUT_LOAD_A VOUT_LOAD_END 2n

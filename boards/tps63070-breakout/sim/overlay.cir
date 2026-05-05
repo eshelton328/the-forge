@@ -5,8 +5,8 @@
 .include "extracted_hotloop_fragment.cir"
 .include "manual_parasitics.cir"
 VVIN /VIN_2v_to_16v 0 DC 10 PWL(0 10 50u 10 51u 14 250u 14)
-* Overlay load only (board connectors unmodeled in KiCad export): sinks current VOUT → GND.
-II_LOAD /VOUT_+3.3v GND PWL(0 0.08 119u 0.08 120u 1 250u 1)
+* Overlay load: sinks after output distribution parasitics (see extracted_hotloop_fragment.cir).
+II_LOAD VOUT_LOAD_END GND PWL(0 0.08 119u 0.08 120u 1 250u 1)
 .op
 .tran 100n 250u
 .meas tran v_out_steady FIND v(/vout_+3.3v) AT=250u
