@@ -13,6 +13,9 @@ from scripts.sim.metrics_json import (
 from scripts.sim.report_md import MeasureRowResult
 
 
+FROZEN_METRICS_TIME = "2026-05-05T12:00:00Z"
+
+
 def test_metrics_sidecar_path_stem_suffix() -> None:
     md = Path("boards/b/docs/spice-report.md")
     assert metrics_sidecar_path(md) == Path("boards/b/docs/spice-report.metrics.json")
@@ -44,9 +47,11 @@ def test_build_metrics_without_baseline() -> None:
         baseline_doc_ref=None,
         baseline_measures=None,
         waveform_pngs_rel=(),
+        generated_at_override=FROZEN_METRICS_TIME,
     )
     parsed: dict[str, object] = json.loads(raw)
     assert parsed["metrics_schema_version"] == SIM_METRICS_SCHEMA_VERSION
+    assert parsed["generated_at"] == FROZEN_METRICS_TIME
     assert parsed["pass"] is True
     assert parsed["exit_code_hint"] == 0
     assert parsed["baseline"] is None
@@ -90,6 +95,7 @@ def test_build_metrics_with_baseline_columns_and_waveforms() -> None:
         baseline_doc_ref="main@deadbeef",
         baseline_measures=baselines,
         waveform_pngs_rel=("sim/plots/out.png",),
+        generated_at_override=FROZEN_METRICS_TIME,
     )
     parsed = json.loads(raw)
     baseline = parsed["baseline"]
@@ -135,6 +141,7 @@ def test_missing_measure_value_numeric_is_null() -> None:
             baseline_relative_display=None,
             baseline_doc_ref=None,
             baseline_measures=None,
+            generated_at_override=FROZEN_METRICS_TIME,
         ),
     )
     assert parsed["pass"] is False
@@ -145,6 +152,42 @@ def test_missing_measure_value_numeric_is_null() -> None:
     mm = parsed["measures"]
     assert isinstance(mm, list)
     assert mm[0]["value_numeric"] is None
+
+
+def test_metrics_serializes_display_title_when_set() -> None:
+    rows = (
+        MeasureRowResult(
+            measure_id="m1",
+            scenario_id="scen",
+            value_str="2",
+            bounds_str="max 3",
+            passed=True,
+            detail=None,
+            bounds_min=None,
+            bounds_max=3.0,
+            display_title="Human label",
+            display_group="grp",
+        ),
+    )
+    parsed = json.loads(
+        build_metrics_json_document(
+            config_path=Path("b/sim.yml"),
+            netlist_path=Path("x.cir"),
+            scenario_results=rows,
+            ngspice_version="n",
+            simulator_returncode=0,
+            kicad_cli_version=None,
+            kicad_docker_image=None,
+            baseline_compare=False,
+            baseline_relative_display=None,
+            baseline_doc_ref=None,
+            baseline_measures=None,
+            generated_at_override=FROZEN_METRICS_TIME,
+        ),
+    )
+    m = parsed["measures"]
+    assert isinstance(m, list) and m[0]["display_title"] == "Human label"
+    assert m[0]["display_group"] == "grp"
 
 
 def test_json_sort_keys_is_stable_between_calls() -> None:
@@ -170,6 +213,7 @@ def test_json_sort_keys_is_stable_between_calls() -> None:
         baseline_relative_display=None,
         baseline_doc_ref=None,
         baseline_measures=None,
+        generated_at_override=FROZEN_METRICS_TIME,
     )
     b = build_metrics_json_document(
         config_path=Path("a/sim.yml"),
@@ -183,6 +227,7 @@ def test_json_sort_keys_is_stable_between_calls() -> None:
         baseline_relative_display=None,
         baseline_doc_ref=None,
         baseline_measures=None,
+        generated_at_override=FROZEN_METRICS_TIME,
     )
     assert a == b
 

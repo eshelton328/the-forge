@@ -24,6 +24,15 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 
 **Repo tracking (scope / prioritization):** EMI-adjacent documentation expectations — [#81](https://github.com/eshelton328/the-forge/issues/81); scheduling non-sim backlog (PRD remainder, hardware variants such as [#4](https://github.com/eshelton328/the-forge/issues/4)) — [#82](https://github.com/eshelton328/the-forge/issues/82).
 
+<!-- spice-regression-start -->
+## SPICE regression (ngspice)
+
+_Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` and [`sim/README.md`](../../sim/README.md))._
+
+_No committed metrics file yet._ After the next successful **`update-readmes`** run on `main` that includes the SPICE job, this section will list scenario results. Full reports also appear as CI artifacts under **`spice-boards`** on pull requests.
+
+<!-- spice-regression-end -->
+
 ## Bill of Materials
 
 | Ref | Value | Part Number | Datasheet |

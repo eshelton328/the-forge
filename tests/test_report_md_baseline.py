@@ -25,7 +25,12 @@ def test_render_without_baseline_unchanged_shape() -> None:
         netlist_path=Path("n.cir"),
         simulator_returncode=0,
     )
-    assert "| Scenario | Measure | Value | Bounds | Result |" in text
+    assert "## Executive summary" in text
+    assert "| Passed | 1 |" in text
+    assert "## Results by scenario" in text
+    assert "### `s1`" in text
+    assert "| Measure | Value | Bounds | Result |" in text
+    assert "| m1 | 1 | (unbounded) | **PASS** |" in text
     assert "SIM_BASELINE_COMPARE=false" in text
     assert "Baseline file" not in text
 
@@ -53,6 +58,30 @@ def test_render_with_baseline_columns() -> None:
     )
     assert "| Baseline file | `sim/spice_metrics_baseline.json` |" in text
     assert "| Baseline ref (documented) | `ref note` |" in text
-    assert "| Scenario | Measure | Value | Baseline | Δ | Bounds | Result |" in text
-    assert "| vin_bias_op | v_vin | 10 | 10 | 0 |" in text
+    assert "| Measure | Value | Baseline | Δ | Bounds | Result |" in text
+    assert "| v_vin | 10 | 10 | 0 |" in text
     assert "SIM_BASELINE_COMPARE=true" in text
+
+
+def test_executive_summary_lists_failures() -> None:
+    rows = (
+        MeasureRowResult(
+            measure_id="bad",
+            scenario_id="s1",
+            value_str="0",
+            bounds_str="min 1",
+            passed=False,
+            detail="too low",
+        ),
+    )
+    text = render_report(
+        config_path=Path("sim.yml"),
+        scenario_results=rows,
+        ngspice_version="v",
+        netlist_path=Path("n.cir"),
+        simulator_returncode=0,
+    )
+    assert "| Failed | 1 |" in text
+    assert "**Failed checks:**" in text
+    assert "`s1` / **bad**" in text
+    assert "too low" in text

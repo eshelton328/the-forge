@@ -18,3 +18,11 @@ Stored here for deterministic, offline ngspice runs and `sim.yml` `.include` pat
 - **Ripple and dynamics:** The stub can report **near-ideal** output ripple or switching detail compared to a full vendor model; treat absence of visible ripple as a **modeling limitation**, not proof of performance.
 - **Secondary `.ac` deck (`ac_small_signal.cir`):** Small-signal AC is linearized around the **DC bias** from that deck (bias differs from large-signal transient PWL). **`FIND V(...)` AT=<freq>** reports magnitude at that frequency for this linearization — useful for **relative regression** across commits (including multi-point checks such as 10 kHz vs 100 kHz), not for quoting datasheet AC figures without calibration.
 - **Layout overlays:** Elements in `boards/<board>/sim/extracted_*.cir` model **PCB adjuncts** (distribution, ESL estimates, etc.). They change waveforms **on top of** the stub; interpret metrics as **schematic + stub + overlay**, not as golden hardware prediction.
+
+### Model fidelity roadmap (TPS63070)
+
+Work to deepen agreement between **simulation and hardware** (or full vendor PSPICE) is intentionally incremental:
+
+1. **Keep regression baselines** — When substituting or enriching `TPS63070_TRANS.LIB`, run a green `run_sim.py`, then refresh `boards/tps63070-breakout/sim/spice_metrics_baseline.json` and re-tighten `sim.yml` limits only after reviewing new waveforms.
+2. **Add scenario coverage before tightening** — Prefer new `.meas` rows and AC points (e.g. additional frequencies) while the stub is still in use; see `ac_small_signal.cir` and issue **#79**.
+3. **Document expected gaps** — Ripple, EMI-adjacent behavior, and precise AC loop metrics may remain **qualitatively wrong** until a higher-fidelity ngspice-compatible subckt exists; track expectations in board README *Simulation roadmap* and **#81** where relevant.

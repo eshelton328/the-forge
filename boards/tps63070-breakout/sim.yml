@@ -12,24 +12,30 @@ scenarios:
   - id: vin_bias_op
     measures:
       - id: v_vin
+        title: "VIN rail DC (after input distribution)"
         op_node: "/VIN_2v_to_16v"
         min: 9.99
         max: 10.01
   - id: tran_settle
     measures:
       - id: v_out_steady
+        title: "Vout steady (post transient)"
         min: 3.28
         max: 3.32
       - id: v_out_min
+        title: "Vout minimum over transient"
         min: 3.25
       - id: vout_ripple_pp
+        title: "Output ripple peak-peak"
         max: 0.15
   - id: tran_load_step
     measures:
       - id: v_out_light_load
+        title: "Vout at light load sample"
         min: 3.25
         max: 3.35
       - id: v_out_heavy_load
+        title: "Vout at heavy load sample"
         min: 3.28
         max: 3.32
 
@@ -38,9 +44,17 @@ secondary_passes:
     scenarios:
       - id: ac_small_signal
         measures:
+          - id: vout_ac_vm_1k
+            title: "AC |Vout| @ 1 kHz (small-signal anchor)"
+            group: ac_line_response
+            max: 1.0
           - id: vout_ac_vm
+            title: "AC |Vout| @ 10 kHz"
+            group: ac_line_response
             max: 1.0
           - id: vout_ac_vm_100k
+            title: "AC |Vout| @ 100 kHz"
+            group: ac_line_response
             max: 1.0
 
 plots:

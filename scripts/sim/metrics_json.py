@@ -7,12 +7,13 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
+from datetime import datetime, timezone
 from pathlib import Path
 
 from scripts.sim.baseline_metrics import measure_key, parse_value_for_delta
 from scripts.sim.report_md import MeasureRowResult
 
-SIM_METRICS_SCHEMA_VERSION = 1
+SIM_METRICS_SCHEMA_VERSION = 2
 
 
 def metrics_sidecar_path(report_md_path: Path) -> Path:
@@ -35,6 +36,7 @@ def build_metrics_json_document(
     baseline_doc_ref: str | None,
     baseline_measures: Mapping[str, float] | None,
     waveform_pngs_rel: tuple[str, ...] = (),
+    generated_at_override: str | None = None,
 ) -> str:
     """Serialize metrics for CI or downstream parsers (no ngspice)."""
     overall_pass = all(r.passed for r in scenario_results)
@@ -59,13 +61,23 @@ def build_metrics_json_document(
             "bounds_max": row.bounds_max,
             "detail": row.detail,
         }
+        if row.display_title is not None:
+            item["display_title"] = row.display_title
+        if row.display_group is not None:
+            item["display_group"] = row.display_group
         if baseline_compare:
             item["baseline_numeric"] = baseline_val
             item["measure_key"] = key
         measures_out.append(item)
 
+    generated_at = (
+        generated_at_override
+        if generated_at_override is not None
+        else datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    )
     doc: dict[str, object] = {
         "metrics_schema_version": SIM_METRICS_SCHEMA_VERSION,
+        "generated_at": generated_at,
         "pass": overall_pass,
         "exit_code_hint": 0 if overall_pass else 1,
         "paths": {
