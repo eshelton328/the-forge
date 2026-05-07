@@ -262,21 +262,21 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > Clearance violation (rule 'JLCPCB: Track to pad' clearance 0.2000 mm; actual 0.1750 mm)
 > - `Pad 6 [GND] of U1 on F.Cu` / `Track [Net-(U1-FB)] on F.Cu, length 0.7100 mm`
 > - `Track [Net-(U1-FB)] on F.Cu, length 1.4425 mm` / `Pad 2 [GND] of R4 on F.Cu`
-> - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.3050 mm`
 > - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [/2-16v] on F.Cu, length 0.0707 mm`
+> - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.3050 mm`
 > - `Pad 14 [Net-(U1-EN)] of U1 on F.Cu` / `Track [GND] on F.Cu, length 0.5409 mm`
 > - `Pad 3 [Net-(U1-VAUX)] of U1 on F.Cu` / `Track [Net-(U1-PG)] on F.Cu, length 1.5450 mm`
-> - `Track [Net-(U1-L2)] on F.Cu, length 0.0500 mm` / `Pad 10 [GND] of U1 on F.Cu`
-> - `Track [Net-(U1-L2)] on F.Cu, length 0.6710 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Track [/GPIO39] on F.Cu, length 1.1825 mm` / `PTH pad 11 [/GPIO40] of J1`
 > - `PTH pad 11 [/GPIO40] of J1` / `Track [/GPIO39] on F.Cu, length 9.1358 mm`
+> - `Track [Net-(U1-L2)] on F.Cu, length 0.0500 mm` / `Pad 10 [GND] of U1 on F.Cu`
+> - `Track [Net-(U1-L2)] on F.Cu, length 0.6710 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Track [Net-(U1-L1)] on F.Cu, length 0.0500 mm` / `Pad 10 [GND] of U1 on F.Cu`
-> - `Track [Net-(U1-L1)] on F.Cu, length 0.7453 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4300 mm`
+> - `Track [Net-(U1-L1)] on F.Cu, length 0.7453 mm` / `Pad 10 [GND] of U1 on F.Cu`
 > - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.4700 mm`
 > - `Pad A6 [Net-(J3-D+-PadA6)] of J3 on F.Cu` / `Track [Net-(J3-D--PadA7)] on F.Cu, length 0.7100 mm`
-> - `Pad 2 [GND] of C12 on F.Cu` / `Track [Net-(J3-CC1)] on F.Cu, length 0.9440 mm`
 > - `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.0707 mm` / `Pad B7 [Net-(J3-D--PadA7)] of J3 on F.Cu`
+> - `Pad 2 [GND] of C12 on F.Cu` / `Track [Net-(J3-CC1)] on F.Cu, length 0.9440 mm`
 > - `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.9600 mm` / `Pad A7 [Net-(J3-D--PadA7)] of J3 on F.Cu`
 > - `Pad B7 [Net-(J3-D--PadA7)] of J3 on F.Cu` / `Track [Net-(J3-D+-PadA6)] on F.Cu, length 0.9350 mm`
 > - `Track [Net-(J3-CC2)] on F.Cu, length 1.7100 mm` / `Pad A8 [<no net>] of J3 on F.Cu`
@@ -290,8 +290,8 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Track [/GPIO4] on B.Cu, length 7.3950 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [Net-(J3-CC1)] on F.Cu, length 1.6829 mm` / `Via [/D-] on F.Cu - B.Cu`
 > - `Track [Net-(U1-L2)] on F.Cu, length 0.6710 mm` / `Via [GND] on F.Cu - B.Cu`
-> - `Track [/GPIO5] on B.Cu, length 8.6450 mm` / `Via [/3v3] on F.Cu - B.Cu`
 > - `Track [/GPIO13] on In2.Cu, length 18.3423 mm` / `Via [GND] on F.Cu - B.Cu`
+> - `Track [/GPIO5] on B.Cu, length 8.6450 mm` / `Via [/3v3] on F.Cu - B.Cu`
 > - `Track [/GPIO12] on B.Cu, length 7.8000 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/D+] on B.Cu, length 10.1889 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/GPIO8] on B.Cu, length 10.7692 mm` / `Via [/3v3] on F.Cu - B.Cu`
@@ -387,8 +387,8 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 >
 > Hole clearance violation (rule 'PCBWay: Via to track' clearance 0.2540 mm; actual 0.2500 mm)
 > - `Track [/GPIO4] on B.Cu, length 7.3950 mm` / `Via [GND] on F.Cu - B.Cu`
-> - `Track [/GPIO12] on B.Cu, length 7.8000 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/D+] on B.Cu, length 10.1889 mm` / `Via [GND] on F.Cu - B.Cu`
+> - `Track [/GPIO12] on B.Cu, length 7.8000 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/GPIO12] on B.Cu, length 2.9550 mm` / `Via [GND] on F.Cu - B.Cu`
 > - `Track [/GPIO10] on B.Cu, length 3.4921 mm` / `Via [GND] on F.Cu - B.Cu`
 >

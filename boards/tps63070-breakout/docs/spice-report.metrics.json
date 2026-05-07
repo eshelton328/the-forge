@@ -1,0 +1,146 @@
+{
+  "baseline": {
+    "baseline_file_rel": "sim/spice_metrics_baseline.json",
+    "doc_ref": "Parasitic enrich VIN+VOUT May 2026; refresh after schematic/model/overlay churn"
+  },
+  "exit_code_hint": 0,
+  "generated_at": "2026-05-07T07:31:22Z",
+  "measures": [
+    {
+      "baseline_numeric": 10.0,
+      "bounds_max": 10.01,
+      "bounds_min": 9.99,
+      "detail": null,
+      "display_title": "VIN rail DC (after input distribution)",
+      "measure_id": "v_vin",
+      "measure_key": "vin_bias_op::v_vin",
+      "passed": true,
+      "scenario_id": "vin_bias_op",
+      "value_numeric": 10.0,
+      "value_str": "10"
+    },
+    {
+      "baseline_numeric": 3.3,
+      "bounds_max": 3.32,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout steady (post transient)",
+      "measure_id": "v_out_steady",
+      "measure_key": "tran_settle::v_out_steady",
+      "passed": true,
+      "scenario_id": "tran_settle",
+      "value_numeric": 3.3,
+      "value_str": "3.3"
+    },
+    {
+      "baseline_numeric": 3.3,
+      "bounds_max": null,
+      "bounds_min": 3.25,
+      "detail": null,
+      "display_title": "Vout minimum over transient",
+      "measure_id": "v_out_min",
+      "measure_key": "tran_settle::v_out_min",
+      "passed": true,
+      "scenario_id": "tran_settle",
+      "value_numeric": 3.3,
+      "value_str": "3.3"
+    },
+    {
+      "baseline_numeric": 0.0,
+      "bounds_max": 0.15,
+      "bounds_min": null,
+      "detail": null,
+      "display_title": "Output ripple peak-peak",
+      "measure_id": "vout_ripple_pp",
+      "measure_key": "tran_settle::vout_ripple_pp",
+      "passed": true,
+      "scenario_id": "tran_settle",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    },
+    {
+      "baseline_numeric": 3.3,
+      "bounds_max": 3.35,
+      "bounds_min": 3.25,
+      "detail": null,
+      "display_title": "Vout at light load sample",
+      "measure_id": "v_out_light_load",
+      "measure_key": "tran_load_step::v_out_light_load",
+      "passed": true,
+      "scenario_id": "tran_load_step",
+      "value_numeric": 3.3,
+      "value_str": "3.3"
+    },
+    {
+      "baseline_numeric": 3.3,
+      "bounds_max": 3.32,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout at heavy load sample",
+      "measure_id": "v_out_heavy_load",
+      "measure_key": "tran_load_step::v_out_heavy_load",
+      "passed": true,
+      "scenario_id": "tran_load_step",
+      "value_numeric": 3.3,
+      "value_str": "3.3"
+    },
+    {
+      "baseline_numeric": 0.0,
+      "bounds_max": 1.0,
+      "bounds_min": null,
+      "detail": null,
+      "display_group": "ac_line_response",
+      "display_title": "AC |Vout| @ 1 kHz (small-signal anchor)",
+      "measure_id": "vout_ac_vm_1k",
+      "measure_key": "ac_small_signal::vout_ac_vm_1k",
+      "passed": true,
+      "scenario_id": "ac_small_signal",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    },
+    {
+      "baseline_numeric": 0.0,
+      "bounds_max": 1.0,
+      "bounds_min": null,
+      "detail": null,
+      "display_group": "ac_line_response",
+      "display_title": "AC |Vout| @ 10 kHz",
+      "measure_id": "vout_ac_vm",
+      "measure_key": "ac_small_signal::vout_ac_vm",
+      "passed": true,
+      "scenario_id": "ac_small_signal",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    },
+    {
+      "baseline_numeric": 0.0,
+      "bounds_max": 1.0,
+      "bounds_min": null,
+      "detail": null,
+      "display_group": "ac_line_response",
+      "display_title": "AC |Vout| @ 100 kHz",
+      "measure_id": "vout_ac_vm_100k",
+      "measure_key": "ac_small_signal::vout_ac_vm_100k",
+      "passed": true,
+      "scenario_id": "ac_small_signal",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    }
+  ],
+  "metrics_schema_version": 2,
+  "pass": true,
+  "paths": {
+    "config": "/workspace/boards/tps63070-breakout/sim.yml",
+    "netlist": "/workspace/boards/tps63070-breakout/sim/assembled.cir"
+  },
+  "toolchain": {
+    "baseline_compare_enabled": true,
+    "kicad_cli_version_line": "10.0.1",
+    "kicad_docker_image": "the-forge-sim:ci",
+    "ngspice_version_line": "******",
+    "simulator_exit_code": 0
+  },
+  "waveform_pngs_rel": [
+    "sim/plots/tran-vout.png"
+  ]
+}

@@ -29,7 +29,21 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 
 _Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` and [`sim/README.md`](../../sim/README.md))._
 
-_No committed metrics file yet._ After the next successful **`update-readmes`** run on `main` that includes the SPICE job, this section will list scenario results. Full reports also appear as CI artifacts under **`spice-boards`** on pull requests.
+**Last metrics refresh:** 2026-05-07T07:31:22Z · **Overall:** PASS (schema v2)
+
+[Full report (`docs/spice-report.md`)](docs/spice-report.md)
+
+| Scenario | Measure | Value | Bounds | Result |
+|:---------|:--------|:------|:-------|:-------|
+| vin_bias_op | VIN rail DC (after input distribution) | 10 | min 9.99, max 10.01 | **PASS** |
+| tran_settle | Vout steady (post transient) | 3.3 | min 3.28, max 3.32 | **PASS** |
+| tran_settle | Vout minimum over transient | 3.3 | min 3.25 | **PASS** |
+| tran_settle | Output ripple peak-peak | 0 | max 0.15 | **PASS** |
+| tran_load_step | Vout at light load sample | 3.3 | min 3.25, max 3.35 | **PASS** |
+| tran_load_step | Vout at heavy load sample | 3.3 | min 3.28, max 3.32 | **PASS** |
+| ac_small_signal | AC |Vout| @ 1 kHz (small-signal anchor) | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC |Vout| @ 10 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC |Vout| @ 100 kHz | 0 | max 1.0 | **PASS** |
 
 <!-- spice-regression-end -->
 
