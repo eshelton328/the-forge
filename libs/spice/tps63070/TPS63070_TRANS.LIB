@@ -11,12 +11,13 @@
 * V(VOUT_0,PGND) ≈ V_REF / beta where beta = V(FB)/V(VOUT) from the external divider (V_REF≈0.8).
 * Algebraically equivalent to holding FB ≈ V_REF when beta matches board resistors — closer than hard-coded 3.3 V.
 * Bootstrap (V_BOOT while abs(V(FB)) < FB_ABS_BOOT) escapes Vout=0 convergence during OP/startup; adjust V_BOOT for alternate feedback BOMs.
+* UVLO uses max(V(VIN_0),V(VIN_1)) vs GND so a deck that only biases one input pin (the other bleeds toward PGND via megohm stubs) still enables when that rail is up; real boards should tie both VIN pins.
 * Still **not** switching ripple, EMI, or TI PSPICE timing-accurate behavior.
 *
 * Pins: EN FB FB2 GND L1 L2 PG PGND PS_SYNC VAUX VIN_0 VIN_1 VOUT_0 VOUT_1 VSEL
 .SUBCKT TPS63070_TRANS EN FB FB2 GND L1 L2 PG PGND PS_SYNC VAUX VIN_0 VIN_1 VOUT_0 VOUT_1 VSEL
 .param V_REF=0.8 FB_MIN=5m V_OUT_CAP=8 V_BOOT=3.31 FB_ABS_BOOT=2m
-Bvout VOUT_0 PGND V={(V(EN,GND)>0.8)*(V(VIN_0,GND)>1.5)*(V(VIN_1,GND)>1.5)*((abs(V(FB,GND))<FB_ABS_BOOT) ? V_BOOT : min(V_OUT_CAP,max(50m,V_REF*V(VOUT_0,PGND)/max(V(FB,GND),FB_MIN))))}
+Bvout VOUT_0 PGND V={(V(EN,GND)>0.8)*(max(V(VIN_0,GND),V(VIN_1,GND))>1.5)*((abs(V(FB,GND))<FB_ABS_BOOT) ? V_BOOT : min(V_OUT_CAP,max(50m,V_REF*V(VOUT_0,PGND)/max(V(FB,GND),FB_MIN))))}
 Rl1 L1 VOUT_0 1u
 Rl2 L2 PGND 1u
 Rfb FB GND 1G
