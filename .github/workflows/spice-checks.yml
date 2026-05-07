@@ -144,9 +144,10 @@ jobs:
           path: spice-board-staging/**/*
           if-no-files-found: ignore
 
+  # Fork PRs: GITHUB_TOKEN cannot update PR comments; skip this job entirely (see GH fork permissions).
   spice-pr-comment:
     name: Post SPICE summary on PR
-    if: always() && !cancelled()
+    if: always() && !cancelled() && !github.event.pull_request.head.repo.fork
     needs: [detect-spice, spice-board, spice-fixture]
     runs-on: ubuntu-latest
     timeout-minutes: 5
