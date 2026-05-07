@@ -167,8 +167,11 @@ jobs:
           name: spice-main-outputs
           path: spice-staging/boards
 
+  # Run after SPICE so we can merge fresh reports when the job succeeds, but do not
+  # block image/DRC/README bot commits if ngspice fails (SPICE download is optional).
   update-readmes:
     needs: [generate-images, run-spice-on-main]
+    if: ${{ always() && !cancelled() && needs.generate-images.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: the-forge
