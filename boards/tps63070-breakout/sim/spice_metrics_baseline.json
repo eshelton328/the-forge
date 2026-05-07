@@ -1,13 +1,13 @@
 {
   "baseline_version": 1,
-  "ref": "Parasitic enrich VIN+VOUT May 2026; refresh after schematic/model/overlay churn",
+  "ref": "TPS63070 stub FB-aware regulation May 2026; refresh after schematic/model/overlay churn",
   "measures": {
     "vin_bias_op::v_vin": 10.0,
-    "tran_settle::v_out_steady": 3.3,
-    "tran_settle::v_out_min": 3.3,
+    "tran_settle::v_out_steady": 3.30704,
+    "tran_settle::v_out_min": 3.30704,
     "tran_settle::vout_ripple_pp": 0.0,
-    "tran_load_step::v_out_light_load": 3.3,
-    "tran_load_step::v_out_heavy_load": 3.3,
+    "tran_load_step::v_out_light_load": 3.30704,
+    "tran_load_step::v_out_heavy_load": 3.30704,
     "ac_small_signal::vout_ac_vm_1k": 0.0,
     "ac_small_signal::vout_ac_vm": 0.0,
     "ac_small_signal::vout_ac_vm_100k": 0.0
