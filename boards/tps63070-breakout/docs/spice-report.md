@@ -11,7 +11,7 @@
 | ngspice | `******` |
 | Simulator exit | 0 |
 | Baseline file | `sim/spice_metrics_baseline.json` |
-| Baseline ref (documented) | `Parasitic enrich VIN+VOUT May 2026; refresh after schematic/model/overlay churn` |
+| Baseline ref (documented) | `TPS63070 stub FB-aware regulation May 2026; refresh after schematic/model/overlay churn` |
 ## Executive summary
 
 | Metric | Value |
@@ -32,16 +32,16 @@
 
 | Measure | Value | Baseline | Δ | Bounds | Result |
 | --- | --- | --- | --- | --- | --- |
-| Vout steady (post transient) | 3.3 | 3.3 | 0 | min 3.28, max 3.32 | **PASS** |
-| Vout minimum over transient | 3.3 | 3.3 | 0 | min 3.25 | **PASS** |
+| Vout steady (post transient) | 3.30704 | 3.30704 | 0 | min 3.28, max 3.32 | **PASS** |
+| Vout minimum over transient | 3.30704 | 3.30704 | 0 | min 3.25 | **PASS** |
 | Output ripple peak-peak | 0 | 0 | 0 | max 0.15 | **PASS** |
 
 ### `tran_load_step`
 
 | Measure | Value | Baseline | Δ | Bounds | Result |
 | --- | --- | --- | --- | --- | --- |
-| Vout at light load sample | 3.3 | 3.3 | 0 | min 3.25, max 3.35 | **PASS** |
-| Vout at heavy load sample | 3.3 | 3.3 | 0 | min 3.28, max 3.32 | **PASS** |
+| Vout at light load sample | 3.30704 | 3.30704 | 0 | min 3.25, max 3.35 | **PASS** |
+| Vout at heavy load sample | 3.30704 | 3.30704 | 0 | min 3.28, max 3.32 | **PASS** |
 
 ### `ac_small_signal`
 

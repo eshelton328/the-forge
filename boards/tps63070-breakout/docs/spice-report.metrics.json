@@ -1,10 +1,10 @@
 {
   "baseline": {
     "baseline_file_rel": "sim/spice_metrics_baseline.json",
-    "doc_ref": "Parasitic enrich VIN+VOUT May 2026; refresh after schematic/model/overlay churn"
+    "doc_ref": "TPS63070 stub FB-aware regulation May 2026; refresh after schematic/model/overlay churn"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-05-07T07:31:22Z",
+  "generated_at": "2026-05-07T20:26:11Z",
   "measures": [
     {
       "baseline_numeric": 10.0,
@@ -20,7 +20,7 @@
       "value_str": "10"
     },
     {
-      "baseline_numeric": 3.3,
+      "baseline_numeric": 3.30704,
       "bounds_max": 3.32,
       "bounds_min": 3.28,
       "detail": null,
@@ -29,11 +29,11 @@
       "measure_key": "tran_settle::v_out_steady",
       "passed": true,
       "scenario_id": "tran_settle",
-      "value_numeric": 3.3,
-      "value_str": "3.3"
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
     },
     {
-      "baseline_numeric": 3.3,
+      "baseline_numeric": 3.30704,
       "bounds_max": null,
       "bounds_min": 3.25,
       "detail": null,
@@ -42,8 +42,8 @@
       "measure_key": "tran_settle::v_out_min",
       "passed": true,
       "scenario_id": "tran_settle",
-      "value_numeric": 3.3,
-      "value_str": "3.3"
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
     },
     {
       "baseline_numeric": 0.0,
@@ -59,7 +59,7 @@
       "value_str": "0"
     },
     {
-      "baseline_numeric": 3.3,
+      "baseline_numeric": 3.30704,
       "bounds_max": 3.35,
       "bounds_min": 3.25,
       "detail": null,
@@ -68,11 +68,11 @@
       "measure_key": "tran_load_step::v_out_light_load",
       "passed": true,
       "scenario_id": "tran_load_step",
-      "value_numeric": 3.3,
-      "value_str": "3.3"
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
     },
     {
-      "baseline_numeric": 3.3,
+      "baseline_numeric": 3.30704,
       "bounds_max": 3.32,
       "bounds_min": 3.28,
       "detail": null,
@@ -81,8 +81,8 @@
       "measure_key": "tran_load_step::v_out_heavy_load",
       "passed": true,
       "scenario_id": "tran_load_step",
-      "value_numeric": 3.3,
-      "value_str": "3.3"
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
     },
     {
       "baseline_numeric": 0.0,
