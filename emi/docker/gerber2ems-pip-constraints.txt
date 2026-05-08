@@ -87,7 +87,8 @@ threadpoolctl==3.6.0
 tifffile==2026.5.2
 traitlets==5.15.0
 traittypes==0.2.3
-triangle==20200424
+# 20250106+ ships cp313 wheels; 20200424 builds C extensions that fail on Python 3.13 (removed longintrepr.h).
+triangle==20250106
 typing-extensions==4.15.0
 typing-inspect==0.9.0
 urllib3==2.7.0
