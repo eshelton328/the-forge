@@ -14,6 +14,7 @@ the-forge/
 ├── kibot/            # KiBot output generation configs
 ├── libs/             # Shared libraries (symbols, footprints, 3D models)
 ├── scripts/          # Automation scripts
+├── emi/              # openEMS + gerber2ems (FDTD / EMI-adjacent smoke; see emi/README.md)
 └── .github/workflows # CI/CD pipelines
 ```
 
@@ -29,6 +30,7 @@ the-forge/
 Every pull request automatically runs:
 - **PR title** must follow [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `feat:`, `fix:`, `chore:`, `ci:`)
 - **`pytest`** on `tests/` (Python **3.12**; see [`.github/workflows/pytest.yml`](.github/workflows/pytest.yml) — Spice integration cases skip unless `ngspice`/Docker exist)
+- **Open-source EMS (openEMS + gerber2ems)** — optional path-filtered workflow ([`.github/workflows/emi-checks.yml`](.github/workflows/emi-checks.yml)): builds pinned **openEMS** + **gerber2ems** and runs an upstream example slice ([`emi/README.md`](emi/README.md)); not every PR
 - **ERC** (Electrical Rules Check) on schematics
 - **DRC** (Design Rules Check) against multiple fab house rules (JLCPCB, PCBWay)
 

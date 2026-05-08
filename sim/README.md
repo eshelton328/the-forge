@@ -99,6 +99,7 @@ boards/<name>/
 
 ## Future (not scheduled)
 
+- **Open-source EMS layout simulation (openEMS + gerber2ems):** separate path under **[`emi/`](../emi/README.md)** — Docker image + CI fixture for upstream **`stub_short`**; complements ngspice here; same **non–chamber-sign-off** boundary as **[PRD #43](https://github.com/eshelton328/the-forge/issues/43)**.
 - **Layout-aware decks:** follow **[`OVERLAY-PARASITICS.md`](OVERLAY-PARASITICS.md)** — evolve **`sim/overlay.cir`** (and optional `sim/*.cir` includes pulled from it); same CI driver. Spawn a **tool-specific issue** when an extractor is chosen.
 - **Richer automation targets:** expanded voltage-vs-spec reporting in artifacts, impedance-oriented analyses where models/overlays allow (often `.ac` + parasitics; see [#74](https://github.com/eshelton328/the-forge/issues/74)), and EMI-adjacent summaries where tooling permits — **not** a substitute for chamber sign-off ([PRD #43](https://github.com/eshelton328/the-forge/issues/43)). Example board roadmap text: [`boards/tps63070-breakout/README.md`](../boards/tps63070-breakout/README.md) § *Simulation roadmap*.
 
