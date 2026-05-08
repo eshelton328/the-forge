@@ -4,7 +4,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.sim.report_md import MeasureRowResult, render_report
+from scripts.sim.report_md import MeasureRowResult, escape_md_table_cell, render_report
+
+
+def test_escape_md_table_cell_escapes_pipes() -> None:
+    assert escape_md_table_cell("a|b") == r"a\|b"
 
 
 def test_render_without_baseline_unchanged_shape() -> None:
@@ -31,6 +35,28 @@ def test_render_without_baseline_unchanged_shape() -> None:
     assert "### `s1`" in text
     assert "| Measure | Value | Bounds | Result |" in text
     assert "| m1 | 1 | (unbounded) | **PASS** |" in text
+
+
+def test_render_escapes_pipes_in_measure_title_for_tables() -> None:
+    rows = (
+        MeasureRowResult(
+            measure_id="z_out_1k",
+            scenario_id="ac_z_out",
+            value_str="0.022",
+            bounds_str="max 1",
+            passed=True,
+            detail=None,
+            display_title="|Zout| @ 1 kHz",
+        ),
+    )
+    text = render_report(
+        config_path=Path("sim.yml"),
+        scenario_results=rows,
+        ngspice_version="ngspice 1",
+        netlist_path=Path("n.cir"),
+        simulator_returncode=0,
+    )
+    assert r"| \|Zout\| @ 1 kHz | 0.022 | max 1 | **PASS** |" in text
     assert "SIM_BASELINE_COMPARE=false" in text
     assert "Baseline file" not in text
 

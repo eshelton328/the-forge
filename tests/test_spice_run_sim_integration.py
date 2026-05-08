@@ -152,13 +152,13 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert "Vout at light load sample" in text
     assert "Vout at heavy load sample" in text
     assert "ac_small_signal" in text
-    assert "AC |Vout| @ 1 kHz" in text
-    assert "AC |Vout| @ 10 kHz" in text
-    assert "AC |Vout| @ 100 kHz" in text
+    assert r"AC \|Vout\| @ 1 kHz" in text
+    assert r"AC \|Vout\| @ 10 kHz" in text
+    assert r"AC \|Vout\| @ 100 kHz" in text
     assert "ac_z_out" in text
     assert "ac_z_in" in text
-    assert "|Zout| @ 1 kHz" in text
-    assert "|Zin| @ 1 kHz" in text
+    assert r"\|Zout\| @ 1 kHz" in text
+    assert r"\|Zin\| @ 1 kHz" in text
     assert "## Waveform plots" in text
     assert "tran-vout.png" in text
     assert "| KiCad CLI | `" in text

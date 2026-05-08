@@ -9,6 +9,11 @@ from pathlib import Path
 from scripts.sim.baseline_metrics import format_delta_cell, measure_key, parse_value_for_delta
 
 
+def escape_md_table_cell(text: str) -> str:
+    """Turn '|' into '\\|' so pipe-table rows stay single-column (GFM)."""
+    return text.replace("|", "\\|")
+
+
 @dataclass(frozen=True)
 class MeasureRowResult:
     """One measure row after evaluation."""
@@ -60,8 +65,8 @@ def _render_measures_grouped(
         lines.append("")
         for row in scenario_results:
             if not row.passed:
-                label = row.display_title or row.measure_id
-                extra = f" — {row.detail}" if row.detail else ""
+                label = escape_md_table_cell(row.display_title or row.measure_id)
+                extra = f" — {escape_md_table_cell(row.detail)}" if row.detail else ""
                 lines.append(f"- `{row.scenario_id}` / **{label}**{extra}")
         lines.append("")
 
@@ -82,15 +87,19 @@ def _render_measures_grouped(
             )
             for row in chunk:
                 status = "PASS" if row.passed else "FAIL"
-                detail = f" {row.detail}" if row.detail else ""
+                detail_suffix = (
+                    f" {escape_md_table_cell(row.detail)}" if row.detail else ""
+                )
                 mk = measure_key(row.scenario_id, row.measure_id)
                 baseline_val = baseline_measures.get(mk)
                 current_val = parse_value_for_delta(row.value_str)
                 base_cell, delta_cell = format_delta_cell(current_val, baseline_val)
-                label = row.display_title or row.measure_id
+                label = escape_md_table_cell(row.display_title or row.measure_id)
                 lines.append(
-                    f"| {label} | {row.value_str} | {base_cell} | {delta_cell} | "
-                    f"{row.bounds_str} | **{status}**{detail} |",
+                    f"| {label} | {escape_md_table_cell(row.value_str)} | "
+                    f"{escape_md_table_cell(base_cell)} | {escape_md_table_cell(delta_cell)} | "
+                    f"{escape_md_table_cell(row.bounds_str)} | "
+                    f"**{status}**{detail_suffix} |",
                 )
         else:
             lines.extend(
@@ -101,10 +110,14 @@ def _render_measures_grouped(
             )
             for row in chunk:
                 status = "PASS" if row.passed else "FAIL"
-                detail = f" {row.detail}" if row.detail else ""
-                label = row.display_title or row.measure_id
+                detail_suffix = (
+                    f" {escape_md_table_cell(row.detail)}" if row.detail else ""
+                )
+                label = escape_md_table_cell(row.display_title or row.measure_id)
                 lines.append(
-                    f"| {label} | {row.value_str} | {row.bounds_str} | **{status}**{detail} |",
+                    f"| {label} | {escape_md_table_cell(row.value_str)} | "
+                    f"{escape_md_table_cell(row.bounds_str)} | "
+                    f"**{status}**{detail_suffix} |",
                 )
         lines.append("")
 

@@ -96,6 +96,7 @@ for jsonf in "${met_files[@]}"; do
   echo "| Scenario | Measure | Value | Bounds | Result |"
   echo "|:---------|:--------|:------|:-------|:-------|"
   jq -r '
+    def esc: gsub("\\|"; "\\|");
     (.measures // [])[]
     | (
         if (.bounds_min == null and .bounds_max == null) then "—"
@@ -104,7 +105,7 @@ for jsonf in "${met_files[@]}"; do
         else "max \(.bounds_max)" end
       ) as $b
     | (if .passed == true then "PASS" elif .passed == false then "FAIL" else "—" end) as $r
-    | "| \(.scenario_id) | \(.display_title // .measure_id) | \(.value_str // "—") | \($b) | **\($r)** |"
+    | "| \(.scenario_id | esc) | \((.display_title // .measure_id | tostring) | esc) | \((.value_str // "—" | tostring) | esc) | \($b | esc) | **\($r)** |"
   ' "$jsonf" 2>/dev/null || echo "| _error_ | _could not parse measures_ | — | — | — |"
 
   echo ""

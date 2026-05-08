@@ -31,6 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from validate_board import validate_board  # noqa: E402
+from sim.report_md import escape_md_table_cell  # noqa: E402
 
 IMG_START = "<!-- board-images-start -->"
 IMG_END = "<!-- board-images-end -->"
@@ -389,7 +390,19 @@ def _build_spice_section(board_name: str, docs_dir: Path) -> str:
         bounds = _format_measure_bounds_cell(item)
         ok = item.get("passed")
         res = "PASS" if ok is True else "FAIL" if ok is False else "—"
-        lines.append(f"| {sid} | {measure_col} | {val} | {bounds} | **{res}** |")
+        lines.append(
+            "| "
+            + " | ".join(
+                (
+                    escape_md_table_cell(sid),
+                    escape_md_table_cell(measure_col),
+                    escape_md_table_cell(val),
+                    escape_md_table_cell(bounds),
+                    f"**{escape_md_table_cell(res)}**",
+                ),
+            )
+            + " |",
+        )
 
     lines.append("")
     lines.append(SPICE_END)
