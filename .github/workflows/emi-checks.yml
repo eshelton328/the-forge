@@ -1,4 +1,4 @@
-name: Open EMS (gerber2ems + openEMS)
+name: Open-source EMS (openEMS + gerber2ems)
 
 # Electromagnetic regression smoke (Antmicro stub_short). Heavy image build; path-filtered PRs + manual dispatch.
 # Not merge-blocking on every PR — see paths filter below.
@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  OPEN_EMI_IMAGE: the-forge-open-emi:ci
+  OPEN_EMS_IMAGE: the-forge-open-ems:ci
 
 jobs:
   open-ems-fixture:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Build openEMS + gerber2ems image
-        run: docker build -t "$OPEN_EMI_IMAGE" -f emi/docker/Dockerfile emi/docker
+        run: docker build -t "$OPEN_EMS_IMAGE" -f emi/docker/Dockerfile emi/docker
 
       - name: Run gerber2ems fixture (stub_short)
-        run: bash scripts/ci/run-emi-fixture.sh "$OPEN_EMI_IMAGE"
+        run: bash scripts/ci/run-emi-fixture.sh "$OPEN_EMS_IMAGE"

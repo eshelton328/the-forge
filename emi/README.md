@@ -1,17 +1,17 @@
-# EMI-oriented open simulation (openEMS + gerber2ems)
+# Open-source EMS (openEMS + gerber2ems)
 
-This folder wires **[openEMS](https://www.openems.de/)** (FDTD field solver) and Antmicro’s **[gerber2ems](https://github.com/antmicro/gerber2ems)** (Gerber → geometry → simulation) into the repo so we can run **repeatable electromagnetic regression smoke** locally and in CI.
+This folder wires **[openEMS](https://www.openems.de/)** (FDTD field solver) and Antmicro’s **[gerber2ems](https://github.com/antmicro/gerber2ems)** (Gerber → geometry → simulation) into the repo so we can run **repeatable electromagnetic simulation smoke** locally and in CI — the sort of **open-source EMS** toolchain useful for SI and **EMI-adjacent** engineering (fields, coupling, wideband structure behavior), not a branded “Open EMI” product.
 
-## Naming / scope
+## Scope
 
-People often say “open EMI” when they mean **open-source EM tooling** (FDTD / full-wave from layout), not a single product called “Open EMI.” Here we use the same stack Antmicro documents for PCB EM work (SI-focused with EMI-adjacent insight — energy leaving the structure, field dumps, etc.). It is **not** a substitute for **chamber measurements or regulatory sign-off** (same boundary as ngspice-only flows in [`sim/README.md`](../sim/README.md)).
+**openEMS** is an **electromagnetic solver** (EMS). Results here are **not** chamber measurements or regulatory **EMI/EMC certification** (same boundary as ngspice-only flows in [`sim/README.md`](../sim/README.md)). Antmicro documents this stack primarily for PCB **signal integrity**; it still informs how energy moves and radiates compared to circuit-only models.
 
 ## Docker image
 
 [`emi/docker/Dockerfile`](docker/Dockerfile) builds a self-contained image (no repo context required except the Dockerfile directory). **Pinned revisions:** openEMS commit recommended by gerber2ems; gerber2ems git SHA shared with [`scripts/ci/run-emi-fixture.sh`](../scripts/ci/run-emi-fixture.sh).
 
 ```bash
-docker build -t the-forge-open-emi:local -f emi/docker/Dockerfile emi/docker
+docker build -t the-forge-open-ems:local -f emi/docker/Dockerfile emi/docker
 ```
 
 ## Fixture (upstream example)
@@ -19,7 +19,7 @@ docker build -t the-forge-open-emi:local -f emi/docker/Dockerfile emi/docker
 We do **not** vendor Gerber slices under `emi/` yet. The CI/local script clones **gerber2ems** at the pinned SHA and runs **`examples/stub_short`**:
 
 ```bash
-bash scripts/ci/run-emi-fixture.sh the-forge-open-emi:local
+bash scripts/ci/run-emi-fixture.sh the-forge-open-ems:local
 ```
 
 Or from the Makefile: **`make emi-fixture-docker`**.

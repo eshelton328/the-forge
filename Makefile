@@ -67,7 +67,7 @@ help:
 	@echo "  make check-all        Run \`make check\` for every board"
 	@echo "  make sim-fixture      Run ngspice smoke (sim/fixtures/rc_divider) — requires ngspice on PATH"
 	@echo "  make sim-fixture-docker  Same, inside unified sim image (see sim/docker/)"
-	@echo "  make emi-fixture-docker   Build openEMS+gerber2ems image + run stub_short smoke (see emi/README.md)"
+	@echo "  make emi-fixture-docker   Build open-source EMS image (openEMS+gerber2ems) + stub_short smoke (see emi/README.md)"
 	@echo "  make sim-export-board Export KiCad schematic → sim/kicad_export.cir (Docker + KICAD_IMAGE)"
 	@echo "  make sim-board        Export + ngspice for BOARD — host Python + host ngspice + Docker for export"
 	@echo "  make sim-board-docker Export + ngspice entirely in unified sim image (#62)"
@@ -180,8 +180,8 @@ sim-fixture-docker:
 
 emi-fixture-docker:
 	@command -v docker >/dev/null 2>&1 || { echo "docker required"; exit 1; }; \
-	docker build -t the-forge-open-emi:local -f emi/docker/Dockerfile emi/docker && \
-	bash scripts/ci/run-emi-fixture.sh the-forge-open-emi:local
+	docker build -t the-forge-open-ems:local -f emi/docker/Dockerfile emi/docker && \
+	bash scripts/ci/run-emi-fixture.sh the-forge-open-ems:local
 
 check-all:
 	@set -e; for d in boards/*/; do \

@@ -3,7 +3,7 @@
 # Usage: scripts/ci/run-emi-fixture.sh [DOCKER_IMAGE]
 set -euo pipefail
 
-IMAGE="${1:-the-forge-open-emi:local}"
+IMAGE="${1:-the-forge-open-ems:local}"
 GERBER2EMS_SHA="${GERBER2EMS_SHA:-9eaf3033f8adb0b468045f7177523162b388b020}"
 
 command -v docker >/dev/null 2>&1 || {
