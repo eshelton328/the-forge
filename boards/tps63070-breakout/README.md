@@ -10,7 +10,25 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Layers**: 2
 - **Thickness**: 1.6mm
 - **Fab targets**: JLCPCB 2-layer, PCBWay 2-layer
-- **SPICE (ngspice):** CI uploads reports under artifact **`spice-boards`** → folder `tps63070-breakout/` (`docs/spice-report.md`, `docs/spice-report.metrics.json`, netlists). Example layout: [`docs/spice-report-example.md`](docs/spice-report-example.md). Scenario limits are in [`sim.yml`](sim.yml); transient stimulus and `.meas` live in [`sim/overlay.cir`](sim/overlay.cir); optional **small-signal AC** runs as additional **`secondary_passes`** (`ac_small_signal.cir` line transfer anchors ([#79](https://github.com/eshelton328/the-forge/issues/79)); `ac_z_out.cir` / `ac_z_in.cir` **Norton |Z|** probes — Ω anchors documented per scenario **`title`** fields). **Layout-adjacent parasitics:** Stage-C hook [`sim/extracted_hotloop_fragment.cir`](sim/extracted_hotloop_fragment.cir) is `.include`d before [`sim/manual_parasitics.cir`](sim/manual_parasitics.cir) in both overlay and AC decks ([#74](https://github.com/eshelton328/the-forge/issues/74)); **`VVIN` drives `VIN_RAW`** (series trace into `/VIN_2v_to_16v`), matching [`sim/overlay.cir`](sim/overlay.cir). Refresh conventions live in [`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md). The checked-in TPS63070 library under [`libs/spice/`](../../libs/spice/README.md) is an **ngspice-oriented behavioral stub** — ripple and dynamics may look ideal until that model is enriched; transient regression landed in [#76](https://github.com/eshelton328/the-forge/issues/76).
+
+### Simulation (ngspice)
+
+CI uploads **`docs/spice-report.md`**, **`docs/spice-report.metrics.json`**, and netlists under artifact **`spice-boards`** → `tps63070-breakout/`. Example folder layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
+
+| Read this | Open this |
+| :--- | :--- |
+| Scenario limits (voltages, ripple, AC anchors) | [`sim.yml`](sim.yml) |
+| Transient stimulus, `.tran`, `.meas`, plot signal | [`sim/overlay.cir`](sim/overlay.cir) |
+| Line-transfer small-signal `.ac` (VIN AC → Vout tap) | [`sim/ac_small_signal.cir`](sim/ac_small_signal.cir) |
+| Norton output impedance probes (`ac_z_out`) | [`sim/ac_z_out.cir`](sim/ac_z_out.cir) |
+| Norton input impedance probes (`ac_z_in`; bench `RBENCH` — see deck comments) | [`sim/ac_z_in.cir`](sim/ac_z_in.cir) |
+| Layout-ish parasitics (distribution, stubs) | [`sim/extracted_hotloop_fragment.cir`](sim/extracted_hotloop_fragment.cir), [`sim/manual_parasitics.cir`](sim/manual_parasitics.cir) |
+| Parasitic workflow / reviewer expectations | [`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md) |
+| Full runner / Docker / local commands | [`sim/README.md`](../../sim/README.md) |
+
+**Flow:** KiCad exports **`sim/kicad_export.cir`** (gitignored); assembly merges vendor **`libs/spice`** → export → **`overlay.cir`**. The TI model in-repo is an **ngspice behavioral stub** — see [`libs/spice/README.md`](../../libs/spice/README.md) for what that implies.
+
+Context: [#76](https://github.com/eshelton328/the-forge/issues/76) (transient regression), [#79](https://github.com/eshelton328/the-forge/issues/79) (multi-pass `.ac`), [#74](https://github.com/eshelton328/the-forge/issues/74) (overlay fragments).
 
 ### Simulation roadmap (long-term)
 

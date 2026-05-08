@@ -131,6 +131,9 @@ def render_report(
     lines: list[str] = [
         "# Spice simulation report",
         "",
+        "Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; "
+        "**Baseline** and **Δ** appear only when `sim/spice_metrics_baseline.json` is loaded.",
+        "",
         "## Run metadata",
         "",
         "| Field | Value |",
@@ -146,6 +149,7 @@ def render_report(
         lines.append(f"| Baseline file | `{baseline_relative_display}` |")
         doc_ref_cell = baseline_doc_ref if baseline_doc_ref else "—"
         lines.append(f"| Baseline ref (documented) | `{doc_ref_cell}` |")
+    lines.append("")
     lines.extend(
         _render_measures_grouped(
             scenario_results=scenario_results,
