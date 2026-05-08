@@ -251,7 +251,7 @@ traitlets==5.15.0
     #   traittypes
 traittypes==0.2.3
     # via ipydatawidgets
-triangle==20200424
+triangle==20250106
     # via nanomesh
 typing-extensions==4.15.0
     # via
