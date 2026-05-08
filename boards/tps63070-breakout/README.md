@@ -9,7 +9,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Output current**: up to 2A
 - **Layers**: 2
 - **Thickness**: 1.6mm
-- **Fab targets (ordering intent):** JLCPCB / PCBWay **2-layer advanced** for fabrication quotes on this PCB. CI **also** runs **4-layer advanced** rule decks (`jlcpcb-4layer-advanced`, `pcbway-4layer-advanced`) so tightening tracks/vias against higher-tier stacks stays visible even though copper count stays **two layers**.
+- **Fab targets:** JLCPCB / PCBWay **2-layer advanced** (see [`board.yml`](board.yml)); CI matches `make fab-drc` for this board using those decks.
 
 ## Bill of Materials
 
@@ -283,4 +283,4 @@ _Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` 
 ### Known DRC items
 
 - **ERC**: VIN and GND nets need `PWR_FLAG` symbols (cosmetic warnings, add in KiCad GUI via Place > Power Port)
-- **Fab DRC**: Board was designed before fab rules were added; some clearances and via sizes are below published manufacturer minimums. These should be addressed in the next board revision. CI runs **2-layer advanced** plus **4-layer advanced** decks from [`board.yml`](board.yml) (stack-regression); the **KiCad design checks** table above updates when **Update Board READMEs** runs on `main`.
+- **Fab DRC**: Board was designed before fab rules were added; some clearances and via sizes are below published manufacturer minimums. These should be addressed in the next board revision. CI runs fab DRC targets from [`board.yml`](board.yml) (**2-layer advanced**); the **KiCad design checks** table above updates when **Update Board READMEs** runs on `main`.
