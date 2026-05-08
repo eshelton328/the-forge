@@ -10,7 +10,7 @@ Development board built around the [ESP32-S3-WROOM-1](https://www.espressif.com/
 - **ESD protection**: USBLC6-2SC6 on USB data lines
 - **Layers**: 4
 - **Thickness**: 1.6mm
-- **Fab targets**: JLCPCB 4-layer, PCBWay 4-layer
+- **Fab targets**: JLCPCB 4-layer advanced, PCBWay 4-layer advanced
 
 ## Key Components
 
