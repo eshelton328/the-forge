@@ -4,7 +4,7 @@
     "doc_ref": "Extended transient stress + startup/corner secondaries + AC 50k/500k May 2026"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-05-08T11:39:38Z",
+  "generated_at": "2026-05-08T12:40:35Z",
   "measures": [
     {
       "baseline_numeric": 10.0,
