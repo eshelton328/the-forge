@@ -1,5 +1,5 @@
 # Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
-# Transient scenarios: #76. Small-signal AC: secondary deck sim/ac_small_signal.cir (#79).
+# Transient scenarios: #76. Secondary decks: line `.ac` (#79), |Zout| (`sim/ac_z_out.cir`), |Zin| (`sim/ac_z_in.cir`).
 spec_version: 1
 spice_engine: ngspice
 
@@ -56,6 +56,49 @@ secondary_passes:
             title: "AC |Vout| @ 100 kHz"
             group: ac_line_response
             max: 1.0
+
+  - netlist_rel: sim/ac_z_out.cir
+    scenarios:
+      - id: ac_z_out
+        measures:
+          - id: z_out_1k
+            title: "|Zout| @ 1 kHz (Ω, Norton I_ac=1 A pk)"
+            group: ac_impedance
+            abs_value: true
+            max: 1.0
+          - id: z_out_10k
+            title: "|Zout| @ 10 kHz (Ω, Norton I_ac=1 A pk)"
+            group: ac_impedance
+            abs_value: true
+            max: 1.0
+          - id: z_out_100k
+            title: "|Zout| @ 100 kHz (Ω, Norton I_ac=1 A pk)"
+            group: ac_impedance
+            abs_value: true
+            max: 1.0
+
+  - netlist_rel: sim/ac_z_in.cir
+    scenarios:
+      - id: ac_z_in
+        measures:
+          - id: z_in_1k
+            title: "|Zin| @ 1 kHz (Ω, Norton I_ac=1 µA pk → ×1e6)"
+            group: ac_impedance
+            abs_value: true
+            scale: 1e6
+            max: 100.0
+          - id: z_in_10k
+            title: "|Zin| @ 10 kHz (Ω, Norton I_ac=1 µA pk → ×1e6)"
+            group: ac_impedance
+            abs_value: true
+            scale: 1e6
+            max: 100.0
+          - id: z_in_100k
+            title: "|Zin| @ 100 kHz (Ω, Norton I_ac=1 µA pk → ×1e6)"
+            group: ac_impedance
+            abs_value: true
+            scale: 1e6
+            max: 100.0
 
 plots:
   - file: tran-vout.png

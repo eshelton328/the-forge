@@ -1,15 +1,21 @@
 {
   "baseline_version": 1,
-  "ref": "TPS63070 stub FB-aware regulation May 2026; refresh after schematic/model/overlay churn",
   "measures": {
-    "vin_bias_op::v_vin": 10.0,
-    "tran_settle::v_out_steady": 3.30704,
-    "tran_settle::v_out_min": 3.30704,
-    "tran_settle::vout_ripple_pp": 0.0,
-    "tran_load_step::v_out_light_load": 3.30704,
-    "tran_load_step::v_out_heavy_load": 3.30704,
-    "ac_small_signal::vout_ac_vm_1k": 0.0,
     "ac_small_signal::vout_ac_vm": 0.0,
-    "ac_small_signal::vout_ac_vm_100k": 0.0
-  }
+    "ac_small_signal::vout_ac_vm_100k": 0.0,
+    "ac_small_signal::vout_ac_vm_1k": 0.0,
+    "ac_z_in::z_in_100k": 0.0288179,
+    "ac_z_in::z_in_10k": 0.0491805,
+    "ac_z_in::z_in_1k": 0.0499916,
+    "ac_z_out::z_out_100k": 0.022,
+    "ac_z_out::z_out_10k": 0.022,
+    "ac_z_out::z_out_1k": 0.022,
+    "tran_load_step::v_out_heavy_load": 3.30704,
+    "tran_load_step::v_out_light_load": 3.30704,
+    "tran_settle::v_out_min": 3.30704,
+    "tran_settle::v_out_steady": 3.30704,
+    "tran_settle::vout_ripple_pp": 0.0,
+    "vin_bias_op::v_vin": 10.0
+  },
+  "ref": "AC Norton Z_in/Z_out secondary decks May 2026; refresh after schematic/model/overlay churn"
 }

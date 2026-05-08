@@ -3,7 +3,7 @@
 
 Supports either a single ``netlist:`` path or ``assembly:`` (main + optional includes + mandatory
 ``sim/overlay.cir``) per issue #45 — assembled deck is written to ``sim/assembled.cir`` before run.
-Optional ``secondary_passes`` in ``sim.yml`` run additional standalone netlists (issue #79 — e.g. ``.ac`` decks).
+Optional ``secondary_passes`` in ``sim.yml`` run additional standalone netlists (issue #79 — e.g. ``.ac`` decks; impedance probes may use ``abs_value`` / ``scale`` on measures).
 
 Usage:
   python3 scripts/sim/run_sim.py --config sim/fixtures/rc_divider/sim.yml
@@ -34,7 +34,7 @@ from scripts.sim.baseline_metrics import (
     measure_key,
     parse_value_for_delta,
 )
-from scripts.sim.config import ScenarioSpec, SimConfig, load_sim_config
+from scripts.sim.config import MeasureSpec, ScenarioSpec, SimConfig, load_sim_config
 from scripts.sim.measure_parse import (
     check_limits,
     parse_dc_op_node_voltage,
@@ -60,6 +60,18 @@ def _bounds_str(min_v: float | None, max_v: float | None) -> str:
     if max_v is not None:
         parts.append(f"max {max_v}")
     return ", ".join(parts) if parts else "(unbounded)"
+
+
+def _processed_measure_value(raw_val: float, m: MeasureSpec) -> float:
+    """Apply optional abs() + scale for measures parsed from ngspice ``.meas`` lines."""
+    if m.op_node is not None:
+        return raw_val
+    out = raw_val
+    if m.abs_value:
+        out = abs(out)
+    if m.post_scale is not None:
+        out *= m.post_scale
+    return out
 
 
 def _evaluate_scenario_measures(
@@ -102,14 +114,15 @@ def _evaluate_scenario_measures(
                 )
                 any_fail = True
                 continue
-            ok, reason = check_limits(raw_val, m.min_value, m.max_value)
+            proc_val = _processed_measure_value(raw_val, m)
+            ok, reason = check_limits(proc_val, m.min_value, m.max_value)
             if not ok:
                 any_fail = True
             rows.append(
                 MeasureRowResult(
                     measure_id=m.identifier,
                     scenario_id=scenario.identifier,
-                    value_str=f"{raw_val:.6g}",
+                    value_str=f"{proc_val:.6g}",
                     bounds_str=_bounds_str(m.min_value, m.max_value),
                     passed=ok,
                     detail=reason,
