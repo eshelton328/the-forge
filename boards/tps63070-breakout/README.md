@@ -9,84 +9,7 @@ Standalone breakout board for the [TPS63070](https://www.ti.com/lit/ds/symlink/t
 - **Output current**: up to 2A
 - **Layers**: 2
 - **Thickness**: 1.6mm
-- **Fab targets**: JLCPCB 2-layer, PCBWay 2-layer
-
-### Simulation (ngspice)
-
-CI uploads **`docs/spice-report.md`**, **`docs/spice-report.metrics.json`**, and netlists under artifact **`spice-boards`** → `tps63070-breakout/`. Example folder layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
-
-| Read this | Open this |
-| :--- | :--- |
-| Scenario limits (voltages, ripple, AC anchors) | [`sim.yml`](sim.yml) |
-| Assembled overlay wrapper (`extracted` + `manual` + transient bundle) | [`sim/overlay.cir`](sim/overlay.cir) |
-| Extended transient stimulus timeline (`PWL`, pulse bursts, low-VIN heavy-load segment) | [`sim/transient_stress_body.cir`](sim/transient_stress_body.cir) |
-| Primary `.meas` bundle (legacy windows + extended stress probes) | [`sim/overlay_measures.cir`](sim/overlay_measures.cir) |
-| Line-transfer small-signal `.ac` (VIN AC → Vout tap) | [`sim/ac_small_signal.cir`](sim/ac_small_signal.cir) |
-| Norton output impedance probes (`ac_z_out`) | [`sim/ac_z_out.cir`](sim/ac_z_out.cir) |
-| Norton input impedance probes (`ac_z_in`; bench `RBENCH` — see deck comments) | [`sim/ac_z_in.cir`](sim/ac_z_in.cir) |
-| Startup ramp proxy (VIN slew into light load) | [`sim/tran_startup_ramp.cir`](sim/tran_startup_ramp.cir) |
-| Lump-cap stub corner (+470 p at far load node; compares ripple anchors) | [`sim/tran_corner_stub_cap.cir`](sim/tran_corner_stub_cap.cir), [`sim/corner_load_470p.cir`](sim/corner_load_470p.cir) |
-| Layout-ish parasitics (distribution, stubs) | [`sim/extracted_hotloop_fragment.cir`](sim/extracted_hotloop_fragment.cir), [`sim/manual_parasitics.cir`](sim/manual_parasitics.cir) |
-| Parasitic workflow / reviewer expectations | [`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md) |
-| Full runner / Docker / local commands | [`sim/README.md`](../../sim/README.md) |
-
-**Flow:** KiCad exports **`sim/kicad_export.cir`** (gitignored); assembly merges vendor **`libs/spice`** → export → **`overlay.cir`**. The TI model in-repo is an **ngspice behavioral stub** — see [`libs/spice/README.md`](../../libs/spice/README.md) for what that implies.
-
-Context: [#76](https://github.com/eshelton328/the-forge/issues/76) (transient regression), [#79](https://github.com/eshelton328/the-forge/issues/79) (multi-pass `.ac`), [#74](https://github.com/eshelton328/the-forge/issues/74) (overlay fragments).
-
-### Simulation roadmap (long-term)
-
-Goals for automated **design evidence** beyond today’s transient limits (not necessarily all in ngspice alone):
-
-1. **Expected voltage output** — richer reporting vs nominal/datasheet-style bands (line/load tables, ripple budgets, multi-point summaries in artifacts).
-2. **Impedance** — frequency-domain or port metrics (e.g. output impedance, PDN **|Z(f)|**) using `.ac` / richer models and, where needed, layout-linked overlays ([`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md), [#74](https://github.com/eshelton328/the-forge/issues/74)).
-3. **EMI-oriented reporting** — structured EMI-adjacent summaries where the toolchain supports them (e.g. harmonic estimates, documented coupling assumptions); **not** chamber certification or guaranteed emissions compliance ([PRD #43](https://github.com/eshelton328/the-forge/issues/43) scope boundaries).
-
-**Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); **extended rail** (duty-cycled load bursts, low-VIN + heavy load, overshoot probes); **startup ramp** + **stub-cap corner** secondaries; AC **line-response** + Norton **|Zout| / |Zin|** (`ac_small_signal.cir`, `ac_z_out.cir`, `ac_z_in.cir`; [#79](https://github.com/eshelton328/the-forge/issues/79)).
-
-**Repo tracking (scope / prioritization):** EMI-adjacent documentation expectations — [#81](https://github.com/eshelton328/the-forge/issues/81); scheduling non-sim backlog (PRD remainder, hardware variants such as [#4](https://github.com/eshelton328/the-forge/issues/4)) — [#82](https://github.com/eshelton328/the-forge/issues/82).
-
-<!-- spice-regression-start -->
-## SPICE regression (ngspice)
-
-_Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` and [`sim/README.md`](../../sim/README.md))._
-
-**Last metrics refresh:** 2026-05-08T08:03:44Z · **Overall:** PASS (schema v2)
-
-[Full report (`docs/spice-report.md`)](docs/spice-report.md)
-
-| Scenario | Measure | Value | Bounds | Result |
-|:---------|:--------|:------|:-------|:-------|
-| vin_bias_op | VIN rail DC (after input distribution) | 10 | min 9.99, max 10.01 | **PASS** |
-| tran_settle | Vout steady (post transient) | 3.30704 | min 3.28, max 3.32 | **PASS** |
-| tran_settle | Vout minimum over transient | 3.30704 | min 3.25 | **PASS** |
-| tran_settle | Output ripple peak-peak | 0 | max 0.15 | **PASS** |
-| tran_load_step | Vout at light load sample | 3.30704 | min 3.25, max 3.35 | **PASS** |
-| tran_load_step | Vout at heavy load sample | 3.30704 | min 3.28, max 3.32 | **PASS** |
-| tran_load_step | Vout peak during first heavy-load step (118–135 µs) | 3.30704 | max 3.45 | **PASS** |
-| tran_load_step | Vout sample after heavy-load step (160 µs) | 3.30704 | min 3.25, max 3.34 | **PASS** |
-| tran_stress_extended | Vout minimum during duty-cycled load bursts (276–318 µs) | 3.30704 | min 3.15 | **PASS** |
-| tran_stress_extended | Vout peak-peak during load bursts (276–318 µs) | 0 | max 0.35 | **PASS** |
-| tran_stress_extended | Vout during low-VIN + heavy load (10 V in, 370 µs) | 3.30704 | min 3.05, max 3.38 | **PASS** |
-| tran_stress_extended | Vout after line recovery (450 µs, heavy load) | 3.30704 | min 3.22, max 3.34 | **PASS** |
-| ac_small_signal | AC \|Vout\| @ 1 kHz (small-signal anchor) | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC \|Vout\| @ 50 kHz | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC \|Vout\| @ 10 kHz | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC \|Vout\| @ 100 kHz | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC \|Vout\| @ 500 kHz | 0 | max 1.0 | **PASS** |
-| ac_z_out | \|Zout\| @ 1 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
-| ac_z_out | \|Zout\| @ 10 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
-| ac_z_out | \|Zout\| @ 100 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
-| ac_z_in | \|Zin\| @ 1 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0499916 | max 100.0 | **PASS** |
-| ac_z_in | \|Zin\| @ 10 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0491805 | max 100.0 | **PASS** |
-| ac_z_in | \|Zin\| @ 100 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0288179 | max 100.0 | **PASS** |
-| tran_startup_ramp | Startup ramp — Vout minimum (1–130 µs) | 3.30704 | min 2.4 | **PASS** |
-| tran_startup_ramp | Startup ramp — Vout at 380 µs | 3.30704 | min 3.25, max 3.34 | **PASS** |
-| tran_corner_stub_cap | Corner (+470 p stub) pulse-train ripple PP (276–318 µs) | 0 | max 0.45 | **PASS** |
-| tran_corner_stub_cap | Corner (+470 p stub) pulse-train Vout minimum | 3.30704 | min 3.12 | **PASS** |
-| tran_corner_stub_cap | Corner (+470 p stub) heavy-load sample (245 µs) | 3.30704 | min 3.26, max 3.33 | **PASS** |
-
-<!-- spice-regression-end -->
+- **Fab targets:** JLCPCB / PCBWay **2-layer advanced** (see [`board.yml`](board.yml)); CI matches `make fab-drc` for this board using those decks.
 
 ## Bill of Materials
 
@@ -276,6 +199,83 @@ _Run `make validate tps63070-breakout` to regenerate locally._
 | bom_rules | pass | footprints required; no duplicate refs; datasheets on U1 |
 <!-- validation-summary-end -->
 
+## Simulation (ngspice)
+
+CI uploads **`docs/spice-report.md`**, **`docs/spice-report.metrics.json`**, and netlists under artifact **`spice-boards`** → `tps63070-breakout/`. Example folder layout: [`docs/spice-report-example.md`](docs/spice-report-example.md).
+
+| Read this | Open this |
+| :--- | :--- |
+| Scenario limits (voltages, ripple, AC anchors) | [`sim.yml`](sim.yml) |
+| Assembled overlay wrapper (`extracted` + `manual` + transient bundle) | [`sim/overlay.cir`](sim/overlay.cir) |
+| Extended transient stimulus timeline (`PWL`, pulse bursts, low-VIN heavy-load segment) | [`sim/transient_stress_body.cir`](sim/transient_stress_body.cir) |
+| Primary `.meas` bundle (legacy windows + extended stress probes) | [`sim/overlay_measures.cir`](sim/overlay_measures.cir) |
+| Line-transfer small-signal `.ac` (VIN AC → Vout tap) | [`sim/ac_small_signal.cir`](sim/ac_small_signal.cir) |
+| Norton output impedance probes (`ac_z_out`) | [`sim/ac_z_out.cir`](sim/ac_z_out.cir) |
+| Norton input impedance probes (`ac_z_in`; bench `RBENCH` — see deck comments) | [`sim/ac_z_in.cir`](sim/ac_z_in.cir) |
+| Startup ramp proxy (VIN slew into light load) | [`sim/tran_startup_ramp.cir`](sim/tran_startup_ramp.cir) |
+| Lump-cap stub corner (+470 p at far load node; compares ripple anchors) | [`sim/tran_corner_stub_cap.cir`](sim/tran_corner_stub_cap.cir), [`sim/corner_load_470p.cir`](sim/corner_load_470p.cir) |
+| Layout-ish parasitics (distribution, stubs) | [`sim/extracted_hotloop_fragment.cir`](sim/extracted_hotloop_fragment.cir), [`sim/manual_parasitics.cir`](sim/manual_parasitics.cir) |
+| Parasitic workflow / reviewer expectations | [`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md) |
+| Full runner / Docker / local commands | [`sim/README.md`](../../sim/README.md) |
+
+**Flow:** KiCad exports **`sim/kicad_export.cir`** (gitignored); assembly merges vendor **`libs/spice`** → export → **`overlay.cir`**. The TI model in-repo is an **ngspice behavioral stub** — see [`libs/spice/README.md`](../../libs/spice/README.md) for what that implies.
+
+Context: [#76](https://github.com/eshelton328/the-forge/issues/76) (transient regression), [#79](https://github.com/eshelton328/the-forge/issues/79) (multi-pass `.ac`), [#74](https://github.com/eshelton328/the-forge/issues/74) (overlay fragments).
+
+### Simulation roadmap (long-term)
+
+Goals for automated **design evidence** beyond today’s transient limits (not necessarily all in ngspice alone):
+
+1. **Expected voltage output** — richer reporting vs nominal/datasheet-style bands (line/load tables, ripple budgets, multi-point summaries in artifacts).
+2. **Impedance** — frequency-domain or port metrics (e.g. output impedance, PDN **|Z(f)|**) using `.ac` / richer models and, where needed, layout-linked overlays ([`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md), [#74](https://github.com/eshelton328/the-forge/issues/74)).
+3. **EMI-oriented reporting** — structured EMI-adjacent summaries where the toolchain supports them (e.g. harmonic estimates, documented coupling assumptions); **not** chamber certification or guaranteed emissions compliance ([PRD #43](https://github.com/eshelton328/the-forge/issues/43) scope boundaries).
+
+**Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); **extended rail** (duty-cycled load bursts, low-VIN + heavy load, overshoot probes); **startup ramp** + **stub-cap corner** secondaries; AC **line-response** + Norton **|Zout| / |Zin|** (`ac_small_signal.cir`, `ac_z_out.cir`, `ac_z_in.cir`; [#79](https://github.com/eshelton328/the-forge/issues/79)).
+
+**Repo tracking (scope / prioritization):** EMI-adjacent documentation expectations — [#81](https://github.com/eshelton328/the-forge/issues/81); scheduling non-sim backlog (PRD remainder, hardware variants such as [#4](https://github.com/eshelton328/the-forge/issues/4)) — [#82](https://github.com/eshelton328/the-forge/issues/82).
+
+<!-- spice-regression-start -->
+## SPICE regression (ngspice)
+
+_Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` and [`sim/README.md`](../../sim/README.md))._
+
+**Last metrics refresh:** 2026-05-08T08:03:44Z · **Overall:** PASS (schema v2)
+
+[Full report (`docs/spice-report.md`)](docs/spice-report.md)
+
+| Scenario | Measure | Value | Bounds | Result |
+|:---------|:--------|:------|:-------|:-------|
+| vin_bias_op | VIN rail DC (after input distribution) | 10 | min 9.99, max 10.01 | **PASS** |
+| tran_settle | Vout steady (post transient) | 3.30704 | min 3.28, max 3.32 | **PASS** |
+| tran_settle | Vout minimum over transient | 3.30704 | min 3.25 | **PASS** |
+| tran_settle | Output ripple peak-peak | 0 | max 0.15 | **PASS** |
+| tran_load_step | Vout at light load sample | 3.30704 | min 3.25, max 3.35 | **PASS** |
+| tran_load_step | Vout at heavy load sample | 3.30704 | min 3.28, max 3.32 | **PASS** |
+| tran_load_step | Vout peak during first heavy-load step (118–135 µs) | 3.30704 | max 3.45 | **PASS** |
+| tran_load_step | Vout sample after heavy-load step (160 µs) | 3.30704 | min 3.25, max 3.34 | **PASS** |
+| tran_stress_extended | Vout minimum during duty-cycled load bursts (276–318 µs) | 3.30704 | min 3.15 | **PASS** |
+| tran_stress_extended | Vout peak-peak during load bursts (276–318 µs) | 0 | max 0.35 | **PASS** |
+| tran_stress_extended | Vout during low-VIN + heavy load (10 V in, 370 µs) | 3.30704 | min 3.05, max 3.38 | **PASS** |
+| tran_stress_extended | Vout after line recovery (450 µs, heavy load) | 3.30704 | min 3.22, max 3.34 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 1 kHz (small-signal anchor) | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 50 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 10 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 100 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 500 kHz | 0 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 1 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 10 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 100 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 1 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0499916 | max 100.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 10 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0491805 | max 100.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 100 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0288179 | max 100.0 | **PASS** |
+| tran_startup_ramp | Startup ramp — Vout minimum (1–130 µs) | 3.30704 | min 2.4 | **PASS** |
+| tran_startup_ramp | Startup ramp — Vout at 380 µs | 3.30704 | min 3.25, max 3.34 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) pulse-train ripple PP (276–318 µs) | 0 | max 0.45 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) pulse-train Vout minimum | 3.30704 | min 3.12 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) heavy-load sample (245 µs) | 3.30704 | min 3.26, max 3.33 | **PASS** |
+
+<!-- spice-regression-end -->
+
 ## Status
 
 **Migrated** — previously developed as a standalone project ("genesis"). First revision has been fabricated and validated at JLCPCB with confirmed 3.3V output.
@@ -283,4 +283,4 @@ _Run `make validate tps63070-breakout` to regenerate locally._
 ### Known DRC items
 
 - **ERC**: VIN and GND nets need `PWR_FLAG` symbols (cosmetic warnings, add in KiCad GUI via Place > Power Port)
-- **Fab DRC**: Board was designed before fab rules were added; some clearances and via sizes are below published manufacturer minimums. These should be addressed in the next board revision.
+- **Fab DRC**: Board was designed before fab rules were added; some clearances and via sizes are below published manufacturer minimums. These should be addressed in the next board revision. CI runs fab DRC targets from [`board.yml`](board.yml) (**2-layer advanced**); the **KiCad design checks** table above updates when **Update Board READMEs** runs on `main`.

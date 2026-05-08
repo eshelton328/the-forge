@@ -1,0 +1,134 @@
+(version 1)
+# JLCPCB 4-layer, 1oz copper, ADVANCED process — Custom Design Rules for KiCad
+#
+# Based on `jlcpcb-4layer.kicad_dru` stack-up (outer + inner layers), with tighter
+# annular ring / hole clearance / pad-track clearance copied from `jlcpcb-2layer-advanced`.
+#
+# Capabilities: https://jlcpcb.com/capabilities/pcb-capabilities
+# Fetched: 2026-05-08
+#
+# Advanced process: higher cost; tighter vias/clearances than the generic 4-layer file.
+
+# --- Trace width and spacing ---
+# Same defaults as `jlcpcb-4layer.kicad_dru`.
+
+(rule "JLCPCB Adv: Track width, outer layer (1oz copper)"
+	(layer outer)
+	(condition "A.Type == 'track'")
+	(constraint track_width (min 0.127mm))
+)
+
+(rule "JLCPCB Adv: Track spacing, outer layer (1oz copper)"
+	(layer outer)
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
+	(constraint clearance (min 0.127mm))
+)
+
+(rule "JLCPCB Adv: Track width, inner layer"
+	(layer inner)
+	(condition "A.Type == 'track'")
+	(constraint track_width (min 0.1mm))
+)
+
+(rule "JLCPCB Adv: Track spacing, inner layer"
+	(layer inner)
+	(condition "A.Type == 'track' && B.Type == A.Type && A.Net != B.Net")
+	(constraint clearance (min 0.1mm))
+)
+
+# --- Silkscreen ---
+
+(rule "JLCPCB Adv: Silkscreen text"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'text' || A.Type == 'text box'")
+	(constraint text_thickness (min 0.15mm))
+	(constraint text_height (min 1mm))
+)
+
+(rule "JLCPCB Adv: Pad to silkscreen"
+	(layer "?.Silkscreen")
+	(condition "A.Type == 'pad' && (B.Type == 'text' || B.Type == 'graphic')")
+	(constraint silk_clearance (min 0.15mm))
+)
+
+# --- Board edge ---
+
+(rule "JLCPCB Adv: Edge (routed) to track clearance"
+	(condition "A.Type == 'track'")
+	(constraint edge_clearance (min 0.3mm))
+)
+
+# --- Drill / hole size ---
+
+(rule "JLCPCB Adv: Hole diameter"
+	(constraint hole_size (min 0.2mm) (max 6.3mm))
+)
+
+(rule "JLCPCB Adv: Hole (NPTH) diameter"
+	(layer outer)
+	(condition "!A.isPlated()")
+	(constraint hole_size (min 0.5mm))
+)
+
+(rule "JLCPCB Adv: Hole (castellated) diameter"
+	(layer outer)
+	(condition "A.Type == 'pad' && A.Fabrication_Property == 'Castellated pad'")
+	(constraint hole_size (min 0.6mm))
+)
+
+# --- Via support ---
+
+(rule "JLCPCB Adv: Only through-hole vias supported (4-layer)"
+	(condition "A.Type == 'via'")
+	(constraint assertion "!(A.isBlindBuriedVia() || A.isMicroVia())")
+)
+
+# --- Annular ring ---
+# Advanced: 0.1mm minimum annular on plated outer features (vs 0.15mm standard 4L file).
+
+(rule "JLCPCB Adv: Annular ring width (via and PTH)"
+	(layer outer)
+	(condition "A.isPlated()")
+	(constraint annular_width (min 0.1mm))
+)
+
+(rule "JLCPCB Adv: Annular ring width (NPTH)"
+	(layer outer)
+	(condition "!A.isPlated()")
+	(constraint annular_width (min 0.25mm))
+)
+
+# --- Clearance ---
+
+(rule "JLCPCB Adv: Hole to hole, different nets"
+	(layer outer)
+	(condition "A.Net != B.Net")
+	(constraint hole_to_hole (min 0.5mm))
+)
+
+(rule "JLCPCB Adv: Hole to hole, same net"
+	(layer outer)
+	(condition "A.Net == B.Net")
+	(constraint hole_to_hole (min 0.254mm))
+)
+
+(rule "JLCPCB Adv: Track to NPTH hole"
+	(condition "!A.isPlated() && B.Type == 'track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.254mm))
+)
+
+(rule "JLCPCB Adv: Track to PTH hole"
+	(condition "A.isPlated() && B.Type == 'track' && A.Net != B.Net")
+	(constraint hole_clearance (min 0.25mm))
+)
+
+(rule "JLCPCB Adv: Track to pad"
+	(condition "A.Type == 'pad' && B.Type == 'track' && A.Net != B.Net")
+	(constraint clearance (min 0.127mm))
+)
+
+(rule "JLCPCB Adv: Pad/via to pad/via"
+	(layer outer)
+	(condition "(A.Type == 'pad' || A.Type == 'via') && (B.Type == 'pad' || B.Type == 'via') && A.Net != B.Net")
+	(constraint clearance (min 0.127mm))
+)
