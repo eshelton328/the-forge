@@ -1,6 +1,7 @@
 # Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
 # Transient scenarios: #76 + extended stress rail (pulse bursts, low-VIN heavy load, overshoot probes).
-# Secondary decks: line `.ac` (#79), extra AC anchors, |Zout| / |Zin|, startup ramp proxy, stub-cap corner.
+# Secondary decks: line `.ac` (#79), extra AC anchors, |Zout| (`sim/ac_z_out.cir`), |Zin| (`sim/ac_z_in.cir`),
+# startup ramp proxy, stub-cap corner.
 spec_version: 1
 spice_engine: ngspice
 
