@@ -1,0 +1,34 @@
+name: Open EMS (gerber2ems + openEMS)
+
+# Electromagnetic regression smoke (Antmicro stub_short). Heavy image build; path-filtered PRs + manual dispatch.
+# Not merge-blocking on every PR — see paths filter below.
+on:
+  pull_request:
+    paths:
+      - "emi/**"
+      - ".github/workflows/emi-checks.yml"
+      - "scripts/ci/run-emi-fixture.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  OPEN_EMI_IMAGE: the-forge-open-emi:ci
+
+jobs:
+  open-ems-fixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Build openEMS + gerber2ems image
+        run: docker build -t "$OPEN_EMI_IMAGE" -f emi/docker/Dockerfile emi/docker
+
+      - name: Run gerber2ems fixture (stub_short)
+        run: bash scripts/ci/run-emi-fixture.sh "$OPEN_EMI_IMAGE"
