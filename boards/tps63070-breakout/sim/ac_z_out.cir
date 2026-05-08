@@ -1,0 +1,18 @@
+* Secondary `.ac` pass — small-signal **|Zout(f)|** at the load-side distribution node (`VOUT_LOAD_END`).
+* Same DC bias + parasitic `.include` chain as `ac_small_signal.cir` for apples-to-apples overlays.
+*
+* **Definition:** Norton source `II_ZOUT` injects AC **1 A** (peak) **VOUT_LOAD_END → GND**. In linear AC,
+* **|Zout(f)| ≈ abs(V(VOUT_LOAD_END))** Ω (runner applies `abs_value` in `sim.yml`).
+* This is **not** a vector-network port measurement — it is a regression anchor for “how stiff is this node” given the stub + schematic + overlays.
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+.include "extracted_hotloop_fragment.cir"
+.include "manual_parasitics.cir"
+VVIN VIN_RAW 0 DC 10 AC 0
+II_LOAD VOUT_LOAD_END GND DC 0.5
+II_ZOUT VOUT_LOAD_END GND DC 0 AC 1
+.ac dec 15 100 1meg
+.meas ac z_out_1k FIND V(VOUT_LOAD_END) AT=1000
+.meas ac z_out_10k FIND V(VOUT_LOAD_END) AT=10000
+.meas ac z_out_100k FIND V(VOUT_LOAD_END) AT=100000
+.end

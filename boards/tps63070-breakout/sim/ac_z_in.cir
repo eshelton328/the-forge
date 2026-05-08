@@ -1,0 +1,21 @@
+* Secondary `.ac` pass — small-signal **|Zin(f)|** seen **into `VIN_RAW`** (connector / bench side before board input trace LR chain).
+* Same DC bias + parasitic `.include` chain as `ac_small_signal.cir`.
+*
+* Bench-side shim: ideal DC source drives **`V_SRC_RAW`**; **`RBENCH`** (~50 mΩ Thevenin series R) sits **`V_SRC_RAW → VIN_RAW`** so an ideal voltage source does **not** AC-short the Norton probe node.
+*
+* **Definition:** Norton `II_ZIN` injects AC **1 µA** (peak) **VIN_RAW → GND**.
+* **|Zin(f)| ≈ abs(V(VIN_RAW)) / 1µA = abs(V(VIN_RAW)) × 1e6** Ω (`scale: 1e6` + `abs_value` in `sim.yml`).
+* Interpret as **small-signal effective shunt impedance at `VIN_RAW`** given bench lump + stub + overlays — not an EMC-grade calibrated port.
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+.include "extracted_hotloop_fragment.cir"
+.include "manual_parasitics.cir"
+VVIN V_SRC_RAW 0 DC 10 AC 0
+RBENCH V_SRC_RAW VIN_RAW 0.05
+II_LOAD VOUT_LOAD_END GND DC 0.5
+II_ZIN VIN_RAW GND DC 0 AC 1u
+.ac dec 15 100 1meg
+.meas ac z_in_1k FIND V(VIN_RAW) AT=1000
+.meas ac z_in_10k FIND V(VIN_RAW) AT=10000
+.meas ac z_in_100k FIND V(VIN_RAW) AT=100000
+.end

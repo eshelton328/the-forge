@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+import math
 
 import yaml
 
@@ -22,6 +23,8 @@ class MeasureSpec:
     op_node: str | None
     display_title: str | None
     display_group: str | None
+    abs_value: bool = False
+    post_scale: float | None = None
 
 
 @dataclass(frozen=True)
@@ -101,6 +104,18 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
             if isinstance(group_raw, str) and group_raw.strip()
             else None
         )
+        abs_raw = m.get("abs_value")
+        abs_value_b = bool(abs_raw) if abs_raw is not None else False
+        scale_raw = m.get("scale")
+        post_scale: float | None
+        if scale_raw is None:
+            post_scale = None
+        else:
+            post_scale = float(scale_raw)
+            if not math.isfinite(post_scale) or post_scale == 0.0:
+                raise ValueError(
+                    f"{context}[{i}].scale must be finite and non-zero when present",
+                )
         measures.append(
             MeasureSpec(
                 identifier=ident.strip(),
@@ -109,6 +124,8 @@ def _load_measures(raw: Any, context: str) -> tuple[MeasureSpec, ...]:
                 op_node=op_node_val,
                 display_title=display_title,
                 display_group=display_group,
+                abs_value=abs_value_b,
+                post_scale=post_scale,
             ),
         )
     return tuple(measures)

@@ -39,6 +39,11 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
         REPO_ROOT / "boards" / "tps63070-breakout" / "sim" / "ac_small_signal.cir",
         board / "sim" / "ac_small_signal.cir",
     )
+    for zdeck in ("ac_z_out.cir", "ac_z_in.cir"):
+        shutil.copy(
+            REPO_ROOT / "boards" / "tps63070-breakout" / "sim" / zdeck,
+            board / "sim" / zdeck,
+        )
     yml = board / "sim.yml"
     yml.write_text(
         (REPO_ROOT / "boards" / "tps63070-breakout" / "sim.yml").read_text(),
@@ -54,14 +59,24 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
     assert cfg.assembly.includes_rel == ("../../libs/spice/tps63070/TPS63070_TRANS.LIB",)
     assert cfg.netlist_path.name == "assembled.cir"
     assert cfg.netlist_path.parent.name == "sim"
-    assert len(cfg.secondary_passes) == 1
+    assert len(cfg.secondary_passes) == 3
     assert cfg.secondary_passes[0].netlist_path.name == "ac_small_signal.cir"
+    assert cfg.secondary_passes[1].netlist_path.name == "ac_z_out.cir"
+    assert cfg.secondary_passes[2].netlist_path.name == "ac_z_in.cir"
     assert cfg.secondary_passes[0].scenarios[0].identifier == "ac_small_signal"
     assert len(cfg.secondary_passes[0].scenarios[0].measures) == 3
     assert cfg.secondary_passes[0].scenarios[0].measures[0].identifier == "vout_ac_vm_1k"
     ac0 = cfg.secondary_passes[0].scenarios[0].measures[0]
     assert ac0.display_title is not None and "1 kHz" in ac0.display_title
     assert ac0.display_group == "ac_line_response"
+    zout0 = cfg.secondary_passes[1].scenarios[0].measures[0]
+    assert zout0.identifier == "z_out_1k"
+    assert zout0.abs_value is True
+    assert zout0.post_scale is None
+    zin0 = cfg.secondary_passes[2].scenarios[0].measures[0]
+    assert zin0.identifier == "z_in_1k"
+    assert zin0.abs_value is True
+    assert zin0.post_scale == 1e6
 
 
 def test_load_measure_optional_title_group(tmp_path: Path) -> None:

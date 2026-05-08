@@ -131,3 +131,27 @@ def test_rejects_bad_plot_basename(tmp_path: Path) -> None:
     (tmp_path / "a.cir").write_text("* stub\n.end\n")
     with pytest.raises(ValueError, match="plots"):
         load_sim_config(p)
+
+
+def test_rejects_measure_scale_zero(tmp_path: Path) -> None:
+    p = tmp_path / "sim.yml"
+    p.write_text(
+        yaml.safe_dump(
+            {
+                "spec_version": 1,
+                "spice_engine": "ngspice",
+                "netlist": "a.cir",
+                "scenarios": [
+                    {
+                        "id": "s",
+                        "measures": [
+                            {"id": "m", "scale": 0.0, "max": 1.0},
+                        ],
+                    },
+                ],
+            },
+        ),
+    )
+    (tmp_path / "a.cir").write_text("* stub\n.end\n")
+    with pytest.raises(ValueError, match=r"scale"):
+        load_sim_config(p)

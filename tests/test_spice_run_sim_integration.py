@@ -141,20 +141,24 @@ def test_run_sim_tps63070_assembly_passes(tmp_path: Path) -> None:
     assert proc.returncode == 0, proc.stderr + proc.stdout
     text = report.read_text()
     assert "PASS" in text
-    assert "v_vin" in text
+    assert "VIN rail DC" in text
     assert "| Baseline file | `sim/spice_metrics_baseline.json` |" in text
     assert "SIM_BASELINE_COMPARE=true" in text
     assert "tran_settle" in text
-    assert "v_out_steady" in text
-    assert "v_out_min" in text
-    assert "vout_ripple_pp" in text
+    assert "Vout steady (post transient)" in text
+    assert "Vout minimum over transient" in text
+    assert "Output ripple peak-peak" in text
     assert "tran_load_step" in text
-    assert "v_out_light_load" in text
-    assert "v_out_heavy_load" in text
+    assert "Vout at light load sample" in text
+    assert "Vout at heavy load sample" in text
     assert "ac_small_signal" in text
-    assert "vout_ac_vm_1k" in text
-    assert "vout_ac_vm" in text
-    assert "vout_ac_vm_100k" in text
+    assert "AC |Vout| @ 1 kHz" in text
+    assert "AC |Vout| @ 10 kHz" in text
+    assert "AC |Vout| @ 100 kHz" in text
+    assert "ac_z_out" in text
+    assert "ac_z_in" in text
+    assert "|Zout| @ 1 kHz" in text
+    assert "|Zin| @ 1 kHz" in text
     assert "## Waveform plots" in text
     assert "tran-vout.png" in text
     assert "| KiCad CLI | `" in text
