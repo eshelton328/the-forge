@@ -17,7 +17,7 @@ RUN apt-get update \
     gerbv \
  && rm -rf /var/lib/apt/lists/*
 
-COPY emi-pinned-versions.env /tmp/emi-pinned-versions.env
+COPY emi-pinned-versions.env gerber2ems-pip-constraints.txt /tmp/
 
 RUN useradd -m -s /bin/bash docker
 
@@ -27,6 +27,7 @@ WORKDIR /home/docker
 ENV HOME=/home/docker \
     PATH="/home/docker/.local/bin:/home/docker/opt/openEMS/venv/bin:${PATH}"
 
+# gerber2ems installs with pip constraints (emi/docker/regenerate-gerber2ems-pip-lock.sh when bumping SHA or refreshing PyPI pins).
 RUN set -a \
  && source /tmp/emi-pinned-versions.env \
  && set +a \
@@ -42,7 +43,7 @@ RUN set -a \
  && cd gerber2ems \
  && git checkout "${GERBER2EMS_SHA}" \
  && source /home/docker/opt/openEMS/venv/bin/activate \
- && pip install --no-cache-dir . \
+ && pip install --no-cache-dir -c /tmp/gerber2ems-pip-constraints.txt . \
  && mkdir -p /home/docker/.local/bin \
  && ln -sf /home/docker/opt/openEMS/venv/bin/gerber2ems /home/docker/.local/bin/ \
  && ln -sf /home/docker/opt/openEMS/venv/bin/ems2paraview /home/docker/.local/bin/ \
