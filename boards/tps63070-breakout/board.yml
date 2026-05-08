@@ -6,3 +6,5 @@ thickness: 1.6mm
 fab_targets:
   - jlcpcb-2layer-advanced
   - pcbway-2layer-advanced
+  - jlcpcb-4layer-advanced
+  - pcbway-4layer-advanced
