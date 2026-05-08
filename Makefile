@@ -170,7 +170,7 @@ sim-board-docker:
 	@command -v docker >/dev/null 2>&1 || { echo "docker required"; exit 1; }; \
 	test -f $(BOARD_DIR)/sim.yml || { echo "no $(BOARD_DIR)/sim.yml — pick a board with sim.yml"; exit 1; }; \
 	bash scripts/sim/run-spice-in-docker.sh --board "$(BOARD)"
-	@echo OK: Board spice report written via unified image ($(BOARD_DIR)/docs/spice-report.md)
+	@echo "OK: Board spice report written via unified image ($(BOARD_DIR)/docs/spice-report.md)"
 
 sim-fixture-docker:
 	@command -v docker >/dev/null 2>&1 || { echo "docker required"; exit 1; }; \

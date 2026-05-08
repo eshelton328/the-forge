@@ -1,0 +1,5 @@
+* Measures suffixed `corner_stub_*` for stub-cap secondary (`tran_corner_stub_cap.cir`).
+.meas tran corner_stub_pulse_pp PP v(/vout_+3.3v) FROM=276u TO=318u
+.meas tran corner_stub_pulse_min MIN v(/vout_+3.3v) FROM=276u TO=318u
+.meas tran corner_stub_heavy_find FIND v(/vout_+3.3v) AT=245u
+.end

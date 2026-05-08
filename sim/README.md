@@ -66,11 +66,14 @@ libs/spice/                         # Vendor models + README
 boards/<name>/
 ├── sim.yml
 ├── sim/
-│   ├── overlay.cir
+│   ├── overlay.cir                # Includes transient body + overlay_measures.cir (boards vary)
+│   ├── transient_stress_body.cir   # Shared stimulus (some boards)
 │   ├── extracted_*.cir            # Optional layout/extraction fragments (#74)
 │   ├── ac_small_signal.cir        # Optional secondary deck (.ac) — #79
 │   ├── ac_z_out.cir               # Optional Norton |Zout| probes (Ω)
 │   ├── ac_z_in.cir                # Optional Norton |Zin| probes (Ω)
+│   ├── tran_startup_ramp.cir       # Optional startup-proxy secondary deck
+│   ├── tran_corner_stub_cap.cir    # Optional lumped-cap corner secondary deck
 │   ├── plots/
 │   ├── spice_metrics_baseline.json
 │   ├── kicad_export.cir

@@ -1,5 +1,7 @@
 # Opt-in SPICE for this board (mirrors checks.yml pattern). Requires sim/overlay.cir.
-# Transient scenarios: #76. Secondary decks: line `.ac` (#79), |Zout| (`sim/ac_z_out.cir`), |Zin| (`sim/ac_z_in.cir`).
+# Transient scenarios: #76 + extended stress rail (pulse bursts, low-VIN heavy load, overshoot probes).
+# Secondary decks: line `.ac` (#79), extra AC anchors, |Zout| (`sim/ac_z_out.cir`), |Zin| (`sim/ac_z_in.cir`),
+# startup ramp proxy, stub-cap corner.
 spec_version: 1
 spice_engine: ngspice
 
@@ -38,6 +40,35 @@ scenarios:
         title: "Vout at heavy load sample"
         min: 3.28
         max: 3.32
+      - id: v_out_step_peak_heavy
+        title: "Vout peak during first heavy-load step (118–135 µs)"
+        group: tran_extra_probes
+        max: 3.45
+      - id: v_out_after_step_heavy
+        title: "Vout sample after heavy-load step (160 µs)"
+        group: tran_extra_probes
+        min: 3.25
+        max: 3.34
+  - id: tran_stress_extended
+    measures:
+      - id: v_out_pulse_burst_min
+        title: "Vout minimum during duty-cycled load bursts (276–318 µs)"
+        group: tran_pulse_train
+        min: 3.15
+      - id: vout_pulse_burst_pp
+        title: "Vout peak-peak during load bursts (276–318 µs)"
+        group: tran_pulse_train
+        max: 0.35
+      - id: v_out_lowvin_heavy
+        title: "Vout during low-VIN + heavy load (10 V in, 370 µs)"
+        group: tran_line_load_combined
+        min: 3.05
+        max: 3.38
+      - id: v_out_post_recovery_find
+        title: "Vout after line recovery (450 µs, heavy load)"
+        group: tran_recovery
+        min: 3.22
+        max: 3.34
 
 secondary_passes:
   - netlist_rel: sim/ac_small_signal.cir
@@ -48,12 +79,20 @@ secondary_passes:
             title: "AC |Vout| @ 1 kHz (small-signal anchor)"
             group: ac_line_response
             max: 1.0
+          - id: vout_ac_vm_50k
+            title: "AC |Vout| @ 50 kHz"
+            group: ac_line_response
+            max: 1.0
           - id: vout_ac_vm
             title: "AC |Vout| @ 10 kHz"
             group: ac_line_response
             max: 1.0
           - id: vout_ac_vm_100k
             title: "AC |Vout| @ 100 kHz"
+            group: ac_line_response
+            max: 1.0
+          - id: vout_ac_vm_500k
+            title: "AC |Vout| @ 500 kHz"
             group: ac_line_response
             max: 1.0
 
@@ -99,6 +138,38 @@ secondary_passes:
             abs_value: true
             scale: 1e6
             max: 100.0
+
+  - netlist_rel: sim/tran_startup_ramp.cir
+    scenarios:
+      - id: tran_startup_ramp
+        measures:
+          - id: startup_vout_min
+            title: "Startup ramp — Vout minimum (1–130 µs)"
+            group: tran_startup
+            min: 2.4
+          - id: startup_vout_final
+            title: "Startup ramp — Vout at 380 µs"
+            group: tran_startup
+            min: 3.25
+            max: 3.34
+
+  - netlist_rel: sim/tran_corner_stub_cap.cir
+    scenarios:
+      - id: tran_corner_stub_cap
+        measures:
+          - id: corner_stub_pulse_pp
+            title: "Corner (+470 p stub) pulse-train ripple PP (276–318 µs)"
+            group: tran_corner_stub
+            max: 0.45
+          - id: corner_stub_pulse_min
+            title: "Corner (+470 p stub) pulse-train Vout minimum"
+            group: tran_corner_stub
+            min: 3.12
+          - id: corner_stub_heavy_find
+            title: "Corner (+470 p stub) heavy-load sample (245 µs)"
+            group: tran_corner_stub
+            min: 3.26
+            max: 3.33
 
 plots:
   - file: tran-vout.png

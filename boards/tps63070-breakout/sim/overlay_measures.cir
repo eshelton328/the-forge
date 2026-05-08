@@ -1,0 +1,16 @@
+* Regression measures — paired with `transient_stress_body.cir` (primary overlay).
+* Legacy windows (#76) preserved through t=250 µs; extended stress uses later windows.
+.meas tran v_out_steady FIND v(/vout_+3.3v) AT=250u
+.meas tran v_out_min MIN v(/vout_+3.3v) FROM=1u TO=250u
+.meas tran vout_ripple_pp PP v(/vout_+3.3v) FROM=200u TO=250u
+.meas tran v_out_light_load FIND v(/vout_+3.3v) AT=110u
+.meas tran v_out_heavy_load FIND v(/vout_+3.3v) AT=245u
+* Extra probes around the first heavy-load step (still stub-limited physics).
+.meas tran v_out_step_peak_heavy MAX v(/vout_+3.3v) FROM=118u TO=135u
+.meas tran v_out_after_step_heavy FIND v(/vout_+3.3v) AT=160u
+* Burst / line-combined / recovery segment (post-250 µs stress rail).
+.meas tran v_out_pulse_burst_min MIN v(/vout_+3.3v) FROM=276u TO=318u
+.meas tran vout_pulse_burst_pp PP v(/vout_+3.3v) FROM=276u TO=318u
+.meas tran v_out_lowvin_heavy FIND v(/vout_+3.3v) AT=370u
+.meas tran v_out_post_recovery_find FIND v(/vout_+3.3v) AT=450u
+.end

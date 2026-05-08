@@ -10,6 +10,8 @@ II_LOAD VOUT_LOAD_END GND DC 0.5
 Ecopy vo_meas GND /vout_+3.3v GND 1
 .ac dec 15 100 1meg
 .meas ac vout_ac_vm_1k FIND V(vo_meas) AT=1000
+.meas ac vout_ac_vm_50k FIND V(vo_meas) AT=50000
 .meas ac vout_ac_vm FIND V(vo_meas) AT=10000
 .meas ac vout_ac_vm_100k FIND V(vo_meas) AT=100000
+.meas ac vout_ac_vm_500k FIND V(vo_meas) AT=500000
 .end

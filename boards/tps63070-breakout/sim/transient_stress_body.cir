@@ -1,0 +1,16 @@
+* Shared transient stimulus for primary overlay + corner stub deck (#88 stress roadmap).
+* Timeline (single .tran):
+*   0–50 µs: VIN=10 V (nominal); 51–350 µs: VIN=14 V (legacy line step retained).
+*   119–120 µs: 80 mA → 1 A load step (legacy); 250 µs: legacy report samples still valid.
+*   278–309 µs: duty-cycled heavy/light bursts on 14 V rail (ESP-NOW–style load proxy, not RF).
+*   351–390 µs: VIN dips to 10 V while I_load=1 A (combined line + load corner).
+*   391 µs onward: VIN back to 14 V, heavy load held for recovery checks.
+VVIN VIN_RAW 0 DC 10 PWL(
++ 0 10 50u 10 51u 14 350u 14 351u 10 390u 10 391u 14 850u 14
++ )
+II_LOAD VOUT_LOAD_END GND PWL(
++ 0 0.08 119u 0.08 120u 1 250u 1 278u 1 279u 0.08 283u 0.08 284u 1 288u 1 289u 0.08
++ 293u 0.08 294u 1 298u 1 299u 0.08 303u 0.08 304u 1 330u 1 850u 1
++ )
+.op
+.tran 50n 850u

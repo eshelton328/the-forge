@@ -1,0 +1,9 @@
+* Corner stub-cap secondary (#stress roadmap): same stimulus/measures as nominal overlay pulse/recovery,
+* plus ~470 p extra far-load lump — compares ripple anchors under heavier stub charging only (not silicon truth).
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+.include "extracted_hotloop_fragment.cir"
+.include "manual_parasitics.cir"
+.include "corner_load_470p.cir"
+.include "transient_stress_body.cir"
+.include "corner_pulse_measures.cir"

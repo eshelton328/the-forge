@@ -1,0 +1,2 @@
+* Corner: extra lumped capacitance at far-side load node (regression anchor only).
+C_STUB_CORNER_470P VOUT_LOAD_END GND 470p
