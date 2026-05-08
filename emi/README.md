@@ -8,7 +8,7 @@ This folder wires **[openEMS](https://www.openems.de/)** (FDTD field solver) and
 
 ## Docker image
 
-[`emi/docker/Dockerfile`](docker/Dockerfile) builds a self-contained image (no repo context required except the Dockerfile directory). **Pinned revisions:** openEMS commit recommended by gerber2ems; gerber2ems git SHA shared with [`scripts/ci/run-emi-fixture.sh`](../scripts/ci/run-emi-fixture.sh).
+[`emi/docker/Dockerfile`](docker/Dockerfile) builds a self-contained image from build context [`emi/docker/`](docker/). **Pinned revisions:** one file of record for openEMS commit and gerber2ems SHA: [`emi/docker/emi-pinned-versions.env`](docker/emi-pinned-versions.env). The Dockerfile and [`scripts/ci/run-emi-fixture.sh`](../scripts/ci/run-emi-fixture.sh) both read those values (`GERBER2EMS_SHA` may be set in the environment before the fixture script runs to override the file).
 
 ```bash
 docker build -t the-forge-open-ems:local -f emi/docker/Dockerfile emi/docker
@@ -16,7 +16,7 @@ docker build -t the-forge-open-ems:local -f emi/docker/Dockerfile emi/docker
 
 ## Fixture (upstream example)
 
-We do **not** vendor Gerber slices under `emi/` yet. The CI/local script clones **gerber2ems** at the pinned SHA and runs **`examples/stub_short`**:
+We do **not** vendor Gerber slices under `emi/` yet. The CI/local script does a shallow fetch of **gerber2ems** at the pinned SHA (from [`emi/docker/emi-pinned-versions.env`](docker/emi-pinned-versions.env), unless overridden) and runs **`examples/stub_short`**:
 
 ```bash
 bash scripts/ci/run-emi-fixture.sh the-forge-open-ems:local
@@ -36,4 +36,4 @@ Until then, the fixture proves the toolchain stays healthy after dependency bump
 
 ## CI
 
-[`.github/workflows/emi-checks.yml`](../.github/workflows/emi-checks.yml) builds the image and runs the fixture when **`emi/**`**, the workflow file, or **`scripts/ci/run-emi-fixture.sh`** changes, or when you **workflow_dispatch** manually. First-time image builds compile openEMS and can take **many minutes**; adjust timeouts if runners struggle.
+[`.github/workflows/emi-checks.yml`](../.github/workflows/emi-checks.yml) builds the image and runs the fixture when **`emi/**`**, the workflow itself, **`scripts/ci/run-emi-fixture.sh`**, **`Makefile`**, root **`README.md`**, **`sim/README.md`**, or any of those paths change, or when you **workflow_dispatch** manually (root README/`sim/` filters keep EMI doc/Makefile drift from slipping past unchecked). First-time image builds compile openEMS and can take **many minutes**; adjust timeouts if runners struggle.

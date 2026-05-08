@@ -8,6 +8,9 @@ on:
       - "emi/**"
       - ".github/workflows/emi-checks.yml"
       - "scripts/ci/run-emi-fixture.sh"
+      - "Makefile"
+      - "README.md"
+      - "sim/README.md"
   workflow_dispatch:
 
 permissions:
