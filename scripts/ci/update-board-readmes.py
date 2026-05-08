@@ -28,6 +28,9 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+# Search `scripts/` first (`validate_board`, package `sim`), then repo root so
+# `from scripts.sim.*` inside `sim/report_md.py` resolves (`scripts` is a package at repo root).
+sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from validate_board import validate_board  # noqa: E402
