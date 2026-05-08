@@ -39,19 +39,25 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
         REPO_ROOT / "boards" / "tps63070-breakout" / "sim" / "ac_small_signal.cir",
         board / "sim" / "ac_small_signal.cir",
     )
-    for zdeck in ("ac_z_out.cir", "ac_z_in.cir"):
+    for deck in (
+        "ac_z_out.cir",
+        "ac_z_in.cir",
+        "tran_startup_ramp.cir",
+        "tran_corner_stub_cap.cir",
+    ):
         shutil.copy(
-            REPO_ROOT / "boards" / "tps63070-breakout" / "sim" / zdeck,
-            board / "sim" / zdeck,
+            REPO_ROOT / "boards" / "tps63070-breakout" / "sim" / deck,
+            board / "sim" / deck,
         )
     yml = board / "sim.yml"
     yml.write_text(
         (REPO_ROOT / "boards" / "tps63070-breakout" / "sim.yml").read_text(),
     )
     cfg = load_sim_config(yml)
-    assert len(cfg.scenarios) == 3
+    assert len(cfg.scenarios) == 4
     assert cfg.scenarios[1].identifier == "tran_settle"
     assert cfg.scenarios[2].identifier == "tran_load_step"
+    assert cfg.scenarios[3].identifier == "tran_stress_extended"
     assert len(cfg.plots) == 1
     assert cfg.plots[0].png_basename == "tran-vout.png"
     assert cfg.assembly is not None
@@ -59,12 +65,14 @@ def test_load_board_assembly_config(tmp_path: Path) -> None:
     assert cfg.assembly.includes_rel == ("../../libs/spice/tps63070/TPS63070_TRANS.LIB",)
     assert cfg.netlist_path.name == "assembled.cir"
     assert cfg.netlist_path.parent.name == "sim"
-    assert len(cfg.secondary_passes) == 3
+    assert len(cfg.secondary_passes) == 5
     assert cfg.secondary_passes[0].netlist_path.name == "ac_small_signal.cir"
     assert cfg.secondary_passes[1].netlist_path.name == "ac_z_out.cir"
     assert cfg.secondary_passes[2].netlist_path.name == "ac_z_in.cir"
+    assert cfg.secondary_passes[3].netlist_path.name == "tran_startup_ramp.cir"
+    assert cfg.secondary_passes[4].netlist_path.name == "tran_corner_stub_cap.cir"
     assert cfg.secondary_passes[0].scenarios[0].identifier == "ac_small_signal"
-    assert len(cfg.secondary_passes[0].scenarios[0].measures) == 3
+    assert len(cfg.secondary_passes[0].scenarios[0].measures) == 5
     assert cfg.secondary_passes[0].scenarios[0].measures[0].identifier == "vout_ac_vm_1k"
     ac0 = cfg.secondary_passes[0].scenarios[0].measures[0]
     assert ac0.display_title is not None and "1 kHz" in ac0.display_title

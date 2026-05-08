@@ -1,0 +1,12 @@
+* Startup proxy secondary: slow VIN ramp into nominal light load (stub/regression only).
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+.include "extracted_hotloop_fragment.cir"
+.include "manual_parasitics.cir"
+VVIN VIN_RAW 0 DC 6 PWL(0 6 20u 6 120u 10 400u 10)
+II_LOAD VOUT_LOAD_END GND PWL(0 0.08 400u 0.08)
+.op
+.tran 50n 400u
+.meas tran startup_vout_min MIN v(/vout_+3.3v) FROM=1u TO=130u
+.meas tran startup_vout_final FIND v(/vout_+3.3v) AT=380u
+.end

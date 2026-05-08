@@ -1,17 +1,6 @@
 * Board overlay — included after main kicad_export by assemble.py (issue #45).
-* Slice 4: TI TPS63070 subckt in libs/spice via sim.yml .include; KiCad Sim.Pins map on U1.
-* Transient guard scenarios (#56, #76): DC bias for .op; VIN PWL 10 V → 14 V at `VIN_RAW` through input trace in extracted_hotloop_fragment.cir; load step ~80 mA → 1 A after output trace at `VOUT_LOAD_END`.
 * Stage C layout fragments (#74): `.include` before manual overrides/refinements.
 .include "extracted_hotloop_fragment.cir"
 .include "manual_parasitics.cir"
-VVIN VIN_RAW 0 DC 10 PWL(0 10 50u 10 51u 14 250u 14)
-* Overlay load: sinks after output distribution parasitics (see extracted_hotloop_fragment.cir).
-II_LOAD VOUT_LOAD_END GND PWL(0 0.08 119u 0.08 120u 1 250u 1)
-.op
-.tran 100n 250u
-.meas tran v_out_steady FIND v(/vout_+3.3v) AT=250u
-.meas tran v_out_min MIN v(/vout_+3.3v) FROM=1u TO=250u
-.meas tran vout_ripple_pp PP v(/vout_+3.3v) FROM=200u TO=250u
-.meas tran v_out_light_load FIND v(/vout_+3.3v) AT=110u
-.meas tran v_out_heavy_load FIND v(/vout_+3.3v) AT=245u
-.end
+.include "transient_stress_body.cir"
+.include "overlay_measures.cir"

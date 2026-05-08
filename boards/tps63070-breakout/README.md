@@ -18,10 +18,14 @@ CI uploads **`docs/spice-report.md`**, **`docs/spice-report.metrics.json`**, and
 | Read this | Open this |
 | :--- | :--- |
 | Scenario limits (voltages, ripple, AC anchors) | [`sim.yml`](sim.yml) |
-| Transient stimulus, `.tran`, `.meas`, plot signal | [`sim/overlay.cir`](sim/overlay.cir) |
+| Assembled overlay wrapper (`extracted` + `manual` + transient bundle) | [`sim/overlay.cir`](sim/overlay.cir) |
+| Extended transient stimulus timeline (`PWL`, pulse bursts, low-VIN heavy-load segment) | [`sim/transient_stress_body.cir`](sim/transient_stress_body.cir) |
+| Primary `.meas` bundle (legacy windows + extended stress probes) | [`sim/overlay_measures.cir`](sim/overlay_measures.cir) |
 | Line-transfer small-signal `.ac` (VIN AC → Vout tap) | [`sim/ac_small_signal.cir`](sim/ac_small_signal.cir) |
 | Norton output impedance probes (`ac_z_out`) | [`sim/ac_z_out.cir`](sim/ac_z_out.cir) |
 | Norton input impedance probes (`ac_z_in`; bench `RBENCH` — see deck comments) | [`sim/ac_z_in.cir`](sim/ac_z_in.cir) |
+| Startup ramp proxy (VIN slew into light load) | [`sim/tran_startup_ramp.cir`](sim/tran_startup_ramp.cir) |
+| Lump-cap stub corner (+470 p at far load node; compares ripple anchors) | [`sim/tran_corner_stub_cap.cir`](sim/tran_corner_stub_cap.cir), [`sim/corner_load_470p.cir`](sim/corner_load_470p.cir) |
 | Layout-ish parasitics (distribution, stubs) | [`sim/extracted_hotloop_fragment.cir`](sim/extracted_hotloop_fragment.cir), [`sim/manual_parasitics.cir`](sim/manual_parasitics.cir) |
 | Parasitic workflow / reviewer expectations | [`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md) |
 | Full runner / Docker / local commands | [`sim/README.md`](../../sim/README.md) |
@@ -38,7 +42,7 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 2. **Impedance** — frequency-domain or port metrics (e.g. output impedance, PDN **|Z(f)|**) using `.ac` / richer models and, where needed, layout-linked overlays ([`sim/OVERLAY-PARASITICS.md`](../../sim/OVERLAY-PARASITICS.md), [#74](https://github.com/eshelton328/the-forge/issues/74)).
 3. **EMI-oriented reporting** — structured EMI-adjacent summaries where the toolchain supports them (e.g. harmonic estimates, documented coupling assumptions); **not** chamber certification or guaranteed emissions compliance ([PRD #43](https://github.com/eshelton328/the-forge/issues/43) scope boundaries).
 
-**Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); AC **line-response** + Norton **|Zout| / |Zin|** secondary decks (`ac_small_signal.cir`, `ac_z_out.cir`, `ac_z_in.cir`; [#79](https://github.com/eshelton328/the-forge/issues/79)).
+**Today:** transient + load-step regression ([#76](https://github.com/eshelton328/the-forge/issues/76)); **extended rail** (duty-cycled load bursts, low-VIN + heavy load, overshoot probes); **startup ramp** + **stub-cap corner** secondaries; AC **line-response** + Norton **|Zout| / |Zin|** (`ac_small_signal.cir`, `ac_z_out.cir`, `ac_z_in.cir`; [#79](https://github.com/eshelton328/the-forge/issues/79)).
 
 **Repo tracking (scope / prioritization):** EMI-adjacent documentation expectations — [#81](https://github.com/eshelton328/the-forge/issues/81); scheduling non-sim backlog (PRD remainder, hardware variants such as [#4](https://github.com/eshelton328/the-forge/issues/4)) — [#82](https://github.com/eshelton328/the-forge/issues/82).
 
@@ -47,7 +51,7 @@ Goals for automated **design evidence** beyond today’s transient limits (not n
 
 _Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` and [`sim/README.md`](../../sim/README.md))._
 
-**Last metrics refresh:** 2026-05-07T20:26:11Z · **Overall:** PASS (schema v2)
+**Last metrics refresh:** 2026-05-08T07:44:31Z · **Overall:** PASS (schema v2)
 
 [Full report (`docs/spice-report.md`)](docs/spice-report.md)
 
@@ -59,9 +63,28 @@ _Auto-generated when `docs/spice-report.metrics.json` is present (see `sim.yml` 
 | tran_settle | Output ripple peak-peak | 0 | max 0.15 | **PASS** |
 | tran_load_step | Vout at light load sample | 3.30704 | min 3.25, max 3.35 | **PASS** |
 | tran_load_step | Vout at heavy load sample | 3.30704 | min 3.28, max 3.32 | **PASS** |
-| ac_small_signal | AC |Vout| @ 1 kHz (small-signal anchor) | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC |Vout| @ 10 kHz | 0 | max 1.0 | **PASS** |
-| ac_small_signal | AC |Vout| @ 100 kHz | 0 | max 1.0 | **PASS** |
+| tran_load_step | Vout peak during first heavy-load step (118–135 µs) | 3.30704 | max 3.45 | **PASS** |
+| tran_load_step | Vout sample after heavy-load step (160 µs) | 3.30704 | min 3.25, max 3.34 | **PASS** |
+| tran_stress_extended | Vout minimum during duty-cycled load bursts (276–318 µs) | 3.30704 | min 3.15 | **PASS** |
+| tran_stress_extended | Vout peak-peak during load bursts (276–318 µs) | 0 | max 0.35 | **PASS** |
+| tran_stress_extended | Vout during low-VIN + heavy load (10 V in, 370 µs) | 3.30704 | min 3.05, max 3.38 | **PASS** |
+| tran_stress_extended | Vout after line recovery (450 µs, heavy load) | 3.30704 | min 3.22, max 3.34 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 1 kHz (small-signal anchor) | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 50 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 10 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 100 kHz | 0 | max 1.0 | **PASS** |
+| ac_small_signal | AC \|Vout\| @ 500 kHz | 0 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 1 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 10 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_out | \|Zout\| @ 100 kHz (Ω, Norton I_ac=1 A pk) | 0.022 | max 1.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 1 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0499916 | max 100.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 10 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0491805 | max 100.0 | **PASS** |
+| ac_z_in | \|Zin\| @ 100 kHz (Ω, Norton I_ac=1 µA pk → ×1e6) | 0.0288179 | max 100.0 | **PASS** |
+| tran_startup_ramp | Startup ramp — Vout minimum (1–130 µs) | 3.30704 | min 2.4 | **PASS** |
+| tran_startup_ramp | Startup ramp — Vout at 380 µs | 3.30704 | min 3.25, max 3.34 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) pulse-train ripple PP (276–318 µs) | 0 | max 0.45 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) pulse-train Vout minimum | 3.30704 | min 3.12 | **PASS** |
+| tran_corner_stub_cap | Corner (+470 p stub) heavy-load sample (245 µs) | 3.30704 | min 3.26, max 3.33 | **PASS** |
 
 <!-- spice-regression-end -->
 
@@ -112,130 +135,7 @@ _Auto-generated on merge to main._
 
 _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). Auto-generated on merge to main._
 
-| Check | Result |
-|:------|:-------|
-| ERC | 🟡 1 warning |
-| DRC | ✅ |
-| Fab: jlcpcb-2layer-advanced | 🟡 26 warnings |
-| Fab: pcbway-2layer-advanced | 🟡 41 warnings |
-
-<details>
-<summary><strong>ERC</strong> — 🟡 1 warning</summary>
-
-> <details>
-> <summary>🟡 <b><code>lib_symbol_mismatch</code></b> — 1 warning</summary>
->
-> Symbol 'TPS630701RNMR' doesn't match copy in library 'TPS630701 Buck-Boost'
-> - `Symbol U1 [TPS630701RNMR]`
->
-> </details>
->
-</details>
-
-<details>
-<summary><strong>Fab DRC: jlcpcb-2layer-advanced</strong> — 🟡 26 warnings</summary>
-
-> <details>
-> <summary>🟡 <b><code>text_height</code></b> — 13 warnings</summary>
->
-> Text height out of range (rule 'JLCPCB Adv: Silkscreen text' min height 1.0000 mm; actual 0.8000 mm)
-> - `Reference field of C3`
-> - `Reference field of C2`
-> - `Reference field of R1`
-> - `Reference field of C8`
-> - `Reference field of C7`
-> - `Reference field of U1`
-> - `Reference field of C6`
-> - `Reference field of C5`
-> - `Reference field of C1`
-> - `Reference field of R4`
-> - `Reference field of C4`
-> - `Reference field of R2`
-> - `Reference field of R3`
->
-> </details>
->
-> <details>
-> <summary>🟡 <b><code>text_thickness</code></b> — 13 warnings</summary>
->
-> Text thickness out of range (rule 'JLCPCB Adv: Silkscreen text' min thickness 0.1500 mm; actual 0.1000 mm)
-> - `Reference field of C3`
-> - `Reference field of C2`
-> - `Reference field of R1`
-> - `Reference field of C8`
-> - `Reference field of C7`
-> - `Reference field of U1`
-> - `Reference field of C6`
-> - `Reference field of C5`
-> - `Reference field of C1`
-> - `Reference field of R4`
-> - `Reference field of C4`
-> - `Reference field of R2`
-> - `Reference field of R3`
->
-> </details>
->
-</details>
-
-<details>
-<summary><strong>Fab DRC: pcbway-2layer-advanced</strong> — 🟡 41 warnings</summary>
-
-> <details>
-> <summary>🟡 <b><code>silk_overlap</code></b> — 28 warnings</summary>
->
-> Silkscreen clearance (PCBWay Adv: Pad to silkscreen clearance 0.1500 mm; actual 0.1000 mm)
-> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/VIN 2v to 16v] of R1 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of C5 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/VOUT +3.3v] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R2 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 2 [GND] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 2 [GND] of R3 on F.Cu`
->
-> </details>
->
-> <details>
-> <summary>🟡 <b><code>text_thickness</code></b> — 13 warnings</summary>
->
-> Text thickness out of range (rule 'PCBWay Adv: Silkscreen text' min thickness 0.1500 mm; actual 0.1000 mm)
-> - `Reference field of C3`
-> - `Reference field of C2`
-> - `Reference field of R1`
-> - `Reference field of C8`
-> - `Reference field of C7`
-> - `Reference field of U1`
-> - `Reference field of C6`
-> - `Reference field of C5`
-> - `Reference field of C1`
-> - `Reference field of R4`
-> - `Reference field of C4`
-> - `Reference field of R2`
-> - `Reference field of R3`
->
-> </details>
->
-</details>
+_No check reports in docs/ yet (run the update-readmes workflow on main)._
 
 <!-- drc-summary-end -->
 
