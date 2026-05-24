@@ -3964,7 +3964,7 @@
 					)
 				)
 			)
-			(property "Footprint" "RNM0015A"
+			(property "Footprint" "TPS63070:TPS63070"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3976,7 +3976,7 @@
 					)
 				)
 			)
-			(property "Datasheet" "https://www.ti.com/lit/gpn/tps63070"
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4021,6 +4021,50 @@
 				)
 			)
 			(property "ki_fp_filters" "RNM0015A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Type" "SUBCKT"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Name" "TPS63070_TRANS"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=PS_SYNC 2=PG 3=VAUX 4=GND 5=FB 6=FB2 7=VOUT_0 8=VOUT_1 9=L2 10=PGND 11=L1 12=VIN_0 13=VIN_1 14=EN 15=VSEL"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4116,7 +4160,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin power_out line
 					(at -20.32 -2.54 0)
 					(length 5.08)
 					(name "VAUX"
@@ -4188,7 +4232,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin power_out line
 					(at 20.32 12.7 180)
 					(length 5.08)
 					(name "VOUT"
@@ -4206,7 +4250,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at 20.32 15.24 180)
 					(length 5.08)
 					(name "VOUT"
@@ -4224,7 +4268,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin passive line
 					(at 20.32 20.32 180)
 					(length 5.08)
 					(name "L2"
@@ -4242,7 +4286,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at 20.32 -15.24 180)
 					(length 5.08)
 					(name "PGND"
@@ -4260,7 +4304,7 @@
 						)
 					)
 				)
-				(pin unspecified line
+				(pin passive line
 					(at -20.32 20.32 0)
 					(length 5.08)
 					(name "L1"
@@ -4296,7 +4340,7 @@
 						)
 					)
 				)
-				(pin power_in line
+				(pin passive line
 					(at -20.32 12.7 0)
 					(length 5.08)
 					(name "VIN"
@@ -5269,6 +5313,16 @@
 	)
 	(wire
 		(pts
+			(xy 171.45 48.26) (xy 172.72 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23c2222a-64f9-4c02-a8c2-00d1b3146dfb")
+	)
+	(wire
+		(pts
 			(xy 167.64 129.54) (xy 167.64 130.81)
 		)
 		(stroke
@@ -5449,16 +5503,6 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 31.75) (xy 171.45 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4d4ce656-f631-4c86-9815-bd30827ce454")
-	)
-	(wire
-		(pts
 			(xy 104.14 157.48) (xy 106.68 157.48)
 		)
 		(stroke
@@ -5566,6 +5610,16 @@
 			(type default)
 		)
 		(uuid "626e2463-d0ed-404d-958a-d497af7ccc54")
+	)
+	(wire
+		(pts
+			(xy 129.54 31.75) (xy 147.32 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6419fac7-7120-4a22-8336-957b983accb0")
 	)
 	(wire
 		(pts
@@ -5789,7 +5843,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 31.75) (xy 171.45 31.75)
+			(xy 154.94 31.75) (xy 172.72 31.75)
 		)
 		(stroke
 			(width 0)
@@ -5839,16 +5893,6 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 31.75) (xy 130.81 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a3f7cf56-fbd3-4443-852f-a7f0dbe71c5d")
-	)
-	(wire
-		(pts
 			(xy 78.74 90.17) (xy 88.9 90.17)
 		)
 		(stroke
@@ -5876,6 +5920,26 @@
 			(type default)
 		)
 		(uuid "a7d596a3-06fb-405f-85ba-ec8907dda780")
+	)
+	(wire
+		(pts
+			(xy 172.72 31.75) (xy 172.72 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a8e28088-23e5-4e27-9998-d9eace109ab8")
+	)
+	(wire
+		(pts
+			(xy 129.54 48.26) (xy 130.81 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aaee3bcd-df55-40e3-95f3-d3a75ce81e25")
 	)
 	(wire
 		(pts
@@ -6029,13 +6093,23 @@
 	)
 	(wire
 		(pts
-			(xy 93.98 46.99) (xy 105.41 46.99)
+			(xy 93.98 46.99) (xy 101.6 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "ca4275d9-3548-4a2f-a1f5-d977c33e3383")
+	)
+	(wire
+		(pts
+			(xy 101.6 46.99) (xy 105.41 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25227ee3-3a21-471e-9130-1a33f4860630")
 	)
 	(wire
 		(pts
@@ -6189,16 +6263,6 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 31.75) (xy 147.32 31.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e9100870-b4d6-435f-a850-66887bb1dddf")
-	)
-	(wire
-		(pts
 			(xy 184.15 107.95) (xy 200.66 107.95)
 		)
 		(stroke
@@ -6266,6 +6330,16 @@
 			(type default)
 		)
 		(uuid "fc77a4df-5307-4035-adb2-4aaffecbff34")
+	)
+	(wire
+		(pts
+			(xy 129.54 31.75) (xy 129.54 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fd10a74a-1a89-442b-93de-ea1ae6636818")
 	)
 	(label "D-"
 		(at 106.68 124.46 0)
@@ -8121,6 +8195,83 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
+		(at 101.6 46.99 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f8323266-c445-4295-aa24-a4c58db55a91")
+		(property "Reference" "#FLG04"
+			(at 101.6 45.085 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 104.648 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "68cbf4cc-b2ad-42c4-aee6-5e466fa5df7c")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#FLG04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
 		(at 236.22 106.68 0)
 		(unit 1)
 		(body_style 1)
@@ -9848,7 +9999,7 @@
 				)
 			)
 		)
-		(property "Footprint" "USB_C_Receptacle_HRO_TYPE-C-31-M-12"
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
 			(at 156.21 130.81 0)
 			(hide yes)
 			(show_name no)
