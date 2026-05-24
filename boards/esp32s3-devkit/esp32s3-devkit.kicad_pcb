@@ -9339,7 +9339,7 @@
 			)
 		)
 	)
-	(footprint "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
+	(footprint "HRO_TypeC_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
 		(layer "F.Cu")
 		(uuid "fbc35281-69e6-4732-be37-e15eeeba0ff6")
 		(at 114.2875 114.2675 -90)
@@ -9716,7 +9716,7 @@
 			(pintype "passive")
 			(uuid "8d4b0c1f-4421-4b59-a510-97e42321fcb5")
 		)
-		(pad "SH" thru_hole oval
+		(pad "S1" thru_hole oval
 			(at -4.32 -3.13 270)
 			(size 1 2.1)
 			(drill oval 0.6 1.7)
@@ -9725,7 +9725,7 @@
 			(remove_unused_layers no)
 			(uuid "1e74e4f6-d613-48bf-9761-fd52c27fad81")
 		)
-		(pad "SH" thru_hole oval
+		(pad "S1" thru_hole oval
 			(at -4.32 1.05 270)
 			(size 1 1.6)
 			(drill oval 0.6 1.2)
@@ -9734,7 +9734,7 @@
 			(remove_unused_layers no)
 			(uuid "0d654362-8ad3-4961-a8c9-d3d971fc75bd")
 		)
-		(pad "SH" thru_hole oval
+		(pad "S1" thru_hole oval
 			(at 4.32 -3.13 270)
 			(size 1 2.1)
 			(drill oval 0.6 1.7)
@@ -9743,7 +9743,7 @@
 			(remove_unused_layers no)
 			(uuid "2876a152-653c-4e27-a62e-fca498ba31b2")
 		)
-		(pad "SH" thru_hole oval
+		(pad "S1" thru_hole oval
 			(at 4.32 1.05 270)
 			(size 1 1.6)
 			(drill oval 0.6 1.2)
