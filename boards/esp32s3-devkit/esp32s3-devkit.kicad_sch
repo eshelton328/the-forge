@@ -801,7 +801,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector:USB_C_Receptacle_USB2.0_14P"
+		(symbol "Connector:USB_C_Receptacle_USB2.0_16P"
 			(pin_names
 				(offset 1.016)
 			)
@@ -820,7 +820,7 @@
 					)
 				)
 			)
-			(property "Value" "USB_C_Receptacle_USB2.0_14P"
+			(property "Value" "USB_C_Receptacle_USB2.0_16P"
 				(at 0 19.685 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -852,7 +852,7 @@
 					)
 				)
 			)
-			(property "Description" "USB 2.0-only 14P Type-C Receptacle connector"
+			(property "Description" "USB 2.0-only 16P Type-C Receptacle connector"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -885,7 +885,7 @@
 					)
 				)
 			)
-			(symbol "USB_C_Receptacle_USB2.0_14P_0_0"
+			(symbol "USB_C_Receptacle_USB2.0_16P_0_0"
 				(rectangle
 					(start -0.254 -17.78)
 					(end 0.254 -16.764)
@@ -974,8 +974,30 @@
 						(type none)
 					)
 				)
+				(rectangle
+					(start 10.16 -12.446)
+					(end 9.144 -12.954)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 10.16 -14.986)
+					(end 9.144 -15.494)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
 			)
-			(symbol "USB_C_Receptacle_USB2.0_14P_0_1"
+			(symbol "USB_C_Receptacle_USB2.0_16P_0_1"
 				(rectangle
 					(start -10.16 17.78)
 					(end 10.16 -17.78)
@@ -1176,7 +1198,7 @@
 					)
 				)
 			)
-			(symbol "USB_C_Receptacle_USB2.0_14P_1_1"
+			(symbol "USB_C_Receptacle_USB2.0_16P_1_1"
 				(pin passive line
 					(at 0 -22.86 90)
 					(length 5.08)
@@ -1260,6 +1282,24 @@
 						)
 					)
 					(number "A7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 15.24 -12.7 180)
+					(length 5.08)
+					(name "SBU1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "A8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1397,6 +1437,24 @@
 						)
 					)
 				)
+				(pin bidirectional line
+					(at 15.24 -15.24 180)
+					(length 5.08)
+					(name "SBU2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "B8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin passive line
 					(at 15.24 15.24 180)
 					(length 5.08)
@@ -1445,7 +1503,7 @@
 							)
 						)
 					)
-					(number "S1"
+					(number "SH"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3999,38 +4057,6 @@
 					)
 				)
 			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "TPS630701RNMR"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "RNM0015A"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
 			(property "Sim.Type" "SUBCKT"
 				(at 0 0 0)
 				(show_name no)
@@ -4065,6 +4091,38 @@
 				)
 			)
 			(property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "TPS630701RNMR"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "RNM0015A"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -5184,12 +5242,20 @@
 		(uuid "0a7ee112-6607-4308-bcfd-b64deb0a17cc")
 	)
 	(no_connect
+		(at 167.64 143.51)
+		(uuid "26948976-6927-4524-811d-74260d4e50c7")
+	)
+	(no_connect
 		(at 106.68 132.08)
 		(uuid "75149cae-7ae5-477c-81d4-ce6f72a7f813")
 	)
 	(no_connect
 		(at 106.68 134.62)
 		(uuid "c85f2a65-a86f-4ca1-9ec4-ef76cd2ac5de")
+	)
+	(no_connect
+		(at 167.64 146.05)
+		(uuid "ee81f316-c2d9-47ce-953f-4faf5127eb2e")
 	)
 	(wire
 		(pts
@@ -5320,6 +5386,16 @@
 			(type default)
 		)
 		(uuid "23c2222a-64f9-4c02-a8c2-00d1b3146dfb")
+	)
+	(wire
+		(pts
+			(xy 101.6 46.99) (xy 105.41 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25227ee3-3a21-471e-9130-1a33f4860630")
 	)
 	(wire
 		(pts
@@ -6100,16 +6176,6 @@
 			(type default)
 		)
 		(uuid "ca4275d9-3548-4a2f-a1f5-d977c33e3383")
-	)
-	(wire
-		(pts
-			(xy 101.6 46.99) (xy 105.41 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "25227ee3-3a21-471e-9130-1a33f4860630")
 	)
 	(wire
 		(pts
@@ -8195,83 +8261,6 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 101.6 46.99 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f8323266-c445-4295-aa24-a4c58db55a91")
-		(property "Reference" "#FLG04"
-			(at 101.6 45.085 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 104.648 41.91 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 101.6 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 101.6 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 101.6 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "68cbf4cc-b2ad-42c4-aee6-5e466fa5df7c")
-		)
-		(instances
-			(project "esp32s3-devkit"
-				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
-					(reference "#FLG04")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:PWR_FLAG")
 		(at 236.22 106.68 0)
 		(unit 1)
 		(body_style 1)
@@ -9968,7 +9957,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:USB_C_Receptacle_USB2.0_14P")
+		(lib_id "Connector:USB_C_Receptacle_USB2.0_16P")
 		(at 152.4 130.81 0)
 		(unit 1)
 		(body_style 1)
@@ -9989,7 +9978,7 @@
 				)
 			)
 		)
-		(property "Value" "USB_C_Receptacle_USB2.0_14P"
+		(property "Value" "USB_C_Receptacle_USB2.0_16P"
 			(at 152.4 110.49 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9999,7 +9988,7 @@
 				)
 			)
 		)
-		(property "Footprint" "HRO_TypeC_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
 			(at 156.21 130.81 0)
 			(hide yes)
 			(show_name no)
@@ -10021,7 +10010,7 @@
 				)
 			)
 		)
-		(property "Description" "USB 2.0-only 14P Type-C Receptacle connector"
+		(property "Description" "USB 2.0-only 16P Type-C Receptacle connector"
 			(at 152.4 130.81 0)
 			(hide yes)
 			(show_name no)
@@ -10035,46 +10024,52 @@
 		(pin "A1"
 			(uuid "fe78e264-d70a-4efb-bb06-979b25d95919")
 		)
+		(pin "A4"
+			(uuid "4a1ae0a9-89bd-4c43-be49-08986ca96b74")
+		)
+		(pin "A5"
+			(uuid "d150ee5d-6dbc-41df-9010-4eb8ef7d4112")
+		)
+		(pin "A6"
+			(uuid "7ce8f404-6210-4675-af56-03b8ce01df07")
+		)
+		(pin "A7"
+			(uuid "6d471dd2-d076-4c50-a06c-f9ba2eea4c54")
+		)
+		(pin "A8"
+			(uuid "6d948fe3-ebfb-40af-abca-e59f5874896d")
+		)
+		(pin "A9"
+			(uuid "f38cb8c0-d431-4da5-a68a-677284885695")
+		)
 		(pin "A12"
 			(uuid "ac0933eb-1421-4a99-b9df-5cbf576a4693")
 		)
 		(pin "B1"
 			(uuid "e4272c27-85ff-40ff-ba30-5a4eba8e2ea6")
 		)
-		(pin "B6"
-			(uuid "38071116-2ac1-4eee-b10a-8f5c4a60e547")
-		)
-		(pin "A6"
-			(uuid "7ce8f404-6210-4675-af56-03b8ce01df07")
-		)
-		(pin "B7"
-			(uuid "da7020b6-5711-4031-973a-45be3e5ccb01")
-		)
-		(pin "A7"
-			(uuid "6d471dd2-d076-4c50-a06c-f9ba2eea4c54")
+		(pin "B4"
+			(uuid "26aa603c-02c5-4cc0-9e31-5e0192a520a1")
 		)
 		(pin "B5"
 			(uuid "5d7bc1a9-79e9-484c-9a1d-8b7bdcf8cfb1")
 		)
-		(pin "A5"
-			(uuid "d150ee5d-6dbc-41df-9010-4eb8ef7d4112")
+		(pin "B6"
+			(uuid "38071116-2ac1-4eee-b10a-8f5c4a60e547")
+		)
+		(pin "B7"
+			(uuid "da7020b6-5711-4031-973a-45be3e5ccb01")
+		)
+		(pin "B8"
+			(uuid "4f6bf507-fcd0-430d-a41b-17c33a72d46f")
 		)
 		(pin "B9"
 			(uuid "89248f7d-14be-4ef2-a2b8-707a80056048")
 		)
-		(pin "B4"
-			(uuid "26aa603c-02c5-4cc0-9e31-5e0192a520a1")
-		)
-		(pin "A9"
-			(uuid "f38cb8c0-d431-4da5-a68a-677284885695")
-		)
-		(pin "A4"
-			(uuid "4a1ae0a9-89bd-4c43-be49-08986ca96b74")
-		)
 		(pin "B12"
 			(uuid "2bd53527-7388-4184-9630-bace951b6433")
 		)
-		(pin "S1"
+		(pin "SH"
 			(uuid "03713008-29af-4e52-b5e3-272ba4b09d4a")
 		)
 		(instances
@@ -12712,6 +12707,83 @@
 			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 101.6 46.99 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f8323266-c445-4295-aa24-a4c58db55a91")
+		(property "Reference" "#FLG04"
+			(at 101.6 45.085 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 104.648 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 101.6 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "68cbf4cc-b2ad-42c4-aee6-5e466fa5df7c")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#FLG04")
 					(unit 1)
 				)
 			)
