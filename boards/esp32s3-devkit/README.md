@@ -52,57 +52,15 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 
 | Check | Result |
 |:------|:-------|
-| ERC | 🔴 3 errors, 🟡 6 warnings |
-| DRC | 🔴 1 error, 🟡 2 warnings |
-| Fab: jlcpcb-4layer-advanced | 🟡 5 warnings |
-| Fab: pcbway-4layer-advanced | 🔴 12 errors, 🟡 75 warnings |
+| ERC | ✅ |
+| DRC | 🔴 1 error, 🟡 4 warnings |
+| Fab: jlcpcb-4layer-advanced | 🟡 7 warnings |
+| Fab: pcbway-4layer-advanced | 🔴 12 errors, 🟡 77 warnings |
 
 <details>
-<summary><strong>ERC</strong> — 🔴 3 errors, 🟡 6 warnings</summary>
+<summary><strong>DRC</strong> — 🔴 1 error, 🟡 4 warnings</summary>
 
-> <details>
-> <summary>🔴 <b><code>power_pin_not_driven</code></b> — 3 errors</summary>
->
-> Input Power pin not driven by any Output Power pins
-> - `Symbol U1 Pin 12 [VIN, Power input, Line]`
-> - `Symbol U1 Pin 7 [VOUT, Power input, Line]`
-> - `Symbol U1 Pin 4 [GND, Power input, Line]`
->
-> </details>
->
-> <details>
-> <summary>🟡 <b><code>footprint_link_issues</code></b> — 1 warning</summary>
->
-> The current configuration does not include the footprint library ''
-> - `Symbol J3 [USB_C_Receptacle_USB2.0_14P]`
->
-> </details>
->
-> <details>
-> <summary>🟡 <b><code>lib_symbol_mismatch</code></b> — 2 warnings</summary>
->
-> Symbol 'TPS630701RNMR' doesn't match copy in library 'TPS630701 Buck-Boost'
-> - `Symbol U1 [TPS630701RNMR]`
-> - `Symbol J3 [USB_C_Receptacle_USB2.0_14P]`
->
-> </details>
->
-> <details>
-> <summary>🟡 <b><code>pin_to_pin</code></b> — 3 warnings</summary>
->
-> Pins of type Unspecified and Passive are connected
-> - `Symbol U1 Pin 11 [L1, Unspecified, Line]` / `Symbol L1 Pin 1 [1, Passive, Line]`
-> - `Symbol U1 Pin 3 [VAUX, Unspecified, Line]` / `Symbol C4 Pin 1 [Passive, Line]`
-> - `Symbol U1 Pin 9 [L2, Unspecified, Line]` / `Symbol L1 Pin 2 [2, Passive, Line]`
->
-> </details>
->
-</details>
-
-<details>
-<summary><strong>DRC</strong> — 🔴 1 error, 🟡 2 warnings</summary>
-
-> **Violations** (2)
+> **Violations** (4)
 >
 > <details>
 > <summary>🟡 <b><code>silk_edge_clearance</code></b> — 2 warnings</summary>
@@ -113,20 +71,29 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 >
 > </details>
 >
+> <details>
+> <summary>🟡 <b><code>track_dangling</code></b> — 2 warnings</summary>
+>
+> Track has unconnected end
+> - `Track [/D+] on B.Cu, length 0.0200 mm`
+> - `Track [/D+] on B.Cu, length 0.0100 mm`
+>
+> </details>
+>
 > **Unconnected items** (1)
 >
 > <details>
 > <summary>🔴 <b><code>unconnected_items</code></b> — 1 error</summary>
 >
 > Missing connection between items
-> - `Track [Net-(J3-CC1)] on F.Cu, length 1.1738 mm` / `Track [Net-(J3-CC1)] on F.Cu, length 1.3789 mm`
+> - `Track [Net-(J3-CC1)] on F.Cu, length 1.1738 mm` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
 >
 > </details>
 >
 </details>
 
 <details>
-<summary><strong>Fab DRC: jlcpcb-4layer-advanced</strong> — 🟡 5 warnings</summary>
+<summary><strong>Fab DRC: jlcpcb-4layer-advanced</strong> — 🟡 7 warnings</summary>
 
 > <details>
 > <summary>🟡 <b><code>hole_to_hole</code></b> — 2 warnings</summary>
@@ -154,10 +121,19 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 >
 > </details>
 >
+> <details>
+> <summary>🟡 <b><code>track_dangling</code></b> — 2 warnings</summary>
+>
+> Track has unconnected end
+> - `Track [/D+] on B.Cu, length 0.0200 mm`
+> - `Track [/D+] on B.Cu, length 0.0100 mm`
+>
+> </details>
+>
 </details>
 
 <details>
-<summary><strong>Fab DRC: pcbway-4layer-advanced</strong> — 🔴 12 errors, 🟡 75 warnings</summary>
+<summary><strong>Fab DRC: pcbway-4layer-advanced</strong> — 🔴 12 errors, 🟡 77 warnings</summary>
 
 > <details>
 > <summary>🔴 <b><code>drill_out_of_range</code></b> — 12 errors</summary>
@@ -200,12 +176,12 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > <summary>🟡 <b><code>silk_overlap</code></b> — 70 warnings</summary>
 >
 > Silkscreen clearance (PCBWay Adv: Pad to silkscreen clearance 0.1500 mm; actual 0.1000 mm)
-> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
 > - `Segment of R6 on F.Silkscreen` / `Pad 2 [Net-(D3-K)] of R6 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
+> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
+> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
 > - `Segment of R3 on F.Silkscreen` / `Pad 1 [/3v3] of R3 on F.Cu`
 > - `Segment of R3 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R3 on F.Cu`
 > - `Segment of R3 on F.Silkscreen` / `Pad 1 [/3v3] of R3 on F.Cu`
@@ -215,8 +191,8 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
 > - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
 > - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
+> - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
 > - `Segment of C10 on F.Silkscreen` / `Pad 2 [GND] of C10 on F.Cu`
@@ -225,37 +201,37 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Segment of C10 on F.Silkscreen` / `Pad 1 [/3v3] of C10 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
+> - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 1 [/3v3] of C5 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 1 [/3v3] of C5 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
+> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
 > - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
 > - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
 > - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
+> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
 > - `Segment of C3 on F.Silkscreen` / `Pad 1 [/2-16v] of C3 on F.Cu`
 > - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
 > - `Segment of C3 on F.Silkscreen` / `Pad 1 [/2-16v] of C3 on F.Cu`
 > - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
 > - `Segment of SW1 on F.Silkscreen` / `Pad 1 [/PFET] of SW1 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
+> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
@@ -268,8 +244,8 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Segment of R7 on F.Silkscreen` / `Pad 2 [Net-(U2-IO0)] of R7 on F.Cu`
 > - `Segment of R7 on F.Silkscreen` / `Pad 1 [/3v3] of R7 on F.Cu`
 > - `Segment of R7 on F.Silkscreen` / `Pad 2 [Net-(U2-IO0)] of R7 on F.Cu`
-> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
 > - `Segment of R6 on F.Silkscreen` / `Pad 2 [Net-(D3-K)] of R6 on F.Cu`
+> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
 >
 > </details>
 >
@@ -278,6 +254,15 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 >
 > Text thickness out of range (rule 'PCBWay Adv: Silkscreen text' min thickness 0.1500 mm; actual 0.1000 mm)
 > - `Reference field of U1`
+>
+> </details>
+>
+> <details>
+> <summary>🟡 <b><code>track_dangling</code></b> — 2 warnings</summary>
+>
+> Track has unconnected end
+> - `Track [/D+] on B.Cu, length 0.0200 mm`
+> - `Track [/D+] on B.Cu, length 0.0100 mm`
 >
 > </details>
 >
