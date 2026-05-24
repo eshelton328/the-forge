@@ -5409,16 +5409,6 @@
 	)
 	(wire
 		(pts
-			(xy 30.48 46.99) (xy 41.91 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4623be28-90ab-4ee7-b32e-f8af546afd02")
-	)
-	(wire
-		(pts
 			(xy 213.36 54.61) (xy 226.06 54.61)
 		)
 		(stroke
@@ -5779,6 +5769,16 @@
 	)
 	(wire
 		(pts
+			(xy 227.33 106.68) (xy 236.22 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b955d57-ed9a-45ef-8812-a3e232aeabb2")
+	)
+	(wire
+		(pts
 			(xy 193.04 134.62) (xy 196.85 134.62)
 		)
 		(stroke
@@ -5939,6 +5939,16 @@
 	)
 	(wire
 		(pts
+			(xy 34.29 46.99) (xy 41.91 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bad06399-ed43-4da9-8b4d-766447919b7f")
+	)
+	(wire
+		(pts
 			(xy 66.04 157.48) (xy 73.66 157.48)
 		)
 		(stroke
@@ -6036,6 +6046,16 @@
 			(type default)
 		)
 		(uuid "cc6bcb12-5c14-4413-a7e2-3741320b65f7")
+	)
+	(wire
+		(pts
+			(xy 227.33 109.22) (xy 240.03 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d18b3985-d77a-4c7e-a1d0-3bfc6b38de90")
 	)
 	(wire
 		(pts
@@ -6258,7 +6278,7 @@
 		(uuid "015e5c3c-4839-4794-a2bf-b714dcc4511f")
 	)
 	(label "GPIO8"
-		(at 262.89 128.27 0)
+		(at 264.16 128.27 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6268,7 +6288,7 @@
 		(uuid "058c101c-509d-4103-bb06-14994121af5c")
 	)
 	(label "GND"
-		(at 262.89 120.65 0)
+		(at 264.16 120.65 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6286,6 +6306,16 @@
 			(justify left bottom)
 		)
 		(uuid "0c0d6ed2-d644-4194-b045-c207087a9bcd")
+	)
+	(label "VBAT"
+		(at 34.29 46.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "10d916d7-9f4e-430c-9b50-5bde7b54317b")
 	)
 	(label "GPIO16"
 		(at 66.04 160.02 0)
@@ -6308,7 +6338,7 @@
 		(uuid "1161a45f-4ad5-436e-8e19-c787fe57b70b")
 	)
 	(label "GPIO5"
-		(at 262.89 146.05 0)
+		(at 264.16 146.05 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6318,7 +6348,7 @@
 		(uuid "1347ba5f-e29a-4f77-879e-c5fa937f942c")
 	)
 	(label "GPIO6"
-		(at 262.89 143.51 0)
+		(at 264.16 143.51 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6338,7 +6368,7 @@
 		(uuid "15c632fb-7b74-4af4-bebc-fce178d2951c")
 	)
 	(label "GPIO12"
-		(at 262.89 107.95 0)
+		(at 264.16 107.95 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6358,7 +6388,7 @@
 		(uuid "1ce68e56-222c-427d-8a76-3e0720e8a60c")
 	)
 	(label "GPIO13"
-		(at 231.14 111.76 0)
+		(at 227.33 111.76 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6388,7 +6418,7 @@
 		(uuid "272a2761-5b28-48ed-82f3-1a227dac5eda")
 	)
 	(label "GPIO10"
-		(at 262.89 113.03 0)
+		(at 264.16 113.03 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6398,7 +6428,7 @@
 		(uuid "2984240a-0b07-48f8-906e-37b75a43003c")
 	)
 	(label "GPIO46"
-		(at 262.89 123.19 0)
+		(at 264.16 123.19 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6408,7 +6438,7 @@
 		(uuid "2a3fcaf8-3035-4264-9fb3-3be47bf930e3")
 	)
 	(label "GPIO21"
-		(at 231.14 116.84 0)
+		(at 227.33 116.84 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6418,7 +6448,7 @@
 		(uuid "2d812bdf-0f3d-4ad6-add7-b723e00cf641")
 	)
 	(label "GPIO41"
-		(at 231.14 134.62 0)
+		(at 227.33 134.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6458,7 +6488,7 @@
 		(uuid "42bf6c4d-a186-4c57-bf1e-447429317da2")
 	)
 	(label "GPIO42"
-		(at 231.14 137.16 0)
+		(at 227.33 137.16 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6468,7 +6498,7 @@
 		(uuid "441613ae-bde5-42f1-bf48-6e04afd48b2a")
 	)
 	(label "GPIO1"
-		(at 231.14 147.32 0)
+		(at 227.33 147.32 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6518,7 +6548,7 @@
 		(uuid "4fb1fbd0-ea0d-4a16-a187-b8b9563e01b0")
 	)
 	(label "GPIO2"
-		(at 231.14 144.78 0)
+		(at 227.33 144.78 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6538,7 +6568,7 @@
 		(uuid "555f3463-76fb-4e03-823e-83c366961b19")
 	)
 	(label "GPIO17"
-		(at 262.89 133.35 0)
+		(at 264.16 133.35 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6558,7 +6588,7 @@
 		(uuid "5d923849-2f4b-43d8-88dc-d3d1a433e6ea")
 	)
 	(label "GPIO9"
-		(at 262.89 115.57 0)
+		(at 264.16 115.57 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6578,7 +6608,7 @@
 		(uuid "5eb0279f-8192-401b-af8d-5a230a2d5096")
 	)
 	(label "GPIO3"
-		(at 262.89 125.73 0)
+		(at 264.16 125.73 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6598,7 +6628,7 @@
 		(uuid "6753bbac-08a9-44fc-a56f-e4e29d2e4701")
 	)
 	(label "GPIO18"
-		(at 262.89 130.81 0)
+		(at 264.16 130.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6608,7 +6638,7 @@
 		(uuid "7161eef0-4d2b-4233-842c-aed996d62d81")
 	)
 	(label "GPIO16"
-		(at 262.89 135.89 0)
+		(at 264.16 135.89 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6648,7 +6678,7 @@
 		(uuid "76f49df3-beec-425b-b259-fcb140b02fb6")
 	)
 	(label "GPIO14"
-		(at 231.14 114.3 0)
+		(at 227.33 114.3 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6678,7 +6708,7 @@
 		(uuid "7a99e471-a4ae-4681-a465-ff6d092cbdf9")
 	)
 	(label "GPIO7"
-		(at 262.89 140.97 0)
+		(at 264.16 140.97 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6688,7 +6718,7 @@
 		(uuid "809db594-5f4d-4a4d-84cd-4fb6c8e540c7")
 	)
 	(label "GPIO39"
-		(at 231.14 129.54 0)
+		(at 227.33 129.54 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6708,7 +6738,7 @@
 		(uuid "87c17177-f8c7-4c6f-ad0e-6aac13cf34c1")
 	)
 	(label "GPIO45"
-		(at 231.14 124.46 0)
+		(at 227.33 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6728,7 +6758,7 @@
 		(uuid "8c560eb6-e096-46e3-b737-ab9e87d85871")
 	)
 	(label "GPIO4"
-		(at 262.89 148.59 0)
+		(at 264.16 148.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6738,7 +6768,7 @@
 		(uuid "8c5b0095-1cc2-4049-a298-433c278f367d")
 	)
 	(label "GPIO11"
-		(at 262.89 110.49 0)
+		(at 264.16 110.49 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6767,18 +6797,8 @@
 		)
 		(uuid "91ff1e9c-73d9-4622-9bf2-988065deae40")
 	)
-	(label "VBAT"
-		(at 34.29 46.99 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "940a6154-bdcb-40f9-b6c8-b44b2d5a7ef4")
-	)
 	(label "GPIO48"
-		(at 231.14 121.92 0)
+		(at 227.33 121.92 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6788,7 +6808,7 @@
 		(uuid "970299ad-68af-4164-9e76-11277aaea89a")
 	)
 	(label "GPIO15"
-		(at 262.89 138.43 0)
+		(at 264.16 138.43 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6818,7 +6838,7 @@
 		(uuid "ab02e457-cd49-4eb5-b782-73bc3dfa8f78")
 	)
 	(label "GPIO38"
-		(at 231.14 127 0)
+		(at 227.33 127 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6828,7 +6848,7 @@
 		(uuid "abd41922-90a2-444b-916d-62a1647b2791")
 	)
 	(label "GPIO40"
-		(at 231.14 132.08 0)
+		(at 227.33 132.08 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6838,7 +6858,7 @@
 		(uuid "affa433a-2211-4094-93d1-e4664bbd60df")
 	)
 	(label "RX"
-		(at 231.14 139.7 0)
+		(at 227.33 139.7 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6868,7 +6888,7 @@
 		(uuid "be7ce527-4d05-4d1f-847f-3d98df1c090d")
 	)
 	(label "GPIO47"
-		(at 231.14 119.38 0)
+		(at 227.33 119.38 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6908,7 +6928,7 @@
 		(uuid "d309947c-d7c6-48b6-8bcd-54a7adac59c0")
 	)
 	(label "VBAT"
-		(at 231.14 109.22 0)
+		(at 227.33 109.22 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6918,7 +6938,7 @@
 		(uuid "e1677ba1-79e9-485b-8793-8e24ca946f27")
 	)
 	(label "3v3"
-		(at 262.89 118.11 0)
+		(at 264.16 118.11 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6928,7 +6948,7 @@
 		(uuid "e3ad085e-fd98-4e3c-9d07-926ded0a1bfe")
 	)
 	(label "GND"
-		(at 231.14 106.68 0)
+		(at 227.33 106.68 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6958,7 +6978,7 @@
 		(uuid "ea9226a8-43a4-46ca-98a2-ad6f2508b6a2")
 	)
 	(label "TX"
-		(at 231.14 142.24 0)
+		(at 227.33 142.24 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7297,7 +7317,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x17_Pin")
-		(at 226.06 127 0)
+		(at 222.25 127 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7307,7 +7327,7 @@
 		(dnp no)
 		(uuid "0f52ce92-a462-46a1-b269-548d49f1fc22")
 		(property "Reference" "J1"
-			(at 226.568 100.584 0)
+			(at 222.758 100.584 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7317,7 +7337,7 @@
 			)
 		)
 		(property "Value" "Conn_01x17_Pin"
-			(at 226.568 103.124 0)
+			(at 222.758 103.124 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7327,7 +7347,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x17_P2.54mm_Vertical"
-			(at 226.06 127 0)
+			(at 222.25 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7338,7 +7358,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 226.06 127 0)
+			(at 222.25 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7349,7 +7369,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x17, script generated"
-			(at 226.06 127 0)
+			(at 222.25 127 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8100,6 +8120,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 236.22 106.68 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "376f21b6-33bf-4c25-90ce-3140e40087cf")
+		(property "Reference" "#FLG02"
+			(at 236.22 104.775 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 239.268 101.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 236.22 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 236.22 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3245772d-8c4d-46da-8c59-02532aa5b040")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#FLG02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 52.07 38.1 0)
 		(unit 1)
@@ -8659,7 +8756,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x17_Pin")
-		(at 257.81 128.27 0)
+		(at 259.08 128.27 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8669,7 +8766,7 @@
 		(dnp no)
 		(uuid "4c924e1f-2f6b-4ab8-9c00-e549d30af4ed")
 		(property "Reference" "J2"
-			(at 257.81 102.108 0)
+			(at 259.08 102.108 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8679,7 +8776,7 @@
 			)
 		)
 		(property "Value" "Conn_01x17_Pin"
-			(at 257.81 104.648 0)
+			(at 259.08 104.648 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8689,7 +8786,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x17_P2.54mm_Vertical"
-			(at 257.81 128.27 0)
+			(at 259.08 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8700,7 +8797,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 257.81 128.27 0)
+			(at 259.08 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8711,7 +8808,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x17, script generated"
-			(at 257.81 128.27 0)
+			(at 259.08 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10385,84 +10482,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 30.48 46.99 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "99f11504-496b-4348-bc69-675fc6436d89")
-		(property "Reference" "#FLG01"
-			(at 30.48 45.085 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 30.48 41.91 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 30.48 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 30.48 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 30.48 46.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b655d3da-46ed-4b5e-96f7-6557656c1f4a")
-		)
-		(instances
-			(project "esp32s3-devkit"
-				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
-					(reference "#FLG01")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Transistor_FET:Q_PMOS_GSD")
 		(at 46.99 44.45 270)
 		(unit 1)
@@ -11283,6 +11302,83 @@
 			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 240.03 109.22 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c50c4161-9912-4d6b-bf6f-8d6084541cca")
+		(property "Reference" "#FLG03"
+			(at 240.03 107.315 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 243.078 104.902 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 240.03 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 240.03 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 240.03 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "31a06581-ce11-47ff-9464-f54e988bb361")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#FLG03")
 					(unit 1)
 				)
 			)
