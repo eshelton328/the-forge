@@ -53,27 +53,9 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 | Check | Result |
 |:------|:-------|
 | ERC | ✅ |
-| DRC | 🔴 4 errors |
+| DRC | ✅ |
 | Fab: jlcpcb-4layer-advanced | ✅ |
 | Fab: pcbway-4layer-advanced | 🔴 12 errors, 🟡 70 warnings |
-
-<details>
-<summary><strong>DRC</strong> — 🔴 4 errors</summary>
-
-> **Unconnected items** (4)
->
-> <details>
-> <summary>🔴 <b><code>unconnected_items</code></b> — 4 errors</summary>
->
-> Missing connection between items
-> - `PTH pad SH [GND] of J3` / `Pad A1 [GND] of J3 on F.Cu`
-> - `PTH pad SH [GND] of J3` / `PTH pad SH [GND] of J3`
-> - `PTH pad SH [GND] of J3` / `PTH pad SH [GND] of J3`
-> - `Pad A12 [GND] of J3 on F.Cu` / `PTH pad SH [GND] of J3`
->
-> </details>
->
-</details>
 
 <details>
 <summary><strong>Fab DRC: pcbway-4layer-advanced</strong> — 🔴 12 errors, 🟡 70 warnings</summary>
@@ -114,26 +96,26 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Segment of R3 on F.Silkscreen` / `Pad 1 [/3v3] of R3 on F.Cu`
 > - `Segment of R3 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R3 on F.Cu`
 > - `Segment of SW1 on F.Silkscreen` / `Pad 2 [/2-16v] of SW1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
 > - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
 > - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
 > - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
+> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
 > - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
+> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
+> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
 > - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
-> - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
 > - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
+> - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
 > - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
+> - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 1 [/3v3] of C5 on F.Cu`
 > - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
@@ -147,28 +129,28 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
 > - `Segment of C3 on F.Silkscreen` / `Pad 1 [/2-16v] of C3 on F.Cu`
 > - `Segment of SW1 on F.Silkscreen` / `Pad 1 [/PFET] of SW1 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(U3-VBUS)] of C12 on F.Cu`
+> - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(U3-VBUS)] of C12 on F.Cu`
 > - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
 > - `Segment of C10 on F.Silkscreen` / `Pad 2 [GND] of C10 on F.Cu`
 > - `Segment of C10 on F.Silkscreen` / `Pad 1 [/3v3] of C10 on F.Cu`
 > - `Segment of C10 on F.Silkscreen` / `Pad 2 [GND] of C10 on F.Cu`
 > - `Segment of C10 on F.Silkscreen` / `Pad 1 [/3v3] of C10 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
 > - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
+> - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
+> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
 > - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
-> - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
 > - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
-> - `Segment of R9 on F.Silkscreen` / `Pad 1 [Net-(J3-CC2)] of R9 on F.Cu`
+> - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
 > - `Segment of R9 on F.Silkscreen` / `Pad 2 [GND] of R9 on F.Cu`
+> - `Segment of R9 on F.Silkscreen` / `Pad 1 [Net-(J3-CC2)] of R9 on F.Cu`
 > - `Segment of R9 on F.Silkscreen` / `Pad 2 [GND] of R9 on F.Cu`
 > - `Segment of R9 on F.Silkscreen` / `Pad 1 [Net-(J3-CC2)] of R9 on F.Cu`
 >
