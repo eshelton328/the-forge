@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate JLCPCB outputs
-        uses: INTI-CMNB/KiBot@v2_k9
+        uses: INTI-CMNB/KiBot@v2_k10
         with:
           config: kibot/jlcpcb.kibot.yaml
           board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
@@ -32,7 +32,7 @@ jobs:
           targets: jlcpcb
 
       - name: Generate PCBWay outputs
-        uses: INTI-CMNB/KiBot@v2_k9
+        uses: INTI-CMNB/KiBot@v2_k10
         with:
           config: kibot/pcbway.kibot.yaml
           board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
@@ -41,7 +41,7 @@ jobs:
           targets: pcbway
 
       - name: Generate documentation
-        uses: INTI-CMNB/KiBot@v2_k9
+        uses: INTI-CMNB/KiBot@v2_k10
         with:
           config: kibot/docs.kibot.yaml
           board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
