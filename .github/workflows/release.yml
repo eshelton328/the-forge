@@ -34,6 +34,8 @@ jobs:
   fab-files:
     needs: resolve-boards
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/inti-cmnb/kicad10_auto_full:1.9.1
     strategy:
       matrix:
         board: ${{ fromJson(needs.resolve-boards.outputs.boards) }}
@@ -41,31 +43,28 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate JLCPCB outputs
-        uses: INTI-CMNB/KiBot@v2_k10
-        with:
-          config: kibot/jlcpcb.kibot.yaml
-          board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
-          schema: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch
-          dir: boards/${{ matrix.board }}
-          targets: jlcpcb
+        run: |
+          kibot -c kibot/jlcpcb.kibot.yaml \
+            -b boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb \
+            -e boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch \
+            -d boards/${{ matrix.board }} \
+            jlcpcb
 
       - name: Generate PCBWay outputs
-        uses: INTI-CMNB/KiBot@v2_k10
-        with:
-          config: kibot/pcbway.kibot.yaml
-          board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
-          schema: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch
-          dir: boards/${{ matrix.board }}
-          targets: pcbway
+        run: |
+          kibot -c kibot/pcbway.kibot.yaml \
+            -b boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb \
+            -e boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch \
+            -d boards/${{ matrix.board }} \
+            pcbway
 
       - name: Generate documentation
-        uses: INTI-CMNB/KiBot@v2_k10
-        with:
-          config: kibot/docs.kibot.yaml
-          board: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb
-          schema: boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch
-          dir: boards/${{ matrix.board }}
-          targets: docs
+        run: |
+          kibot -c kibot/docs.kibot.yaml \
+            -b boards/${{ matrix.board }}/${{ matrix.board }}.kicad_pcb \
+            -e boards/${{ matrix.board }}/${{ matrix.board }}.kicad_sch \
+            -d boards/${{ matrix.board }} \
+            docs
 
       - name: Upload JLCPCB artifacts
         uses: actions/upload-artifact@v4
