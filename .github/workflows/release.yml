@@ -12,13 +12,31 @@ on:
         default: 'esp32s3-devkit'
 
 jobs:
+  resolve-boards:
+    runs-on: ubuntu-latest
+    outputs:
+      boards: ${{ steps.resolve.outputs.boards }}
+    steps:
+      - name: Resolve boards to build
+        id: resolve
+        run: |
+          set -euo pipefail
+          all='["esp32s3-devkit","tps63070-breakout"]'
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            board="${{ inputs.board }}"
+            echo "boards=[\"${board}\"]" >> "$GITHUB_OUTPUT"
+            echo "Manual run: ${board}"
+          else
+            echo "boards=${all}" >> "$GITHUB_OUTPUT"
+            echo "Release tag: all boards"
+          fi
+
   fab-files:
+    needs: resolve-boards
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        board:
-          - esp32s3-devkit
-          - tps63070-breakout
+        board: ${{ fromJson(needs.resolve-boards.outputs.boards) }}
     steps:
       - uses: actions/checkout@v4
 
