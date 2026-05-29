@@ -66,6 +66,14 @@ jobs:
             -d boards/${{ matrix.board }} \
             docs
 
+      - name: Copy JLCPCB Gerber zip into board fab folder
+        run: |
+          FAB_DIR="boards/${{ matrix.board }}/fab/jlcpcb"
+          mkdir -p "$FAB_DIR"
+          rm -f "$FAB_DIR"/*-gerber.zip
+          cp "boards/${{ matrix.board }}/output/${{ matrix.board }}_jlcpcb.zip" \
+             "$FAB_DIR/${{ matrix.board }}-gerber.zip"
+
       - name: Upload JLCPCB artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -84,13 +92,18 @@ jobs:
           name: docs-${{ matrix.board }}
           path: boards/${{ matrix.board }}/output/docs/
 
-      - name: Commit fab outputs
+      - name: Commit JLCPCB Gerber zip
         uses: peter-evans/create-pull-request@v7
         with:
-          add-paths: boards/${{ matrix.board }}/output/
-          commit-message: "fab: regenerate ${{ matrix.board }} outputs"
-          branch: fab/${{ matrix.board }}-outputs
-          title: "fab: regenerate ${{ matrix.board }} outputs"
-          body: "Auto-generated fab outputs for `${{ matrix.board }}`."
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: boards/${{ matrix.board }}/fab/jlcpcb/*-gerber.zip
+          commit-message: "fab: regenerate ${{ matrix.board }} JLCPCB Gerber"
+          branch: fab/${{ matrix.board }}-jlcpcb-gerber
+          title: "fab: regenerate ${{ matrix.board }} JLCPCB Gerber"
+          body: |
+            Regenerates the JLCPCB-ready Gerber zip for `${{ matrix.board }}`.
+
+            Drag-and-drop file:
+            `boards/${{ matrix.board }}/fab/jlcpcb/${{ matrix.board }}-gerber.zip`
           delete-branch: true
 
