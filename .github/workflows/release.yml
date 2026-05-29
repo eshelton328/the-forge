@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     container:
       image: ghcr.io/inti-cmnb/kicad10_auto_full:1.9.1
     strategy:
@@ -84,11 +85,12 @@ jobs:
           path: boards/${{ matrix.board }}/output/docs/
 
       - name: Commit fab outputs
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add --force boards/${{ matrix.board }}/output/
-          git diff --cached --quiet && echo "No changes" && exit 0
-          git commit -m "fab: regenerate ${{ matrix.board }} outputs"
-          git push
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: boards/${{ matrix.board }}/output/
+          commit-message: "fab: regenerate ${{ matrix.board }} outputs"
+          branch: fab/${{ matrix.board }}-outputs
+          title: "fab: regenerate ${{ matrix.board }} outputs"
+          body: "Auto-generated fab outputs for `${{ matrix.board }}`."
+          delete-branch: true
 
