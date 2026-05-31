@@ -95,7 +95,7 @@ jobs:
       - name: Commit JLCPCB Gerber zip
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.FORGE_PAT }}
           add-paths: boards/${{ matrix.board }}/fab/jlcpcb/*-gerber.zip
           commit-message: "fab: regenerate ${{ matrix.board }} JLCPCB Gerber"
           branch: fab/${{ matrix.board }}-jlcpcb-gerber
