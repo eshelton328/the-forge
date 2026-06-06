@@ -1031,7 +1031,7 @@
 				)
 			)
 		)
-		(property "Value" "TPS630701RNMR"
+		(property "Value" "TPS63070RNMR"
 			(at 0 1 0)
 			(unlocked yes)
 			(layer "F.Fab")

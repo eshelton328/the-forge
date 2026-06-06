@@ -17,13 +17,13 @@ Development board built around the [ESP32-S3-WROOM-1](https://www.espressif.com/
 | Ref | Value | Description |
 |-----|-------|-------------|
 | U1 | ESP32-S3-WROOM-1 | Wi-Fi + BLE SoC module |
-| U2 | TPS630701RNMR | Buck-boost converter (3.3V output) |
+| U2 | TPS63070RNMR | Buck-boost converter (3.3V output, adjustable) |
 | U3 | USBLC6-2SC6 | USB ESD protection |
 | J1 | USB-C 14P | USB-C receptacle (USB 2.0) |
 | J2, J3 | Conn_01x16 | GPIO breakout headers |
 | L1 | 1.5µH | Buck-boost inductor |
 | Q1 | P-MOSFET | Power path control |
-| SW1 | ON/OFF | SPST — main power switch |
+| SW1 | MK-12C03-G015 | SPDT slide switch — main power (latching ON/OFF) |
 | SW2 | RESET | Push — ESP32 reset |
 | SW3 | BOOT | Push — boot / download mode |
 | LED1, LED2 | LED | Status indicators |
