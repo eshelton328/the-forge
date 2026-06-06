@@ -3993,7 +3993,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "TPS630701 Buck-Boost:TPS630701RNMR"
+		(symbol "TPS63070 Buck-Boost:TPS63070RNMR"
 			(pin_names
 				(offset 0.254)
 			)
@@ -4012,7 +4012,7 @@
 					)
 				)
 			)
-			(property "Value" "TPS630701RNMR"
+			(property "Value" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4111,7 +4111,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "TPS630701RNMR"
+			(property "ki_keywords" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4133,7 +4133,7 @@
 					)
 				)
 			)
-			(symbol "TPS630701RNMR_0_1"
+			(symbol "TPS63070RNMR_0_1"
 				(polyline
 					(pts
 						(xy -15.24 25.4) (xy -15.24 -25.4)
@@ -9435,7 +9435,7 @@
 		)
 	)
 	(symbol
-		(lib_id "TPS630701 Buck-Boost:TPS630701RNMR")
+		(lib_id "TPS63070 Buck-Boost:TPS63070RNMR")
 		(at 151.13 68.58 0)
 		(unit 1)
 		(body_style 1)
@@ -9456,7 +9456,7 @@
 				)
 			)
 		)
-		(property "Value" "TPS630701RNMR"
+		(property "Value" "TPS63070RNMR"
 			(at 151.13 40.64 0)
 			(show_name no)
 			(do_not_autoplace no)
