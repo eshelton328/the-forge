@@ -5,28 +5,33 @@ Development board built around the [ESP32-S3-WROOM-1](https://www.espressif.com/
 ## Specifications
 
 - **MCU**: ESP32-S3-WROOM-1 (Wi-Fi + BLE, dual-core, 32-bit)
-- **Power**: TPS63070 buck-boost (2V–16V input, 3.3V regulated output)
-- **Interface**: USB-C (USB 2.0, 14-pin receptacle)
+- **Power**: battery only — 3×AA (≈3.0–4.8 V) on the VBAT header pin, through reverse-polarity PFET (Q1) and power switch (SW1) into a TPS63070 buck-boost (3.3 V regulated output)
+- **Interface**: USB-C (USB 2.0, 16-pin receptacle) — **data only, by design**; VBUS does not power the board. Batteries must be connected and SW1 on to flash.
 - **ESD protection**: USBLC6-2SC6 on USB data lines
 - **Layers**: 4
 - **Thickness**: 1.6mm
-- **Fab targets**: JLCPCB 4-layer advanced, PCBWay 4-layer advanced
+- **Fab targets**: JLCPCB 4-layer advanced
+- **Input voltage note**: the TPS63070 accepts up to 16 V, but C3 (10 µF 0402) is 6.3 V-rated — keep VBAT ≤ ~5.5 V unless C3 is upgraded (e.g. 0805/25 V)
 
 ## Key Components
 
 | Ref | Value | Description |
 |-----|-------|-------------|
-| U1 | ESP32-S3-WROOM-1 | Wi-Fi + BLE SoC module |
-| U2 | TPS63070RNMR | Buck-boost converter (3.3V output, adjustable) |
+| U1 | TPS63070RNMR | Buck-boost converter (3.3V output, adjustable) |
+| U2 | ESP32-S3-WROOM-1 | Wi-Fi + BLE SoC module |
 | U3 | USBLC6-2SC6 | USB ESD protection |
-| J1 | USB-C 14P | USB-C receptacle (USB 2.0) |
-| J2, J3 | Conn_01x16 | GPIO breakout headers |
-| L1 | 1.5µH | Buck-boost inductor |
-| Q1 | P-MOSFET | Power path control |
+| J1, J2 | Conn_01x17 | GPIO breakout headers (J1 pin 2 = VBAT battery input) |
+| J3 | USB-C 16P | USB-C receptacle (USB 2.0, data only) |
+| L1 | 1.5µH | Buck-boost inductor (XFL4020-152ME) |
+| Q1 | AO3401A | Reverse-polarity protection PMOS (drain to battery) |
 | SW1 | MK-12C03-G015 | SPDT slide switch — main power (latching ON/OFF) |
 | SW2 | RESET | Push — ESP32 reset |
 | SW3 | BOOT | Push — boot / download mode |
-| LED1, LED2 | LED | Status indicators |
+| D1, D3 | LED | Status indicators (D2 zener: DNP) |
+
+## Flashing
+
+First flash: batteries in, SW1 on, hold BOOT, tap RESET, release BOOT, then flash over native USB (CDC/DFU). Subsequent flashes work over USB without buttons.
 
 <!-- board-images-start -->
 ## Board Images
