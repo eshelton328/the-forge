@@ -22,11 +22,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # Common types; extend (e.g. perf, build) as you like
+          # "fab" is used by the Generate Fab Files workflow's auto-generated PRs
           types: |
             build
             chore
             ci
             docs
+            fab
             feat
             fix
             perf
