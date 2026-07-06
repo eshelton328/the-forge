@@ -4,7 +4,7 @@
     "doc_ref": "test/esp32s3-devkit-validation@initial"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-07-06T17:42:37Z",
+  "generated_at": "2026-07-06T20:54:53Z",
   "measures": [
     {
       "baseline_numeric": 4.8,
