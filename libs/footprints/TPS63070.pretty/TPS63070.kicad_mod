@@ -53,7 +53,7 @@
 			)
 		)
 	)
-	(attr through_hole)
+	(attr smd)
 	(fp_poly
 		(pts
 			(arc

@@ -3843,7 +3843,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Switch:SW_SPST"
+		(symbol "Switch:SW_SPDT"
 			(pin_names
 				(offset 0)
 				(hide yes)
@@ -3854,7 +3854,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "SW"
-				(at 0 3.175 0)
+				(at 0 5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -3863,8 +3863,8 @@
 					)
 				)
 			)
-			(property "Value" "SW_SPST"
-				(at 0 -2.54 0)
+			(property "Value" "SW_SPDT"
+				(at 0 -5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -3885,6 +3885,17 @@
 				)
 			)
 			(property "Datasheet" ""
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Switch, single pole double throw"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3895,7 +3906,7 @@
 					)
 				)
 			)
-			(property "Description" "Single Pole Single Throw (SPST) switch"
+			(property "ki_keywords" "switch single-pole double-throw spdt ON-ON"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3906,21 +3917,10 @@
 					)
 				)
 			)
-			(property "ki_keywords" "switch lever"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "SW_SPST_0_0"
+			(symbol "SW_SPDT_0_1"
 				(circle
 					(center -2.032 0)
-					(radius 0.508)
+					(radius 0.4572)
 					(stroke
 						(width 0)
 						(type default)
@@ -3931,7 +3931,7 @@
 				)
 				(polyline
 					(pts
-						(xy -1.524 0.254) (xy 1.524 1.778)
+						(xy -1.651 0.254) (xy 1.651 2.286)
 					)
 					(stroke
 						(width 0)
@@ -3942,8 +3942,19 @@
 					)
 				)
 				(circle
-					(center 2.032 0)
-					(radius 0.508)
+					(center 2.032 2.54)
+					(radius 0.4572)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 -2.54)
+					(radius 0.4572)
 					(stroke
 						(width 0)
 						(type default)
@@ -3953,9 +3964,20 @@
 					)
 				)
 			)
-			(symbol "SW_SPST_1_1"
+			(symbol "SW_SPDT_1_1"
+				(rectangle
+					(start -3.175 3.81)
+					(end 3.175 -3.81)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
 				(pin passive line
-					(at -5.08 0 0)
+					(at 5.08 2.54 180)
 					(length 2.54)
 					(name "A"
 						(effects
@@ -3973,7 +3995,7 @@
 					)
 				)
 				(pin passive line
-					(at 5.08 0 180)
+					(at -5.08 0 0)
 					(length 2.54)
 					(name "B"
 						(effects
@@ -3990,10 +4012,46 @@
 						)
 					)
 				)
+				(pin passive line
+					(at 5.08 -2.54 180)
+					(length 2.54)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -6.35 90)
+					(length 2.54)
+					(name "SH"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "SH"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
 			(embedded_fonts no)
 		)
-		(symbol "TPS630701 Buck-Boost:TPS630701RNMR"
+		(symbol "TPS63070 Buck-Boost:TPS63070RNMR"
 			(pin_names
 				(offset 0.254)
 			)
@@ -4012,7 +4070,7 @@
 					)
 				)
 			)
-			(property "Value" "TPS630701RNMR"
+			(property "Value" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4111,7 +4169,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "TPS630701RNMR"
+			(property "ki_keywords" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4133,7 +4191,7 @@
 					)
 				)
 			)
-			(symbol "TPS630701RNMR_0_1"
+			(symbol "TPS63070RNMR_0_1"
 				(polyline
 					(pts
 						(xy -15.24 25.4) (xy -15.24 -25.4)
@@ -5250,12 +5308,76 @@
 		(uuid "75149cae-7ae5-477c-81d4-ce6f72a7f813")
 	)
 	(no_connect
+		(at 67.31 49.53)
+		(uuid "c3d4e5f6-a7b8-9012-cdef-345678901234")
+	)
+	(no_connect
 		(at 106.68 134.62)
 		(uuid "c85f2a65-a86f-4ca1-9ec4-ef76cd2ac5de")
 	)
 	(no_connect
 		(at 167.64 146.05)
 		(uuid "ee81f316-c2d9-47ce-953f-4faf5127eb2e")
+	)
+	(wire
+		(pts
+			(xy 52.07 46.99) (xy 52.07 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a2927828-2d97-4f6f-b621-c5203b5830da")
+	)
+	(wire
+		(pts
+			(xy 52.07 50.8) (xy 34.29 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c206e623-7902-4af4-866d-d88e75a64f54")
+	)
+	(wire
+		(pts
+			(xy 41.91 46.99) (xy 41.91 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4fe5f703-54ed-4cbb-b186-9c34d339961e")
+	)
+	(wire
+		(pts
+			(xy 41.91 49.53) (xy 57.15 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad400691-5dab-4681-b222-0d9a81d13934")
+	)
+	(wire
+		(pts
+			(xy 57.15 49.53) (xy 57.15 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3255d4e-997c-436b-b11e-b6694f252049")
+	)
+	(wire
+		(pts
+			(xy 62.23 53.34) (xy 62.23 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7be80f21-64c5-4a2e-9d37-1f58a0c3b942")
 	)
 	(wire
 		(pts
@@ -5616,16 +5738,6 @@
 			(type default)
 		)
 		(uuid "50f9d3ae-701b-4f37-9a92-7d03c48d546e")
-	)
-	(wire
-		(pts
-			(xy 52.07 46.99) (xy 57.15 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "540daf97-9e11-4739-95f5-c2ad0d250b6c")
 	)
 	(wire
 		(pts
@@ -6059,6 +6171,16 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 44.45) (xy 67.31 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b2c3d4e5-f6a7-8901-bcde-f23456789012")
+	)
+	(wire
+		(pts
 			(xy 184.15 110.49) (xy 190.5 110.49)
 		)
 		(stroke
@@ -6076,16 +6198,6 @@
 			(type default)
 		)
 		(uuid "b92a8f2b-14e0-4a51-9052-0a2f201a5719")
-	)
-	(wire
-		(pts
-			(xy 34.29 46.99) (xy 41.91 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bad06399-ed43-4da9-8b4d-766447919b7f")
 	)
 	(wire
 		(pts
@@ -6448,7 +6560,7 @@
 		(uuid "0c0d6ed2-d644-4194-b045-c207087a9bcd")
 	)
 	(label "VBAT"
-		(at 34.29 46.99 0)
+		(at 34.29 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6868,7 +6980,7 @@
 		(uuid "856a6ffc-6939-47df-9414-2dba1afb697e")
 	)
 	(label "PFET"
-		(at 52.07 46.99 0)
+		(at 44.45 49.53 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7107,7 +7219,7 @@
 		)
 		(uuid "e7f62ea3-cd45-42eb-af7b-d09640239ab8")
 	)
-	(label "2-16v"
+	(label "VBAT_SW"
 		(at 68.58 46.99 0)
 		(effects
 			(font
@@ -7209,6 +7321,83 @@
 			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 62.23 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9c4e7d12-3fa8-4b06-a259-8e17d5b40c86")
+		(property "Reference" "#PWR030"
+			(at 62.23 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 62.23 59.944 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b8a3f2c6-71e4-4d98-b520-6a9c04e81f37")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -7379,10 +7568,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "0a61737b-b65d-4f41-a733-9a252ec3ed50")
 		(property "Reference" "D2"
@@ -8180,7 +8369,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Switch:SW_SPST")
+		(lib_id "Switch:SW_SPDT")
 		(at 62.23 46.99 0)
 		(unit 1)
 		(body_style 1)
@@ -8192,7 +8381,7 @@
 		(fields_autoplaced yes)
 		(uuid "33a8b58e-1143-4b71-b8b0-86b97483a75c")
 		(property "Reference" "SW1"
-			(at 62.23 40.64 0)
+			(at 62.23 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8201,8 +8390,8 @@
 				)
 			)
 		)
-		(property "Value" "ON/OFF"
-			(at 62.23 43.18 0)
+		(property "Value" "MK-12C03-G015"
+			(at 62.23 41.91 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8211,7 +8400,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Button_Switch_SMD:SW_SPST_CK_RS282G05A3"
+		(property "Footprint" "Button_Switch_SMD:SW_SPDT_Shouhan_MSK12C02"
 			(at 62.23 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -8233,7 +8422,7 @@
 				)
 			)
 		)
-		(property "Description" "Single Pole Single Throw (SPST) switch"
+		(property "Description" "Switch, single pole double throw"
 			(at 62.23 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -8244,11 +8433,17 @@
 				)
 			)
 		)
+		(pin "1"
+			(uuid "607ae72b-4d0a-4dcb-aaa1-549758789740")
+		)
 		(pin "2"
 			(uuid "3a5a36c3-17e3-42fb-b067-0cd554372565")
 		)
-		(pin "1"
-			(uuid "607ae72b-4d0a-4dcb-aaa1-549758789740")
+		(pin "3"
+			(uuid "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
+		)
+		(pin "SH"
+			(uuid "5f1c2a84-9b3d-4e76-8a01-c47d92e6b153")
 		)
 		(instances
 			(project "esp32s3-devkit"
@@ -9435,7 +9630,7 @@
 		)
 	)
 	(symbol
-		(lib_id "TPS630701 Buck-Boost:TPS630701RNMR")
+		(lib_id "TPS63070 Buck-Boost:TPS63070RNMR")
 		(at 151.13 68.58 0)
 		(unit 1)
 		(body_style 1)
@@ -9456,7 +9651,7 @@
 				)
 			)
 		)
-		(property "Value" "TPS630701RNMR"
+		(property "Value" "TPS63070RNMR"
 			(at 151.13 40.64 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10713,7 +10908,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 35.56 101.6 270)
+		(at 35.56 101.6 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11281,7 +11476,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 72.39 58.42 270)
+		(at 72.39 58.42 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11706,7 +11901,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1µF"
+		(property "Value" "1µF"
 			(at 65.024 109.474 0)
 			(show_name no)
 			(do_not_autoplace no)

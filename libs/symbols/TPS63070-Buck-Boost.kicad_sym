@@ -1,9 +1,9 @@
 (kicad_symbol_lib (version 20211014) (generator kicad_symbol_editor)
-  (symbol "TPS630701RNMR" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
+  (symbol "TPS63070RNMR" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
     (property "Reference" "U" (id 0) (at 0 2.54 0)
       (effects (font (size 1.524 1.524)))
     )
-    (property "Value" "TPS630701RNMR" (id 1) (at 0 0 0)
+    (property "Value" "TPS63070RNMR" (id 1) (at 0 0 0)
       (effects (font (size 1.524 1.524)))
     )
     (property "Footprint" "TPS63070:TPS63070" (id 2) (at 0 0 0)
@@ -12,7 +12,7 @@
     (property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps63070.pdf" (id 3) (at 0 0 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
-    (property "ki_keywords" "TPS630701RNMR" (id 4) (at 0 0 0)
+    (property "ki_keywords" "TPS63070RNMR" (id 4) (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "ki_locked" "" (id 5) (at 0 0 0)
@@ -33,7 +33,7 @@
     (property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB" (id 10) (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (symbol "TPS630701RNMR_0_1"
+    (symbol "TPS63070RNMR_0_1"
       (polyline
         (pts
           (xy -15.24 -25.4)

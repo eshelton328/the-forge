@@ -746,7 +746,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "TPS630701 Buck-Boost:TPS630701RNMR"
+		(symbol "TPS63070 Buck-Boost:TPS63070RNMR"
 			(pin_names
 				(offset 0.254)
 			)
@@ -765,7 +765,7 @@
 					)
 				)
 			)
-			(property "Value" "TPS630701RNMR"
+			(property "Value" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -810,6 +810,50 @@
 					)
 				)
 			)
+			(property "Sim.Type" "SUBCKT"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Name" "TPS63070_TRANS"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=PS_SYNC 2=PG 3=VAUX 4=GND 5=FB 6=FB2 7=VOUT_0 8=VOUT_1 9=L2 10=PGND 11=L1 12=VIN_0 13=VIN_1 14=EN 15=VSEL"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Library" "../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
 			(property "ki_locked" ""
 				(at 0 0 0)
 				(show_name no)
@@ -820,7 +864,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "TPS630701RNMR"
+			(property "ki_keywords" "TPS63070RNMR"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -842,7 +886,7 @@
 					)
 				)
 			)
-			(symbol "TPS630701RNMR_0_1"
+			(symbol "TPS63070RNMR_0_1"
 				(polyline
 					(pts
 						(xy -15.24 25.4) (xy -15.24 -25.4)
@@ -2331,7 +2375,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Passives:R_0402_1005Metric"
 			(at 187.452 110.49 90)
 			(hide yes)
 			(show_name no)
@@ -2566,7 +2610,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Passives:C_0402_1005Metric"
 			(at 112.7252 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -2959,7 +3003,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Passives:R_0402_1005Metric"
 			(at 93.472 96.52 90)
 			(hide yes)
 			(show_name no)
@@ -3200,7 +3244,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Passives:R_0402_1005Metric"
 			(at 200.152 107.95 90)
 			(hide yes)
 			(show_name no)
@@ -3435,7 +3479,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Passives:R_0402_1005Metric"
 			(at 187.452 99.06 90)
 			(hide yes)
 			(show_name no)
@@ -3801,7 +3845,7 @@
 		)
 	)
 	(symbol
-		(lib_id "TPS630701 Buck-Boost:TPS630701RNMR")
+		(lib_id "TPS63070 Buck-Boost:TPS63070RNMR")
 		(at 144.78 109.22 0)
 		(unit 1)
 		(body_style 1)
@@ -4228,7 +4272,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Passives:C_0402_1005Metric"
 			(at 176.2252 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -4541,7 +4585,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Passives:C_0402_1005Metric"
 			(at 120.3452 127 0)
 			(hide yes)
 			(show_name no)
