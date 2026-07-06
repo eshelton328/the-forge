@@ -35,7 +35,11 @@ jobs:
       contents: write
       pull-requests: write
     container:
-      image: ghcr.io/inti-cmnb/kicad10_auto_full:1.9.1
+      # Digest-pinned: the mutable 1.9.1 tag picked up a kibot dev build whose
+      # stackup parser crashes on dielectric layers without a color
+      # (globals.py get_data_from_layer: unguarded ly.color.lower()).
+      # This digest is the image from the last known-good run (2026-05-31).
+      image: ghcr.io/inti-cmnb/kicad10_auto_full:1.9.1@sha256:65106985757bbd859c0210fce3bf9a0a205296d3957322d33b3177a1b888c9bb
     strategy:
       matrix:
         board: ${{ fromJson(needs.resolve-boards.outputs.boards) }}
