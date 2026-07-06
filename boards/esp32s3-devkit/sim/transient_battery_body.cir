@@ -1,0 +1,31 @@
+* Battery-powered transient stimulus for esp32s3-devkit (3xAA alkaline pack).
+* The board is battery-only by design (USB VBUS is data/ESD only), so the
+* interesting axis is pack voltage: 4.8 V fresh -> 3.6 V (buck-boost
+* transition region) -> 3.0 V end-of-life (datasheet minimum start voltage).
+* Q1 (reverse PMOS) and SW1 (power switch) are excluded from sim; their
+* series contribution is folded into the battery ESR/lead model below.
+*
+* Timeline (single .tran):
+*   0-150 us: VBAT=4.8 V (fresh).   WiFi TX burst 101-130 us (0.5 A).
+*   151-350 us: VBAT=3.6 V (transition). Burst 251-280 us.
+*   351-850 us: VBAT=3.0 V (dead).  Long worst-case burst 451-500 us (boost
+*                mode, max input current — SW1 contact stress case).
+*   After 501 us: 40 mA idle, recovery checks.
+VVBAT VBAT_RAW 0 DC 4.8 PWL(
++ 0 4.8 150u 4.8 152u 3.6 350u 3.6 352u 3.0 850u 3.0
++ )
+* Pack ESR (3 cells ~0.2 ohm each) + holder leads.
+RBAT_ESR VBAT_RAW VBAT_MID 0.6
+LBAT_LEAD VBAT_MID /VBAT_SW 20n
+*
+* Load attaches downstream of a short output distribution stub.
+RLOAD_DIST /3v3 VLOAD_END 0.025
+LLOAD_DIST VLOAD_END VLOAD_SINK 3n
+* ESP32-S3 proxy: 40 mA idle, 0.5 A WiFi TX bursts.
+II_ESP VLOAD_SINK GND PWL(
++ 0 0.04 100u 0.04 101u 0.5 130u 0.5 131u 0.04
++ 250u 0.04 251u 0.5 280u 0.5 281u 0.04
++ 450u 0.04 451u 0.5 500u 0.5 501u 0.04 850u 0.04
++ )
+.op
+.tran 50n 850u

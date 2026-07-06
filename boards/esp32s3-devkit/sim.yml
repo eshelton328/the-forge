@@ -1,0 +1,94 @@
+# Opt-in SPICE for esp32s3-devkit (mirrors tps63070-breakout pattern).
+# Battery-focused: the board runs from 3xAA only (USB is data-only by design),
+# so scenarios sweep pack voltage 4.8 V (fresh) -> 3.6 V (buck-boost
+# transition) -> 3.0 V (end-of-life / minimum start voltage), each with
+# 0.5 A WiFi-TX-class load bursts. Secondary pass covers cold start at 3.0 V.
+#
+# NOTE: the TI TPS63070_TRANS model behaves as a quasi-ideal regulated source
+# in this framework (flat 3.307 V, no ripple/droop — same as the breakout
+# baseline). These measures are therefore TOPOLOGY regressions: a miswired FB
+# divider reads ~2.07 V, a broken rail reads 0, a bad pin map fails to
+# converge. Real droop/ripple/current numbers come from the bench
+# (docs/bringup.md).
+spec_version: 1
+spice_engine: ngspice
+
+assembly:
+  main: sim/kicad_export.cir
+  includes:
+    - ../../libs/spice/tps63070/TPS63070_TRANS.LIB
+
+scenarios:
+  - id: vbat_bias_op
+    measures:
+      - id: v_vbat_sw
+        title: "VBAT_SW rail DC bias (4.8 V pack at t=0)"
+        op_node: "/VBAT_SW"
+        min: 4.5
+        max: 4.85
+  - id: tran_fresh_4v8
+    measures:
+      - id: v3v3_steady_fresh
+        title: "Vout steady, fresh pack (95 µs)"
+        min: 3.28
+        max: 3.33
+      - id: v3v3_ripple_fresh
+        title: "Vout ripple peak-peak, fresh pack idle"
+        max: 0.15
+      - id: v3v3_burst_fresh_min
+        title: "Vout minimum during 0.5 A burst at 4.8 V"
+        min: 3.1
+  - id: tran_mid_3v6
+    measures:
+      - id: v3v3_steady_mid
+        title: "Vout steady at 3.6 V (buck-boost transition)"
+        min: 3.28
+        max: 3.33
+      - id: v3v3_burst_mid_min
+        title: "Vout minimum during 0.5 A burst at 3.6 V"
+        min: 3.1
+  - id: tran_low_3v0
+    measures:
+      - id: v3v3_steady_low
+        title: "Vout steady on end-of-life pack (3.0 V)"
+        min: 3.28
+        max: 3.33
+      - id: v3v3_burst_low_min
+        title: "Vout minimum during 0.5 A burst at 3.0 V (boost mode)"
+        min: 3.0
+      - id: vbat_sw_burst_low_min
+        title: "VBAT_SW rail present during worst burst (wiring check)"
+        group: tran_low_extra
+        min: 2.5
+      - id: i_bat_burst_low_peak
+        title: "Battery-side passive drain (pull-ups + FB divider; TI model is quasi-ideal and does not draw converter input current)"
+        group: tran_low_extra
+        abs_value: true
+        max: 0.002
+  - id: tran_recovery
+    measures:
+      - id: v3v3_recovery
+        title: "Vout recovered at idle on dead pack (800 µs)"
+        min: 3.28
+        max: 3.33
+
+secondary_passes:
+  - netlist_rel: sim/tran_startup_3v0.cir
+    scenarios:
+      - id: tran_startup_3v0
+        measures:
+          - id: startup3v0_vout_final
+            title: "Cold start at 3.0 V — Vout at 380 µs"
+            group: tran_startup
+            min: 3.28
+            max: 3.33
+          - id: startup3v0_post_min
+            title: "Cold start at 3.0 V — Vout floor after settling"
+            group: tran_startup
+            min: 3.2
+
+plots:
+  - file: tran-vout-battery.png
+    signal: v(/3v3)
+  - file: tran-vbat-sw.png
+    signal: v(/vbat_sw)

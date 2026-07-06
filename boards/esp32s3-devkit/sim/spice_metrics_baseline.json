@@ -1,0 +1,19 @@
+{
+  "baseline_version": 1,
+  "measures": {
+    "tran_fresh_4v8::v3v3_burst_fresh_min": 3.30704,
+    "tran_fresh_4v8::v3v3_ripple_fresh": 0.0,
+    "tran_fresh_4v8::v3v3_steady_fresh": 3.30704,
+    "tran_low_3v0::i_bat_burst_low_peak": 0.000190498,
+    "tran_low_3v0::v3v3_burst_low_min": 3.30704,
+    "tran_low_3v0::v3v3_steady_low": 3.30704,
+    "tran_low_3v0::vbat_sw_burst_low_min": 3.00011,
+    "tran_mid_3v6::v3v3_burst_mid_min": 3.30704,
+    "tran_mid_3v6::v3v3_steady_mid": 3.30704,
+    "tran_recovery::v3v3_recovery": 3.30704,
+    "tran_startup_3v0::startup3v0_post_min": 3.30704,
+    "tran_startup_3v0::startup3v0_vout_final": 3.30704,
+    "vbat_bias_op::v_vbat_sw": 4.8
+  },
+  "ref": "test/esp32s3-devkit-validation@initial"
+}

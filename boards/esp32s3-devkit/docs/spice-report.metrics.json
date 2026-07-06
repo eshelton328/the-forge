@@ -1,0 +1,171 @@
+{
+  "baseline": null,
+  "exit_code_hint": 0,
+  "generated_at": "2026-07-06T17:10:26Z",
+  "measures": [
+    {
+      "bounds_max": 4.85,
+      "bounds_min": 4.5,
+      "detail": null,
+      "display_title": "VBAT_SW rail DC bias (4.8 V pack at t=0)",
+      "measure_id": "v_vbat_sw",
+      "passed": true,
+      "scenario_id": "vbat_bias_op",
+      "value_numeric": 4.8,
+      "value_str": "4.8"
+    },
+    {
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout steady, fresh pack (95 \u00b5s)",
+      "measure_id": "v3v3_steady_fresh",
+      "passed": true,
+      "scenario_id": "tran_fresh_4v8",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": 0.15,
+      "bounds_min": null,
+      "detail": null,
+      "display_title": "Vout ripple peak-peak, fresh pack idle",
+      "measure_id": "v3v3_ripple_fresh",
+      "passed": true,
+      "scenario_id": "tran_fresh_4v8",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    },
+    {
+      "bounds_max": null,
+      "bounds_min": 3.1,
+      "detail": null,
+      "display_title": "Vout minimum during 0.5 A burst at 4.8 V",
+      "measure_id": "v3v3_burst_fresh_min",
+      "passed": true,
+      "scenario_id": "tran_fresh_4v8",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout steady at 3.6 V (buck-boost transition)",
+      "measure_id": "v3v3_steady_mid",
+      "passed": true,
+      "scenario_id": "tran_mid_3v6",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": null,
+      "bounds_min": 3.1,
+      "detail": null,
+      "display_title": "Vout minimum during 0.5 A burst at 3.6 V",
+      "measure_id": "v3v3_burst_mid_min",
+      "passed": true,
+      "scenario_id": "tran_mid_3v6",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout steady on end-of-life pack (3.0 V)",
+      "measure_id": "v3v3_steady_low",
+      "passed": true,
+      "scenario_id": "tran_low_3v0",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": null,
+      "bounds_min": 3.0,
+      "detail": null,
+      "display_title": "Vout minimum during 0.5 A burst at 3.0 V (boost mode)",
+      "measure_id": "v3v3_burst_low_min",
+      "passed": true,
+      "scenario_id": "tran_low_3v0",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": null,
+      "bounds_min": 2.5,
+      "detail": null,
+      "display_group": "tran_low_extra",
+      "display_title": "VBAT_SW rail present during worst burst (wiring check)",
+      "measure_id": "vbat_sw_burst_low_min",
+      "passed": true,
+      "scenario_id": "tran_low_3v0",
+      "value_numeric": 3.00011,
+      "value_str": "3.00011"
+    },
+    {
+      "bounds_max": 0.002,
+      "bounds_min": null,
+      "detail": null,
+      "display_group": "tran_low_extra",
+      "display_title": "Battery-side passive drain (pull-ups + FB divider; TI model is quasi-ideal and does not draw converter input current)",
+      "measure_id": "i_bat_burst_low_peak",
+      "passed": true,
+      "scenario_id": "tran_low_3v0",
+      "value_numeric": 0.000190498,
+      "value_str": "0.000190498"
+    },
+    {
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Vout recovered at idle on dead pack (800 \u00b5s)",
+      "measure_id": "v3v3_recovery",
+      "passed": true,
+      "scenario_id": "tran_recovery",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_group": "tran_startup",
+      "display_title": "Cold start at 3.0 V \u2014 Vout at 380 \u00b5s",
+      "measure_id": "startup3v0_vout_final",
+      "passed": true,
+      "scenario_id": "tran_startup_3v0",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "bounds_max": null,
+      "bounds_min": 3.2,
+      "detail": null,
+      "display_group": "tran_startup",
+      "display_title": "Cold start at 3.0 V \u2014 Vout floor after settling",
+      "measure_id": "startup3v0_post_min",
+      "passed": true,
+      "scenario_id": "tran_startup_3v0",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    }
+  ],
+  "metrics_schema_version": 2,
+  "pass": true,
+  "paths": {
+    "config": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim.yml",
+    "netlist": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim/assembled.cir"
+  },
+  "toolchain": {
+    "baseline_compare_enabled": false,
+    "kicad_cli_version_line": "10.0.1",
+    "kicad_docker_image": null,
+    "ngspice_version_line": "******",
+    "simulator_exit_code": 0
+  },
+  "waveform_pngs_rel": [
+    "sim/plots/tran-vout-battery.png",
+    "sim/plots/tran-vbat-sw.png"
+  ]
+}
