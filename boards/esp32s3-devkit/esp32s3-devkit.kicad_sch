@@ -4030,6 +4030,24 @@
 						)
 					)
 				)
+				(pin passive line
+					(at 0 -6.35 90)
+					(length 2.54)
+					(name "SH"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "SH"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
 			(embedded_fonts no)
 		)
@@ -5323,7 +5341,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 46.99) (xy 41.91 49.0)
+			(xy 41.91 46.99) (xy 41.91 49.53)
 		)
 		(stroke
 			(width 0)
@@ -5333,7 +5351,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 49.0) (xy 57.15 49.0)
+			(xy 41.91 49.53) (xy 57.15 49.53)
 		)
 		(stroke
 			(width 0)
@@ -5343,13 +5361,23 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 49.0) (xy 57.15 46.99)
+			(xy 57.15 49.53) (xy 57.15 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "c3255d4e-997c-436b-b11e-b6694f252049")
+	)
+	(wire
+		(pts
+			(xy 62.23 53.34) (xy 62.23 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7be80f21-64c5-4a2e-9d37-1f58a0c3b942")
 	)
 	(wire
 		(pts
@@ -6952,7 +6980,7 @@
 		(uuid "856a6ffc-6939-47df-9414-2dba1afb697e")
 	)
 	(label "PFET"
-		(at 44.45 49.0 0)
+		(at 44.45 49.53 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7293,6 +7321,83 @@
 			(project "esp32s3-devkit"
 				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 62.23 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9c4e7d12-3fa8-4b06-a259-8e17d5b40c86")
+		(property "Reference" "#PWR030"
+			(at 62.23 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 62.23 59.944 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b8a3f2c6-71e4-4d98-b520-6a9c04e81f37")
+		)
+		(instances
+			(project "esp32s3-devkit"
+				(path "/7924bd8b-2498-4d76-899d-c0ad5a514485"
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -8336,6 +8441,9 @@
 		)
 		(pin "3"
 			(uuid "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
+		)
+		(pin "SH"
+			(uuid "5f1c2a84-9b3d-4e76-8a01-c47d92e6b153")
 		)
 		(instances
 			(project "esp32s3-devkit"
@@ -10800,7 +10908,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 35.56 101.6 270)
+		(at 35.56 101.6 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11368,7 +11476,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 72.39 58.42 270)
+		(at 72.39 58.42 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
