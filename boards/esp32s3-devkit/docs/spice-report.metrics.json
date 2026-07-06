@@ -1,10 +1,10 @@
 {
   "baseline": {
     "baseline_file_rel": "sim/spice_metrics_baseline.json",
-    "doc_ref": "test/esp32s3-devkit-validation@initial"
+    "doc_ref": "test/esp32s3-devkit-brownout-study@initial"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-07-06T21:03:15Z",
+  "generated_at": "2026-07-06T21:07:47Z",
   "measures": [
     {
       "baseline_numeric": 4.8,
@@ -180,7 +180,7 @@
       "value_str": "3.30704"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 4.27593,
       "bounds_max": null,
       "bounds_min": 4.1,
       "detail": null,
@@ -194,7 +194,7 @@
       "value_str": "4.27593"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 3.2905,
       "bounds_max": null,
       "bounds_min": 3.25,
       "detail": null,
@@ -208,7 +208,7 @@
       "value_str": "3.2905"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 2.62766,
       "bounds_max": 3.0,
       "bounds_min": 2.3,
       "detail": null,
@@ -222,7 +222,7 @@
       "value_str": "2.62766"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 3.2905,
       "bounds_max": null,
       "bounds_min": 3.25,
       "detail": null,
@@ -236,7 +236,7 @@
       "value_str": "3.2905"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 1.59998,
       "bounds_max": 2.5,
       "bounds_min": null,
       "detail": null,
@@ -250,7 +250,7 @@
       "value_str": "1.59998"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 3.3052,
       "bounds_max": 3.35,
       "bounds_min": 3.25,
       "detail": null,
@@ -264,7 +264,7 @@
       "value_str": "3.3052"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 3.83804,
       "bounds_max": null,
       "bounds_min": 3.5,
       "detail": null,
@@ -278,7 +278,7 @@
       "value_str": "3.83804"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 3.2905,
       "bounds_max": null,
       "bounds_min": 3.25,
       "detail": null,
@@ -292,7 +292,7 @@
       "value_str": "3.2905"
     },
     {
-      "baseline_numeric": null,
+      "baseline_numeric": 4.982,
       "bounds_max": null,
       "bounds_min": 4.9,
       "detail": null,
@@ -309,13 +309,13 @@
   "metrics_schema_version": 2,
   "pass": true,
   "paths": {
-    "config": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim.yml",
-    "netlist": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim/assembled.cir"
+    "config": "/workspace/boards/esp32s3-devkit/sim.yml",
+    "netlist": "/workspace/boards/esp32s3-devkit/sim/assembled.cir"
   },
   "toolchain": {
     "baseline_compare_enabled": true,
     "kicad_cli_version_line": "10.0.1",
-    "kicad_docker_image": null,
+    "kicad_docker_image": "the-forge-sim:ci",
     "ngspice_version_line": "******",
     "simulator_exit_code": 0
   },
