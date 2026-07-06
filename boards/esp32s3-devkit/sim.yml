@@ -87,6 +87,61 @@ secondary_passes:
             group: tran_startup
             min: 3.2
 
+  - netlist_rel: sim/tran_espnow_fresh.cir
+    scenarios:
+      - id: espnow_fresh
+        measures:
+          - id: espnow_fresh_vin_min
+            title: "ESP-NOW bursts, fresh pack — VIN minimum (behavioral converter)"
+            group: espnow_brownout
+            min: 4.1
+          - id: espnow_fresh_v3v3_min
+            title: "ESP-NOW bursts, fresh pack — 3V3 minimum"
+            group: espnow_brownout
+            min: 3.25
+  - netlist_rel: sim/tran_espnow_tired.cir
+    scenarios:
+      - id: espnow_tired
+        measures:
+          - id: espnow_tired_vin_min
+            title: "ESP-NOW bursts, tired pack (3.6V/1.2R) — VIN sag stays above 2.0V UVLO"
+            group: espnow_brownout
+            min: 2.3
+            max: 3.0
+          - id: espnow_tired_v3v3_min
+            title: "ESP-NOW bursts, tired pack — 3V3 holds"
+            group: espnow_brownout
+            min: 3.25
+  - netlist_rel: sim/tran_espnow_dead.cir
+    scenarios:
+      - id: espnow_dead
+        measures:
+          - id: espnow_dead_v3v3_min
+            title: "ESP-NOW burst, dead pack (3.0V/3R) — brownout MUST occur (failure-boundary regression)"
+            group: espnow_brownout
+            max: 2.5
+          - id: espnow_dead_v3v3_recovered
+            title: "Dead-pack brownout — rail recovers after burst"
+            group: espnow_brownout
+            min: 3.25
+            max: 3.35
+  - netlist_rel: sim/tran_rev2_amp_preview.cir
+    scenarios:
+      - id: rev2_amp_preview
+        measures:
+          - id: rev2_vin_min
+            title: "Rev-2 preview: WiFi + 3W amp on fresh pack — VIN minimum"
+            group: rev2_amp
+            min: 3.5
+          - id: rev2_v3v3_min
+            title: "Rev-2 preview — 3V3 holds under combined load"
+            group: rev2_amp
+            min: 3.25
+          - id: rev2_v5v_min
+            title: "Rev-2 preview — 5V amp rail holds"
+            group: rev2_amp
+            min: 4.9
+
 plots:
   - file: tran-vout-battery.png
     signal: v(/3v3)

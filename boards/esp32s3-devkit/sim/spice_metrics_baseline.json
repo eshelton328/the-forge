@@ -1,6 +1,15 @@
 {
   "baseline_version": 1,
   "measures": {
+    "espnow_dead::espnow_dead_v3v3_min": 1.59998,
+    "espnow_dead::espnow_dead_v3v3_recovered": 3.3052,
+    "espnow_fresh::espnow_fresh_v3v3_min": 3.2905,
+    "espnow_fresh::espnow_fresh_vin_min": 4.27593,
+    "espnow_tired::espnow_tired_v3v3_min": 3.2905,
+    "espnow_tired::espnow_tired_vin_min": 2.62766,
+    "rev2_amp_preview::rev2_v3v3_min": 3.2905,
+    "rev2_amp_preview::rev2_v5v_min": 4.982,
+    "rev2_amp_preview::rev2_vin_min": 3.83804,
     "tran_fresh_4v8::v3v3_burst_fresh_min": 3.30704,
     "tran_fresh_4v8::v3v3_ripple_fresh": 0.0,
     "tran_fresh_4v8::v3v3_steady_fresh": 3.30704,
@@ -15,5 +24,5 @@
     "tran_startup_3v0::startup3v0_vout_final": 3.30704,
     "vbat_bias_op::v_vbat_sw": 4.8
   },
-  "ref": "test/esp32s3-devkit-validation@initial"
+  "ref": "test/esp32s3-devkit-brownout-study@initial"
 }
