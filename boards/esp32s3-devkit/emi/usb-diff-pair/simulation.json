@@ -1,0 +1,76 @@
+{
+    "format_version": "1.2",
+    "frequency": {
+        "start": 100000000.0,
+        "stop": 3000000000.0
+    },
+    "max_steps": 150000,
+    "pixel_size": 5,
+    "ports": [
+        {
+            "number": 1,
+            "width": 400,
+            "length": 1000,
+            "impedance": 45,
+            "layer": 0,
+            "plane": 1,
+            "excite": true
+        },
+        {
+            "number": 2,
+            "width": 400,
+            "length": 1000,
+            "impedance": 45,
+            "layer": 0,
+            "plane": 1,
+            "excite": false
+        },
+        {
+            "number": 3,
+            "width": 400,
+            "length": 1000,
+            "impedance": 45,
+            "layer": 0,
+            "plane": 1,
+            "excite": true
+        },
+        {
+            "number": 4,
+            "width": 400,
+            "length": 1000,
+            "impedance": 45,
+            "layer": 0,
+            "plane": 1,
+            "excite": false
+        }
+    ],
+    "differential_pairs": [
+        {
+            "start_p": 0,
+            "stop_p": 1,
+            "start_n": 2,
+            "stop_n": 3,
+            "name": "USB_FS",
+            "nets": [
+                "/D+",
+                "/D-"
+            ]
+        }
+    ],
+    "grid": {
+        "inter_layers": 4,
+        "optimal": 40.0,
+        "diagonal": 40.0,
+        "perpendicular": 100.0,
+        "max": 200.0,
+        "margin": {
+            "xy": 1500.0,
+            "z": 2000.0,
+            "from_trace": true
+        }
+    },
+    "via": {
+        "plating_thickness": 200,
+        "filling_epsilon": 1
+    }
+}
