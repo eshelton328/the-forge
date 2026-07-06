@@ -1,0 +1,16 @@
+* ESP-NOW burst brownout study — DEAD pack (3.0 V open-circuit, 3.0 ohm).
+* End-of-life alkalines cannot source burst power (P_max = Voc^2/4R = 0.75 W
+* < ~1.9 W demanded): the input collapses through UVLO and the rail drops.
+* This deck asserts the brownout HAPPENS — it is the regression that
+* documents the failure boundary, mirroring the breadboard experience.
+.include "../../../libs/spice/behavioral/buckboost_beh.lib"
+VBAT VBAT_RAW 0 DC 3.0
+RESR VBAT_RAW VBATSW 3.0
+CIN VBATSW 0 25u
+XCONV VBATSW 0 V3V3 BUCKBOOST_BEH
+COUT V3V3 0 70u
+IESP V3V3 0 PWL(0 0.06 2m 0.06 2.01m 0.55 5m 0.55 5.01m 0.06 30m 0.06)
+.tran 5u 30m
+.meas tran espnow_dead_v3v3_min MIN v(V3V3) FROM=1m TO=30m
+.meas tran espnow_dead_v3v3_recovered FIND v(V3V3) AT=29m
+.end

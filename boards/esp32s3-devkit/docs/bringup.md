@@ -71,6 +71,45 @@ path — USB-C is data-only by design. A bench supply with current limit
       (dominated by D1's ~2.5 mA battery LED + converter quiescent).
       Record the number — it sets shelf life; a rev-2 could jumper the LEDs.
 
+## 5b. ESP-NOW brownout margin (the breadboard failure, quantified)
+
+The brownout seen on the breadboard is battery ESR × burst current sagging
+the input (breadboard contact resistance made it worse). The SPICE study
+(`sim/tran_espnow_*.cir`, behavioral converter) predicts: a fresh pack
+sags to ~4.3 V (fine), a 3.6 V / 1.2 Ω tired pack to ~2.6 V (marginal but
+working), and a 3 Ω dead pack collapses mid-burst. Verify on the bench:
+
+- [ ] Scope **VBAT_SW** (C1 positive terminal) and **3V3** together,
+      DC-coupled, while firmware sends ESP-NOW bursts. Fresh pack:
+      VBAT_SW dips stay above ~4 V.
+- [ ] Repeat with a tired pack — or fake one by adding 1 Ω in series with
+      fresh cells: VBAT_SW must stay **above ~2.3 V** during bursts. If
+      the module resets, the sag you scoped is the real pack ESR talking.
+- [ ] Bump the series resistor until bursts fail; record that ESR. It
+      converts directly to a firmware low-battery threshold ("stop
+      transmitting below X volts") instead of guessing.
+- [ ] Firmware mitigation worth measuring: reduce TX power
+      (`esp_wifi_set_max_tx_power`) — ESP-NOW at room range rarely needs
+      +20 dBm, and the PA is most of the burst current.
+
+## 5c. Rev-2 planning notes (5 V rail + audio amp)
+
+The rev-2 preview deck (`sim/tran_rev2_amp_preview.cir`) shows WiFi + a
+3 W-class amp works on a **fresh** pack (VIN sags to ~3.8 V) but has **no
+operating point on worn alkalines** — the demanded power exceeds the
+pack's physical maximum (V²/4R), so audio-at-volume brownouts on old AAs
+are a battery limit, not a board bug. Plan rev-2 around that:
+
+- Low-ESR chemistry: 3x NiMH (fraction of alkaline ESR, same holder) or a
+  single Li-ion cell with protection + charger.
+- A bulk capacitor bank (≥470 µF electrolytic/polymer) on VBAT_SW to
+  soften burst edges — note it cannot ride through ms-long bursts, only
+  help the converter's first microseconds.
+- Move SW1 out of the power path (switch U1's EN instead) before adding
+  amp current on top of its ~0.3 A contact rating.
+- Give the amp its own brownout behavior: mute below a pack-voltage
+  threshold so audio degrades before the radio/MCU browns out.
+
 ## 6. Sign-off record
 
 Record per-board: date, pack voltage, idle current, 3V3 reading, deep-sleep

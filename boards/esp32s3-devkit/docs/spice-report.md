@@ -6,10 +6,10 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 
 | Field | Value |
 | --- | --- |
-| Config | `/workspace/boards/esp32s3-devkit/sim.yml` |
-| Netlist | `/workspace/boards/esp32s3-devkit/sim/assembled.cir` |
+| Config | `/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim.yml` |
+| Netlist | `/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit/sim/assembled.cir` |
 | KiCad CLI | `10.0.1` |
-| KiCad Docker image (CI) | `the-forge-sim:ci` |
+| KiCad Docker image (CI) | `—` |
 | ngspice | `******` |
 | Simulator exit | 0 |
 | Baseline file | `sim/spice_metrics_baseline.json` |
@@ -19,8 +19,8 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 
 | Metric | Value |
 | --- | --- |
-| Measures | 13 |
-| Passed | 13 |
+| Measures | 22 |
+| Passed | 22 |
 | Failed | 0 |
 
 ## Results by scenario
@@ -67,6 +67,35 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 | --- | --- | --- | --- | --- | --- |
 | Cold start at 3.0 V — Vout at 380 µs | 3.30704 | 3.30704 | 0 | min 3.28, max 3.33 | **PASS** |
 | Cold start at 3.0 V — Vout floor after settling | 3.30704 | 3.30704 | 0 | min 3.2 | **PASS** |
+
+### `espnow_fresh`
+
+| Measure | Value | Baseline | Δ | Bounds | Result |
+| --- | --- | --- | --- | --- | --- |
+| ESP-NOW bursts, fresh pack — VIN minimum (behavioral converter) | 4.27593 | — | — | min 4.1 | **PASS** |
+| ESP-NOW bursts, fresh pack — 3V3 minimum | 3.2905 | — | — | min 3.25 | **PASS** |
+
+### `espnow_tired`
+
+| Measure | Value | Baseline | Δ | Bounds | Result |
+| --- | --- | --- | --- | --- | --- |
+| ESP-NOW bursts, tired pack (3.6V/1.2R) — VIN sag stays above 2.0V UVLO | 2.62766 | — | — | min 2.3, max 3.0 | **PASS** |
+| ESP-NOW bursts, tired pack — 3V3 holds | 3.2905 | — | — | min 3.25 | **PASS** |
+
+### `espnow_dead`
+
+| Measure | Value | Baseline | Δ | Bounds | Result |
+| --- | --- | --- | --- | --- | --- |
+| ESP-NOW burst, dead pack (3.0V/3R) — brownout MUST occur (failure-boundary regression) | 1.59998 | — | — | max 2.5 | **PASS** |
+| Dead-pack brownout — rail recovers after burst | 3.3052 | — | — | min 3.25, max 3.35 | **PASS** |
+
+### `rev2_amp_preview`
+
+| Measure | Value | Baseline | Δ | Bounds | Result |
+| --- | --- | --- | --- | --- | --- |
+| Rev-2 preview: WiFi + 3W amp on fresh pack — VIN minimum | 3.83804 | — | — | min 3.5 | **PASS** |
+| Rev-2 preview — 3V3 holds under combined load | 3.2905 | — | — | min 3.25 | **PASS** |
+| Rev-2 preview — 5V amp rail holds | 4.982 | — | — | min 4.9 | **PASS** |
 
 ## Summary
 

@@ -1,0 +1,25 @@
+* Rev-2 preview — 3.3 V rail + planned 5 V buck-boost feeding an audio amp.
+* ESP-NOW bursts (550 mA @ 3.3 V) plus class-D music peaks (600 mA @ 5 V,
+* ~3 W) drawn from the same 3xAA pack. FRESH pack only: the tired-pack
+* case has no operating point (P_max = 2.7 W < ~5.7 W demanded) — i.e.
+* audio at volume on worn AAs cannot work; that informs rev-2 battery
+* choice (NiMH low-ESR or Li-ion) rather than being a board defect.
+.include "../../../libs/spice/behavioral/buckboost_beh.lib"
+VBAT VBAT_RAW 0 DC 4.5
+RESR VBAT_RAW VBATSW 0.45
+CIN VBATSW 0 25u
+XCONV3 VBATSW 0 V3V3 BUCKBOOST_BEH
+COUT3 V3V3 0 70u
+XCONV5 VBATSW 0 V5V BUCKBOOST_BEH VREF=5.0
+COUT5 V5V 0 100u
+* WiFi bursts on 3.3 V
+IESP V3V3 0 PWL(0 0.06 2m 0.06 2.01m 0.55 5m 0.55 5.01m 0.06
++ 12m 0.06 12.01m 0.55 15m 0.55 15.01m 0.06 30m 0.06)
+* Music-like amp peaks on 5 V, overlapping the second WiFi burst
+IAMP V5V 0 PWL(0 0.05 10m 0.05 10.01m 0.6 16m 0.6 16.01m 0.1
++ 20m 0.1 20.01m 0.6 24m 0.6 24.01m 0.05 30m 0.05)
+.tran 5u 30m
+.meas tran rev2_vin_min MIN v(VBATSW) FROM=1m TO=30m
+.meas tran rev2_v3v3_min MIN v(V3V3) FROM=1m TO=30m
+.meas tran rev2_v5v_min MIN v(V5V) FROM=1m TO=30m
+.end

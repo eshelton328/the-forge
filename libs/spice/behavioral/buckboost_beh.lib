@@ -1,0 +1,40 @@
+* Behavioral buck-boost converter — power-conserving brownout-study model.
+*
+* The vendor TPS63070_TRANS model is quasi-ideal: it regulates perfectly and
+* draws no input current, so it cannot answer "does the battery sag brown me
+* out?" This model trades switching detail for honest power flow:
+*
+*   - Input current  I_in = P_out / (eta * V_in)   (first-order efficiency)
+*   - Output: VREF source behind R_LOOP, low-pass filtered by TAU_LOOP
+*     (large-signal regulation bandwidth), so ms-scale load steps pass
+*     through to the battery — matching real buck-boost behavior where
+*     output caps only cover us-scale edges.
+*   - UVLO with hysteresis (VOFF/VON): below VOFF the output collapses,
+*     modeling the converter dropping out on a sagging pack. Matches
+*     TPS63070 (2.0 V running minimum; SLVSC58B).
+*
+* Params:
+*   VREF     regulated output voltage        (default 3.307)
+*   ETA      efficiency                      (default 0.85)
+*   RLOOP    closed-loop output resistance   (default 0.03)
+*   TAULOOP  regulation response time const  (default 20u)
+*   VON/VOFF UVLO thresholds                 (default 2.1 / 1.9)
+*
+* Nodes: VIN GND VOUT
+.subckt BUCKBOOST_BEH VIN GND VOUT VREF=3.307 ETA=0.85 RLOOP=0.03 TAULOOP=20u VON=2.1 VOFF=1.9
+* UVLO comparator with hysteresis -> node EN (0/1)
+BEN EN_RAW GND V = (V(VIN,GND) > {VON}) ? 1 : ((V(VIN,GND) < {VOFF}) ? 0 : V(EN))
+REN EN_RAW EN 1k
+CEN EN GND 100n
+* Regulation target, gated by EN, softened by loop time constant
+BTGT TGT_RAW GND V = V(EN) * {VREF}
+RTGT TGT_RAW TGT 1
+CTGT TGT GND {TAULOOP}
+* Output stage: target behind loop output resistance
+EOUT OUTI GND TGT GND 1
+ROUT OUTI VOUT {RLOOP}
+* Power-conserving input current: P_out / (eta * V_in), guarded at low VIN.
+* Load current flows out of EOUT's + terminal, so I(EOUT) is negative in
+* SPICE convention — negate it for delivered power.
+BIN VIN GND I = (V(EN) > 0.5) ? MAX(V(VOUT,GND) * (-I(EOUT)) / ({ETA} * MAX(V(VIN,GND), 0.5)), 0) : 1u
+.ends BUCKBOOST_BEH
