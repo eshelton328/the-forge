@@ -1,0 +1,112 @@
+# Board validation rules for esp32s3-devkit
+# Used by scripts/validate_board.py to verify design intent beyond ERC/DRC.
+#
+# Power path: 3xAA (J1.2 VBAT) -> Q1 reverse-protection PMOS -> SW1 slide
+# switch -> TPS63070 buck-boost -> 3.3V rail. USB-C is data-only (VBUS
+# intentionally unconnected from power), so the board must be battery-powered
+# to flash — these checks pin the parts that make that work.
+
+required_components:
+  U1:
+    value: "TPS63070RNMR"
+    footprint_lib: "TPS63070"
+  U2:
+    value: "ESP32-S3-WROOM-1-N16"
+  U3:
+    value: "USBLC6-2SC6"
+  Q1:
+    value: "AO3401A"
+  L1:
+    value: "1.5µH"
+  SW1:
+    value: "MK-12C03-G015"
+  # TPS63070 input caps (VBAT_SW rail)
+  C1:
+    value: "10µF"
+  C2:
+    value: "10µF"
+  C3:
+    value: "10µF"
+  # VAUX internal-regulator cap — datasheet-required, must not be loaded
+  C4:
+    value: "0.1µF"
+  # 3.3V output caps
+  C5:
+    value: "10µF"
+  C6:
+    value: "22µF"
+  C7:
+    value: "22µF"
+  C8:
+    value: "22µF"
+  C9:
+    value: "22µF"
+  C10:
+    value: "0.1µF"
+  # ESP32 EN reset RC
+  C11:
+    value: "1µF"
+  # EN + PS/SYNC pull-up to VBAT_SW (PS/SYNC high = power-save/PFM mode)
+  R2:
+    value: "10kΩ"
+  # TPS63070 feedback divider (see voltage_divider below)
+  R3:
+    value: "470kΩ"
+  R4:
+    value: "150kΩ"
+  # PG pull-up
+  R5:
+    value: "100kΩ"
+  # BOOT (IO0) and EN pull-ups — boot reliability on battery power
+  R7:
+    value: "10kΩ"
+  R8:
+    value: "10kΩ"
+  # USB-C CC pulldowns (device/sink identity)
+  R9:
+    value: "5.1kΩ"
+  R10:
+    value: "5.1kΩ"
+  # Q1 gate pulldown
+  R11:
+    value: "100kΩ"
+  J1: {}
+  J2: {}
+  J3: {}
+  SW2: {}
+  SW3: {}
+
+required_nets:
+  - "GND"
+  - "3v3"
+  - "VBAT"
+  - "VBAT_SW"
+  - "PFET"
+  - "D+"
+  - "D-"
+
+capacitor_budget:
+  input:
+    min_total_uf: 20
+    refs: [C1, C2, C3]
+  output:
+    min_total_uf: 60
+    refs: [C5, C6, C7, C8, C9]
+  decoupling:
+    refs: [C4, C10]
+
+# TPS63070 feedback divider: V_OUT = V_REF * (1 + R_upper / R_lower)
+# V_REF = 0.8V per datasheet SLVSC58B §7.5 (adjustable TPS63070; the fixed-5V
+# TPS630701 ignores this divider — this check guards the exact bug fixed in
+# PR #107).
+voltage_divider:
+  v_ref: 0.8
+  expected_voltage: 3.3
+  tolerance_percent: 2.0
+  upper_ref: R3
+  lower_ref: R4
+
+bom_rules:
+  require_footprint: true
+  no_duplicate_refs: true
+  require_datasheet_on: [U1]
