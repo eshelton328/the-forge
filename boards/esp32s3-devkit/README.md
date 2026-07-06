@@ -58,106 +58,47 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 | Check | Result |
 |:------|:-------|
 | ERC | ✅ |
-| DRC | ✅ |
+| DRC | 🔴 13 errors |
 | Fab: jlcpcb-4layer-advanced | ✅ |
-| Fab: pcbway-4layer-advanced | 🔴 12 errors, 🟡 70 warnings |
 
 <details>
-<summary><strong>Fab DRC: pcbway-4layer-advanced</strong> — 🔴 12 errors, 🟡 70 warnings</summary>
+<summary><strong>DRC</strong> — 🔴 13 errors</summary>
 
-> <details>
-> <summary>🔴 <b><code>drill_out_of_range</code></b> — 12 errors</summary>
+> **Violations** (12)
 >
-> Hole size out of range (rule 'PCBWay Adv: Pad size' min hole 0.5000 mm; actual 0.2000 mm)
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
-> - `PTH pad 41 [GND] of U2`
+> <details>
+> <summary>🔴 <b><code>clearance</code></b> — 8 errors</summary>
+>
+> Clearance violation (zone clearance 0.2000 mm; actual 0.1217 mm)
+> - `Track [Net-(Q1-G)] on F.Cu, length 0.4725 mm` / `Zone [/PFET] on F.Cu, priority 2`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on B.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on B.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
+> - `Track [Net-(Q1-G)] on B.Cu, length 1.1500 mm` / `Zone [GND] on B.Cu, priority 0`
+> - `Track [Net-(Q1-G)] on B.Cu, length 2.5000 mm` / `Zone [GND] on B.Cu, priority 0`
+> - `Pad 1 [Net-(Q1-G)] of Q1 on F.Cu` / `Zone [/PFET] on F.Cu, priority 2`
 >
 > </details>
 >
 > <details>
-> <summary>🟡 <b><code>silk_overlap</code></b> — 70 warnings</summary>
+> <summary>🔴 <b><code>hole_clearance</code></b> — 4 errors</summary>
 >
-> Silkscreen clearance (PCBWay Adv: Pad to silkscreen clearance 0.1500 mm; actual 0.1000 mm)
-> - `Segment of R6 on F.Silkscreen` / `Pad 2 [Net-(D3-K)] of R6 on F.Cu`
-> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
-> - `Segment of R6 on F.Silkscreen` / `Pad 2 [Net-(D3-K)] of R6 on F.Cu`
-> - `Segment of R6 on F.Silkscreen` / `Pad 1 [/3v3] of R6 on F.Cu`
-> - `Segment of R7 on F.Silkscreen` / `Pad 1 [/3v3] of R7 on F.Cu`
-> - `Segment of R7 on F.Silkscreen` / `Pad 2 [Net-(U2-IO0)] of R7 on F.Cu`
-> - `Segment of R7 on F.Silkscreen` / `Pad 1 [/3v3] of R7 on F.Cu`
-> - `Segment of R7 on F.Silkscreen` / `Pad 2 [Net-(U2-IO0)] of R7 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 1 [/3v3] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 1 [/3v3] of R3 on F.Cu`
-> - `Segment of R3 on F.Silkscreen` / `Pad 2 [Net-(U1-FB)] of R3 on F.Cu`
-> - `Segment of SW1 on F.Silkscreen` / `Pad 2 [/2-16v] of SW1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 1 [/2-16v] of R1 on F.Cu`
-> - `Segment of R1 on F.Silkscreen` / `Pad 2 [Net-(D1-K)] of R1 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 2 [Net-(U2-EN)] of R8 on F.Cu`
-> - `Segment of R8 on F.Silkscreen` / `Pad 1 [/3v3] of R8 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 1 [/2-16v] of R2 on F.Cu`
-> - `Segment of R2 on F.Silkscreen` / `Pad 2 [Net-(U1-EN)] of R2 on F.Cu`
-> - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
-> - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
-> - `Segment of R5 on F.Silkscreen` / `Pad 1 [/3v3] of R5 on F.Cu`
-> - `Segment of R5 on F.Silkscreen` / `Pad 2 [Net-(U1-PG)] of R5 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 1 [Net-(U1-FB)] of R4 on F.Cu`
-> - `Segment of R4 on F.Silkscreen` / `Pad 2 [GND] of R4 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/3v3] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 2 [GND] of C5 on F.Cu`
-> - `Segment of C5 on F.Silkscreen` / `Pad 1 [/3v3] of C5 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 1 [Net-(U1-VAUX)] of C4 on F.Cu`
-> - `Segment of C4 on F.Silkscreen` / `Pad 2 [GND] of C4 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/2-16v] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 2 [GND] of C3 on F.Cu`
-> - `Segment of C3 on F.Silkscreen` / `Pad 1 [/2-16v] of C3 on F.Cu`
-> - `Segment of SW1 on F.Silkscreen` / `Pad 1 [/PFET] of SW1 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(U3-VBUS)] of C12 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 1 [Net-(U3-VBUS)] of C12 on F.Cu`
-> - `Segment of C12 on F.Silkscreen` / `Pad 2 [GND] of C12 on F.Cu`
-> - `Segment of C10 on F.Silkscreen` / `Pad 2 [GND] of C10 on F.Cu`
-> - `Segment of C10 on F.Silkscreen` / `Pad 1 [/3v3] of C10 on F.Cu`
-> - `Segment of C10 on F.Silkscreen` / `Pad 2 [GND] of C10 on F.Cu`
-> - `Segment of C10 on F.Silkscreen` / `Pad 1 [/3v3] of C10 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 2 [GND] of C11 on F.Cu`
-> - `Segment of C11 on F.Silkscreen` / `Pad 1 [Net-(U2-EN)] of C11 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 2 [GND] of R10 on F.Cu`
-> - `Segment of R10 on F.Silkscreen` / `Pad 1 [Net-(J3-CC1)] of R10 on F.Cu`
-> - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
-> - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
-> - `Segment of R11 on F.Silkscreen` / `Pad 2 [GND] of R11 on F.Cu`
-> - `Segment of R11 on F.Silkscreen` / `Pad 1 [Net-(Q1-G)] of R11 on F.Cu`
-> - `Segment of R9 on F.Silkscreen` / `Pad 2 [GND] of R9 on F.Cu`
-> - `Segment of R9 on F.Silkscreen` / `Pad 1 [Net-(J3-CC2)] of R9 on F.Cu`
-> - `Segment of R9 on F.Silkscreen` / `Pad 2 [GND] of R9 on F.Cu`
-> - `Segment of R9 on F.Silkscreen` / `Pad 1 [Net-(J3-CC2)] of R9 on F.Cu`
+> Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0000 mm)
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on B.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on B.Cu, priority 0`
+> - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
+>
+> </details>
+>
+> **Unconnected items** (1)
+>
+> <details>
+> <summary>🔴 <b><code>unconnected_items</code></b> — 1 error</summary>
+>
+> Missing connection between items
+> - `Pad 3 [/VBAT] of Q1 on F.Cu` / `Zone [/VBAT] on F.Cu, priority 1`
 >
 > </details>
 >
