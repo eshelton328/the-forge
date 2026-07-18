@@ -137,6 +137,22 @@ jobs:
                 "boards/$BOARD/$BOARD.kicad_pcb"
             '
 
+      - name: Check copper connectivity (no stranded pads)
+        env:
+          BOARD: ${{ matrix.board }}
+        run: |
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -e HOME=/workspace/.kicad-ci-home \
+            -e BOARD \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            -w /workspace \
+            "$KICAD_IMAGE" \
+            bash -c '
+              source /workspace/scripts/ci/setup-kicad-env.sh
+              python3 /workspace/scripts/ci/check_copper_connectivity.py "boards/$BOARD"
+            '
+
       - name: Upload DRC report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()

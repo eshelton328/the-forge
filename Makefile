@@ -9,7 +9,7 @@
 DEFAULT_BOARD     := esp32s3-devkit
 MAKE_GOAL_1       := $(word 1,$(MAKECMDGOALS))
 MAKE_GOAL_2       := $(word 2,$(MAKECMDGOALS))
-BOARD_TAKES_GOAL2 := erc drc fab-drc check clean validate board-images
+BOARD_TAKES_GOAL2 := erc drc copper-check fab-drc check clean validate board-images
 
 ifeq ($(words $(MAKECMDGOALS)),2)
   ifneq ($(filter $(MAKE_GOAL_1),$(BOARD_TAKES_GOAL2)),)
@@ -39,6 +39,18 @@ ifndef KICAD_CLI
   endif
 endif
 
+# Prefer python with pcbnew on PATH; on macOS fall back to KiCad.app's interpreter
+ifndef KICAD_PY
+  KICAD_PY := $(shell command -v kicad-python 2>/dev/null)
+  ifeq ($(KICAD_PY),)
+    ifeq ($(shell uname -s),Darwin)
+      KICAD_PY := /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3
+    else
+      KICAD_PY := python3
+    endif
+  endif
+endif
+
 ERC_JSON     := $(BOARD_DIR)/erc.json
 DRC_JSON     := $(BOARD_DIR)/drc-default.json
 
@@ -49,7 +61,7 @@ $(BOARD_NOOP):
 	@:
 endif
 
-.PHONY: help versions erc drc fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture sim-export-board sim-board sim-board-docker sim-fixture-docker emi-fixture-docker
+.PHONY: help versions erc drc copper-check fab-drc check clean list-boards check-all validate validate-all update-readmes board-images sim-fixture sim-export-board sim-board sim-board-docker sim-fixture-docker emi-fixture-docker
 
 help:
 	@echo "the-forge — KiCad local checks (one board per command)"
@@ -59,6 +71,7 @@ help:
 	@echo "  make list-boards      Show board names (folders under boards/)"
 	@echo "  make check            ERC + DRC + multi-fab DRC for ONE board"
 	@echo "  make erc|drc|fab-drc|check|clean   — same, one board at a time"
+	@echo "  make copper-check     Fail if any pad has no same-net copper (pour-outline trap)"
 	@echo "  make versions"
 	@echo "  make validate         Board-level checks (checks.yml)"
 	@echo "  make validate-all     Run \`make validate\` for every board"
@@ -108,7 +121,11 @@ fab-drc: $(PCB) $(BOARD_DIR)/board.yml
 	$(FAB_SCRIPT) $(BOARD_DIR)
 	@echo "OK: multi-fab DRC (see drc-*.json under $(BOARD_DIR))"
 
-check: erc drc fab-drc
+copper-check: $(PCB)
+	$(KICAD_PY) scripts/ci/check_copper_connectivity.py $(BOARD_DIR)
+	@echo "OK: copper connectivity — no stranded pads"
+
+check: erc drc copper-check fab-drc
 	@echo ""
 	@echo "All checks passed for $(BOARD)."
 
