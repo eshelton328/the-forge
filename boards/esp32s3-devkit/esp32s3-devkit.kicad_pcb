@@ -11612,6 +11612,14 @@
 		(uuid "e2b09760-39a7-4723-85c4-428d904d8ad6")
 	)
 	(segment
+		(start 128.515 119.09)
+		(end 127.5775 109.115)
+		(width 0.8)
+		(layer "F.Cu")
+		(net "/VBAT")
+		(uuid "9793fe1e-a742-4467-9c86-a75a6aee3653")
+	)
+	(segment
 		(start 133.01 117.135)
 		(end 131.055 119.09)
 		(width 0.5)
