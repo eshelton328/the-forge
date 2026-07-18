@@ -58,11 +58,11 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 | Check | Result |
 |:------|:-------|
 | ERC | ✅ |
-| DRC | 🔴 13 errors |
+| DRC | 🔴 12 errors |
 | Fab: jlcpcb-4layer-advanced | ✅ |
 
 <details>
-<summary><strong>DRC</strong> — 🔴 13 errors</summary>
+<summary><strong>DRC</strong> — 🔴 12 errors</summary>
 
 > **Violations** (12)
 >
@@ -89,16 +89,6 @@ _Same layout as the KiCad check summary on pull requests (ERC, DRC, fab rules). 
 > - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
 > - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on B.Cu, priority 0`
 > - `Via [Net-(Q1-G)] on F.Cu - B.Cu` / `Zone [GND] on In1.Cu, priority 0`
->
-> </details>
->
-> **Unconnected items** (1)
->
-> <details>
-> <summary>🔴 <b><code>unconnected_items</code></b> — 1 error</summary>
->
-> Missing connection between items
-> - `Pad 3 [/VBAT] of Q1 on F.Cu` / `Zone [/VBAT] on F.Cu, priority 1`
 >
 > </details>
 >
