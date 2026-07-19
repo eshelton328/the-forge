@@ -1,0 +1,7 @@
+name: esp32s3-devkit-5v
+description: ESP32-S3-WROOM-1 dev board with dual TPS63070 rails (3.3V + 5V), USB-C
+layers: 4
+copper_weight: 1oz
+thickness: 1.6mm
+fab_targets:
+  - jlcpcb-4layer-advanced

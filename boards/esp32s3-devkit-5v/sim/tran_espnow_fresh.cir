@@ -1,0 +1,18 @@
+* ESP-NOW burst brownout study — FRESH pack (3xAA alkaline, 4.5 V, 0.45 ohm).
+* Behavioral power-conserving converter (see libs/spice/behavioral): unlike
+* the TI model, input current and UVLO collapse are real here. Burst profile:
+* 550 mA TX bursts, 3 ms long, ~100 ms-class duty compressed to a 30 ms window.
+* Output caps only ride through us-scale edges — ms bursts hit the battery.
+.include "../../../libs/spice/behavioral/buckboost_beh.lib"
+VBAT VBAT_RAW 0 DC 4.5
+RESR VBAT_RAW VBATSW 0.45
+CIN VBATSW 0 25u
+XCONV VBATSW 0 V3V3 BUCKBOOST_BEH
+COUT V3V3 0 70u
+IESP V3V3 0 PWL(0 0.06 2m 0.06 2.01m 0.55 5m 0.55 5.01m 0.06
++ 12m 0.06 12.01m 0.55 15m 0.55 15.01m 0.06
++ 22m 0.06 22.01m 0.55 25m 0.55 25.01m 0.06 30m 0.06)
+.tran 5u 30m
+.meas tran espnow_fresh_vin_min MIN v(VBATSW) FROM=1m TO=30m
+.meas tran espnow_fresh_v3v3_min MIN v(V3V3) FROM=1m TO=30m
+.end
