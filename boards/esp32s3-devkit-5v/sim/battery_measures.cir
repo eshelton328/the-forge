@@ -1,0 +1,20 @@
+* Regression measures — paired with `transient_battery_body.cir`.
+* Windows reference the stimulus timeline; keep in sync if edited.
+* Fresh pack (4.8 V)
+.meas tran v3v3_steady_fresh FIND v(/3v3) AT=95u
+.meas tran v3v3_ripple_fresh PP v(/3v3) FROM=60u TO=95u
+.meas tran v3v3_burst_fresh_min MIN v(/3v3) FROM=100u TO=135u
+* Transition region (3.6 V — buck-boost handoff around Vout)
+.meas tran v3v3_steady_mid FIND v(/3v3) AT=245u
+.meas tran v3v3_burst_mid_min MIN v(/3v3) FROM=250u TO=285u
+* End-of-life pack (3.0 V — boost mode, worst input current)
+.meas tran v3v3_steady_low FIND v(/3v3) AT=445u
+.meas tran v3v3_burst_low_min MIN v(/3v3) FROM=450u TO=505u
+* VIN seen at the chip during the worst burst (sagged by pack ESR)
+.meas tran vbat_sw_burst_low_min MIN v(/vbat_sw) FROM=450u TO=505u
+* Peak battery draw during worst burst (source current is negative; sim.yml
+* applies abs_value). This is the current SW1's contacts must carry.
+.meas tran i_bat_burst_low_peak MIN i(VVBAT) FROM=450u TO=505u
+* Recovery back at idle on a dead pack
+.meas tran v3v3_recovery FIND v(/3v3) AT=800u
+.end
