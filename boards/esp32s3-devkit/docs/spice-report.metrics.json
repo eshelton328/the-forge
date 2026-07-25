@@ -4,7 +4,7 @@
     "doc_ref": "test/esp32s3-devkit-brownout-study@initial"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-07-08T00:32:00Z",
+  "generated_at": "2026-07-18T23:15:58Z",
   "measures": [
     {
       "baseline_numeric": 4.8,
