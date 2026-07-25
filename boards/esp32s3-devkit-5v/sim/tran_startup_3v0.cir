@@ -1,0 +1,16 @@
+* Startup secondary: battery insertion at end-of-life pack voltage (3.0 V),
+* the TPS63070's minimum start voltage (SLVSC58B: start-up needs VIN >= 3.0 V;
+* running continues down to 2.0 V). EN/PS-SYNC ride VBAT_SW via R2, so the
+* converter enables as the pack connects.
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+VVBAT VBAT_RAW 0 DC 3.0 PWL(0 0 10u 3.0 400u 3.0)
+RBAT_ESR VBAT_RAW VBAT_MID 0.6
+LBAT_LEAD VBAT_MID /VBAT_SW 20n
+* Idle-class load during boot (regulator must lift 3.3 V rail into this).
+II_ESP /3v3 GND PWL(0 0.04 400u 0.04)
+.op
+.tran 50n 400u
+.meas tran startup3v0_vout_final FIND v(/3v3) AT=380u
+.meas tran startup3v0_post_min MIN v(/3v3) FROM=300u TO=400u
+.end

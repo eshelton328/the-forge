@@ -1,0 +1,18 @@
+* ESP-NOW burst brownout study — TIRED pack (3.6 V open-circuit, 1.2 ohm).
+* Roughly 60-70% discharged alkalines. This is the margin case: the pack
+* sags toward the TPS63070's 2.0 V running minimum during bursts but must
+* hold the rail. (At 1.5 ohm the operating point becomes bistable — the
+* breadboard brownout regime.)
+.include "../../../libs/spice/behavioral/buckboost_beh.lib"
+VBAT VBAT_RAW 0 DC 3.6
+RESR VBAT_RAW VBATSW 1.2
+CIN VBATSW 0 25u
+XCONV VBATSW 0 V3V3 BUCKBOOST_BEH
+COUT V3V3 0 70u
+IESP V3V3 0 PWL(0 0.06 2m 0.06 2.01m 0.55 5m 0.55 5.01m 0.06
++ 12m 0.06 12.01m 0.55 15m 0.55 15.01m 0.06
++ 22m 0.06 22.01m 0.55 25m 0.55 25.01m 0.06 30m 0.06)
+.tran 5u 30m
+.meas tran espnow_tired_vin_min MIN v(VBATSW) FROM=1m TO=30m
+.meas tran espnow_tired_v3v3_min MIN v(V3V3) FROM=1m TO=30m
+.end

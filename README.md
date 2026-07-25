@@ -9,6 +9,7 @@ the-forge/
 ├── Makefile          # make check / erc / drc / fab-drc
 ├── boards/           # Individual board projects
 │   ├── esp32s3-devkit/        # ESP32-S3 development board
+│   ├── esp32s3-devkit-5v/     # ESP32-S3 board, dual 3.3V + 5V rails (WIP)
 │   └── tps63070-breakout/   # TPS63070 buck-boost breakout
 ├── fab-rules/        # DRC rule templates per fab house
 ├── kibot/            # KiBot output generation configs
@@ -23,6 +24,7 @@ the-forge/
 | Board | Description | Layers | Status |
 |-------|-------------|--------|--------|
 | [esp32s3-devkit](boards/esp32s3-devkit/) | ESP32-S3-WROOM-1 dev board with TPS63070 buck-boost, USB-C | 4 | In Development |
+| [esp32s3-devkit-5v](boards/esp32s3-devkit-5v/) | ESP32-S3 board with dual TPS63070 rails (3.3V + 5V), RV-3028 RTC, USB-C | 4 | WIP — schematic in progress |
 | [tps63070-breakout](boards/tps63070-breakout/) | TPS63070 3.3V buck-boost breakout board | 2 | Migrated |
 
 ## CI/CD Pipeline
