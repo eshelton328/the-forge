@@ -1,5 +1,231 @@
 (kicad_sch (version 20260306) (generator "eeschema") (generator_version "10.0") (uuid "7924bd8b-2498-4d76-899d-c0ad5a514485") (paper "A3") (lib_symbols 
 
+(symbol "Device:LED_RGBK" (pin_names (offset 0) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) 
+
+(property "Reference" "D" (at 0 9.398 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Value" "LED_RGBK" (at 0 -8.89 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Footprint" "" (at 0 -1.27 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) 
+
+(property "Datasheet" "" (at 0 -1.27 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) 
+
+(property "Description" "RGB LED, red/green/blue/cathode" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) 
+
+(property "ki_keywords" "LED RGB diode" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) 
+
+(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) 
+
+(symbol "LED_RGBK_0_0" 
+
+(text "R" (at 1.905 3.81 0) (effects (font (size 1.27 1.27)))) 
+
+(text "G" (at 1.905 -1.27 0) (effects (font (size 1.27 1.27)))) 
+
+(text "B" (at 1.905 -6.35 0) (effects (font (size 1.27 1.27))))) 
+
+(symbol "LED_RGBK_0_1" (circle (center -2.032 0) (radius 0.254) (stroke (width 0) (type default)) (fill (type outline))) 
+
+(polyline (pts 
+
+(xy -1.27 6.35) 
+
+(xy -1.27 3.81)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 6.35) 
+
+(xy -1.27 3.81) 
+
+(xy -1.27 3.81)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 5.08) 
+
+(xy 1.27 5.08)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 5.08) 
+
+(xy -2.032 5.08) 
+
+(xy -2.032 -5.08) 
+
+(xy -1.016 -5.08)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 1.27) 
+
+(xy -1.27 -1.27)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 1.27) 
+
+(xy -1.27 -1.27) 
+
+(xy -1.27 -1.27)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 0) 
+
+(xy -2.54 0)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 -3.81) 
+
+(xy -1.27 -6.35)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.27 -5.08) 
+
+(xy 1.27 -5.08)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.016 6.35) 
+
+(xy 0.508 7.874) 
+
+(xy -0.254 7.874) 
+
+(xy 0.508 7.874) 
+
+(xy 0.508 7.112)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.016 1.27) 
+
+(xy 0.508 2.794) 
+
+(xy -0.254 2.794) 
+
+(xy 0.508 2.794) 
+
+(xy 0.508 2.032)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy -1.016 -3.81) 
+
+(xy 0.508 -2.286) 
+
+(xy -0.254 -2.286) 
+
+(xy 0.508 -2.286) 
+
+(xy 0.508 -3.048)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 0 6.35) 
+
+(xy 1.524 7.874) 
+
+(xy 0.762 7.874) 
+
+(xy 1.524 7.874) 
+
+(xy 1.524 7.112)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 0 1.27) 
+
+(xy 1.524 2.794) 
+
+(xy 0.762 2.794) 
+
+(xy 1.524 2.794) 
+
+(xy 1.524 2.032)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 0 -3.81) 
+
+(xy 1.524 -2.286) 
+
+(xy 0.762 -2.286) 
+
+(xy 1.524 -2.286) 
+
+(xy 1.524 -3.048)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 6.35) 
+
+(xy 1.27 3.81) 
+
+(xy -1.27 5.08) 
+
+(xy 1.27 6.35)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(rectangle (start 1.27 6.35) (end 1.27 6.35) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 5.08) 
+
+(xy 2.54 5.08)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(rectangle (start 1.27 3.81) (end 1.27 6.35) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 1.27) 
+
+(xy 1.27 -1.27) 
+
+(xy -1.27 0) 
+
+(xy 1.27 1.27)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(rectangle (start 1.27 1.27) (end 1.27 1.27) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 0) 
+
+(xy -1.27 0)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 0) 
+
+(xy 2.54 0)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(rectangle (start 1.27 -1.27) (end 1.27 1.27) (stroke (width 0) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 -3.81) 
+
+(xy 1.27 -6.35) 
+
+(xy -1.27 -5.08) 
+
+(xy 1.27 -3.81)) (stroke (width 0.254) (type default)) (fill (type none))) 
+
+(polyline (pts 
+
+(xy 1.27 -5.08) 
+
+(xy 2.54 -5.08)) (stroke (width 0) (type default)) (fill (type none))) 
+
+(rectangle (start 2.794 8.382) (end -2.794 -7.62) (stroke (width 0.254) (type default)) (fill (type background)))) 
+
+(symbol "LED_RGBK_1_1" (pin passive line (at 5.08 5.08 180) (length 2.54) (name "RA" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 5.08 0 180) (length 2.54) (name "GA" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27))))) (pin passive line (at 5.08 -5.08 180) (length 2.54) (name "BA" (effects (font (size 1.27 1.27)))) (number "3" (effects (font (size 1.27 1.27))))) (pin passive line (at -5.08 0 0) (length 2.54) (name "K" (effects (font (size 1.27 1.27)))) (number "4" (effects (font (size 1.27 1.27)))))) (embedded_fonts no)) 
+
 (symbol "Audio:MAX98357A" (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) 
 
 (property "Reference" "U" (at -8.89 11.43 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
@@ -4050,4 +4276,74 @@
 
 (label "GPIO10" (at 208.28 255.27 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "1d989493-2931-4554-82fc-8b49268737e3")) 
 
-(label "GND" (at 208.28 262.89 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "44d57383-fc5f-41fe-94e3-853844a6982d")))
+(label "GND" (at 208.28 262.89 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "44d57383-fc5f-41fe-94e3-853844a6982d")) 
+
+(symbol (lib_id "Device:LED_RGBK") (at 219.71 259.08 0) (unit 1) (body_style 1) (exclude_from_sim yes) (in_bom yes) (on_board yes) (in_pos_files yes) (dnp no) (fields_autoplaced yes) (uuid "3a4b1b64-55a7-4e36-a9eb-454e670ed71f") 
+
+(property "Reference" "D4" (at 234.95 63.1824 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Value" "LED_RGBK" (at 234.95 65.7224 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Footprint" "LED_SMD:LED_RGB_Wuerth-PLCC4_3.2x2.8mm_150141M173100" (at 232.41 66.04 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Datasheet" "" (at 232.41 66.04 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Description" "Light emitting diode" (at 232.41 66.04 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Sim.Pins" "1=K 2=A" (at 232.41 66.04 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (instances (project "esp32s3-devkit-5v" (path "/7924bd8b-2498-4d76-899d-c0ad5a514485" (reference "D4") (unit 1)))) (pin "1" (uuid "a7b26eae-ab87-4983-9e70-bbfcc40ee95d")) (pin "2" (uuid "47cda39a-91cc-43f8-bdf6-a9b294029fd7")) (pin "3" (uuid "025505bb-7ad6-4177-9601-55702c389728")) (pin "4" (uuid "a5b3a89b-b187-4a6b-a1ae-cc5860df5415"))) 
+
+(symbol (lib_id "Device:R") (at 204.47 254.0 90) (unit 1) (body_style 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (dnp no) (uuid "0e541087-22f8-4602-8739-52c093a4c4c9") 
+
+(property "Reference" "R28" (at 334.772 217.17 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Value" "330" (at 333.756 219.71 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Footprint" "" (at 338.582 218.44 90) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Datasheet" "" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Description" "Resistor" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (pin "1" (uuid "2cdb3d43-8f95-4032-9a81-b3946724e575")) (pin "2" (uuid "b6b3f526-4362-4522-a878-16a1b9c02416")) (instances (project "esp32s3-devkit-5v" (path "/7924bd8b-2498-4d76-899d-c0ad5a514485" (reference "R28") (unit 1))))) 
+
+(symbol (lib_id "Device:R") (at 204.47 259.08 90) (unit 1) (body_style 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (dnp no) (uuid "37e70845-aeb6-459c-90d2-4b79852fd84a") 
+
+(property "Reference" "R29" (at 334.772 217.17 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Value" "150" (at 333.756 219.71 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Footprint" "" (at 338.582 218.44 90) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Datasheet" "" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Description" "Resistor" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (pin "1" (uuid "58c77fd8-5a6c-459c-9647-08f14512a805")) (pin "2" (uuid "6ca66a2f-13b7-458b-8d42-b9fdb7c89157")) (instances (project "esp32s3-devkit-5v" (path "/7924bd8b-2498-4d76-899d-c0ad5a514485" (reference "R29") (unit 1))))) 
+
+(symbol (lib_id "Device:R") (at 204.47 264.16 90) (unit 1) (body_style 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (dnp no) (uuid "fbb80019-62d8-42a0-bff2-69ba784efb16") 
+
+(property "Reference" "R30" (at 334.772 217.17 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Value" "150" (at 333.756 219.71 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) 
+
+(property "Footprint" "" (at 338.582 218.44 90) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Datasheet" "" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) 
+
+(property "Description" "Resistor" (at 340.36 218.44 0) (hide yes) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (pin "1" (uuid "a0ee9549-8be9-4e81-8c05-a12dbbdc1635")) (pin "2" (uuid "d0174327-8f17-4411-9888-78b790877490")) (instances (project "esp32s3-devkit-5v" (path "/7924bd8b-2498-4d76-899d-c0ad5a514485" (reference "R30") (unit 1))))) 
+
+(label "GPIO38" (at 200.66 254.0 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "d98706cb-fae6-4570-b9f7-8c3ab5ff14d5")) 
+
+(label "RGB_28" (at 208.28 254.0 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "af7d95ac-d8ab-4ea0-9e31-219708633ca2")) 
+
+(label "RGB_28" (at 224.79 254.0 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "2017c20f-e077-49da-affd-2b09e732dc9b")) 
+
+(label "GPIO39" (at 200.66 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "d14d6c6a-af6d-4023-b84d-582b39c48f45")) 
+
+(label "RGB_29" (at 208.28 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "d9c75b8f-f3a0-4a77-9a03-19fd02c66d5b")) 
+
+(label "RGB_29" (at 224.79 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "f2b1c5e7-4fc8-46d1-b1fa-72e94c866dc8")) 
+
+(label "GPIO40" (at 200.66 264.16 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "d9138168-6727-4a12-8e23-f032acc3b859")) 
+
+(label "RGB_30" (at 208.28 264.16 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "28b7be7e-0d93-47aa-a9eb-8fda6ef85169")) 
+
+(label "RGB_30" (at 224.79 264.16 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "fd0d043b-45bd-4366-8769-42b3f5139cbb")) 
+
+(label "GND" (at 214.63 259.08 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "ae3dba5c-0d57-4459-a213-a16de5f17cd2")))
