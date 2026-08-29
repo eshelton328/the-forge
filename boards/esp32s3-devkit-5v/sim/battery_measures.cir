@@ -15,6 +15,11 @@
 * Peak battery draw during worst burst (source current is negative; sim.yml
 * applies abs_value). This is the current SW1's contacts must carry.
 .meas tran i_bat_burst_low_peak MIN i(VVBAT) FROM=450u TO=505u
+* True passive drain, measured late (750-850us): >10 time-constants after the
+* 3.6->3.0 V pack step, so the input-cap settling tail has died out. rev-2
+* doubled the input capacitance (U2's C9-C11), which stretched that tail to
+* ~14 mA at 505us and broke the old window — the drain itself is unchanged.
+.meas tran i_bat_passive_late AVG i(VVBAT) FROM=750u TO=850u
 * Recovery back at idle on a dead pack
 .meas tran v3v3_recovery FIND v(/3v3) AT=800u
 .end

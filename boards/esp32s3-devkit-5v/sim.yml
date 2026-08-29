@@ -68,8 +68,8 @@ scenarios:
         title: "VBAT_SW rail present during worst burst (wiring check)"
         group: tran_low_extra
         min: 2.5
-      - id: i_bat_burst_low_peak
-        title: "Battery-side passive drain (pull-ups + FB divider; TI model is quasi-ideal and does not draw converter input current)"
+      - id: i_bat_passive_late
+        title: "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; TI model is quasi-ideal and does not draw converter input current)"
         group: tran_low_extra
         abs_value: true
         max: 0.002
