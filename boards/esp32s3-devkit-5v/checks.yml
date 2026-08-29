@@ -130,7 +130,14 @@ required_components:
   R11:
     value: "1kΩ"            # D3 power LED series
   C21:
-    value: "100µF"          # 3v3 bulk (1206)
+    value: "100µF"          # 3v3 bulk, drawn in the RTC block (1206)
+  # --- amp-local caps (draw cluster at U6; place there in layout) ---
+  C26:
+    value: "100µF"          # amp burst reservoir
+  C27:
+    value: "10µF"           # amp mid-frequency
+  C28:
+    value: "0.1µF"          # amp HF decoupling at VDD pins 7/8
   J1: {}                    # battery JST-PH
   J2: {}                    # USB-C
   J3: {}                    # speaker JST-PH
@@ -167,12 +174,14 @@ capacitor_budget:
     min_total_uf: 60
     refs: [C5, C6, C7, C8, C17, C21]
   output_5v:
-    # Amp burst reservoir. 10 + 3x22 = 76µF today; C21 (100µF) currently sits
-    # on 3v3 — if bench brownouts persist at volume, move/add bulk here.
-    min_total_uf: 60
-    refs: [C13, C14, C15, C16]
+    # U2 output caps (C13-C16, at the converter) + amp-local cluster
+    # (C26 bulk reservoir, C27 mid, drawn at U6 for placement intent).
+    # 186µF total — sized against the volume-induced brownouts this board
+    # exists to fix.
+    min_total_uf: 150
+    refs: [C13, C14, C15, C16, C26, C27]
   decoupling:
-    refs: [C4, C12, C18, C20]
+    refs: [C4, C12, C18, C20, C28]
 
 # TPS63070 feedback dividers: V_OUT = V_REF * (1 + R_upper / R_lower),
 # V_REF = 0.8V per datasheet SLVSC58B §7.5. Guards the exact class of bug
