@@ -335,6 +335,25 @@ def check_voltage_divider(
     return violations
 
 
+def check_voltage_dividers(
+    components: list[Component],
+    rules: list[dict[str, object]],
+) -> list[Violation]:
+    """Multi-rail form of check_voltage_divider: a list of divider rule maps.
+
+    Each entry takes the same keys as `voltage_divider`, plus an optional
+    `name` used to prefix violation messages (e.g. "3.3V rail", "5V rail").
+    """
+    violations: list[Violation] = []
+    for entry in rules:
+        name = str(entry.get("name", "")).strip()
+        for v in check_voltage_divider(components, entry):
+            if name:
+                v = Violation(v.check, f"{name}: {v.message}")
+            violations.append(v)
+    return violations
+
+
 def check_bom_rules(
     components: list[Component],
     rules: dict[str, object],
@@ -369,6 +388,7 @@ _CHECKERS = [
     ("required_nets", check_required_nets, lambda comps, nets: nets),
     ("capacitor_budget", check_capacitor_budget, lambda comps, nets: comps),
     ("voltage_divider", check_voltage_divider, lambda comps, nets: comps),
+    ("voltage_dividers", check_voltage_dividers, lambda comps, nets: comps),
     ("bom_rules", check_bom_rules, lambda comps, nets: comps),
 ]
 
