@@ -2,4 +2,5 @@
 	(version 7)
 	(lib (name "TPS63070") (type "KiCad") (uri "${KIPRJMOD}/../../libs/footprints/TPS63070.pretty") (options "") (descr "TPS63070 buck-boost converter footprints"))
 	(lib (name "RF_Module") (type "KiCad") (uri "${KIPRJMOD}/../../libs/footprints/RF_Module.pretty") (options "") (descr "RF module footprints (project overrides)"))
+	(lib (name "Switches") (type "KiCad") (uri "${KIPRJMOD}/../../libs/footprints/Switches.pretty") (options "") (descr "Project switch footprints (C&K JS vertical slide)"))
 )
