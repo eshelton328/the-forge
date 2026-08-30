@@ -10,6 +10,14 @@
 # divider reads ~2.07 V, a broken rail reads 0, a bad pin map fails to
 # converge. Real droop/ripple/current numbers come from the bench
 # (docs/bringup.md).
+#
+# rev-2: the board has a second TPS63070 (U2 -> 5 V, MAX98357A amp). In these
+# sims the 5 V stage is present but DISABLED: its EN is held low by the R19
+# pulldown and nothing drives GPIO18 (the ESP32 is exclude_from_sim). So the
+# scenarios below still exercise only the always-on 3.3 V path — which is the
+# path that must survive battery sag. Peripherals with no SPICE model (RTC,
+# amp, OLED switch transistors, RGB LED, buttons, connectors) are
+# exclude_from_sim; the 5 V divider is guarded arithmetically in checks.yml.
 spec_version: 1
 spice_engine: ngspice
 
@@ -60,8 +68,8 @@ scenarios:
         title: "VBAT_SW rail present during worst burst (wiring check)"
         group: tran_low_extra
         min: 2.5
-      - id: i_bat_burst_low_peak
-        title: "Battery-side passive drain (pull-ups + FB divider; TI model is quasi-ideal and does not draw converter input current)"
+      - id: i_bat_passive_late
+        title: "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; TI model is quasi-ideal and does not draw converter input current)"
         group: tran_low_extra
         abs_value: true
         max: 0.002
