@@ -43,6 +43,10 @@ fp-info-cache
 boards/**/erc.json
 boards/**/drc*.json
 
+# Reviewed prototype evidence linked from the board documentation
+!boards/esp32s3-devkit-5v/review/erc.json
+!boards/esp32s3-devkit-5v/review/drc.json
+
 # Board-level DRU files (fab rules are copied here temporarily by CI)
 boards/**/*.kicad_dru
 

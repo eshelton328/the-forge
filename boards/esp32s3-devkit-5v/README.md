@@ -1,57 +1,34 @@
-# ESP32-S3 DevKit 5V
+# ESP32-S3 DevKit with switched 5 V audio rail
 
-Break-off of [esp32s3-devkit](../esp32s3-devkit/) adding a **second TPS63070 buck-boost
-stage for a regulated 5 V rail** alongside the existing 3.3 V rail, plus an **RV-3028
-RTC** for scheduled deep-sleep wake. Motivated by the rev-2 findings (devkit PR #112
-brown-out study): the single-rail board can't support 5 V loads (class-D amp, sensors)
-from batteries.
+Revised schematic and fully routed **74 × 75 mm, four-layer prototype PCB**. Reviewed 2026-09-04. Battery/load limits and enclosure dimensions remain provisional; this is not a manufacturing release.
 
-Started as an exact copy of the devkit and diverges from here. Schematic is hand-edited
-in KiCad — no generated sheets. **Status: schematic in progress, no layout yet.**
+The battery feeds an AO3401A reverse-polarity stage and two TPS63070 buck-boost regulators: 3.307 V for the ESP32-S3-WROOM-1-N16/RTC and 4.985 V for the MAX98357A amplifier. GPIO18 enables the audio rail. USB-C is data-only. An RV-3028 RTC, switched OLED header, four wake-capable buttons and RGB indicator complete the board. The button row, viewed from the component side, is **VOL− / MODE / VOL+ / BATTERY**, using GPIO4 / GPIO5 / GPIO6 / GPIO10 respectively.
 
-## Implemented (verified in schematic)
+The review fixed USB CC1/VBUS wiring, removed load current from the slide switch, corrected RTC no-backup wiring, added amplifier control supply isolation and OLED I²C isolation, corrected the RGB part's common-anode pinout, added USB series resistors and enlarged selected ceramic capacitor packages. The incoming working files are preserved locally in the Git-ignored `.history/review-original-2026-09-04/` directory.
 
-- **Dual rails, both TPS63070 buck-boost:**
-  - 3.3 V — U1, R4 470 kΩ / R5 150 kΩ → 0.8 × (1 + 470/150) = **3.31 V**
-  - 5 V — U2, R8 680 kΩ / R9 130 kΩ → 0.8 × (1 + 680/130) = **4.98 V**
-    (chose 680k/130k over the originally-planned 523k/100k — same 5.23 ratio,
-    standard E24 values)
-  - Both EN pins pulled to VBAT_SW (R3/R7 10 kΩ) → **always-on** (see open item)
-- **RTC — RV-3028-C7 (U5), Package_SON C7 SON-8**, for the deep-sleep alarm wake:
-  - /INT → GPIO1 (open-drain, 10 kΩ pull-up R18)
-  - I²C: SCL → GPIO9 (R16 4.7 kΩ), SDA → GPIO8 (R17 4.7 kΩ) — one bus pair only
-  - VDD + VBACKUP → 3V3 (no separate backup; Cube re-syncs time from the Beacon
-    over ESP-NOW — leave the RV-3028 trickle charger OFF), VSS/EVI → GND, CLKOUT NC
-  - I²C addr 0x52; JLC/LCSC part **C3019759** (SMT-assemblable, Extended)
+- [Component analysis, calculations, manufacturer datasheets and release work](review/design-review.md)
+- [Schematic PDF](review/schematic.pdf)
+- [PCB preview](review/pcb-preview.png), [perspective render](review/pcb-3d-perspective.png) and [assembly STEP](review/esp32s3-devkit-5v-assembly.step). All 97 component footprints have local models; four use documented approximations. See [model provenance and limits](3dmodels/README.md).
+- [GPIO changes](review/gpio-map.csv) and [component inventory](review/component-inventory.csv)
+- [Electrical checks](review/erc.json), [PCB checks](review/drc.json), [intent validation](review/validation.json)
 
-## Remaining
+I²S changes: BCLK GPIO47, LRCLK GPIO48, DIN GPIO14. OLED power moves to GPIO41; GPIO11 controls its bus connection. RGB GPIO38/39/40 are now active LOW. Firmware sequencing is documented in the review. The BATTERY button is an active-low request input; the voltage-sensing circuit and battery-level thresholds are still pending battery chemistry/cell-count or maximum-voltage specifications. No battery measurement input is currently implemented; see [missing components and sensing plan](review/battery-sensing.md).
 
-- [ ] **5 V EN scheme — DECISION NEEDED.** Firmware (`cube_browns.ino`) defines
-      `BOOST_EN 18`, i.e. it expects to gate the 5 V boost from **GPIO18** for
-      load-shedding during battery sag. Schematic currently has U2 EN **always-on**
-      (R7 → VBAT_SW), so GPIO18 controls nothing. Wire EN to GPIO18 if load-shedding
-      is wanted, or drop `BOOST_EN` from firmware if always-on is intended.
-- [ ] **Class-D amp** block (I²S 15/16/17, AMP_SD 21 per firmware)
-- [ ] **Display** (OLED, shares the I²C bus) behind a **PMOS load switch** (PWR-EN GPIO7)
-- [ ] **Battery connector** — JST-PH in place of the flying-lead header (in flux)
-- [ ] 5 V pin exposed on the GPIO headers (currently 3V3/VBAT/GND only)
-- [ ] **Layout** — still the devkit clone; the 5 V stage, RTC, amp, display are not
-      placed or routed yet. Run the copper-connectivity guard before any order.
-- [ ] Re-run the battery-range SPICE decks in `sim/` with the 5 V load added; plan
-      NiMH/Li-ion (worn alkalines can't deliver 5 V loads — P > Voc²/4R, PR #112)
-- [ ] Regenerate `fab/` BOM + CPL after the changes (hand-maintained; goes stale silently)
+Verified: **0 ERC violations; 0 PCB DRC errors; 0 unconnected items; 0 schematic parity issues; all 295 checked pad nodes have copper.** Two DRC library warnings document board-local silkscreen changes to J2/U3, moved to F.Fab where their outlines overhang the board. No electrical warnings were suppressed.
 
-## Specifications
+The CI DRC command uses `--exit-code-violations`, which returns exit code 5 for these two warnings. The prototype therefore does not yet pass the strict DRC gate; the intentional footprint variants need to be reconciled with their libraries before merge.
 
-- **MCU**: ESP32-S3-WROOM-1-N16 (U3)
-- **Power**: battery → AO3401A reverse-polarity PFET (Q1) → SW1 → dual TPS63070
-  (3.3 V + 5 V rails)
-- **RTC**: RV-3028-C7 (U5), I²C, /INT wake on GPIO1
-- **Interface**: USB-C (USB 2.0, data-only), USBLC6-2SC6 ESD (U4)
-- **Layers**: 4 | **Thickness**: 1.6 mm | **Fab target**: JLCPCB 4-layer advanced
+Before ordering, confirm battery and audio current, final mechanics, SW1's exact footprint/part match, orderable capacitor MPNs and effective capacitance, fabricator stackup/USB impedance, thermal vias and assembly constraints. No Gerbers or purchasing BOM are released by this review.
 
-## Status
+The native KiCad files are authoritative. `tools/generate_pcb.py` and `tools/route_pcb.py` record the initial construction workflow; running them replaces the layout and requires repeating cleanup, fill, DRC and visual review. The router uses KiCad Python, NumPy and a small C++ search library compiled from `tools/grid_search.cpp` to `/tmp/esp32_grid_search.dylib` on macOS. `finalize_pcb.py` applies only explicit unused-copper and off-board-silkscreen findings from the current DRC report; rerun DRC after each cleanup.
 
-**WIP — schematic in progress.** Power stages (3.3 V + 5 V) and the RTC are drawn and
-ERC-verified; the amp, display, and finalized battery connector are still to come, and
-there is no layout work yet. Not order-ready. Tracked in PR #120.
+Checks after edits:
+
+```sh
+kicad-cli sch export netlist --format kicadxml -o review/netlist.xml esp32s3-devkit-5v.kicad_sch
+python3 tools/check_netlist.py
+kicad-cli sch erc --format json -o review/erc.json esp32s3-devkit-5v.kicad_sch
+kicad-cli pcb drc --refill-zones --schematic-parity --format json -o review/drc.json esp32s3-devkit-5v.kicad_pcb
+```
+
+From the repository root, also run `python3 scripts/validate_board.py boards/esp32s3-devkit-5v` and, under KiCad Python, `scripts/ci/check_copper_connectivity.py boards/esp32s3-devkit-5v`. Ensure ground zones are actually filled and saved; the connectivity guard checks saved copper.

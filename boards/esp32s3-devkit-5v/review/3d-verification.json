@@ -1,0 +1,29 @@
+{
+  "electrical_geometry_unchanged": true,
+  "geometry_sha256": "8ae556f4b24898e1ceb758d166d48b783a1e0b5e92a618adbe0af48b1bf65fd7",
+  "electrical_footprints": 97,
+  "resolved_model_assignments": 97,
+  "unique_step_files": 20,
+  "missing_models": [],
+  "generated_approximation_refs": [
+    "J1",
+    "J3",
+    "U5",
+    "U6"
+  ],
+  "actuator_variant_provisional_refs": [
+    "SW2",
+    "SW3",
+    "SW4",
+    "SW5",
+    "SW6",
+    "SW7"
+  ],
+  "slide_switch_mpn_still_unresolved": true,
+  "assembly_step_exported": true,
+  "assembly_step_reimported": true,
+  "renders_visually_inspected": [
+    "pcb-preview.png",
+    "pcb-3d-perspective.png"
+  ]
+}

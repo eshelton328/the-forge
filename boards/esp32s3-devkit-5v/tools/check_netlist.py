@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""Pin-level design checks for faults ordinary ERC cannot detect.
+Regenerate review/netlist.xml with kicad-cli before running this script.
+"""
+from pathlib import Path
+import xml.etree.ElementTree as E
+D=Path(__file__).resolve().parents[1]
+r=E.parse(D/'review/netlist.xml').getroot();pn={};nets={}
+for net in r.find('nets'):
+ nodes={(x.attrib['ref'],x.attrib['pin']) for x in net};nets[net.attrib['name']]=nodes
+ for node in nodes:pn[node]=net.attrib['name']
+def same(*nodes):
+ values={pn[n] for n in nodes};assert len(values)==1,(nodes,values)
+def apart(a,b):assert pn[a]!=pn[b],(a,b,pn[a])
+def exact(net,nodes):assert nets[net]==set(nodes),(net,nets[net])
+exact('/USB_CC1',[('J2','A5'),('R15','1')]);same(('J2','B5'),('R14','1'))
+exact('/USB_VBUS',[('J2','A4'),('J2','A9'),('J2','B4'),('J2','B9'),('U4','5'),('C20','1')])
+for cc in ['A5','B5']:apart(('J2',cc),('J2','A4'))
+same(('SW1','2'),('U1','14'),('R32','1'));same(('SW1','3'),('R32','2'),('J1','2'))
+same(('SW1','1'),('R31','2'));same(('R31','1'),('Q1','2'),('U1','12'),('U2','12'))
+apart(('SW1','2'),('Q1','2'))
+exact('/RTC_VBACKUP',[('U5','6'),('R33','1')]);same(('R33','2'),('U5','5'));same(('C29','1'),('U5','7'))
+same(('U3','23'),('U8','3'),('R39','1'));same(('U8','4'),('U6','4'),('R20','1'));apart(('U3','23'),('U6','4'))
+same(('U8','1'),('U8','5'),('U3','2'));same(('U8','6'),('U6','7'),('U2','7'))
+same(('U3','11'),('U2','14'),('R19','1'))
+same(('U3','19'),('U7','3'),('U7','7'),('R36','1'))
+same(('U7','1'),('U5','3'),('U3','17'));same(('U7','5'),('U5','4'),('U3','12'))
+same(('U7','2'),('J4','3'),('R37','2'));same(('U7','6'),('J4','4'),('R38','2'))
+apart(('J4','3'),('U5','3'));apart(('J4','4'),('U5','4'))
+same(('J4','2'),('Q2','3'),('R37','1'),('R38','1'))
+same(('U3','13'),('R34','1'));same(('U4','6'),('R34','2'));apart(('U3','13'),('U4','6'))
+same(('U3','14'),('R35','1'));same(('U4','4'),('R35','2'));apart(('U3','14'),('U4','4'))
+same(('U6','9'),('J3','2'));same(('U6','10'),('J3','1'));apart(('J3','1'),('J1','2'))
+same(('U3','24'),('U6','16'));same(('U3','25'),('U6','14'));same(('U3','22'),('U6','1'))
+same(('U3','34'),('R22','2'))
+same(('D2','1'),('U3','2'));same(('D2','3'),('R28','1'));same(('D2','4'),('R29','1'));same(('D2','2'),('R30','1'))
+for n in r.find('nets'):
+ if n.get('name','').startswith('/GPIO'):
+  for node in n:
+   if node.get('ref')=='U3':assert node.get('pinfunction','').split('_')[0]=='IO'+n.get('name')[5:], (n.get('name'),node.attrib)
+same(('SW4','2'),('U3','4'),('R24','2'),('C22','1'))
+same(('SW5','2'),('U3','5'),('R25','2'),('C23','1'))
+same(('SW6','2'),('U3','6'),('R26','2'),('C24','1'))
+same(('SW7','2'),('U3','18'),('R27','2'),('C25','1'))
+print('PASS: USB CC/VBUS separation, standby, RTC, amp supply isolation, OLED bus isolation, USB damping, speaker BTL and enable nets.')

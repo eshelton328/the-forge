@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-04",
+  "kicad": "10.0.1",
+  "erc_violations": 0,
+  "drc_errors": 0,
+  "drc_warnings": 2,
+  "unconnected_items": 0,
+  "schematic_parity_issues": 0,
+  "intent_validation_passed": true,
+  "copper_connectivity_passed": true,
+  "prototype_only": true,
+  "source_sha256": {
+    "esp32s3-devkit-5v.kicad_sch": "685c966b8a457e5910901c73c10615ca5d2b380fcbf6b27083062e50bb7d99a9",
+    "esp32s3-devkit-5v.kicad_pcb": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595"
+  },
+  "button_order": [
+    "VOL-",
+    "MODE",
+    "VOL+",
+    "BATTERY"
+  ],
+  "button_gpio": [
+    4,
+    5,
+    6,
+    10
+  ],
+  "battery_voltage_sensing_implemented": false,
+  "model_assignments": 97,
+  "resolved_model_assignments": 97,
+  "model_approximations": [
+    "J1",
+    "J3",
+    "U5",
+    "U6"
+  ]
+}

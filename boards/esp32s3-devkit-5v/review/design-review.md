@@ -1,0 +1,75 @@
+# ESP32-S3 dual-rail schematic and PCB review
+
+Review date: 2026-09-04. The editable schematic and PCB in the parent directory contain the revised design. The incoming working schematic, PCB and project were preserved locally in the Git-ignored `.history/review-original-2026-09-04/` directory. This is an engineering prototype, pending battery/load specifications, mechanical constraints and the assembly checks below.
+
+## What the existing circuit does
+
+Battery J1 feeds reverse-polarity PMOS Q1, then both TPS63070 converters. U1 supplies the ESP32-S3, RTC and display switching circuit. U2 supplies the audio amplifier and is enabled by GPIO18. The OLED has a separate switched 3.3 V supply. USB-C is for native USB programming/data, with no USB-to-battery or USB-to-system power path. The RTC supports scheduled wake while 3.3 V remains present. Four buttons provide local control and wake inputs; the RGB LED provides status.
+
+| Components | Function and review result |
+|---|---|
+| J1, Q1, R1, SW1, R31–R32 | JST-PH battery input; AO3401A reverse-polarity protection; gate bias; standby switch. Moved load current out of SW1. SW1 now selects U1 EN through a 10 kΩ battery-side resistor or grounds it. A 100 kΩ pulldown provides a defined state. Q1 is not a charger, fuse or battery undervoltage protector. |
+| U1, L1, C1–C8, R3–R6 | Main TPS63070 rail. Calculated setpoint is 0.8 × (1 + 470/150) = 3.3067 V. L1 is 1.5 µH. C1–C3 are input ceramics, C4 is VAUX bypass, C5–C8 output ceramics. R3 selects power-save operation; R6 pulls up power-good. |
+| U2, L2, C9–C16, R7–R10, R19 | Audio TPS63070 rail. Calculated setpoint is 0.8 × (1 + 680/130) = 4.9846 V. GPIO18 controls EN; R19 holds it off at reset. Equivalent passive roles to U1. Both PS/SYNC inputs are HIGH through 10 kΩ, selecting power save. The previous forced-PWM description was wrong. |
+| U3, C17–C19, R12–R13, SW2–SW3 | ESP32-S3-WROOM-1-N16 module, local decoupling, 10 kΩ/1 µF reset network, reset and boot switches. No external flash/crystal network is needed for the module. USB uses GPIO19/20. Wake signals stay on RTC-capable GPIOs. GPIO35–37 are left unused; no claim is made that other module memory variants are interchangeable. |
+| J2, U4, C20, R14–R15, R34–R35 | USB-C, USBLC6-2SC6 ESD clamp, VBUS bypass, individual 5.1 kΩ CC resistors and new 22 Ω data series resistors at the MCU. Fixed an actual CC1-to-VBUS connection in the incoming schematic. VBUS now reaches only the connector, ESD bias and C20. |
+| U5, C21, C29, R16–R18, R33 | RV-3028-C7 RTC with main-bus pullups and interrupt pullup. Added local 100 nF bypass. Changed VBACKUP from 3.3 V to the manufacturer's no-backup 10 kΩ-to-ground circuit. EVI is grounded and CLKOUT unused. C21 is a shared 100 µF nominal rail reservoir, not a substitute for local bypass. |
+| U6, C26–C28, R20, J3 | MAX98357A I²S class-D amplifier; 100 µF nominal bulk, 10 µF and 100 nF local decoupling; shutdown pulldown; two-wire bridge speaker output. GAIN_SLOT to ground selects 12 dB gain. SD_MODE HIGH selects the left channel. Neither speaker terminal is ground. |
+| U8, C32–C33, R39 | Added SN74LVC1T45 dual-supply translator for amplifier SD_MODE. It preserves GPIO21 HIGH = play and isolates the control when the amplifier's 5 V supply is absent. VCCA/DIR are on 3.3 V, VCCB on 5 V, each locally bypassed. Direct 3.3 V drive of SD_MODE with VDD off violated the amp's VDD + 0.3 V input limit. |
+| J4, Q2–Q3, R21–R23, C31 | OLED high-side PMOS switch with MMBT3904 base drive and default-off resistors. GPIO41 HIGH turns on display power. Added 1 µF on the switched rail. Header order is GND, switched 3.3 V, SCL, SDA; confirm the actual display. |
+| U7, C30, R36–R38 | Added SN74LVC2G66 two-channel I²C branch switch, powered by unswitched 3.3 V. GPIO11 connects the OLED only after its supply is up. Separate pullups use OLED power. This addresses back-power through SDA/SCL while the display is off and lets the RTC remain connected. |
+| SW4–SW7, R24–R27, C22–C25 | Left-to-right: VOL− (SW4/GPIO4), MODE (SW5/GPIO5), VOL+ (SW6/GPIO6), BATTERY (SW7/GPIO10). Active-low switches with 10 kΩ pullups and 100 nF debounce capacitors. Nominal RC is 1 ms; firmware debounce is still needed. All four preserve wake capability. BATTERY requests an indication; its voltage-sensing hardware is not yet implemented. |
+| D1, R11 | Power indicator; R11 marked DNP for battery assembly to avoid its continuous current. |
+| D2, R28–R30 | Corrected Wuerth 150141M173100 to common anode: pin 1 = 3.3 V, pin 3 = red cathode, pin 4 = green, pin 2 = blue. Original generic common-cathode symbol did not match the named part/footprint. RGB outputs now sink current and are active LOW. Retained 330 Ω red / 150 Ω green / 150 Ω blue; validate brightness because green/blue forward-voltage headroom at 3.3 V is small. |
+
+## Datasheet checks and sources
+
+- [TI TPS63070](https://www.ti.com/lit/ds/symlink/tps63070.pdf): cold start requires at least 3.0 V at VIN while output is below 3 V. Its 3.6 A switch rating is not a 3.6 A output guarantee. The 1.5 µH application lists 15 µF minimum effective output capacitance; nominal MLCC values alone do not demonstrate compliance. VAUX is bypassed locally and has no external load. Both unused VSEL pins are grounded; FB2 is grounded. Reviewed the recommended power-loop and feedback layout.
+- [Coilcraft XFL4020-152](https://www.coilcraft.com/en-us/products/power/shielded-inductors/molded-inductor/xfl/xfl4020/xfl4020-152/): selected XFL4020-152MEC, 1.5 µH ±20%, maximum DCR 15.8 mΩ, 4.1 A saturation rating at 10% inductance drop. Temperature and ripple still require checking at the selected load.
+- [Espressif module datasheet](https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf), [schematic checklist](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/schematic-checklist.html), [PCB guidance](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/pcb-layout-design.html): checked module pin functions, reset network, supply capacity, USB series components, continuous USB ground reference and antenna placement. A supply capable of at least 500 mA is required for the ESP32-S3 design; RF bursts and the other loads need additional margin.
+- [Analog Devices MAX98357A/B](https://www.analog.com/media/en/technical-documentation/data-sheets/max98357a-max98357b.pdf): checked 2.5–5.5 V operation, BTL output, gain/channel selection, bypassing and control-pin limits. DIN/BCLK/LRCLK have independent 6 V absolute limits; SD_MODE is constrained to VDD + 0.3 V. Drive I²S low before powering down anyway.
+- [Micro Crystal RV-3028 manual](https://www.microcrystal.com/fileadmin/Media/Products/RTC/App.Manual/RV-3028-C7_App-Manual.pdf), especially the no-backup application, and [datasheet](https://www.microcrystal.com/fileadmin/Media/Products/RTC/Datasheet/RV-3028-C7.pdf): checked no-backup connection, I²C, interrupt and local bypassing. Disable backup switching and trickle charging; time is lost when 3.3 V turns off.
+- [ST USBLC6-2](https://www.st.com/resource/en/datasheet/usblc6-2.pdf), [AOS AO3401A](https://www.aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf), [onsemi MMBT3904](https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf): checked ESD pin routing, PMOS source/drain/gate assignment and transistor base drive.
+- [TI SN74LVC2G66](https://www.ti.com/lit/ds/symlink/sn74lvc2g66.pdf), [TI SN74LVC1T45](https://www.ti.com/lit/ds/symlink/sn74lvc1t45.pdf): package pin maps and enable/direction/supply behavior are reflected in local `Review.kicad_sym` symbols. The bus switch uses a constant 3.3 V supply; the translator provides partial-power isolation.
+- [Wuerth RGB LED drawing](https://www.we-online.com/components/products/datasheet/150141M173100.pdf): verified physical pin map from the mechanical/electrical drawing, rather than assuming the generic KiCad LED symbol matched.
+- [JST PH connector specification](https://www.jst-mfg.com/product/pdf/eng/ePH.pdf): 2 A rating with specified wire. Connector, cable and battery resistance limit usable system power.
+- [Murata GRM31CR61C226KE15L](https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf): 22 µF, 16 V, 1206 candidate for C6–C8 and C14–C16. Increased the packages from the incoming design. Obtain DC-bias curves for the actual ordered parts before asserting effective capacitance. C3/C5/C11/C13 moved from 0402 to 0603.
+
+## GPIO and firmware changes
+
+Full old/new map: `gpio-map.csv`. I²S BCLK moves 15 → 47, LRCLK 16 → 48, DIN 17 → 14. OLED power moves 7 → 41. GPIO11 is the new OLED bus enable. RGB keeps GPIO38/39/40 but changes to active LOW. USB, reset/boot, 5 V enable and RTC interrupt retain their functions. Button functions changed with the requested order: VOL− now GPIO4, MODE GPIO5, VOL+ GPIO6, and BATTERY GPIO10. Physical switch positions and their copper connections were retained. Pin-level checks verify net labels against the module's actual pin functions.
+
+On boot, hold GPIO18, GPIO21, GPIO41 and GPIO11 LOW; drive the RGB outputs HIGH for off. For audio, enable GPIO18, wait for the 5 V rail to stabilize, configure clocks/data, then assert GPIO21. Shut down the amp before disabling its rail. For the display, turn GPIO41 HIGH, allow the display supply/reset to settle, then GPIO11 HIGH. Before display power-off, make GPIO11 LOW, then GPIO41 LOW. Set wake/hold behavior deliberately before deep sleep. The RTC remains powered only while SW1 enables U1. Poll rail settling conservatively or add explicit power-good monitoring in a future revision; the PG pins are not currently MCU inputs.
+
+No firmware source was changed because this board review does not identify a definitive firmware target in the repository.
+
+## Power envelope to confirm
+
+There is no specified battery chemistry, minimum loaded voltage or maximum simultaneous audio/RF load yet. The layout is not evidence of a guaranteed output-current rating.
+
+As an illustrative calculation, assuming 85% converter efficiency, 0.5 A on each output at 3.0 V input requires about `(3.3067×0.5 + 4.9846×0.5)/(3×0.85) = 1.63 A` from the battery. A 3.2 W audio output at assumed 90% amplifier efficiency plus 0.5 A of 3.3 V load requires about 2.04 A before additional losses. That is already beyond the JST-PH input's stated 2 A rating. These are estimates, not measured performance. Battery sag, Q1 losses, regulator peak current, ambient temperature and cable resistance can reduce the usable envelope further.
+
+## PCB implementation
+
+- Provisional 74 × 75 mm rectangular board, four layers, four M3 holes. Module antenna extends beyond the north edge; keep the antenna and its clearance volume clear of enclosure metal, batteries and cables.
+- F.Cu carries components and the local converter/USB conductors. In1.Cu is a continuous ground reference; In2.Cu and B.Cu carry remaining routes with ground fill. All four layers have ground zones.
+- Switching nodes, local power capacitors, feedback and USB were routed explicitly. The remaining signals use a geometric routing pass followed by KiCad DRC. Ground vias connect local bypass returns; U6 has an exposed-pad ground via. Review solder wicking and specify filled/capped thermal vias or a compatible assembly process.
+- Long power connections use 0.6 mm tracks; the fine-pitch converter exits neck down locally. Width does not establish ampacity by itself: confirm copper weight, temperature rise and maximum load.
+- USB routing is short and mostly paired, with 0.15 mm traces and 0.15 mm nominal gap on the main pair. **90 Ω impedance has not been solved** because the fabricator stackup is not confirmed. Verify width/gap and length balance against the chosen stackup before fabrication.
+- Exact fabrication/assembly constraints remain to be agreed. The design uses 0.15 mm minimum clearance/track and 0.2 mm minimum through-via drill. Manufacturing release must use the actual vendor rules, not only these prototype settings.
+
+## Remaining release work
+
+1. Confirm the battery pack chemistry and cell count (or maximum voltage), minimum loaded voltage, peak/continuous 5 V demand, speaker impedance/power, intended standby behavior and final dimensions/connector positions. **Battery indication is incomplete:** there is currently no battery-to-ADC divider or fuel gauge. Add an appropriate sensing circuit once the battery range is known, account for powered-off leakage/back-power, and define chemistry-appropriate thresholds in firmware. The BATTERY button alone cannot measure charge level.
+2. Resolve SW1: value says MK-12C03-G015 while the footprint is MSK12C02. Verify the actual switch drawing and pin order before purchase. The slide switch is no longer a high-current part of the circuit, but mechanical compatibility remains unresolved.
+3. Complete orderable MPNs and capacitor bias/ESR checks, especially the 100 µF 1206 C21/C26 parts and the 10 µF ceramics. `component-inventory.csv` is an engineering inventory, not a released purchasing BOM. Verify USB connector/switch drawings and assembly polarity against the chosen parts.
+4. Review the final manufacturer's stackup, USB impedance, thermal-via process, clearances and assembly stencil. Check the antenna/enclosure and button/connector access in the real mechanical design.
+5. Bench test current-limited startup, standby current, 5 V enable/shutdown, OLED power isolation, RTC wake, USB in both connector orientations, Wi-Fi bursts with audio, speaker output, low-battery sag and component temperatures. No switching simulation, physical thermal test, USB compliance or RF test was performed in this review.
+
+The source PCB is suitable for review and further engineering. Do not treat its generated artwork as a production release until these items are resolved.
+
+## Final verification
+
+KiCad 10.0.1 ERC: **0 violations**. PCB DRC with zone refill and schematic parity: **0 errors, 0 unconnected items, 0 parity issues**. Two warnings are library-footprint differences for J2 and U3: their overhanging silkscreen graphics were moved to F.Fab locally. These warnings are retained in `drc.json`; no electrical violations were suppressed. The final board contains 97 electrical footprints, four mounting holes, 2,388 track segments and 189 vias. The saved-copper guard passes all 295 electrical pad nodes across 61 nets. The additional pin-level checks and board intent validator pass.
+
+The schematic PDF and PCB preview were visually inspected. All 97 electrical footprints now have local 3D models. Four references (J1/J3/U5/U6) use generated package approximations; pushbutton actuator variants and the slide-switch part match remain provisional. See `../3dmodels/README.md` for sources and mechanical limits. Model attachment did not change electrical geometry. Checks establish connectivity and the configured geometric rules; they do not establish power, signal-integrity, thermal or manufacturing performance.
