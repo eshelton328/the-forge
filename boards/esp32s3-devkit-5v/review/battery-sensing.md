@@ -1,15 +1,23 @@
-# Battery indication: missing hardware
+# Switched battery-voltage measurement
 
-The schematic currently has a BATTERY button on GPIO10 and an RGB LED/OLED interface, but **no battery-to-ADC circuit and no fuel-gauge IC**. Pressing the button cannot currently measure the battery. The regulated 3.3 V/5 V rails are not a useful substitute for battery-voltage measurement because the converters regulate them as the battery discharges.
+The BATTERY button remains GPIO10. Measurement is now implemented separately on **GPIO2, ADC1 channel 1**, enabled by **GPIO12**. The schematic's Power monitoring sheet contains Q6/Q7, R45–R49 and C34.
 
-For a basic low/medium/high indication, the proposed additions are:
+Q6 is an AO3401A high-side switch: source on protected battery node PFET, drain on BAT_MEAS. R45 pulls its gate to source for default OFF. GPIO12 drives Q7 through R46; R47 keeps Q7 off at reset. GPIO12 HIGH pulls the PMOS gate low and enables the divider. The body diode blocks battery-to-divider current when Q6 is off.
 
-- Two precision resistors forming a divider from the protected battery rail to a spare ADC input. Their ratio must keep the highest possible pack voltage within the selected ADC range, including tolerances.
-- A local ADC filter capacitor; 100 nF is a reasonable starting point in [Espressif's ADC guidance](https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/adc/index.html). Use calibrated readings, adequate settling time and averaging.
-- A switchable measurement path with suitable transistor/load-switch bias components, so it does not continuously drain the pack or back-power the ESP32 when its 3.3 V rail is off. Exact topology and voltage ratings depend on the pack. Do not use a permanently connected high-voltage divider without checking the powered-off ADC path.
+R48 = 33 kΩ and R49 = 10 kΩ, both 0.1%: **Vbattery = Vadc × 4.3**. At 3 V and 6 V battery voltage, the ADC sees approximately 0.698 V and 1.395 V. The divider draws 70–140 µA while enabled. C34 = 100 nF sits beside GPIO2; `(33k || 10k) × 100nF = 0.767 ms`. Allow **10 ms** after enabling, take calibrated ADC readings with averaging, then drive GPIO12 LOW. Use an attenuation setting covering the maximum input; validate settling on hardware. Resistor-only worst-case ratio error is approximately ±0.154%, before ADC, temperature and switch errors.
 
-GPIO2 is presently unused in this module's schematic and is a candidate for the ADC signal, subject to the final channel assignment. The button remains a separate digital input. Firmware would enable sensing, wait for settling, read the battery, disable sensing, then show an indication on the RGB LED or OLED.
+R49 grounds the ADC node when the switch is off. A deliberately injected 5 µA switch-leakage case produces 50 mV at the ADC in the functional regression. This checks the discharge path; it does not characterize the actual MOSFET over temperature. The USB detector also passes a functional case with VBUS present while 3.3 V is off.
 
-A calibrated voltage reading can support broad thresholds, but it is not inherently an accurate state-of-charge percentage. Load, temperature, battery chemistry and discharge history matter. For a dependable percentage or remaining-runtime estimate, evaluate a chemistry-appropriate fuel gauge and its required support components instead. See [Analog Devices' fuel-gauging explanation](https://www.analog.com/en/resources/technical-articles/battery-fuel-gauges-accurately-measuring-charge-level.html).
+The measurement envelope is **0–6 V at the protected node**. The converters still require at least 3 V at VIN for cold start. Confirm chemistry, cell count and maximum voltage before fabrication. The existing three-AA simulations are scenarios, not a confirmed battery specification.
 
-**Needed before selecting components/values:** battery chemistry, series-cell count (or maximum pack voltage), and whether the desired indication is broad levels or a percentage. No sensing parts have been added yet; selecting a one-cell lithium gauge or a particular divider now would assume a battery specification that has not been supplied.
+Firmware sequence:
+
+1. Keep GPIO12 LOW at boot and during sleep.
+2. On a battery indication request, set GPIO12 HIGH and wait 10 ms.
+3. Read calibrated GPIO2 ADC voltage, average samples and multiply by 4.3.
+4. Set GPIO12 LOW; apply chemistry-specific thresholds with hysteresis.
+5. Display the result through RGB or OLED. Voltage alone is not a precise state-of-charge percentage.
+
+The measurement is of the protected node, so Q1 and cable loss can make it lower than open-circuit battery voltage under load. Record load state when sampling. This hardware PR provides the circuit and firmware pin/sequencing contract; it does not select or modify an unrelated firmware application.
+
+Sources: [Espressif ADC guidance](https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/peripherals/adc/index.html), [AO3401A](https://www.aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf), [MMBT3904](https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf). `tools/check_monitoring.py` derives six functional fixtures from the exported netlist and records `monitoring-validation.json`.

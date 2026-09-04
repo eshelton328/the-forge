@@ -25,6 +25,11 @@ while IFS= read -r board; do
       set -euo pipefail
       source /workspace/scripts/ci/setup-kicad-env.sh
       python3 /workspace/scripts/sim/export_kicad_spice.py --board-dir "/workspace/boards/$BOARD"
+      if [ -f "boards/$BOARD/tools/check_monitoring.py" ]; then
+        kicad-cli sch export netlist --format kicadxml \
+          -o "boards/$BOARD/review/netlist.xml" "boards/$BOARD/$BOARD.kicad_sch"
+        python3 "boards/$BOARD/tools/check_monitoring.py"
+      fi
       python3 /workspace/scripts/sim/run_sim.py \
         --config "/workspace/boards/$BOARD/sim.yml" \
         --report "/workspace/boards/$BOARD/docs/spice-report.md"

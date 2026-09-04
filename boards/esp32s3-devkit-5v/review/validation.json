@@ -5,13 +5,13 @@
       "category": "required_components",
       "status": "pass",
       "violations": [],
-      "summary": "85/85 components present"
+      "summary": "100/100 components present"
     },
     {
       "category": "required_nets",
       "status": "pass",
       "violations": [],
-      "summary": "20/20 nets present"
+      "summary": "25/25 nets present"
     },
     {
       "category": "capacitor_budget",
@@ -29,7 +29,7 @@
       "category": "bom_rules",
       "status": "pass",
       "violations": [],
-      "summary": "footprints required; no duplicate refs; datasheets on U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, L1, L2"
+      "summary": "footprints required; no duplicate refs; datasheets on U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, Q4, Q5, Q6, Q7, L1, L2"
     }
   ],
   "total_violations": 0,

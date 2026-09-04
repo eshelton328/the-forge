@@ -30,6 +30,23 @@ FAILED=0
 PASS_LIST=""
 FAIL_LIST=""
 
+# Preserve persistent board rules, even on interruption or a failing fab pass.
+SAVED_BOARD_RULES=$(mktemp)
+HAD_BOARD_RULES=0
+if [ -f "$DRU_FILE" ]; then
+    cp "$DRU_FILE" "$SAVED_BOARD_RULES"
+    HAD_BOARD_RULES=1
+fi
+restore_board_rules() {
+    if [ "$HAD_BOARD_RULES" -eq 1 ]; then
+        cp "$SAVED_BOARD_RULES" "$DRU_FILE"
+    else
+        rm -f "$DRU_FILE"
+    fi
+    rm -f "$SAVED_BOARD_RULES"
+}
+trap restore_board_rules EXIT
+
 for FAB in $FAB_TARGETS; do
     FAB_RULE="$REPO_ROOT/fab-rules/$FAB.kicad_dru"
 
@@ -44,6 +61,10 @@ for FAB in $FAB_TARGETS; do
     echo "============================================"
 
     cp "$FAB_RULE" "$DRU_FILE"
+    # Later board rules retain their specific restrictions alongside fab limits.
+    if [ "$HAD_BOARD_RULES" -eq 1 ]; then
+        sed '/^[[:space:]]*(version[[:space:]]/d' "$SAVED_BOARD_RULES" >> "$DRU_FILE"
+    fi
 
     REPORT_FILE="$BOARD_DIR/drc-fab-$FAB.json"
 
@@ -68,8 +89,6 @@ for FAB in $FAB_TARGETS; do
         fi
     fi
 done
-
-rm -f "$DRU_FILE"
 
 echo ""
 echo "============================================"

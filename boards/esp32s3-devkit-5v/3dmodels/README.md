@@ -1,8 +1,8 @@
 # Project-local 3D models
 
-Updated 2026-09-04. All **97 electrical footprints** have a resolvable STEP model, using 20 unique files. The four mounting holes need no component models. R11 has a model but remains DNP; the assembly STEP deliberately omits that resistor.
+Updated 2026-09-04. All **112 electrical footprints** have a resolvable STEP model, using 20 unique files. The four mounting holes and eight unpopulated test pads need no component models. R11 has a model but remains DNP; the assembly STEP deliberately omits that resistor.
 
-All PCB model paths use `${KIPRJMOD}/3dmodels/…`. `model-map.json` records transforms, classification and SHA-256 hashes. `../review/3d-model-audit.csv` lists every reference. `../review/3d-verification.json` records coverage and confirms that pad locations, net assignments, footprint positions, tracks and vias were unchanged.
+All PCB model paths use `${KIPRJMOD}/3dmodels/…`. `model-map.json` records transforms, classification and SHA-256 hashes. `../review/3d-model-audit.csv` lists every reference. `../review/3d-verification.json` records model coverage and assembly STEP re-import.
 
 | Models | Provenance and limits |
 |---|---|
@@ -10,7 +10,7 @@ All PCB model paths use `${KIPRJMOD}/3dmodels/…`. `model-map.json` records tra
 | TPS63070RNM.step | Existing repository asset `libs/footprints/TPS63070.pretty/TPS63070RNMT.step`. RNMR/RNMT use the RNM package; the packaging suffix does not change its body. Checked the 2.5 × 3 × 1 mm envelope and lead alignment. Retained the footprint-specific rotation and offset. Original model author was not identified in this review. |
 | XFL4020-152MEC.step | Existing repository asset in `libs/footprints/TPS63070.pretty`. Checked 4 × 4 × 2.1 mm envelope and opposite-terminal centers; rotated upright. Original model author was not identified. |
 | HRO_TYPE-C-31-M-12.step | Existing repository asset `libs/3d-models`. Transformed its corner datum to the footprint center and rotated upright. Checked shell, tail and board-edge alignment. Original model author was not identified. |
-| SW_SPDT_Shouhan_MSK12C02.step | Existing project model. Corrected rotation by 180° to align the asymmetric common terminal and actuator with the footprint. **This follows the footprint, not a resolved procurement choice:** the schematic still names MK-12C03-G015. |
+| SW_SPDT_Shouhan_MSK12C02.step | Existing project model. Corrected rotation by 180° to align the asymmetric common terminal and actuator with the footprint. The schematic now selects MSK12C02. The manufacturer drawing agrees with the 3.0 / 1.5 mm terminal spacing and 3 mm locating-pin pitch. |
 | TS-1187A-B-A-B.step | [Malouf's MIT-licensed model](https://github.com/MaloufSleep/ME-ESP8266/blob/master/3D_Models/Button_Switch_SMD.3dShapes/TS-1187A-B-A-B.step), with `LICENSE-Malouf-MIT.txt`. Checked the 5.1 × 5.1 mm body and leads. The model is 1.6 mm high; final actuator height/force/suffix remains a BOM choice. [XKB series information](https://www.helloxkb.com/Home/Goods/goodsInfo/id/34.html). |
 | JST_B2B-PH-SM4-TB_simplified.step | Generated from [JST PH drawing, page 4](https://www.jst-mfg.com/product/pdf/eng/ePH.pdf): 7.95 mm width, 5 mm housing depth, 6.6 mm height, 2 mm pin spacing. Internal ribs, latch and hold-down details are simplified. JST's official CAD download now requires a contact-information/email form; no user data was submitted. **Visualization model, not manufacturer-certified geometry.** Used at J1/J3. |
 | RV-3028-C7_simplified.step | Generated from the [Micro Crystal drawing](https://www.microcrystal.com/fileadmin/Media/Products/RTC/Datasheet/RV-3028-C7.pdf): 1.5 × 3.2 mm package, 0.8 mm maximum body height, eight 0.4 mm contacts at 0.9 mm pitch. Lid/seal details and markings simplified. **Visualization model, not manufacturer-certified geometry.** |

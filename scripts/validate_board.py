@@ -12,6 +12,7 @@ Exit:   0 = all pass or skipped, 1 = violations found, 2 = usage/parse error.
 from __future__ import annotations
 
 import json
+import copy
 import re
 import sys
 from dataclasses import dataclass
@@ -161,7 +162,7 @@ def extract_net_names(root: list[SExpr]) -> set[str]:
         if not isinstance(child, list):
             continue
         tag = _tag(child)
-        if tag in ("label", "global_label") and len(child) > 1 and isinstance(child[1], str):
+        if tag in ("label", "global_label", "hierarchical_label") and len(child) > 1 and isinstance(child[1], str):
             nets.add(child[1])
         if tag == "symbol":
             lib_id = _child_value(child, "lib_id")
@@ -170,6 +171,47 @@ def extract_net_names(root: list[SExpr]) -> set[str]:
                 if val:
                     nets.add(val)
     return nets
+
+
+def load_schematic_hierarchy(path: Path) -> list[SExpr]:
+    """Collect instantiated sheets, preserving each instance's annotated references.
+
+    This only extracts components and label names; ERC/netlist checks still own
+    electrical connectivity. Reused sheets are traversed per instance, while
+    missing files and recursive sheet inclusion fail instead of hiding parts.
+    """
+    project_name = path.stem
+
+    def visit(file: Path, instance: str, ancestors: tuple[Path, ...]) -> list[SExpr]:
+        file = file.resolve()
+        if file in ancestors:
+            raise ValueError(f"recursive schematic sheet: {file}")
+        tree = parse_kicad_file(file.read_text())
+        if not tree or not isinstance(tree[0], list) or _tag(tree[0]) != "kicad_sch":
+            raise ValueError(f"failed to parse schematic: {file}")
+        root = copy.deepcopy(tree[0])
+        instance = instance or "/" + _child_value(root, "uuid")
+        for symbol in _children(root, "symbol"):
+            for instances in _children(symbol, "instances"):
+                for project in _children(instances, "project"):
+                    if len(project) < 2 or project[1] != project_name:
+                        continue
+                    for entry in _children(project, "path"):
+                        if len(entry) > 1 and entry[1] == instance:
+                            reference = _child_value(entry, "reference")
+                            if reference:
+                                for prop in _children(symbol, "property"):
+                                    if len(prop) > 2 and prop[1] == "Reference":
+                                        prop[2] = reference
+        children = []
+        for sheet in _children(root, "sheet"):
+            filename = _property_value(sheet, "Sheetfile")
+            if not filename:
+                raise ValueError(f"sheet without Sheetfile in {file}")
+            children.extend(visit(file.parent / filename, instance + "/" + _child_value(sheet, "uuid"), (*ancestors, file)))
+        return [*root, *children]
+
+    return visit(path, "", ())
 
 
 # ── Validation checks ────────────────────────────────────────────────
@@ -470,11 +512,10 @@ def validate_board(board_dir: Path) -> dict[str, object]:
     if not sch_file.exists():
         return {"board": board_dir.name, "checks": [], "error": f"schematic not found: {sch_file}"}
 
-    tree = parse_kicad_file(sch_file.read_text())
-    if not tree or not isinstance(tree[0], list):
-        return {"board": board_dir.name, "checks": [], "error": "failed to parse schematic"}
-
-    root = tree[0]
+    try:
+        root = load_schematic_hierarchy(sch_file)
+    except (OSError, ValueError) as exc:
+        return {"board": board_dir.name, "checks": [], "error": str(exc)}
     components = extract_components(root)
     nets = extract_net_names(root)
 

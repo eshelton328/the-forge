@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "outline_mm": [
+    64,
+    56
+  ],
+  "area_reduction_percent": 35.42,
+  "electrical_footprints": 112,
+  "test_points": 8,
+  "track_segments": 3025,
+  "vias": 220,
+  "speaker": {
+    "/speaker +": {
+      "length_mm": 5.3732,
+      "package_escape_mm": 1.6732,
+      "main_width_mm": 0.6,
+      "vias": 0,
+      "layer": "F.Cu"
+    },
+    "/speaker -": {
+      "length_mm": 5.3732,
+      "package_escape_mm": 1.6732,
+      "main_width_mm": 0.6,
+      "vias": 0,
+      "layer": "F.Cu"
+    }
+  },
+  "in1_signal_tracks": 0,
+  "button_pitch_mm": 15
+}

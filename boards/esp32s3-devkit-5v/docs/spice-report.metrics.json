@@ -4,20 +4,20 @@
     "doc_ref": "test/esp32s3-devkit-brownout-study@initial"
   },
   "exit_code_hint": 0,
-  "generated_at": "2026-08-30T16:13:48Z",
+  "generated_at": "2026-09-04T23:29:23Z",
   "measures": [
     {
       "baseline_numeric": 4.8,
       "bounds_max": 4.85,
       "bounds_min": 4.5,
       "detail": null,
-      "display_title": "VBAT_SW rail DC bias (4.8 V pack at t=0)",
+      "display_title": "Protected battery rail DC bias (4.8 V pack at t=0)",
       "measure_id": "v_vbat_sw",
       "measure_key": "vbat_bias_op::v_vbat_sw",
       "passed": true,
       "scenario_id": "vbat_bias_op",
-      "value_numeric": 4.8,
-      "value_str": "4.8"
+      "value_numeric": 4.79997,
+      "value_str": "4.79997"
     },
     {
       "baseline_numeric": 3.30704,
@@ -116,13 +116,13 @@
       "bounds_min": 2.5,
       "detail": null,
       "display_group": "tran_low_extra",
-      "display_title": "VBAT_SW rail present during worst burst (wiring check)",
+      "display_title": "Protected battery rail present during worst burst (wiring check)",
       "measure_id": "vbat_sw_burst_low_min",
       "measure_key": "tran_low_3v0::vbat_sw_burst_low_min",
       "passed": true,
       "scenario_id": "tran_low_3v0",
-      "value_numeric": 3.00837,
-      "value_str": "3.00837"
+      "value_numeric": 3.00835,
+      "value_str": "3.00835"
     },
     {
       "baseline_numeric": null,
@@ -130,13 +130,13 @@
       "bounds_min": null,
       "detail": null,
       "display_group": "tran_low_extra",
-      "display_title": "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; TI model is quasi-ideal and does not draw converter input current)",
+      "display_title": "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; repository model is quasi-ideal and does not draw converter input current)",
       "measure_id": "i_bat_passive_late",
       "measure_key": "tran_low_3v0::i_bat_passive_late",
       "passed": true,
       "scenario_id": "tran_low_3v0",
-      "value_numeric": 5.15714e-06,
-      "value_str": "5.15714e-06"
+      "value_numeric": 2.21153e-05,
+      "value_str": "2.21153e-05"
     },
     {
       "baseline_numeric": 3.30704,
@@ -148,6 +148,45 @@
       "measure_key": "tran_recovery::v3v3_recovery",
       "passed": true,
       "scenario_id": "tran_recovery",
+      "value_numeric": 3.30704,
+      "value_str": "3.30704"
+    },
+    {
+      "baseline_numeric": null,
+      "bounds_max": 0.05,
+      "bounds_min": null,
+      "detail": null,
+      "display_title": "Schematic U2 remains disabled before GPIO18 assertion",
+      "measure_id": "rail5_disabled",
+      "measure_key": "schematic_dual_rail::rail5_disabled",
+      "passed": true,
+      "scenario_id": "schematic_dual_rail",
+      "value_numeric": 0.0,
+      "value_str": "0"
+    },
+    {
+      "baseline_numeric": null,
+      "bounds_max": 5.02,
+      "bounds_min": 4.95,
+      "detail": null,
+      "display_title": "Schematic U2 regulates with 0.6 A modeled audio load",
+      "measure_id": "rail5_enabled",
+      "measure_key": "schematic_dual_rail::rail5_enabled",
+      "passed": true,
+      "scenario_id": "schematic_dual_rail",
+      "value_numeric": 4.98516,
+      "value_str": "4.98516"
+    },
+    {
+      "baseline_numeric": null,
+      "bounds_max": 3.33,
+      "bounds_min": 3.28,
+      "detail": null,
+      "display_title": "Schematic U1 regulates while both modeled rails are loaded",
+      "measure_id": "rail3_dual",
+      "measure_key": "schematic_dual_rail::rail3_dual",
+      "passed": true,
+      "scenario_id": "schematic_dual_rail",
       "value_numeric": 3.30704,
       "value_str": "3.30704"
     },
@@ -309,13 +348,13 @@
   "metrics_schema_version": 2,
   "pass": true,
   "paths": {
-    "config": "/workspace/boards/esp32s3-devkit-5v/sim.yml",
-    "netlist": "/workspace/boards/esp32s3-devkit-5v/sim/assembled.cir"
+    "config": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit-5v/sim.yml",
+    "netlist": "/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit-5v/sim/assembled.cir"
   },
   "toolchain": {
     "baseline_compare_enabled": true,
     "kicad_cli_version_line": "10.0.1",
-    "kicad_docker_image": "the-forge-sim:ci",
+    "kicad_docker_image": null,
     "ngspice_version_line": "******",
     "simulator_exit_code": 0
   },

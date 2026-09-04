@@ -49,6 +49,7 @@ boards/**/drc*.json
 
 # Board-level DRU files (fab rules are copied here temporarily by CI)
 boards/**/*.kicad_dru
+!boards/esp32s3-devkit-5v/esp32s3-devkit-5v.kicad_dru
 
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/

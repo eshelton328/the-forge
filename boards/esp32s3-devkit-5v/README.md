@@ -1,34 +1,34 @@
 # ESP32-S3 DevKit with switched 5 V audio rail
 
-Revised schematic and fully routed **74 × 75 mm, four-layer prototype PCB**. Reviewed 2026-09-04. Battery/load limits and enclosure dimensions remain provisional; this is not a manufacturing release.
+Fully routed **64 × 56 mm, four-layer engineering prototype**, revised 2026-09-04. The compact layout is **35.42% smaller** than the previous 74 × 75 mm board. The four buttons retain 15 mm spacing and the component-side order **VOL− / MODE / VOL+ / BATTERY**.
 
-The battery feeds an AO3401A reverse-polarity stage and two TPS63070 buck-boost regulators: 3.307 V for the ESP32-S3-WROOM-1-N16/RTC and 4.985 V for the MAX98357A amplifier. GPIO18 enables the audio rail. USB-C is data-only. An RV-3028 RTC, switched OLED header, four wake-capable buttons and RGB indicator complete the board. The button row, viewed from the component side, is **VOL− / MODE / VOL+ / BATTERY**, using GPIO4 / GPIO5 / GPIO6 / GPIO10 respectively.
+Battery J1 feeds an AO3401A reverse-polarity stage and two TPS63070 buck-boost regulators: 3.307 V for the ESP32-S3/RTC and 4.985 V for the MAX98357A amplifier. GPIO18 enables the audio rail. USB-C is data-only. The RTC, switched OLED bus, wake buttons and common-anode RGB indicator remain.
 
-The review fixed USB CC1/VBUS wiring, removed load current from the slide switch, corrected RTC no-backup wiring, added amplifier control supply isolation and OLED I²C isolation, corrected the RGB part's common-anode pinout, added USB series resistors and enlarged selected ceramic capacitor packages. The incoming working files are preserved locally in the Git-ignored `.history/review-original-2026-09-04/` directory.
+The revised converter cells turn the nearest input/output capacitor ground pads inward, add explicit quiet feedback/VAUX returns and provide two nearby PGND plane connections per converter. The amplifier sits beside the speaker connector. Both speaker traces are 5.37 mm long, entirely on F.Cu, with 0.6 mm main conductors and short 0.2 mm package escapes; neither uses vias. In1.Cu remains the ground reference.
 
-- [Component analysis, calculations, manufacturer datasheets and release work](review/design-review.md)
-- [Schematic PDF](review/schematic.pdf)
-- [PCB preview](review/pcb-preview.png), [perspective render](review/pcb-3d-perspective.png) and [assembly STEP](review/esp32s3-devkit-5v-assembly.step). All 97 component footprints have local models; four use documented approximations. See [model provenance and limits](3dmodels/README.md).
-- [GPIO changes](review/gpio-map.csv) and [component inventory](review/component-inventory.csv)
-- [Electrical checks](review/erc.json), [PCB checks](review/drc.json), [intent validation](review/validation.json)
+New monitoring hardware provides positive USB-presence detection on GPIO7, switched battery-voltage sensing on GPIO2/ADC1 with GPIO12 enable, and converter power-good inputs on GPIO15/13. Both PG pull-ups use 3.3 V. Eight labeled underside test pads expose ground, protected battery, both rails, enables and power-good signals. SW1 now consistently specifies MSK12C02. Board-local overhang footprint variants eliminate the previous library warnings.
 
-I²S changes: BCLK GPIO47, LRCLK GPIO48, DIN GPIO14. OLED power moves to GPIO41; GPIO11 controls its bus connection. RGB GPIO38/39/40 are now active LOW. Firmware sequencing is documented in the review. The BATTERY button is an active-low request input; the voltage-sensing circuit and battery-level thresholds are still pending battery chemistry/cell-count or maximum-voltage specifications. No battery measurement input is currently implemented; see [missing components and sensing plan](review/battery-sensing.md).
+- [Design review, sources, firmware sequencing and remaining release work](review/design-review.md)
+- [Battery measurement details](review/battery-sensing.md) and [GPIO map](review/gpio-map.csv)
+- [Two-page schematic PDF](review/schematic.pdf)
+- [Top render](review/pcb-preview.png), [perspective render](review/pcb-3d-perspective.png), [bottom render](docs/pcb-bottom.png), [assembly STEP](review/esp32s3-devkit-5v-assembly.step)
+- [Component inventory](review/component-inventory.csv) and [3D model provenance](3dmodels/README.md)
+- [Verification summary](review/verification-summary.json), [layout checks](review/layout-validation.json), [monitoring checks](review/monitoring-validation.json), [SPICE report](docs/spice-report.md)
 
-Verified: **0 ERC violations; 0 PCB DRC errors; 0 unconnected items; 0 schematic parity issues; all 295 checked pad nodes have copper.** Two DRC library warnings document board-local silkscreen changes to J2/U3, moved to F.Fab where their outlines overhang the board. No electrical warnings were suppressed.
+Verified: **0 ERC violations; 0 DRC violations including warnings; 0 unconnected items; 0 schematic parity issues.** All **342 checked pad nodes across 70 nets** have saved copper. Board intent checks, the JLCPCB four-layer advanced rule profile, all 25 simulation measures, six monitoring scenarios and 18 focused software tests pass. All 112 electrical footprints have local models; J1/J3/U5/U6 use documented approximations. These checks do not establish thermal, RF, USB compliance or battery endurance performance.
 
-The CI DRC command uses `--exit-code-violations`, which returns exit code 5 for these two warnings. The prototype therefore does not yet pass the strict DRC gate; the intentional footprint variants need to be reconciled with their libraries before merge.
+Battery chemistry, speaker/load limits and final mechanics remain provisional. The measurement circuit is designed for a protected battery node up to 6 V; it is not a fuel gauge, charger or battery protection circuit. Before ordering, confirm the battery/load envelope, capacitor MPNs and effective capacitance, fabricator stackup/USB impedance, thermal-via assembly process and enclosure fit. The existing capacitance budget is retained.
 
-Before ordering, confirm battery and audio current, final mechanics, SW1's exact footprint/part match, orderable capacitor MPNs and effective capacitance, fabricator stackup/USB impedance, thermal vias and assembly constraints. No Gerbers or purchasing BOM are released by this review.
+The native KiCad files are authoritative. Placement generation replaces the PCB and requires routing, cleanup, saved zone fill, checks and visual review again. `generate_pcb.py`, `route_pcb.py`, `finalize_pcb.py` and `attach_3d_models.py` record that workflow. Use KiCad Python for PCB tools; compile `tools/grid_search.cpp` to `/tmp/esp32_grid_search.dylib` on macOS for routing. Run cleanup/fill and DRC until no newly exposed unused stubs remain.
 
-The native KiCad files are authoritative. `tools/generate_pcb.py` and `tools/route_pcb.py` record the initial construction workflow; running them replaces the layout and requires repeating cleanup, fill, DRC and visual review. The router uses KiCad Python, NumPy and a small C++ search library compiled from `tools/grid_search.cpp` to `/tmp/esp32_grid_search.dylib` on macOS. `finalize_pcb.py` applies only explicit unused-copper and off-board-silkscreen findings from the current DRC report; rerun DRC after each cleanup.
-
-Checks after edits:
+From this directory, after schematic edits:
 
 ```sh
 kicad-cli sch export netlist --format kicadxml -o review/netlist.xml esp32s3-devkit-5v.kicad_sch
 python3 tools/check_netlist.py
-kicad-cli sch erc --format json -o review/erc.json esp32s3-devkit-5v.kicad_sch
-kicad-cli pcb drc --refill-zones --schematic-parity --format json -o review/drc.json esp32s3-devkit-5v.kicad_pcb
+python3 tools/check_monitoring.py
+kicad-cli sch erc --format json --exit-code-violations -o review/erc.json esp32s3-devkit-5v.kicad_sch
+kicad-cli pcb drc --refill-zones --schematic-parity --format json --exit-code-violations -o review/drc.json esp32s3-devkit-5v.kicad_pcb
 ```
 
-From the repository root, also run `python3 scripts/validate_board.py boards/esp32s3-devkit-5v` and, under KiCad Python, `scripts/ci/check_copper_connectivity.py boards/esp32s3-devkit-5v`. Ensure ground zones are actually filled and saved; the connectivity guard checks saved copper.
+Run `tools/check_layout.py` and the repository's `scripts/ci/check_copper_connectivity.py` under KiCad Python after saving filled zones. From the repository root, run `python3 scripts/validate_board.py boards/esp32s3-devkit-5v`, `python3 scripts/sim/export_kicad_spice.py --board-dir boards/esp32s3-devkit-5v`, and `python3 scripts/sim/run_sim.py --config boards/esp32s3-devkit-5v/sim.yml`. Simulation exports are regenerated from the schematic.

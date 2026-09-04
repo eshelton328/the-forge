@@ -65,14 +65,25 @@ def postprocess_spicemodel_flat(raw: str, *, board_slug: str) -> str:
     to ``sim/``.
     """
     lines_out: list[str] = []
-    subckt_pat = re.compile(r"^\.subckt\s+(\S+)\s*$", re.I)
+    subckt_pat = re.compile(r"^\.subckt\s+(\S+)(?:\s+.*)?$", re.I)
+    scopes: list[str] = []
+    dropping_header = False
     for line in raw.splitlines():
         stripped = line.strip()
+        if dropping_header:
+            if not stripped or stripped.startswith("+"):
+                continue
+            dropping_header = False
         m_sub = subckt_pat.match(stripped)
-        if m_sub and m_sub.group(1).casefold() == board_slug.casefold():
-            continue
-        if stripped.upper() == ".ENDS":
-            continue
+        if m_sub:
+            name = m_sub.group(1).casefold()
+            scopes.append(name)
+            if name == board_slug.casefold():
+                dropping_header = True
+                continue
+        if re.match(r"^\.ends(?:\s|$)", stripped, re.I):
+            if scopes and scopes.pop() == board_slug.casefold():
+                continue
         low = stripped.lower()
         if low.startswith(".include") and "tps63070_trans.lib" in low:
             continue

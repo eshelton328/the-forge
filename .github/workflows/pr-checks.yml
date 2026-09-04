@@ -151,6 +151,14 @@ jobs:
             bash -c '
               source /workspace/scripts/ci/setup-kicad-env.sh
               python3 /workspace/scripts/ci/check_copper_connectivity.py "boards/$BOARD"
+              if [ -f "boards/$BOARD/tools/check_netlist.py" ]; then
+                kicad-cli sch export netlist --format kicadxml \
+                  -o "boards/$BOARD/review/netlist.xml" "boards/$BOARD/$BOARD.kicad_sch"
+                python3 "boards/$BOARD/tools/check_netlist.py"
+              fi
+              if [ -f "boards/$BOARD/tools/check_layout.py" ]; then
+                python3 "boards/$BOARD/tools/check_layout.py"
+              fi
             '
 
       - name: Upload DRC report

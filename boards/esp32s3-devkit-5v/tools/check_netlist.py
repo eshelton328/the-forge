@@ -14,7 +14,7 @@ def same(*nodes):
 def apart(a,b):assert pn[a]!=pn[b],(a,b,pn[a])
 def exact(net,nodes):assert nets[net]==set(nodes),(net,nets[net])
 exact('/USB_CC1',[('J2','A5'),('R15','1')]);same(('J2','B5'),('R14','1'))
-exact('/USB_VBUS',[('J2','A4'),('J2','A9'),('J2','B4'),('J2','B9'),('U4','5'),('C20','1')])
+exact('/USB_VBUS',[('J2','A4'),('J2','A9'),('J2','B4'),('J2','B9'),('U4','5'),('C20','1'),('R40','1')])
 for cc in ['A5','B5']:apart(('J2',cc),('J2','A4'))
 same(('SW1','2'),('U1','14'),('R32','1'));same(('SW1','3'),('R32','2'),('J1','2'))
 same(('SW1','1'),('R31','2'));same(('R31','1'),('Q1','2'),('U1','12'),('U2','12'))
@@ -42,4 +42,24 @@ same(('SW4','2'),('U3','4'),('R24','2'),('C22','1'))
 same(('SW5','2'),('U3','5'),('R25','2'),('C23','1'))
 same(('SW6','2'),('U3','6'),('R26','2'),('C24','1'))
 same(('SW7','2'),('U3','18'),('R27','2'),('C25','1'))
-print('PASS: USB CC/VBUS separation, standby, RTC, amp supply isolation, OLED bus isolation, USB damping, speaker BTL and enable nets.')
+# Positive VBUS presence, with no direct VBUS-to-GPIO divider or clamp path.
+same(('R40','2'),('R41','1'),('Q4','1'))
+same(('Q4','3'),('R42','2'),('R43','1'))
+same(('R43','2'),('Q5','1'));same(('Q5','3'),('R44','2'),('U3','7'))
+same(('R42','1'),('R44','1'),('U3','2'))
+same(('Q4','2'),('Q5','2'),('R41','2'),('J1','2'))
+apart(('U3','7'),('J2','A4'))
+# High-side switched divider: source faces protected battery; ADC is grounded when off.
+same(('Q6','2'),('R45','1'),('Q1','2'))
+same(('Q6','1'),('R45','2'),('Q7','3'))
+same(('Q6','3'),('R48','1'));same(('Q7','1'),('R46','2'),('R47','1'))
+same(('R46','1'),('U3','20'))
+same(('R48','2'),('R49','1'),('C34','1'),('U3','38'))
+same(('Q7','2'),('R47','2'),('R49','2'),('C34','2'),('J1','2'))
+for u,res,mcu in [('U1','R6','8'),('U2','R10','21')]:
+ same((u,'2'),(res,'2'),('U3',mcu));same((res,'1'),('U3','2'))
+components={c.get('ref'):c for c in r.find('components')}
+for ref,value in [('R48','33k'),('R49','10k')]:
+ assert components[ref].findtext('value')==value
+ assert components[ref].find("fields/field[@name='Tolerance']").text=='0.1%'
+print('PASS: USB isolation/presence, battery ADC switch, 3.3 V PG pull-ups, standby, RTC, audio/OLED isolation, USB damping, BTL outputs and GPIO mapping.')

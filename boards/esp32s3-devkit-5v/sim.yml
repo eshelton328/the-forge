@@ -1,23 +1,11 @@
-# Opt-in SPICE for esp32s3-devkit-5v (mirrors tps63070-breakout pattern).
-# Battery-focused: the board runs from 3xAA only (USB is data-only by design),
-# so scenarios sweep pack voltage 4.8 V (fresh) -> 3.6 V (buck-boost
-# transition) -> 3.0 V (end-of-life / minimum start voltage), each with
-# 0.5 A WiFi-TX-class load bursts. Secondary pass covers cold start at 3.0 V.
-#
-# NOTE: the TI TPS63070_TRANS model behaves as a quasi-ideal regulated source
-# in this framework (flat 3.307 V, no ripple/droop — same as the breakout
-# baseline). These measures are therefore TOPOLOGY regressions: a miswired FB
-# divider reads ~2.07 V, a broken rail reads 0, a bad pin map fails to
-# converge. Real droop/ripple/current numbers come from the bench
-# (docs/bringup.md).
-#
-# rev-2: the board has a second TPS63070 (U2 -> 5 V, MAX98357A amp). In these
-# sims the 5 V stage is present but DISABLED: its EN is held low by the R19
-# pulldown and nothing drives GPIO18 (the ESP32 is exclude_from_sim). So the
-# scenarios below still exercise only the always-on 3.3 V path — which is the
-# path that must survive battery sag. Peripherals with no SPICE model (RTC,
-# amp, OLED switch transistors, RGB LED, buttons, connectors) are
-# exclude_from_sim; the 5 V divider is guarded arithmetically in checks.yml.
+# Schematic-derived topology regressions for the dual TPS63070 board.
+# Battery sweep scenarios assume three AA cells (4.8 / 3.6 / 3.0 V); the final
+# pack is not yet specified. Primary sweep leaves U2 disabled. The separate
+# schematic_dual_rail pass enables GPIO18 and loads both outputs.
+# TPS63070_TRANS.LIB is a repository behavioral approximation, not TI's
+# switching model. Rail voltages validate topology; ripple, current, thermal
+# performance and physical startup behavior require hardware validation.
+# Additional ESP-NOW fixtures are illustrative behavioral battery/load models.
 spec_version: 1
 spice_engine: ngspice
 
@@ -30,8 +18,8 @@ scenarios:
   - id: vbat_bias_op
     measures:
       - id: v_vbat_sw
-        title: "VBAT_SW rail DC bias (4.8 V pack at t=0)"
-        op_node: "/VBAT_SW"
+        title: "Protected battery rail DC bias (4.8 V pack at t=0)"
+        op_node: "PFET"
         min: 4.5
         max: 4.85
   - id: tran_fresh_4v8
@@ -65,11 +53,11 @@ scenarios:
         title: "Vout minimum during 0.5 A burst at 3.0 V (boost mode)"
         min: 3.0
       - id: vbat_sw_burst_low_min
-        title: "VBAT_SW rail present during worst burst (wiring check)"
+        title: "Protected battery rail present during worst burst (wiring check)"
         group: tran_low_extra
         min: 2.5
       - id: i_bat_passive_late
-        title: "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; TI model is quasi-ideal and does not draw converter input current)"
+        title: "Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; repository model is quasi-ideal and does not draw converter input current)"
         group: tran_low_extra
         abs_value: true
         max: 0.002
@@ -81,6 +69,21 @@ scenarios:
         max: 3.33
 
 secondary_passes:
+  - netlist_rel: sim/tran_dual_rail.cir
+    scenarios:
+      - id: schematic_dual_rail
+        measures:
+          - id: rail5_disabled
+            title: "Schematic U2 remains disabled before GPIO18 assertion"
+            max: 0.05
+          - id: rail5_enabled
+            title: "Schematic U2 regulates with 0.6 A modeled audio load"
+            min: 4.95
+            max: 5.02
+          - id: rail3_dual
+            title: "Schematic U1 regulates while both modeled rails are loaded"
+            min: 3.28
+            max: 3.33
   - netlist_rel: sim/tran_startup_3v0.cir
     scenarios:
       - id: tran_startup_3v0
@@ -152,6 +155,6 @@ secondary_passes:
 
 plots:
   - file: tran-vout-battery.png
-    signal: v(/3v3)
+    signal: v(3v3)
   - file: tran-vbat-sw.png
-    signal: v(/vbat_sw)
+    signal: v(pfet)

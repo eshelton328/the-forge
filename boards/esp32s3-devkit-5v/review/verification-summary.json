@@ -3,16 +3,62 @@
   "kicad": "10.0.1",
   "erc_violations": 0,
   "drc_errors": 0,
-  "drc_warnings": 2,
+  "drc_warnings": 0,
   "unconnected_items": 0,
   "schematic_parity_issues": 0,
+  "fab_rule_profile": "jlcpcb-4layer-advanced",
+  "fab_rule_violations": 0,
   "intent_validation_passed": true,
   "copper_connectivity_passed": true,
-  "prototype_only": true,
-  "source_sha256": {
-    "esp32s3-devkit-5v.kicad_sch": "685c966b8a457e5910901c73c10615ca5d2b380fcbf6b27083062e50bb7d99a9",
-    "esp32s3-devkit-5v.kicad_pcb": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595"
+  "checked_copper_pad_nodes": 342,
+  "checked_copper_nets": 70,
+  "layout": {
+    "passed": true,
+    "outline_mm": [
+      64,
+      56
+    ],
+    "area_reduction_percent": 35.42,
+    "electrical_footprints": 112,
+    "test_points": 8,
+    "track_segments": 3025,
+    "vias": 220,
+    "speaker": {
+      "/speaker +": {
+        "length_mm": 5.3732,
+        "package_escape_mm": 1.6732,
+        "main_width_mm": 0.6,
+        "vias": 0,
+        "layer": "F.Cu"
+      },
+      "/speaker -": {
+        "length_mm": 5.3732,
+        "package_escape_mm": 1.6732,
+        "main_width_mm": 0.6,
+        "vias": 0,
+        "layer": "F.Cu"
+      }
+    },
+    "in1_signal_tracks": 0,
+    "button_pitch_mm": 15
   },
+  "monitoring_cases_passed": 6,
+  "simulation_measures_passed": 25,
+  "focused_python_tests_passed": 18,
+  "battery_voltage_sensing_implemented": true,
+  "battery_measurement_max_v": 6,
+  "battery_chemistry_confirmed": false,
+  "speaker_load_confirmed": false,
+  "model_assignments": 112,
+  "resolved_model_assignments": 112,
+  "model_approximations": [
+    "J1",
+    "J3",
+    "U5",
+    "U6"
+  ],
+  "assembly_step_reimported": true,
+  "prototype_only": true,
   "button_order": [
     "VOL-",
     "MODE",
@@ -25,13 +71,11 @@
     6,
     10
   ],
-  "battery_voltage_sensing_implemented": false,
-  "model_assignments": 97,
-  "resolved_model_assignments": 97,
-  "model_approximations": [
-    "J1",
-    "J3",
-    "U5",
-    "U6"
-  ]
+  "source_sha256": {
+    "esp32s3-devkit-5v.kicad_sch": "d50864b4f6dba38fa32e1b3fb41f6ad601570cfa2162f0548b070d9ce860e925",
+    "power-monitor.kicad_sch": "e9abb107bcb8a53473a6082b1e567d3ebe6c7659cd54707bdab2fc84790ab215",
+    "esp32s3-devkit-5v.kicad_pcb": "38bde79b552e79995e1b7d8a88264242e9d507ebe84f3e65b10235daaacdcfc9",
+    "esp32s3-devkit-5v.kicad_pro": "9bbcfb2fc28734f15b96460094cc3a6f286152b802282eab614e1d3d4affdcc6",
+    "esp32s3-devkit-5v.kicad_dru": "e8805a1c5f4c3e214e6bf811fd20c507147d4f8e711094bced44bfa68cb2af23"
+  }
 }

@@ -10,7 +10,11 @@ from pathlib import Path
 import ctypes as ct
 import math, json, time
 D=Path(__file__).resolve().parents[1];pcb=D/'esp32s3-devkit-5v.kicad_pcb';b=p.LoadBoard(str(pcb))
-step=.05;ox,oy=100.,70.;nx,ny=1481,1501;layers=[p.F_Cu,p.In2_Cu,p.B_Cu];area=nx*ny
+edge=b.GetBoardEdgesBoundingBox()
+step=.05;ox,oy=round(p.ToMM(edge.GetX()),1),round(p.ToMM(edge.GetY()),1)
+ex,ey=round(p.ToMM(edge.GetRight()),1),round(p.ToMM(edge.GetBottom()),1)
+nx,ny=int(round((ex-ox)/step))+1,int(round((ey-oy)/step))+1
+layers=[p.F_Cu,p.In2_Cu,p.B_Cu];area=nx*ny
 lib=ct.CDLL('/tmp/esp32_grid_search.dylib');fn=lib.find_path
 P8=ct.POINTER(ct.c_uint8);PI=ct.POINTER(ct.c_int)
 fn.argtypes=[ct.c_int,ct.c_int,ct.c_int,P8,P8,ct.c_int,ct.c_int,PI,ct.c_int,ct.c_int];fn.restype=ct.c_int
@@ -51,7 +55,8 @@ def paintseg(a,start,end,r):
 def obstacles(net,width,vd=.55):
  blocked=np.zeros((3,ny,nx),np.uint8);vb=np.zeros((ny,nx),np.uint8);clr=.155
  for a in [*blocked,vb]:
-  paintrect(a,[ox,oy,174,70.65]);paintrect(a,[ox,144.35,174,145]);paintrect(a,[ox,oy,100.65,145]);paintrect(a,[173.35,oy,174,145])
+  margin=.525+(vd if a is vb else width)/2
+  paintrect(a,[ox,oy,ex,oy+margin]);paintrect(a,[ox,ey-margin,ex,ey]);paintrect(a,[ox,oy,ox+margin,ey]);paintrect(a,[ex-margin,oy,ex,ey])
  # All module antenna keepout is outside board, but preserve it if origin changes.
  for pn,rect,ls,hole,pd in padobs:
   if pn!=net:
@@ -111,7 +116,8 @@ gnd=b.GetNetcodeFromNetname('GND');ground_fail=[]
 for pd in pads:
  ref=pd.GetParentFootprint().GetReference()
  if pd.GetNetCode()!=gnd or pd.GetAttribute()!=p.PAD_ATTRIB_SMD:continue
- if ref in ['U1','U2','U3']:continue
+ if ref in ['U1','U2','U3'] or not pd.IsOnLayer(p.F_Cu):continue
+ if any(isinstance(t,p.PCB_VIA) and t.GetNetCode()==gnd and math.dist(mm(t.GetPosition()),mm(pd.GetPosition()))<1.0 for t in b.GetTracks()):continue
  a=mm(pd.GetPosition());blocked,vo=obstacles(gnd,.2)
  ax,ay=grid(a);candidates=[]
  for dy in range(-26,27):
@@ -161,10 +167,10 @@ for net in sorted(ng,key=order):
     for cc in group:
      if cc.GetParentFootprint().GetReference() in ['U1','U2'] and name in power and len(group)>1:continue
      a,c=mm(aa.GetPosition()),mm(cc.GetPosition());dist=(a[0]-c[0])**2+(a[1]-c[1])**2
-     choices.append((dist,gi,a,c))
+     choices.append((dist,gi,a,c,0 if aa.IsOnLayer(p.F_Cu) else 2,0 if cc.IsOnLayer(p.F_Cu) else 2))
   found=False
-  for _,gi,a,c in sorted(choices)[:30]:
-   path=pathfind(a,c,blocked,vo)
+  for _,gi,a,c,la,lc in sorted(choices)[:30]:
+   path=pathfind(a,c,blocked,vo,la,lc)
    if path:
     emit(net,path,a,c,width,vd,drill);tree.extend(groups.pop(gi));done+=1;found=True;break
   if not found:

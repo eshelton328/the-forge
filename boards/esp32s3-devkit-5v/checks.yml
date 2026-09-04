@@ -6,9 +6,39 @@
 # Input chemistry/load remain provisional; cold start requires >=3V at VIN.
 #   U1 -> 3.3V (SW1 enabled: ESP32, RTC, OLED switch, RGB LED, pull-ups)
 #   U2 -> 5V   (GPIO18-gated via R19 pulldown: MAX98357A amp only)
-# USB-C is data-only (VBUS biases U4 and C20 only); CC1 and CC2 each have 5.1k to GND.
+# USB-C is data-only (VBUS biases ESD and the isolated presence detector); CC1 and CC2 each have 5.1k to GND.
 
 required_components:
+  Q4:
+    value: "MMBT3904"
+  Q5:
+    value: "MMBT3904"
+  Q6:
+    value: "AO3401A"
+  Q7:
+    value: "MMBT3904"
+  R40:
+    value: "100k"
+  R41:
+    value: "1M"
+  R42:
+    value: "47k"
+  R43:
+    value: "10k"
+  R44:
+    value: "47k"
+  R45:
+    value: "100k"
+  R46:
+    value: "10k"
+  R47:
+    value: "100k"
+  R48:
+    value: "33k"
+  R49:
+    value: "10k"
+  C34:
+    value: "0.1uF"
   # --- regulators / power path ---
   U1:
     value: "TPS63070RNMR"
@@ -21,7 +51,7 @@ required_components:
   L2:
     value: "1.5µH"
   SW1:
-    value: "MK-12C03-G015"
+    value: "MSK12C02"
   # --- MCU / interfaces ---
   U3:
     value: "ESP32-S3-WROOM-1-N16"
@@ -189,6 +219,11 @@ required_components:
     value: "0.1µF"
 
 required_nets:
+  - "GPIO2"
+  - "GPIO7"
+  - "GPIO12"
+  - "GPIO13"
+  - "GPIO15"
   - "GND"
   - "3v3"
   - "5v"
@@ -251,4 +286,4 @@ voltage_dividers:
 bom_rules:
   require_footprint: true
   no_duplicate_refs: true
-  require_datasheet_on: [U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, L1, L2]
+  require_datasheet_on: [U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, Q4, Q5, Q6, Q7, L1, L2]

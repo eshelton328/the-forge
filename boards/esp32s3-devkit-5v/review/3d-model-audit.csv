@@ -26,6 +26,7 @@ C30,C_0402_1005Metric.step,True,False,KiCad library package model
 C31,C_0603_1608Metric.step,True,False,KiCad library package model
 C32,C_0402_1005Metric.step,True,False,KiCad library package model
 C33,C_0402_1005Metric.step,True,False,KiCad library package model
+C34,C_0402_1005Metric.step,True,False,KiCad library package model
 C4,C_0402_1005Metric.step,True,False,KiCad library package model
 C5,C_0603_1608Metric.step,True,False,KiCad library package model
 C6,C_1206_3216Metric.step,True,False,KiCad library package model
@@ -43,6 +44,10 @@ L2,XFL4020-152MEC.step,True,False,Existing repository part model
 Q1,SOT-23.step,True,False,KiCad library package model
 Q2,SOT-23.step,True,False,KiCad library package model
 Q3,SOT-23.step,True,False,KiCad library package model
+Q4,SOT-23.step,True,False,KiCad library package model
+Q5,SOT-23.step,True,False,KiCad library package model
+Q6,SOT-23.step,True,False,KiCad library package model
+Q7,SOT-23.step,True,False,KiCad library package model
 R1,R_0402_1005Metric.step,True,False,KiCad library package model
 R10,R_0402_1005Metric.step,True,False,KiCad library package model
 R11,R_0402_1005Metric.step,True,True,KiCad library package model
@@ -76,12 +81,22 @@ R37,R_0402_1005Metric.step,True,False,KiCad library package model
 R38,R_0402_1005Metric.step,True,False,KiCad library package model
 R39,R_0402_1005Metric.step,True,False,KiCad library package model
 R4,R_0402_1005Metric.step,True,False,KiCad library package model
+R40,R_0402_1005Metric.step,True,False,KiCad library package model
+R41,R_0402_1005Metric.step,True,False,KiCad library package model
+R42,R_0402_1005Metric.step,True,False,KiCad library package model
+R43,R_0402_1005Metric.step,True,False,KiCad library package model
+R44,R_0402_1005Metric.step,True,False,KiCad library package model
+R45,R_0402_1005Metric.step,True,False,KiCad library package model
+R46,R_0402_1005Metric.step,True,False,KiCad library package model
+R47,R_0402_1005Metric.step,True,False,KiCad library package model
+R48,R_0402_1005Metric.step,True,False,KiCad library package model
+R49,R_0402_1005Metric.step,True,False,KiCad library package model
 R5,R_0402_1005Metric.step,True,False,KiCad library package model
 R6,R_0402_1005Metric.step,True,False,KiCad library package model
 R7,R_0402_1005Metric.step,True,False,KiCad library package model
 R8,R_0402_1005Metric.step,True,False,KiCad library package model
 R9,R_0402_1005Metric.step,True,False,KiCad library package model
-SW1,SW_SPDT_Shouhan_MSK12C02.step,True,False,Footprint-specific model; schematic MPN mismatch unresolved
+SW1,SW_SPDT_Shouhan_MSK12C02.step,True,False,Footprint-specific model; schematic selects MSK12C02
 SW2,TS-1187A-B-A-B.step,True,False,Community model; actuator variant provisional
 SW3,TS-1187A-B-A-B.step,True,False,Community model; actuator variant provisional
 SW4,TS-1187A-B-A-B.step,True,False,Community model; actuator variant provisional
@@ -90,7 +105,7 @@ SW6,TS-1187A-B-A-B.step,True,False,Community model; actuator variant provisional
 SW7,TS-1187A-B-A-B.step,True,False,Community model; actuator variant provisional
 U1,TPS63070RNM.step,True,False,Existing repository part model
 U2,TPS63070RNM.step,True,False,Existing repository part model
-U3,ESP32-S3-WROOM-1.step,True,False,KiCad library package model
+U3,ESP32-S3-WROOM-1.step,True,False,KiCad module STEP; antenna overhang footprint variant
 U4,SOT-23-6.step,True,False,KiCad library package model
 U5,RV-3028-C7_simplified.step,True,False,Generated simplified drawing-based model
 U6,MAX98357A_TQFN16_simplified.step,True,False,Generated simplified package model

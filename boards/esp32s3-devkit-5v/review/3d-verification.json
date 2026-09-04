@@ -1,10 +1,13 @@
 {
-  "electrical_geometry_unchanged": true,
-  "geometry_sha256": "8ae556f4b24898e1ceb758d166d48b783a1e0b5e92a618adbe0af48b1bf65fd7",
-  "electrical_footprints": 97,
-  "resolved_model_assignments": 97,
-  "unique_step_files": 20,
-  "missing_models": [],
+  "assembly_step_reimported": true,
+  "solid_count": 245,
+  "assembly_bbox_mm": [
+    65.5,
+    62.25,
+    11.54
+  ],
+  "electrical_footprints": 112,
+  "resolved_model_assignments": 112,
   "generated_approximation_refs": [
     "J1",
     "J3",
@@ -19,11 +22,13 @@
     "SW6",
     "SW7"
   ],
-  "slide_switch_mpn_still_unresolved": true,
-  "assembly_step_exported": true,
-  "assembly_step_reimported": true,
+  "slide_switch_mpn": "MSK12C02",
+  "assembly_step_excludes_dnp": true,
+  "note": "Component placement and model coverage checked; simplified models are not production mechanical certification.",
+  "unique_step_files": 20,
   "renders_visually_inspected": [
     "pcb-preview.png",
-    "pcb-3d-perspective.png"
+    "pcb-3d-perspective.png",
+    "../docs/pcb-bottom.png"
   ]
 }
