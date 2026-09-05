@@ -15,8 +15,9 @@ if hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest()!=expected:
     raise SystemExit('FastHenry archive SHA-256 mismatch; do not build')
 PY
 tar -xzf "$ARCHIVE" -C "$BUILD_DIR"
+make -C "$BUILD_DIR/fasthenry-3.0wr" clean
 # Use the scalar path and conservative aliasing on both platforms. The legacy
 # default GCC/AVX build crashes on the Linux runner's multi-conductor meshes.
 make -C "$BUILD_DIR/fasthenry-3.0wr" -j2 all CC=clang \
-  CFLAGS='-O2 -fno-strict-aliasing -DFOUR' 
+  CFLAGS='-O2 -fno-strict-aliasing -DFOUR'
 printf '%s\n' "$BUILD_DIR/fasthenry-3.0wr/bin/fasthenry"
