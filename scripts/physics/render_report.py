@@ -194,6 +194,8 @@ The corrected PCB was checked again with KiCad 10.0.1: ERC, DRC including schema
 
 **Authentic TI model probe:** {vendor['status']}. The requested duration was 3 ms; the completed record ends at {(vendor.get('actual_end_s') or 0)*1e6:.1f} us. Native PSpice compatibility mode parses the model but does not complete this startup attempt. Its raw failure log is retained. TI also excludes temperature effects and operating/shutdown current from that model. The existing repository behavioral approximation has not been presented as the authentic model. [Original TI model](https://www.ti.com/lit/zip/slvmbp8).
 
+The installer includes a statistics-pointer patch for the WR Sparse adapter: a wrapper pointer was incorrectly treated as the underlying matrix, causing platform-dependent diagnostic crashes. The patched build reproduces the archived C3 coarse R/L values at all nine frequencies at the reported precision. The patch changes diagnostics, not numerical equations; original transcripts remain in the archive.
+
 The tools are free: FastHenry WR archive 031424 (verified SHA-256), ngspice, KiCad, Python, NumPy, SciPy, Shapely and Matplotlib. Solver settings, source hashes, board hashes, assumptions, run matrices, waveforms and successful/failed transcripts are included in `summary.json` and `raw-data.zip`. Generated source geometry is exported afresh in CI. The checked-in report is rejected if the PCB, assumptions or numerical source changes.
 
 **CI distinction:** green means reproducible screening and software controls completed. It does not override the failed copper convergence gate or approve fabrication. No Gerbers, purchase orders or physical qualification certificates are created by this suite.

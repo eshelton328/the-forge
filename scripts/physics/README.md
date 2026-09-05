@@ -4,7 +4,7 @@ This suite evaluates PR #122's saved copper with free software. It supplements D
 
 ## Reproduce
 
-Python 3.12, ngspice, Clang/make, and KiCad Python are required. The installer uses scalar code with `-O2 -fno-strict-aliasing -DFOUR`; the legacy default GCC/AVX build crashed on the Linux runner with these multi-conductor meshes. Install the numerical dependencies in a virtual environment; these are separate from KiCad's interpreter. FastHenry is the pinned WR archive with its no-royalty license, not an older differently licensed mirror. No MATLAB, paid solver, or purchased instrument is required.
+Python 3.12, ngspice, Clang/make, and KiCad Python are required. The installer applies [a small statistics-adapter fix](fasthenry-stats.patch) and uses scalar Clang with `-O2 -fno-strict-aliasing -DFOUR`. The WR archive passes its wrapper pointer to Sparse's diagnostic function, which expects the underlying matrix; that invalid read crashes some meshes on Linux and intermittently on Mac. The patch corrects the diagnostic pointer and leaves the numerical equations unchanged. Install the numerical dependencies in a virtual environment; these are separate from KiCad's interpreter. FastHenry is the pinned WR archive with its no-royalty license, not an older differently licensed mirror. No MATLAB, paid solver, or purchased instrument is required.
 
 ```sh
 python3.12 -m venv .cache/physics-venv

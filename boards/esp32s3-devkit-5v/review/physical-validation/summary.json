@@ -16,9 +16,10 @@
       "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510",
       "export_geometry.py": "17452642fcfbedd74d99041a7d5ecc37b57914ca0b783cc648981dd1b09969ea",
       "extract_loops.py": "ef0e16ac30a7b6215bb6ac294e188f65c33b8108cfef6290919fd8adb0e5cb6c",
+      "fasthenry-stats.patch": "b7aa3266cfcc456d60174750f99a617b09372405084a47502c912ef902982e75",
       "probe_ti_model.py": "3a0bc9cf094a1a9acb6e9f17352dbe22b6a7307ac47e341745e75bbf28d4eb07",
-      "render_report.py": "3054d20e18bbee4c6b5fa0542525fed42bb9b2bf0575d62464499bd261cacea1",
-      "run_screening.py": "6cdd98a5ff95c732559eb22f919a11269206600ea3801c6e13abb19aa3e2ec3b",
+      "render_report.py": "bc861d4a4089aa1025bfedf6dbc39050c404a4aac9f8a83c22a230ab58a74103",
+      "run_screening.py": "f1012f324cd2402d6250285b65e7d767d036b4c8d143145ee392d3ec28b504ef",
       "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78"
     },
     "physical_release_approved": false

@@ -116,7 +116,7 @@ def run(args):
               'config_sha256':digest(args.config),'python':platform.python_version(),
               'numpy':np.__version__,'ngspice':subprocess.run(['ngspice','--version'],capture_output=True,text=True).stdout.splitlines()[1],
               'fasthenry':'WR 3.0, archive 031424; sha256 6da40d0e31425bca85be46434b33ecc194205d705b47f4459d91568c9f4301ef',
-              'source_hashes':{p.name:digest(p) for p in sorted(Path(__file__).parent.glob('*.py'))},
+              'source_hashes':{p.name:digest(p) for p in sorted([*Path(__file__).parent.glob('*.py'),Path(__file__).parent/'fasthenry-stats.patch'])},
               'physical_release_approved':False}
     summary={'manifest':manifest,'calibration':wire_calibration(args.fasthenry.resolve(),out/'calibration'),
              'extractions':{},'thermal':{},'circuits':{},'coupling_estimates':{},'gates':{}}
