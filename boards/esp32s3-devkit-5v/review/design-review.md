@@ -87,3 +87,12 @@ KiCad 10.0.1: 0 ERC violations, 0 DRC violations including warnings, 0 unconnect
 All 25 configured ngspice measures and six schematic-derived monitoring scenarios pass. All 18 focused board-validator, SPICE-export and fabrication-rule-preservation tests pass, including hierarchical sheet instances, missing/cyclic sheets, multiline root ports and preserved SPICE child definitions. Numerical 1 TΩ shunts regularize passive nodes left floating by excluded digital ICs; nodeset supplies an initial guess for the ideal feedback model. Neither forces a final rail voltage. The TPS63070 model is the repository's behavioral approximation, not TI's switching model. The additional ESP-NOW/battery fixtures are illustrative behavioral load scenarios, not extracted physical power performance. No ripple, EMI, thermal, endurance or USB compliance claim follows from these simulations.
 
 The two-page schematic, top/bottom copper and rendered component placement were inspected. All 112 electrical footprints resolve local models; J1/J3/U5/U6 use documented approximations. The updated assembly STEP was re-imported. Actuator heights and exact molding still need confirmation against final purchased parts.
+
+
+## Physical screening follow-up, 2026-09-04
+
+The [full test report](physical-validation/report.md) applies the free-tool research to the corrected 5ba7f87 copper. It adds reproducible FastHenry, ngspice and SciPy screening, independent mathematical controls, archived raw data and CI freshness checks. The board remains an engineering prototype.
+
+The thermal model resolves a cost of compaction: 8.4 C higher peak PCB temperature in the equal-load reference scenario. The higher-heat/weak-cooling scenario at 50 C ambient reaches 132.8 C PCB temperature, leaving no demonstrated junction margin. These assumptions need confirmation; the model is not an enclosure or package FEM analysis. Do not reduce area further or approve the maximum continuous load based solely on the geometry checks.
+
+PCB-only loop inductance is provisional: refinement changes values by 21.6-31.8%, exceeding the 5% numerical gate. The supplied RLC and conducted-transfer fixtures demonstrate sensitivity, not measured regulator ringing or emissions. The authentic TI model's native ngspice startup probe stops early. No physical switching, EMI or junction-temperature qualification is claimed, and no speculative snubber or additional footprint move was made.

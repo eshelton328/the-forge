@@ -76,3 +76,7 @@ sim/issue-bodies/
 
 # Local cache (3D models, etc.)
 .cache/
+
+# Python bytecode
+__pycache__/
+*.py[cod]

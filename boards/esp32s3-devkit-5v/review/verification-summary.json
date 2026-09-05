@@ -111,5 +111,19 @@
     "switch_node_ringing": false,
     "EMI": false,
     "thermal": false
+  },
+  "physical_screening": {
+    "report": "physical-validation/report.md",
+    "results": "physical-validation/summary.json",
+    "raw": "physical-validation/raw-data.zip",
+    "pcb_copper_changed": false,
+    "python_tests_passed": 80,
+    "python_tests_skipped": 1,
+    "new_numerical_and_provenance_tests": 12,
+    "thermal_reference_delta_c": 8.4,
+    "thermal_stress_pcb_c_at_50c_ambient": 132.8,
+    "copper_mesh_convergence_passed": false,
+    "native_ti_startup_completed": false,
+    "physical_release_approved": false
   }
 }

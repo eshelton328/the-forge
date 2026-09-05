@@ -1,0 +1,63 @@
+name: PCB physical screening
+
+on:
+  pull_request:
+    paths:
+      - 'boards/esp32s3-devkit-5v/**'
+      - 'scripts/physics/**'
+      - 'tests/test_physical_screening.py'
+      - '.github/workflows/physical-screening.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: physical-screening-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  screening:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install free numerical tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ngspice build-essential
+          pip install -r scripts/physics/requirements.txt
+          bash scripts/physics/install_fasthenry.sh "$RUNNER_TEMP/fasthenry"
+      - name: Export current and comparison copper with KiCad
+        run: |
+          mkdir -p output/physical-screening
+          git show f11e64e:boards/esp32s3-devkit-5v/esp32s3-devkit-5v.kicad_pcb > output/physical-screening/original.kicad_pcb
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -v "$GITHUB_WORKSPACE:/workspace" -w /workspace \
+            kicad/kicad:10.0@sha256:feb600e931ca7ad8ae684566131edbea32218cb90ab54bb2ea0944cee257eea6 \
+            bash -c 'python3 scripts/physics/export_geometry.py boards/esp32s3-devkit-5v/esp32s3-devkit-5v.kicad_pcb output/physical-screening/current.json && python3 scripts/physics/export_geometry.py output/physical-screening/original.kicad_pcb output/physical-screening/original.json'
+      - name: Verify independent mathematical controls
+        run: python3 -m pytest tests/test_physical_screening.py -v
+      - name: Run layout-specific screening
+        run: |
+          python3 scripts/physics/run_screening.py \
+            --geometry output/physical-screening/current.json \
+            --reference-geometry output/physical-screening/original.json \
+            --pcb boards/esp32s3-devkit-5v/esp32s3-devkit-5v.kicad_pcb \
+            --config boards/esp32s3-devkit-5v/analysis/assumptions.json \
+            --fasthenry "$RUNNER_TEMP/fasthenry/fasthenry-3.0wr/bin/fasthenry" \
+            --output output/physical-screening/results --profile ci
+      - name: Reject stale committed report
+        run: |
+          python3 scripts/physics/check_report_freshness.py \
+            boards/esp32s3-devkit-5v
+      - name: Upload computed results (not physical sign-off)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pcb-physical-screening
+          path: output/physical-screening/
