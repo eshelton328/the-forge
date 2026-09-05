@@ -6,10 +6,10 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 
 | Field | Value |
 | --- | --- |
-| Config | `/workspace/boards/esp32s3-devkit-5v/sim.yml` |
-| Netlist | `/workspace/boards/esp32s3-devkit-5v/sim/assembled.cir` |
+| Config | `/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit-5v/sim.yml` |
+| Netlist | `/Users/erik/Workspaces/the-forge/boards/esp32s3-devkit-5v/sim/assembled.cir` |
 | KiCad CLI | `10.0.1` |
-| KiCad Docker image (CI) | `the-forge-sim:ci` |
+| KiCad Docker image (CI) | `—` |
 | ngspice | `******` |
 | Simulator exit | 0 |
 | Baseline file | `sim/spice_metrics_baseline.json` |
@@ -19,8 +19,8 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 
 | Metric | Value |
 | --- | --- |
-| Measures | 22 |
-| Passed | 22 |
+| Measures | 25 |
+| Passed | 25 |
 | Failed | 0 |
 
 ## Results by scenario
@@ -29,7 +29,7 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 
 | Measure | Value | Baseline | Δ | Bounds | Result |
 | --- | --- | --- | --- | --- | --- |
-| VBAT_SW rail DC bias (4.8 V pack at t=0) | 4.8 | 4.8 | 0 | min 4.5, max 4.85 | **PASS** |
+| Protected battery rail DC bias (4.8 V pack at t=0) | 4.79997 | 4.8 | -3e-05 | min 4.5, max 4.85 | **PASS** |
 
 ### `tran_fresh_4v8`
 
@@ -52,14 +52,22 @@ Each **scenario** matches a block in `sim.yml`. **Bounds** repeat those limits; 
 | --- | --- | --- | --- | --- | --- |
 | Vout steady on end-of-life pack (3.0 V) | 3.30704 | 3.30704 | 0 | min 3.28, max 3.33 | **PASS** |
 | Vout minimum during 0.5 A burst at 3.0 V (boost mode) | 3.30704 | 3.30704 | 0 | min 3.0 | **PASS** |
-| VBAT_SW rail present during worst burst (wiring check) | 3.00837 | 3.00011 | +0.00826 | min 2.5 | **PASS** |
-| Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; TI model is quasi-ideal and does not draw converter input current) | 5.15714e-06 | — | — | max 0.002 | **PASS** |
+| Protected battery rail present during worst burst (wiring check) | 3.00835 | 3.00011 | +0.00824 | min 2.5 | **PASS** |
+| Battery-side passive drain at idle, post-settling (pull-ups + FB dividers; repository model is quasi-ideal and does not draw converter input current) | 2.21153e-05 | — | — | max 0.002 | **PASS** |
 
 ### `tran_recovery`
 
 | Measure | Value | Baseline | Δ | Bounds | Result |
 | --- | --- | --- | --- | --- | --- |
 | Vout recovered at idle on dead pack (800 µs) | 3.30704 | 3.30704 | 0 | min 3.28, max 3.33 | **PASS** |
+
+### `schematic_dual_rail`
+
+| Measure | Value | Baseline | Δ | Bounds | Result |
+| --- | --- | --- | --- | --- | --- |
+| Schematic U2 remains disabled before GPIO18 assertion | 0 | — | — | max 0.05 | **PASS** |
+| Schematic U2 regulates with 0.6 A modeled audio load | 4.98516 | — | — | min 4.95, max 5.02 | **PASS** |
+| Schematic U1 regulates while both modeled rails are loaded | 3.30704 | — | — | min 3.28, max 3.33 | **PASS** |
 
 ### `tran_startup_3v0`
 

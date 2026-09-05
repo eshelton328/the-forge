@@ -1,0 +1,37 @@
+{
+  "board": "esp32s3-devkit-5v",
+  "checks": [
+    {
+      "category": "required_components",
+      "status": "pass",
+      "violations": [],
+      "summary": "100/100 components present"
+    },
+    {
+      "category": "required_nets",
+      "status": "pass",
+      "violations": [],
+      "summary": "25/25 nets present"
+    },
+    {
+      "category": "capacitor_budget",
+      "status": "pass",
+      "violations": [],
+      "summary": "input_u1: 30\u00b5F (min 20\u00b5F); input_u2: 30\u00b5F (min 20\u00b5F); output_3v3: 198\u00b5F (min 60\u00b5F); output_5v: 186\u00b5F (min 150\u00b5F); decoupling: C4, C12, C18, C20, C28, C29, C30, C32, C33"
+    },
+    {
+      "category": "voltage_dividers",
+      "status": "pass",
+      "violations": [],
+      "summary": ""
+    },
+    {
+      "category": "bom_rules",
+      "status": "pass",
+      "violations": [],
+      "summary": "footprints required; no duplicate refs; datasheets on U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, Q4, Q5, Q6, Q7, L1, L2"
+    }
+  ],
+  "total_violations": 0,
+  "passed": true
+}

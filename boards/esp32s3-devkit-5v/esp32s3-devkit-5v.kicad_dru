@@ -1,0 +1,13 @@
+(version 1)
+
+(rule "Speaker outputs stay on top without vias"
+  (condition "A.NetName == '/speaker +' || A.NetName == '/speaker -'")
+  (constraint disallow via))
+
+(rule "Speaker outputs use F.Cu"
+  (condition "(A.NetName == '/speaker +' || A.NetName == '/speaker -') && A.Layer != 'F.Cu'")
+  (constraint disallow track))
+
+(rule "Speaker package escape minimum width"
+  (condition "A.NetName == '/speaker +' || A.NetName == '/speaker -'")
+  (constraint track_width (min 0.2mm)))

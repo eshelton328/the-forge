@@ -1,0 +1,7 @@
+{
+  "routed_connections": 149,
+  "ground_deferred": [],
+  "unrouted_groups": [],
+  "tracks_and_vias": 3296,
+  "stage": "Before unused-stub cleanup; final geometry in layout-validation.json"
+}

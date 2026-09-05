@@ -1,0 +1,28 @@
+--- a/src/sparse/spBuild.c
++++ b/src/sparse/spBuild.c
+@@ -520,7 +520,7 @@
+ /*
+  * Export for FastHenry.
+  */
+-void matStats(void *mp, unsigned int *sz, unsigned int *nm, unsigned int *rc)
++void spStatistics(void *mp, unsigned int *sz, unsigned int *nm, unsigned int *rc)
+ {
+     MatrixPtr Matrix = (MatrixPtr)mp;
+     if (Matrix) {
+--- a/src/fasthenry/solver_sparse.c
++++ b/src/fasthenry/solver_sparse.c
+@@ -171,3 +171,14 @@
+     return (spFillinCount((char*)m->matrix));
+ }
+ 
++
++/* Forward statistics through the adapter, just like the solve/factor calls.
++ * Passing spm itself to Sparse treats the wrapper as a MatrixFrame and can
++ * dereference an invalid ElementHashTab. This only changes diagnostics. */
++extern void spStatistics(void *, unsigned int *, unsigned int *, unsigned int *);
++
++void matStats(void *c, unsigned int *sz, unsigned int *nm, unsigned int *rc)
++{
++    spm *m = (spm*)c;
++    spStatistics(m ? m->matrix : NULL, sz, nm, rc);
++}

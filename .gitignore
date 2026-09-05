@@ -43,8 +43,13 @@ fp-info-cache
 boards/**/erc.json
 boards/**/drc*.json
 
+# Reviewed prototype evidence linked from the board documentation
+!boards/esp32s3-devkit-5v/review/erc.json
+!boards/esp32s3-devkit-5v/review/drc.json
+
 # Board-level DRU files (fab rules are copied here temporarily by CI)
 boards/**/*.kicad_dru
+!boards/esp32s3-devkit-5v/esp32s3-devkit-5v.kicad_dru
 
 # CI temp home for kicad-cli Docker runs
 .kicad-ci-home/
@@ -71,3 +76,7 @@ sim/issue-bodies/
 
 # Local cache (3D models, etc.)
 .cache/
+
+# Python bytecode
+__pycache__/
+*.py[cod]

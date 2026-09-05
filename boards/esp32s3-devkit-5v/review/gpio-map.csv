@@ -1,0 +1,25 @@
+Function,Previous GPIO,Revised GPIO,U3 module pad,Behavior
+I2S bit clock,15,47,24,Output
+I2S left/right clock,16,48,25,Output
+I2S data,17,14,22,Output
+OLED power,7,41,34,HIGH on; LOW off
+OLED bus connection,new,11,19,HIGH connected; LOW isolated
+5 V enable,18,18,11,HIGH on; boot default off
+Amplifier SD_MODE,21,21,23,HIGH play left channel; LOW shutdown
+I2C SDA,8,8,12,RTC bus
+I2C SCL,9,9,17,RTC bus
+RTC interrupt,1,1,39,Active low; RTC wake-capable
+MODE button,4,5,5,Active low; RTC wake-capable
+VOL+ button,5,6,6,Active low; RTC wake-capable
+VOL- button,6,4,4,Active low; RTC wake-capable
+BATTERY button,10,10,18,Active low; request switched GPIO2 measurement and indication
+RGB red,38,38,31,Changed to active LOW
+RGB green,39,39,32,Changed to active LOW
+RGB blue,40,40,33,Changed to active LOW
+USB D-,19,19,13,Dedicated USB
+USB D+,20,20,14,Dedicated USB
+USB VBUS presence,new,7,7,HIGH with VBUS; self-powered USB monitor
+Battery ADC,new,2,38,ADC1 channel 1; multiply calibrated voltage by 4.3
+Battery measurement enable,new,12,20,HIGH measure; LOW off; wait 10 ms
+3.3 V power-good,new,15,8,Input; 3.3 V pull-up
+5 V power-good,new,13,21,Input; 3.3 V pull-up; wait after enabling GPIO18

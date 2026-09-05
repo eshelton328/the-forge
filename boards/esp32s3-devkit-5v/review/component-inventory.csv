@@ -1,0 +1,113 @@
+Reference,Value,Footprint,MPN field,Datasheet,DNP,Procurement status
+C1,10µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C10,10µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C11,10µF,Capacitor_SMD:C_0603_1608Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C12,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C13,10µF,Capacitor_SMD:C_0603_1608Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C14,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C15,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C16,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C17,22µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C18,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C19,1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C2,10µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C20,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C21,100µF,Capacitor_SMD:C_1206_3216Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C22,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C23,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C24,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C25,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C26,100µF,Capacitor_SMD:C_1206_3216Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C27,10µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C28,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C29,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C3,10µF,Capacitor_SMD:C_0603_1608Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C30,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C31,1µF,Capacitor_SMD:C_0603_1608Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C32,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C33,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C34,0.1uF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C4,0.1µF,Capacitor_SMD:C_0402_1005Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C5,10µF,Capacitor_SMD:C_0603_1608Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+C6,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C7,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C8,22µF,Capacitor_SMD:C_1206_3216Metric,GRM31CR61C226KE15L,https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM31CR61C226KE15-01A.pdf,False,MPN specified; verify availability and ordered suffix
+C9,10µF,Capacitor_SMD:C_0805_2012Metric,,,False,MPN selection still required; verify rating/tolerance/DC bias
+D1,LED,LED_SMD:LED_0603_1608Metric,,,False,Verify final vendor/package/assembly details
+D2,150141M173100,LED_SMD:LED_RGB_Wuerth-PLCC4_3.2x2.8mm_150141M173100,150141M173100,https://www.we-online.com/components/products/datasheet/150141M173100.pdf,False,MPN specified; verify availability and ordered suffix
+J1,Conn_01x02_Pin,Connector_JST:JST_PH_B2B-PH-SM4-TB_1x02-1MP_P2.00mm_Vertical,,https://www.jst-mfg.com/product/pdf/eng/ePH.pdf,False,Verify final vendor/package/assembly details
+J2,USB_C_Receptacle_USB2.0_16P,Board:USB_C_HRO_Overhang,,https://www.usb.org/sites/default/files/documents/usb_type-c.zip,False,Verify final vendor/package/assembly details
+J3,Conn_01x02_Pin,Board:JST_PH_Speaker_Overhang,,https://www.jst-mfg.com/product/pdf/eng/ePH.pdf,False,Verify final vendor/package/assembly details
+J4,Conn_01x04_Pin,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,,,False,Verify final vendor/package/assembly details
+L1,1.5µH,TPS63070:IND_XFL4020-152MEC,XFL4020-152MEC,https://www.coilcraft.com/en-us/products/power/shielded-inductors/molded-inductor/xfl/xfl4020/xfl4020-152/,False,MPN specified; verify availability and ordered suffix
+L2,1.5µH,TPS63070:IND_XFL4020-152MEC,XFL4020-152MEC,https://www.coilcraft.com/en-us/products/power/shielded-inductors/molded-inductor/xfl/xfl4020/xfl4020-152/,False,MPN specified; verify availability and ordered suffix
+Q1,AO3401A,Package_TO_SOT_SMD:SOT-23,,https://www.aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf,False,Verify final vendor/package/assembly details
+Q2,AO3401A,Package_TO_SOT_SMD:SOT-23,,https://www.aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf,False,Verify final vendor/package/assembly details
+Q3,MMBT3904,Package_TO_SOT_SMD:SOT-23,,https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf,False,Verify final vendor/package/assembly details
+Q4,MMBT3904,Package_TO_SOT_SMD:SOT-23,,https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf,False,Verify final vendor/package/assembly details
+Q5,MMBT3904,Package_TO_SOT_SMD:SOT-23,,https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf,False,Verify final vendor/package/assembly details
+Q6,AO3401A,Package_TO_SOT_SMD:SOT-23,,https://www.aosmd.com/sites/default/files/res/datasheets/AO3401A.pdf,False,Verify final vendor/package/assembly details
+Q7,MMBT3904,Package_TO_SOT_SMD:SOT-23,,https://www.onsemi.com/pdf/datasheet/mmbt3904lt1-d.pdf,False,Verify final vendor/package/assembly details
+R1,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R10,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R11,1kΩ,Resistor_SMD:R_0402_1005Metric,,,True,Verify final vendor/package/assembly details
+R12,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R13,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R14,5.1kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R15,5.1kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R16,4.7kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R17,4.7kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R18,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R19,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R20,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R21,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R22,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R23,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R24,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R25,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R26,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R27,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R28,330Ω,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R29,150Ω,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R3,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R30,150Ω,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R31,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R32,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R33,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R34,22Ω,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R35,22Ω,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R36,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R37,4.7kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R38,4.7kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R39,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R4,470kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R40,100k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R41,1M,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R42,47k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R43,10k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R44,47k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R45,100k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R46,10k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R47,100k,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R48,33k,Resistor_SMD:R_0402_1005Metric,RT0402BRD0733KL,,False,MPN specified; verify availability and ordered suffix
+R49,10k,Resistor_SMD:R_0402_1005Metric,RT0402BRD0710KL,,False,MPN specified; verify availability and ordered suffix
+R5,150kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R6,100kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R7,10kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R8,680kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+R9,130kΩ,Resistor_SMD:R_0402_1005Metric,,,False,Verify final vendor/package/assembly details
+SW1,MSK12C02,Button_Switch_SMD:SW_SPDT_Shouhan_MSK12C02,MSK12C02,https://files.keeb.supply/products/MSK12C02/datasheet.pdf,False,MPN specified; verify availability and ordered suffix
+SW2,RESET,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+SW3,BOOT,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+SW4,VOL-,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+SW5,MODE,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+SW6,VOL+,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+SW7,BATTERY,Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A,,,False,Verify final vendor/package/assembly details
+U1,TPS63070RNMR,TPS63070:TPS63070,,https://www.ti.com/lit/gpn/tps63070,False,Verify final vendor/package/assembly details
+U2,TPS63070RNMR,TPS63070:TPS63070,,https://www.ti.com/lit/gpn/tps63070,False,Verify final vendor/package/assembly details
+U3,ESP32-S3-WROOM-1-N16,Board:ESP32-S3-WROOM-1_Overhang,,https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf,False,Verify final vendor/package/assembly details
+U4,USBLC6-2SC6,Package_TO_SOT_SMD:SOT-23-6,,https://www.st.com/resource/en/datasheet/usblc6-2.pdf,False,Verify final vendor/package/assembly details
+U5,RV-3028-C7,Package_SON:MicroCrystal_C7_SON-8_1.5x3.2mm_P0.9mm,,https://www.microcrystal.com/fileadmin/Media/Products/RTC/Datasheet/RV-3028-C7.pdf,False,Verify final vendor/package/assembly details
+U6,MAX98357A,Package_DFN_QFN:TQFN-16-1EP_3x3mm_P0.5mm_EP1.23x1.23mm,,https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf,False,Verify final vendor/package/assembly details
+U7,SN74LVC2G66DCUR,Package_SO:VSSOP-8_2.3x2mm_P0.5mm,,https://www.ti.com/lit/ds/symlink/sn74lvc2g66.pdf,False,Verify final vendor/package/assembly details
+U8,SN74LVC1T45DBVR,Package_TO_SOT_SMD:SOT-23-6,,https://www.ti.com/lit/ds/symlink/sn74lvc1t45.pdf,False,Verify final vendor/package/assembly details

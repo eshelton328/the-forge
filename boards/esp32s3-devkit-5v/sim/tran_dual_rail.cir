@@ -1,0 +1,15 @@
+* Schematic-derived dual-rail topology test using the repository approximation.
+* Not a TI switching model: this cannot validate current, ripple or startup timing.
+.include "../../../libs/spice/tps63070/TPS63070_TRANS.LIB"
+.include "kicad_export.cir"
+.include "model_assumptions.cir"
+VBAT PFET GND 4.8
+RSW_ON /SW_ON /EN_3V3 1m
+VEN5 /GPIO18 GND PWL(0 0 100u 0 101u 3.3 400u 3.3)
+IESP 3v3 GND 0.5
+IAMP /5v GND PWL(0 0 150u 0 151u 0.6 400u 0.6)
+.tran 50n 400u
+.meas tran rail5_disabled MAX v(/5v) FROM=20u TO=90u
+.meas tran rail5_enabled MIN v(/5v) FROM=200u TO=390u
+.meas tran rail3_dual MIN v(3v3) FROM=200u TO=390u
+.end

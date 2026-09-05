@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "board_revision": "5ba7f87d5da86fe6e13a21520f752b1f573163be",
+  "comparison_revision": "f11e64e",
+  "scope": "Uncorrelated engineering screening; no fabrication or EMC sign-off",
+  "stackup": {
+    "status": "assumed, fabricator not selected",
+    "total_mm": 1.6,
+    "copper_um": [
+      35,
+      17.5,
+      17.5,
+      35
+    ],
+    "copper_center_spacing_mm": [
+      0.2,
+      1.165,
+      0.2
+    ],
+    "outer_to_in1_sensitivity_mm": [
+      0.2
+    ],
+    "via_plating_um": 25,
+    "copper_conductivity_s_m": 58000000,
+    "copper_thermal_conductivity_w_mk": 385,
+    "fr4_thermal_conductivity_w_mk": 0.3,
+    "fr4_relative_permittivity": 4.2,
+    "notes": "R/L solver uses nominal 0.2mm spacing only; spacing range 0.1-0.3mm used in overlap-capacitance estimate. Resolve final stackup before treating R/L as physical values."
+  },
+  "passive": {
+    "status": "component values from PCB; effective C, ESR and ESL are assumed ranges, not manufacturer models",
+    "effective_capacitance_fraction": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "ceramic_esr_ohm": [
+      0.003,
+      0.01,
+      0.03
+    ],
+    "ceramic_esl_nh": [
+      0.3,
+      0.6,
+      1.2
+    ],
+    "copper_loop_multiplier": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "frequency_hz": [
+      1000,
+      100000000
+    ],
+    "provisional_output_droop_v": 0.1,
+    "local_caps": {
+      "C3": [
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "C5": [
+        "C5",
+        "C6",
+        "C7",
+        "C8"
+      ],
+      "C11": [
+        "C9",
+        "C10",
+        "C11"
+      ],
+      "C13": [
+        "C13",
+        "C14",
+        "C15",
+        "C16"
+      ]
+    }
+  },
+  "ringing": {
+    "status": "bounded commutation fixture; NOT a TPS63070 transistor model",
+    "current_step_a": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "edge_ns": [
+      2,
+      5,
+      20
+    ],
+    "node_capacitance_pf": [
+      100,
+      300,
+      1000
+    ],
+    "package_inductance_nh": [
+      0.5,
+      1.5,
+      3.0
+    ],
+    "damping_ohm": [
+      0.1,
+      0.5,
+      2.0
+    ]
+  },
+  "conducted_noise": {
+    "status": "linear differential-mode transfer; no predicted emission amplitude or regulatory detector",
+    "line_series_l_uh": 5,
+    "line_series_r_ohm": 0.1,
+    "receiver_coupling_uf": 0.1,
+    "receiver_ohm": 50,
+    "switching_hz": 2400000
+  },
+  "thermal": {
+    "status": "four-sheet finite-volume PCB temperature only; package thermal resistance and enclosure not modeled",
+    "ambient_c": [
+      25,
+      50
+    ],
+    "effective_surface_h_w_m2k": [
+      5,
+      10,
+      20
+    ],
+    "loads_a": {
+      "3v3": 0.5,
+      "5v": 0.6
+    },
+    "converter_efficiency": [
+      0.85,
+      0.9,
+      0.95
+    ],
+    "converter_ic_loss_fraction": 0.7,
+    "nominal_esp32_heat_w": 0.7,
+    "nominal_amp_heat_w": 0.3,
+    "stress_esp32_heat_w": 1.2,
+    "stress_amp_heat_w": 0.6,
+    "notes": "Remaining 3.3 V delivered power is assumed dissipated off-board; speaker output is off-board. All package losses enter actual F.Cu solder lands through an isothermal package node with 50um/50W-mK solder. Internal die/package resistance and component-to-air cooling are omitted. Loss split, effective h, duty cycle and copper homogenization need correlation."
+  },
+  "gates": {
+    "numerical_relative_change_max": 0.05,
+    "thermal_energy_relative_error_max": 1e-06,
+    "copper_dc_reference_relative_error_max": 0.01,
+    "physical_release_approved": false
+  }
+}

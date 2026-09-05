@@ -1,3 +1,4 @@
 * Board overlay — included after main kicad_export by assemble.py.
+.include "model_assumptions.cir"
 .include "transient_battery_body.cir"
 .include "battery_measures.cir"

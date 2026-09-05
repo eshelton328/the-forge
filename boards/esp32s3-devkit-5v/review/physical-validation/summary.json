@@ -1,0 +1,3635 @@
+{
+  "manifest": {
+    "schema": 1,
+    "scope": "Uncorrelated engineering screening; no fabrication or EMC sign-off",
+    "profile": "full",
+    "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+    "reference_pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+    "config_sha256": "90fd4ffaba1d130937e3d32e2546c5ca9171a340593c1bfd0df23cff60e43b77",
+    "python": "3.12.14",
+    "numpy": "2.5.2",
+    "ngspice": "** ngspice-46 : Circuit level simulation program",
+    "fasthenry": "WR 3.0, archive 031424; sha256 6da40d0e31425bca85be46434b33ecc194205d705b47f4459d91568c9f4301ef",
+    "source_hashes": {
+      "check_report_freshness.py": "ac3a4553b16f45acac62117f87ade0e320c65f683b7b396266fba0e038a91a89",
+      "circuit_tests.py": "5e6cb758009860db26182bd51d42835c283935ddb9bf09dabbfc932e48173d40",
+      "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510",
+      "export_geometry.py": "17452642fcfbedd74d99041a7d5ecc37b57914ca0b783cc648981dd1b09969ea",
+      "extract_loops.py": "ef0e16ac30a7b6215bb6ac294e188f65c33b8108cfef6290919fd8adb0e5cb6c",
+      "fasthenry-stats.patch": "b7aa3266cfcc456d60174750f99a617b09372405084a47502c912ef902982e75",
+      "probe_ti_model.py": "3a0bc9cf094a1a9acb6e9f17352dbe22b6a7307ac47e341745e75bbf28d4eb07",
+      "render_report.py": "bc861d4a4089aa1025bfedf6dbc39050c404a4aac9f8a83c22a230ab58a74103",
+      "run_screening.py": "f1012f324cd2402d6250285b65e7d767d036b4c8d143145ee392d3ec28b504ef",
+      "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78"
+    },
+    "physical_release_approved": false
+  },
+  "calibration": {
+    "measured_ohm": 0.00492611,
+    "analytical_ohm": 0.004926108374384237,
+    "relative_error": 3.29999999820231e-07,
+    "passed": true
+  },
+  "extractions": {
+    "current": {
+      "coarse": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1678,
+          "segments": 2854,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "c46840797eb1382b0aaf326d67164d9b1a2d58b3712458748d838e984f3bac65",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00366354,
+              "inductance_h": 1.1748420011685984e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00366354,
+              "inductance_h": 1.1748420011685984e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00366354,
+              "inductance_h": 1.1748420011685984e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00366355,
+              "inductance_h": 1.1748372265203056e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0036641,
+              "inductance_h": 1.1745189166341218e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00371266,
+              "inductance_h": 1.1476312805481772e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00435541,
+              "inductance_h": 9.229156417484374e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00481108,
+              "inductance_h": 8.52010523051567e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00483028,
+              "inductance_h": 8.501913820520266e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1686,
+          "segments": 2870,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "9d2a7086a942c8aa64270522d9d7b4df465c499d2cf8e14b7f49fde1db1239c2",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00334909,
+              "inductance_h": 1.1308117861622257e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00334909,
+              "inductance_h": 1.1308117861622257e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00334909,
+              "inductance_h": 1.1308117861622255e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00334909,
+              "inductance_h": 1.1308086030633638e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00334962,
+              "inductance_h": 1.1305093917703508e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00339636,
+              "inductance_h": 1.1052133051153252e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00404011,
+              "inductance_h": 8.847391455489844e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00449243,
+              "inductance_h": 8.134122662529205e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00451045,
+              "inductance_h": 8.116329139891532e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1660,
+          "segments": 2824,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "66439c9db8e7c173f7bdb89fd90e02f9ace79dffe1a4e3e71d1f62d1e931abbf",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00378706,
+              "inductance_h": 1.2102078210730486e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00378706,
+              "inductance_h": 1.2102078210730486e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00378706,
+              "inductance_h": 1.2102078210730484e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00378707,
+              "inductance_h": 1.2102046379741867e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00378766,
+              "inductance_h": 1.2098544970993846e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00383952,
+              "inductance_h": 1.1806591143386073e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00451178,
+              "inductance_h": 9.421622490165402e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00497487,
+              "inductance_h": 8.693711442440308e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00499454,
+              "inductance_h": 8.675106229592868e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1668,
+          "segments": 2847,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "d791de69842d0b0e6cf8e65d86a38fd391d31091746e215f6eeb578d12787757",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00355319,
+              "inductance_h": 1.1503305483830156e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00355319,
+              "inductance_h": 1.1503305483830156e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00355319,
+              "inductance_h": 1.1503305483830156e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.0035532,
+              "inductance_h": 1.150327365284154e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00355372,
+              "inductance_h": 1.1500392948371572e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00359988,
+              "inductance_h": 1.1257076871372686e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00424955,
+              "inductance_h": 9.037135978644001e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00470622,
+              "inductance_h": 8.323596622280106e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00472565,
+              "inductance_h": 8.305293803824539e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ],
+      "fine": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6226,
+          "segments": 11619,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "2909f4fe487a02697e97ec74c46e05f63ff05baf90536762ea4ba818b6c739b9",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00321259,
+              "inductance_h": 1.0626552733325524e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00321259,
+              "inductance_h": 1.0626552733325522e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00321259,
+              "inductance_h": 1.0626552733325522e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.0032126,
+              "inductance_h": 1.0626520902336906e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00321328,
+              "inductance_h": 1.062209639491895e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00327118,
+              "inductance_h": 1.0263886364502021e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00397448,
+              "inductance_h": 7.773588969943136e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00475782,
+              "inductance_h": 6.902709036838592e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00484139,
+              "inductance_h": 6.86212452635016e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6269,
+          "segments": 11706,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "cc670bba829e75fa15ff0409414ceedcdbd7d56b5b09fbef2ae3be3a30b5e3cb",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00305309,
+              "inductance_h": 1.0506581737222851e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00305309,
+              "inductance_h": 1.0506581737222853e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00305309,
+              "inductance_h": 1.0506581737222851e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.0030531,
+              "inductance_h": 1.0506533990739925e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00305383,
+              "inductance_h": 1.0501584272009766e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00311483,
+              "inductance_h": 1.0108344238618312e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00382404,
+              "inductance_h": 7.548177824042084e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00462209,
+              "inductance_h": 6.670151833992715e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00470723,
+              "inductance_h": 6.628787464283132e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6123,
+          "segments": 11416,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "3647e363911d136fdd136edd427eec989b48dd8cba395a90aded6f957ac2e08e",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00329703,
+              "inductance_h": 1.0929265435086309e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00329703,
+              "inductance_h": 1.0929265435086309e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00329703,
+              "inductance_h": 1.0929265435086307e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00329704,
+              "inductance_h": 1.092923360409769e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00329775,
+              "inductance_h": 1.0924761350196809e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00335856,
+              "inductance_h": 1.0557304417586242e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.0040927,
+              "inductance_h": 7.918085742776266e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00490821,
+              "inductance_h": 7.022377638549389e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.0050017,
+              "inductance_h": 6.979071578534085e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [
+            "-p",
+            "seg"
+          ],
+          "nodes": 6166,
+          "segments": 11514,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "fe4a20616e904a0a878902d94668a21188b9e3ea47a7e3e83b2b15eb1d52ea47",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.0032591,
+              "inductance_h": 1.0624229071156382e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.0032591,
+              "inductance_h": 1.0624229071156382e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.0032591,
+              "inductance_h": 1.062422907115638e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00325911,
+              "inductance_h": 1.0624197240167764e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00325981,
+              "inductance_h": 1.0619581746818096e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00331842,
+              "inductance_h": 1.0253811856604305e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00402684,
+              "inductance_h": 7.728707275991221e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00485306,
+              "inductance_h": 6.846081708086497e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00494889,
+              "inductance_h": 6.80204353533297e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ],
+      "expanded": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            106.0,
+            94.5,
+            120.0,
+            105.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 3983,
+          "segments": 7128,
+          "ground_vias": 10,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "c6a941358e2712d6c45e5480ab33e1640027b80dc142c32f644a55f232585d25",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00348876,
+              "inductance_h": 1.1861515514247086e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00348876,
+              "inductance_h": 1.1861515514247086e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00348876,
+              "inductance_h": 1.1861515514247086e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00348877,
+              "inductance_h": 1.186146776776416e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00348951,
+              "inductance_h": 1.1855722274318539e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00354828,
+              "inductance_h": 1.1448158296048815e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00421542,
+              "inductance_h": 8.973362592947079e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00465406,
+              "inductance_h": 8.265775631454821e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00467211,
+              "inductance_h": 8.248252672220404e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            106.0,
+            94.5,
+            120.0,
+            105.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 3971,
+          "segments": 7111,
+          "ground_vias": 10,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "cda63d64001da542cbce71f812678faf79883d6e90b51521e870b8943354456d",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00318786,
+              "inductance_h": 1.1394395756272372e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00318786,
+              "inductance_h": 1.1394395756272372e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00318786,
+              "inductance_h": 1.1394395756272372e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00318786,
+              "inductance_h": 1.1394348009789444e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00318852,
+              "inductance_h": 1.1390178150280436e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00324397,
+              "inductance_h": 1.1057353333286666e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00391428,
+              "inductance_h": 8.592043264793207e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00435271,
+              "inductance_h": 7.882960246835886e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00437003,
+              "inductance_h": 7.865612358038869e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            129.0,
+            94.5,
+            143.0,
+            105.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 3876,
+          "segments": 6872,
+          "ground_vias": 11,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "c4c2650673f1859fa67458fdb5ee5363f671d36f790d1add8dc4c1a1587d187a",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00359095,
+              "inductance_h": 1.2221205685634768e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00359095,
+              "inductance_h": 1.222120568563477e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00359095,
+              "inductance_h": 1.2221205685634768e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00359096,
+              "inductance_h": 1.2221142023657532e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00359174,
+              "inductance_h": 1.2215221459774513e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00365524,
+              "inductance_h": 1.1782861141371071e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00435672,
+              "inductance_h": 9.110092604557326e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00479732,
+              "inductance_h": 8.387879303794923e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00481558,
+              "inductance_h": 8.370133527640178e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            129.0,
+            94.5,
+            143.0,
+            105.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 3859,
+          "segments": 6857,
+          "ground_vias": 11,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "64c1418407a23347688c1334e5720b33015b9fe0bd593c69cd23b918e5b3c689",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.0033228,
+              "inductance_h": 1.175731677300482e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.0033228,
+              "inductance_h": 1.175731677300482e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.0033228,
+              "inductance_h": 1.175731677300482e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.0033228,
+              "inductance_h": 1.1757284942016204e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00332349,
+              "inductance_h": 1.1752749026138084e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00338136,
+              "inductance_h": 1.1406507447441666e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00409148,
+              "inductance_h": 8.78543243614417e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.0045433,
+              "inductance_h": 8.051250683661255e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00456223,
+              "inductance_h": 8.033011527182925e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ],
+      "thickness": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.2,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 3,
+          "solver_options": [],
+          "nodes": 2457,
+          "segments": 4340,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "ee6be9b5d628d941de95e87664098cb653d2a9745241bf806ae9ee87e333a7ad",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00379117,
+              "inductance_h": 1.1562463376177414e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00379117,
+              "inductance_h": 1.1562463376177414e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00379117,
+              "inductance_h": 1.1562463376177414e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00379118,
+              "inductance_h": 1.1562415629694488e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0037918,
+              "inductance_h": 1.1558675488531826e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00384586,
+              "inductance_h": 1.1244392222408262e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.0045135,
+              "inductance_h": 8.848410047125633e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00524244,
+              "inductance_h": 8.083575052603218e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.0104567,
+              "inductance_h": 7.948293350975109e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.2,
+          "window_mm": [
+            108.0,
+            96.5,
+            118.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 3,
+          "solver_options": [],
+          "nodes": 2472,
+          "segments": 4371,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "e804a8914c7d651ae9306db52bae86140f5ba8dd944c330248160fdc21ebe36a",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00350832,
+              "inductance_h": 1.1273151520624966e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00350832,
+              "inductance_h": 1.1273151520624966e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00350832,
+              "inductance_h": 1.1273151520624966e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00350832,
+              "inductance_h": 1.127311968963635e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00350895,
+              "inductance_h": 1.1269363632979378e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00356333,
+              "inductance_h": 1.095671966276966e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00424834,
+              "inductance_h": 8.518545512073369e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00497449,
+              "inductance_h": 7.733529670766905e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00994532,
+              "inductance_h": 7.605187124657601e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.2,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 3,
+          "solver_options": [],
+          "nodes": 2474,
+          "segments": 4368,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "9326096ae13638eef76f8a859208a341a7d88acdd45486ff82768e95e500638b",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00389412,
+              "inductance_h": 1.1961098762139685e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00389412,
+              "inductance_h": 1.1961098762139685e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00389412,
+              "inductance_h": 1.1961098762139685e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00389412,
+              "inductance_h": 1.1961066931151066e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0038948,
+              "inductance_h": 1.1956960733619296e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.0039535,
+              "inductance_h": 1.1615095915857905e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00466329,
+              "inductance_h": 9.016414005053436e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00542289,
+              "inductance_h": 8.219716190924026e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.0107332,
+              "inductance_h": 8.080582939673093e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.2,
+          "window_mm": [
+            131.0,
+            96.5,
+            141.0,
+            103.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 3,
+          "solver_options": [],
+          "nodes": 2489,
+          "segments": 4406,
+          "ground_vias": 7,
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "deck_sha256": "e2d89d69cfd9ba279a75d14443b1e696e659b963b4a6781f8135ad761046d933",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00374997,
+              "inductance_h": 1.1474498439130522e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00374997,
+              "inductance_h": 1.1474498439130522e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00374997,
+              "inductance_h": 1.1474498439130522e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00374998,
+              "inductance_h": 1.1474466608141906e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00375059,
+              "inductance_h": 1.1470853790933717e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00380369,
+              "inductance_h": 1.1171356019023392e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00449285,
+              "inductance_h": 8.739325249130447e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00523734,
+              "inductance_h": 7.950680675121486e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.0103022,
+              "inductance_h": 7.819409678059292e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ]
+    },
+    "original": {
+      "coarse": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            110.0,
+            99.5,
+            120.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1782,
+          "segments": 3129,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "8e3f782071a0651e39e83902024ba08f96659f11588f935abd431eea5fbc209e",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00354226,
+              "inductance_h": 1.2673301216981606e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00354226,
+              "inductance_h": 1.2673301216981608e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00354226,
+              "inductance_h": 1.2673301216981606e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00354227,
+              "inductance_h": 1.267325347049868e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00354302,
+              "inductance_h": 1.2668351498251448e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00360725,
+              "inductance_h": 1.2278167239767358e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00437047,
+              "inductance_h": 9.435262068788377e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00482788,
+              "inductance_h": 8.65540284763809e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00484564,
+              "inductance_h": 8.637227353136996e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            110.0,
+            99.5,
+            120.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1759,
+          "segments": 3094,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "2918272caf829c06af170f0d02674fe726d165910c935e1d16dce5ca71bafc3e",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00414806,
+              "inductance_h": 1.3351269443564463e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00414806,
+              "inductance_h": 1.3351269443564463e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00414806,
+              "inductance_h": 1.3351269443564463e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00414807,
+              "inductance_h": 1.3351221697081535e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00414874,
+              "inductance_h": 1.3346940429112362e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00420642,
+              "inductance_h": 1.3007033217151004e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00497084,
+              "inductance_h": 1.0374323979513488e-09
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00550666,
+              "inductance_h": 9.521539963438494e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00552612,
+              "inductance_h": 9.500945313802403e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            135.0,
+            99.5,
+            145.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1802,
+          "segments": 3185,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "d9b021e73fde09e6fbfd8bd0e911895f0b6beebdf234aa6e83738e258145a616",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00435029,
+              "inductance_h": 1.4153633173667945e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00435029,
+              "inductance_h": 1.4153633173667943e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00435029,
+              "inductance_h": 1.4153633173667943e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.0043503,
+              "inductance_h": 1.4153569511690707e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00435115,
+              "inductance_h": 1.4147426130887361e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00442126,
+              "inductance_h": 1.3679892570060609e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00521355,
+              "inductance_h": 1.0737308658223174e-09
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00573843,
+              "inductance_h": 9.885002106977454e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00575768,
+              "inductance_h": 9.864678020744622e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.25,
+          "window_mm": [
+            135.0,
+            99.5,
+            145.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 1803,
+          "segments": 3190,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "90072725c8927532e0ce66f56895e0aad95772a3a0e1ff68b03dba59e9304db2",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00414781,
+              "inductance_h": 1.3352797331018144e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00414781,
+              "inductance_h": 1.3352797331018144e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00414781,
+              "inductance_h": 1.3352797331018144e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00414781,
+              "inductance_h": 1.335274958453522e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0041485,
+              "inductance_h": 1.3348404654588807e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00420665,
+              "inductance_h": 1.300412068169242e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00497017,
+              "inductance_h": 1.0359045104976665e-09
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00550123,
+              "inductance_h": 9.511083483677356e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00552049,
+              "inductance_h": 9.490647988984358e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ],
+      "fine": [
+        {
+          "ic": "U1",
+          "capacitor": "C3",
+          "power_net": "/PFET",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            110.0,
+            99.5,
+            120.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6659,
+          "segments": 12600,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "db461aad2e7508640f7966de7948d8fc969d8ac36ddf946ad7f4da077b5c2886",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00276878,
+              "inductance_h": 1.0859173598148637e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00276878,
+              "inductance_h": 1.0859173598148637e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00276878,
+              "inductance_h": 1.0859173598148637e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00276879,
+              "inductance_h": 1.085912585166571e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0027696,
+              "inductance_h": 1.0853746414589205e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00283877,
+              "inductance_h": 1.0421943138486585e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00363454,
+              "inductance_h": 7.45047260447797e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00435081,
+              "inductance_h": 6.565364219461012e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00443052,
+              "inductance_h": 6.527549004982378e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U1",
+          "capacitor": "C5",
+          "power_net": "/3v3",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            110.0,
+            99.5,
+            120.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6571,
+          "segments": 12446,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "00a9117fdb3c0b19c7514dbd730dc3f67b54f3d2ac9ea9a288fb5021dc587752",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.0034995,
+              "inductance_h": 1.1724164798358779e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.0034995,
+              "inductance_h": 1.1724164798358779e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.0034995,
+              "inductance_h": 1.1724164798358779e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00349951,
+              "inductance_h": 1.1724085220887234e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00350033,
+              "inductance_h": 1.1718387473924543e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.0035681,
+              "inductance_h": 1.1272674055795692e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00435189,
+              "inductance_h": 8.448199027226753e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00523574,
+              "inductance_h": 7.477051479974315e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00533113,
+              "inductance_h": 7.430880630983357e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C11",
+          "power_net": "/PFET",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            135.0,
+            99.5,
+            145.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6755,
+          "segments": 12819,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "a6ba9d098a78fd93fd0be62b888c376ef27fc93487b3bdfadc6e042ce55fc85f",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00357375,
+              "inductance_h": 1.2026431866278907e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00357375,
+              "inductance_h": 1.2026431866278907e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00357375,
+              "inductance_h": 1.2026431866278907e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00357376,
+              "inductance_h": 1.202635228880736e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.0035746,
+              "inductance_h": 1.2020479471407271e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00364406,
+              "inductance_h": 1.1562224643762776e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00444469,
+              "inductance_h": 8.668055665613897e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00531029,
+              "inductance_h": 7.692340371494722e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.0054014,
+              "inductance_h": 7.64742684655419e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        },
+        {
+          "ic": "U2",
+          "capacitor": "C13",
+          "power_net": "/5v",
+          "pitch_mm": 0.125,
+          "window_mm": [
+            135.0,
+            99.5,
+            145.0,
+            106.0
+          ],
+          "fcu_in1_centers_mm": 0.2,
+          "nhinc": 1,
+          "solver_options": [],
+          "nodes": 6762,
+          "segments": 12839,
+          "ground_vias": 6,
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "deck_sha256": "0caf84b99282f9673bf7ad6c37b18df5cd41e521d765d5f6c168919e686541b7",
+          "results": [
+            {
+              "frequency_hz": 1.0,
+              "resistance_ohm": 0.00349838,
+              "inductance_h": 1.17361491655736e-09
+            },
+            {
+              "frequency_hz": 10.0,
+              "resistance_ohm": 0.00349838,
+              "inductance_h": 1.17361491655736e-09
+            },
+            {
+              "frequency_hz": 100.0,
+              "resistance_ohm": 0.00349838,
+              "inductance_h": 1.17361491655736e-09
+            },
+            {
+              "frequency_hz": 1000.0,
+              "resistance_ohm": 0.00349839,
+              "inductance_h": 1.1736085503596364e-09
+            },
+            {
+              "frequency_hz": 10000.0,
+              "resistance_ohm": 0.00349922,
+              "inductance_h": 1.1730308179162127e-09
+            },
+            {
+              "frequency_hz": 100000.0,
+              "resistance_ohm": 0.00356744,
+              "inductance_h": 1.128037715504134e-09
+            },
+            {
+              "frequency_hz": 1000000.0,
+              "resistance_ohm": 0.00435151,
+              "inductance_h": 8.444395224086855e-10
+            },
+            {
+              "frequency_hz": 10000000.0,
+              "resistance_ohm": 0.00523343,
+              "inductance_h": 7.474855141759647e-10
+            },
+            {
+              "frequency_hz": 100000000.0,
+              "resistance_ohm": 0.00532856,
+              "inductance_h": 7.428779785734545e-10
+            }
+          ],
+          "scope": "PCB-only F.Cu power/GND and In1.GND local window; equipotential solder-land ports; eight-strip plated vias; remote copper and component/package internals omitted"
+        }
+      ]
+    }
+  },
+  "thermal": {
+    "current": {
+      "nominal_1mm": {
+        "pitch_mm": 1.0,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.8205882352933855,
+        "energy_relative_error": 4.0223433989424245e-13,
+        "peak_pcb_rise_c": 32.93105234001791,
+        "min_pcb_rise_c": 21.968796508166193,
+        "source_pcb_rise_c": {
+          "U1": 27.880118576871155,
+          "L1": 26.99525134819822,
+          "U2": 32.8210022362952,
+          "L2": 31.081519208702154,
+          "U3": 29.00005331505445,
+          "U6": 29.917104488072052
+        },
+        "unknowns": 14342,
+        "copper_coverage_fraction": [
+          0.8163452615992567,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 82.93105234001791,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 1.0,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_0p5mm": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.8205882352938154,
+        "energy_relative_error": 1.6611375710611225e-13,
+        "peak_pcb_rise_c": 33.39757477037258,
+        "min_pcb_rise_c": 21.58417679638857,
+        "source_pcb_rise_c": {
+          "U1": 28.022145709634334,
+          "L1": 27.079116118085835,
+          "U2": 33.28409566215777,
+          "L2": 31.458672255597882,
+          "U3": 29.28287389246671,
+          "U6": 29.57765584882174
+        },
+        "unknowns": 57350,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 83.39757477037259,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_0p25mm": {
+        "pitch_mm": 0.25,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.82058823529269,
+        "energy_relative_error": 7.84222803371734e-13,
+        "peak_pcb_rise_c": 34.50865154224742,
+        "min_pcb_rise_c": 21.509493670845064,
+        "source_pcb_rise_c": {
+          "U1": 28.51715250773257,
+          "L1": 27.27304458043399,
+          "U2": 34.39403931819655,
+          "L2": 32.1446499407164,
+          "U3": 29.700107373889544,
+          "U6": 29.747315013340774
+        },
+        "unknowns": 229382,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126184,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 84.50865154224742,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.25,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "stress_weak_cooling": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 5.0,
+        "input_w": 2.6205882352941177,
+        "heat_out_w": 2.6205882352957692,
+        "energy_relative_error": 6.302278813546691e-13,
+        "peak_pcb_rise_c": 82.80377156681395,
+        "min_pcb_rise_c": 66.16826242547859,
+        "source_pcb_rise_c": {
+          "U1": 74.12807099591237,
+          "L1": 73.38220637718146,
+          "U2": 81.38510272552334,
+          "L2": 79.89099279077027,
+          "U3": 79.8328007946566,
+          "U6": 82.68473509261423
+        },
+        "unknowns": 57350,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 1.2,
+          "U6": 0.6
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 132.80377156681396,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 1.2
+            },
+            "U6": {
+              "watts": 0.6
+            }
+          },
+          "pitch": 0.5,
+          "h": 5.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_better_cooling": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 20.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.820588235295673,
+        "energy_relative_error": 8.54229629053752e-13,
+        "peak_pcb_rise_c": 20.56484707152267,
+        "min_pcb_rise_c": 9.327565504857972,
+        "source_pcb_rise_c": {
+          "U1": 15.41332861394299,
+          "L1": 14.440754901331694,
+          "U2": 20.451624686073167,
+          "L2": 18.595185525664427,
+          "U3": 16.36167340102153,
+          "U6": 16.821536651657354
+        },
+        "unknowns": 57350,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 70.56484707152268,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 20.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_95pct": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.244736842105263,
+        "heat_out_w": 1.244736842105024,
+        "energy_relative_error": 1.9194418194872478e-13,
+        "peak_pcb_rise_c": 22.111176152180857,
+        "min_pcb_rise_c": 13.952309931518627,
+        "source_pcb_rise_c": {
+          "U1": 16.995707452443234,
+          "L1": 16.88117447394291,
+          "U2": 19.952053586108917,
+          "L2": 19.738747810602597,
+          "U3": 21.237050581156645,
+          "U6": 22.051678858359292
+        },
+        "unknowns": 57350,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.06078947368421045,
+          "L1": 0.02605263157894734,
+          "U2": 0.11052631578947356,
+          "L2": 0.04736842105263153,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 72.11117615218086,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.06078947368421045
+            },
+            "L1": {
+              "watts": 0.02605263157894734
+            },
+            "U2": {
+              "watts": 0.11052631578947356
+            },
+            "L2": {
+              "watts": 0.04736842105263153
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "U1_only": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 0.29117647058823537,
+        "heat_out_w": 0.29117647058835705,
+        "energy_relative_error": 4.178924322185033e-13,
+        "peak_pcb_rise_c": 9.03297841780251,
+        "min_pcb_rise_c": 2.878978751995695,
+        "source_pcb_rise_c": {
+          "U1": 8.97034607137822,
+          "L1": 7.808128145802548
+        },
+        "unknowns": 57346,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 59.03297841780251,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "U2_only": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 0.5294117647058825,
+        "heat_out_w": 0.5294117647060861,
+        "energy_relative_error": 3.8460592735292357e-13,
+        "peak_pcb_rise_c": 15.575737784728467,
+        "min_pcb_rise_c": 6.081577306028735,
+        "source_pcb_rise_c": {
+          "U2": 15.46232313517088,
+          "L2": 13.221610442728224
+        },
+        "unknowns": 57346,
+        "copper_coverage_fraction": [
+          0.8163452615992565,
+          0.9435382956983365,
+          0.9194451408126186,
+          0.9065418890033435
+        ],
+        "losses_w": {
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 65.57573778472846,
+        "inputs": {
+          "pcb_sha256": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
+          "sources": {
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      }
+    },
+    "original": {
+      "nominal_1mm": {
+        "pitch_mm": 1.0,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.8205882352934961,
+        "energy_relative_error": 3.4149671064398995e-13,
+        "peak_pcb_rise_c": 25.152972156064045,
+        "min_pcb_rise_c": 12.329077261043942,
+        "source_pcb_rise_c": {
+          "U1": 19.753836532425023,
+          "L1": 18.73987465027382,
+          "U2": 25.046538860026644,
+          "L2": 23.113348855565377,
+          "U3": 21.95300139834586,
+          "U6": 21.336490412134324
+        },
+        "unknowns": 22206,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009979,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 75.15297215606404,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 1.0,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_0p5mm": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.8205882352955045,
+        "energy_relative_error": 7.616596278470419e-13,
+        "peak_pcb_rise_c": 25.24475495670142,
+        "min_pcb_rise_c": 12.143356323677933,
+        "source_pcb_rise_c": {
+          "U1": 19.81567611451814,
+          "L1": 18.766256023663885,
+          "U2": 25.1313340345749,
+          "L2": 23.233714426975915,
+          "U3": 22.269691529073643,
+          "U6": 20.811692482698554
+        },
+        "unknowns": 88806,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 75.24475495670143,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_0p25mm": {
+        "pitch_mm": 0.25,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.8205882352927198,
+        "energy_relative_error": 7.678797465052003e-13,
+        "peak_pcb_rise_c": 26.133863694805108,
+        "min_pcb_rise_c": 12.094754942611525,
+        "source_pcb_rise_c": {
+          "U1": 20.174616051847366,
+          "L1": 18.86651815885098,
+          "U2": 26.01894220327303,
+          "L2": 23.634161383828676,
+          "U3": 22.88911092001962,
+          "U6": 21.231213977530473
+        },
+        "unknowns": 355206,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 76.13386369480511,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.25,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "stress_weak_cooling": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 5.0,
+        "input_w": 2.6205882352941177,
+        "heat_out_w": 2.620588235300576,
+        "energy_relative_error": 2.4644807955205574e-12,
+        "peak_pcb_rise_c": 57.491481086267946,
+        "min_pcb_rise_c": 39.719320560957215,
+        "source_pcb_rise_c": {
+          "U1": 49.42102279409556,
+          "L1": 48.61214410840818,
+          "U2": 56.70513215763348,
+          "L2": 55.25401928316403,
+          "U3": 57.4757455837552,
+          "U6": 56.982273665933235
+        },
+        "unknowns": 88806,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 1.2,
+          "U6": 0.6
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 107.49148108626795,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 1.2
+            },
+            "U6": {
+              "watts": 0.6
+            }
+          },
+          "pitch": 0.5,
+          "h": 5.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_better_cooling": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 20.0,
+        "input_w": 1.8205882352941178,
+        "heat_out_w": 1.820588235296194,
+        "energy_relative_error": 1.140355087329038e-12,
+        "peak_pcb_rise_c": 16.759459531284648,
+        "min_pcb_rise_c": 4.707355260447892,
+        "source_pcb_rise_c": {
+          "U1": 11.597017635620974,
+          "L1": 10.478787359771431,
+          "U2": 16.64637964606885,
+          "L2": 14.666846376928945,
+          "U3": 13.466990773849258,
+          "U6": 12.662047581692232
+        },
+        "unknowns": 88806,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062,
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 66.75945953128465,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            },
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 20.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "nominal_95pct": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 1.244736842105263,
+        "heat_out_w": 1.244736842106227,
+        "energy_relative_error": 7.745554256704117e-13,
+        "peak_pcb_rise_c": 16.80439881884761,
+        "min_pcb_rise_c": 7.809045670263384,
+        "source_pcb_rise_c": {
+          "U1": 11.331310883693414,
+          "L1": 11.188793922016606,
+          "U2": 14.302925539835773,
+          "L2": 14.128693994685042,
+          "U3": 16.79520275003206,
+          "U6": 16.0531202646667
+        },
+        "unknowns": 88806,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.06078947368421045,
+          "L1": 0.02605263157894734,
+          "U2": 0.11052631578947356,
+          "L2": 0.04736842105263153,
+          "U3": 0.7,
+          "U6": 0.3
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 66.8043988188476,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.06078947368421045
+            },
+            "L1": {
+              "watts": 0.02605263157894734
+            },
+            "U2": {
+              "watts": 0.11052631578947356
+            },
+            "L2": {
+              "watts": 0.04736842105263153
+            },
+            "U3": {
+              "watts": 0.7
+            },
+            "U6": {
+              "watts": 0.3
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "U1_only": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 0.29117647058823537,
+        "heat_out_w": 0.291176470588355,
+        "energy_relative_error": 4.1083859098123837e-13,
+        "peak_pcb_rise_c": 7.614232020069669,
+        "min_pcb_rise_c": 1.6757746338794899,
+        "source_pcb_rise_c": {
+          "U1": 7.551461576880532,
+          "L1": 6.231251742288657
+        },
+        "unknowns": 88802,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U1": 0.20382352941176474,
+          "L1": 0.08735294117647062
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 57.61423202006967,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U1": {
+              "watts": 0.20382352941176474
+            },
+            "L1": {
+              "watts": 0.08735294117647062
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      },
+      "U2_only": {
+        "pitch_mm": 0.5,
+        "h_w_m2k_each_face": 10.0,
+        "input_w": 0.5294117647058825,
+        "heat_out_w": 0.5294117647060936,
+        "energy_relative_error": 3.988661253136645e-13,
+        "peak_pcb_rise_c": 13.172805840910346,
+        "min_pcb_rise_c": 3.6664479085344954,
+        "source_pcb_rise_c": {
+          "U2": 13.059700665298143,
+          "L2": 10.644724614354338
+        },
+        "unknowns": 88802,
+        "copper_coverage_fraction": [
+          0.8585849764423183,
+          0.9605280730009977,
+          0.9523643873681735,
+          0.9285152744389095
+        ],
+        "losses_w": {
+          "U2": 0.3705882352941177,
+          "L2": 0.15882352941176475
+        },
+        "ambient_c": [
+          25,
+          50
+        ],
+        "peak_pcb_c_at_50c": 63.17280584091034,
+        "inputs": {
+          "pcb_sha256": "b352395f28b7f507c354b84f957709dab3f2d78d12038861ad5866c3b6ce6595",
+          "sources": {
+            "U2": {
+              "watts": 0.3705882352941177
+            },
+            "L2": {
+              "watts": 0.15882352941176475
+            }
+          },
+          "pitch": 0.5,
+          "h": 10.0,
+          "k_fr4": 0.3,
+          "k_copper": 385,
+          "ambient_c": [
+            25,
+            50
+          ],
+          "source_hashes": {
+            "thermal.py": "b51cf1a5cf5c638d111b62b0fa318939674baf2cc8ea9fc626b6a6fdd8a2bb78",
+            "copper.py": "2a7e75274a8d80863764ac91e6d40e1e0b66ddb99c43d97587dad25d51943510"
+          }
+        }
+      }
+    }
+  },
+  "circuits": {
+    "current": {
+      "pdn": [
+        {
+          "capacitor": "C3",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C1",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.021680060765706513,
+              "l_h": 3.109628088186362e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C2",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.019063540206781814,
+              "l_h": 2.54743122810887e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C3",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01321259,
+              "l_h": 1.2902709036838592e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            }
+          ],
+          "ngspice_analytic_relative_error": 7.920103917356019e-09,
+          "nominal_z_2p4mhz_ohm": 0.008261644104735826,
+          "z_2p4mhz_range_ohm": [
+            0.0038694126418724784,
+            0.022824128515205464
+          ],
+          "nominal_effective_c_uf": 14.999999999999998
+        },
+        {
+          "capacitor": "C5",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C5",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01305309,
+              "l_h": 1.2670151833992715e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            },
+            {
+              "ref": "C6",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.01861241234154548,
+              "l_h": 2.4815723734007535e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C7",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.024013659756418927,
+              "l_h": 3.6615945918799515e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C8",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.0294154618081002,
+              "l_h": 4.8417379830635535e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            }
+          ],
+          "ngspice_analytic_relative_error": 5.701586933993344e-09,
+          "nominal_z_2p4mhz_ohm": 0.008189694591788017,
+          "z_2p4mhz_range_ohm": [
+            0.003996037452746636,
+            0.020663736762249554
+          ],
+          "nominal_effective_c_uf": 38.0
+        },
+        {
+          "capacitor": "C11",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C9",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.021987060517015135,
+              "l_h": 3.153136177912405e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C10",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01930176710005512,
+              "l_h": 2.581192809359377e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C11",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01329703,
+              "l_h": 1.302237763854939e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            }
+          ],
+          "ngspice_analytic_relative_error": 7.639497356811854e-09,
+          "nominal_z_2p4mhz_ohm": 0.008368802445637834,
+          "z_2p4mhz_range_ohm": [
+            0.003933238630637263,
+            0.023049508627022892
+          ],
+          "nominal_effective_c_uf": 14.999999999999998
+        },
+        {
+          "capacitor": "C13",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C13",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.0132591,
+              "l_h": 1.2846081708086498e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            },
+            {
+              "ref": "C14",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.01919354262806897,
+              "l_h": 2.5312001478486833e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C15",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.02495924408128984,
+              "l_h": 3.742346269575023e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C16",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.030725537595937186,
+              "l_h": 4.953616760019776e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            }
+          ],
+          "ngspice_analytic_relative_error": 5.3147706657545395e-09,
+          "nominal_z_2p4mhz_ohm": 0.008360083967465244,
+          "z_2p4mhz_range_ohm": [
+            0.004128353515803794,
+            0.021004638236682187
+          ],
+          "nominal_effective_c_uf": 38.0
+        }
+      ],
+      "ringing": [
+        {
+          "capacitor": "C3",
+          "pcb_l_nh": 0.6902709036838592,
+          "nominal": {
+            "peak_relative_voltage_v": 1.02806031,
+            "ring_frequency_hz": 196078431.37254855,
+            "last_above_10pct_ns": 10.374999999999998,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0009567045731003311,
+          "independent_analytic_relative_error": 0.0005893100614234289,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15274857843834352,
+            5.369996704909909
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C5",
+          "pcb_l_nh": 0.6670151833992715,
+          "nominal": {
+            "peak_relative_voltage_v": 1.01798375,
+            "ring_frequency_hz": 196078431.37254906,
+            "last_above_10pct_ns": 10.374999999999998,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0010155761327232027,
+          "independent_analytic_relative_error": 0.00042075823613053095,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15401675115381597,
+            5.3323269264670135
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C11",
+          "pcb_l_nh": 0.7022377638549389,
+          "nominal": {
+            "peak_relative_voltage_v": 1.03324096,
+            "ring_frequency_hz": 194174757.28155354,
+            "last_above_10pct_ns": 10.425000000000002,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0009209952342578362,
+          "independent_analytic_relative_error": 0.0006740928806144838,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15190891275823,
+            5.389288612022749
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C13",
+          "pcb_l_nh": 0.6846081708086497,
+          "nominal": {
+            "peak_relative_voltage_v": 1.02566069,
+            "ring_frequency_hz": 196078431.37254906,
+            "last_above_10pct_ns": 10.374999999999998,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0009722806087068122,
+          "independent_analytic_relative_error": 0.0005505964417118295,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15332605240837752,
+            5.36091744956089
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        }
+      ],
+      "conducted": [
+        {
+          "capacitor": "C3",
+          "analytic_relative_error": 7.095903565736129e-09,
+          "harmonics": [
+            {
+              "harmonic": 1,
+              "frequency_hz": 2400000.0,
+              "transfer_ohm": 0.008260147023689287,
+              "db_ohm": -41.660244450665694
+            },
+            {
+              "harmonic": 2,
+              "frequency_hz": 4800000.0,
+              "transfer_ohm": 0.01871047938994429,
+              "db_ohm": -34.55830170190754
+            },
+            {
+              "harmonic": 5,
+              "frequency_hz": 12000000.0,
+              "transfer_ohm": 0.049964051342409846,
+              "db_ohm": -26.026847080770974
+            },
+            {
+              "harmonic": 10,
+              "frequency_hz": 24000000.0,
+              "transfer_ohm": 0.10090723700475601,
+              "db_ohm": -19.92155370627831
+            }
+          ],
+          "scope": "Differential-mode current-to-receiver transfer; uncalibrated simplified 5uH/50ohm network, no emission level or compliance detector"
+        },
+        {
+          "capacitor": "C11",
+          "analytic_relative_error": 6.8967858854352164e-09,
+          "harmonics": [
+            {
+              "harmonic": 1,
+              "frequency_hz": 2400000.0,
+              "transfer_ohm": 0.008367251282132405,
+              "db_ohm": -41.548343765009534
+            },
+            {
+              "harmonic": 2,
+              "frequency_hz": 4800000.0,
+              "transfer_ohm": 0.018942014939511236,
+              "db_ohm": -34.451476503944576
+            },
+            {
+              "harmonic": 5,
+              "frequency_hz": 12000000.0,
+              "transfer_ohm": 0.05053888715739318,
+              "db_ohm": -25.927486505435006
+            },
+            {
+              "harmonic": 10,
+              "frequency_hz": 24000000.0,
+              "transfer_ohm": 0.10205527913623157,
+              "db_ohm": -19.8232905018715
+            }
+          ],
+          "scope": "Differential-mode current-to-receiver transfer; uncalibrated simplified 5uH/50ohm network, no emission level or compliance detector"
+        }
+      ]
+    },
+    "original": {
+      "pdn": [
+        {
+          "capacitor": "C3",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C1",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.018757604972819274,
+              "l_h": 2.6766137553984593e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C2",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01545132974924778,
+              "l_h": 1.8926258237994617e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C3",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01276878,
+              "l_h": 1.2565364219461013e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            }
+          ],
+          "ngspice_analytic_relative_error": 8.436574429594988e-09,
+          "nominal_z_2p4mhz_ohm": 0.006938316435172993,
+          "z_2p4mhz_range_ohm": [
+            0.003126492240228775,
+            0.020077646115690677
+          ],
+          "nominal_effective_c_uf": 14.999999999999998
+        },
+        {
+          "capacitor": "C5",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C5",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.013499500000000001,
+              "l_h": 1.3477051479974315e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            },
+            {
+              "ref": "C6",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.016973269678245407,
+              "l_h": 2.08991274090541e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C7",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.02284059938773371,
+              "l_h": 3.3435297229836156e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C8",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.028709009925207266,
+              "l_h": 4.597377635380058e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            }
+          ],
+          "ngspice_analytic_relative_error": 5.662710630417968e-09,
+          "nominal_z_2p4mhz_ohm": 0.007860422074403958,
+          "z_2p4mhz_range_ohm": [
+            0.003943728238513055,
+            0.019722867890633055
+          ],
+          "nominal_effective_c_uf": 38.0
+        },
+        {
+          "capacitor": "C11",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C9",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.021303711660591536,
+              "l_h": 3.033074433144566e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C10",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01703619994776548,
+              "l_h": 2.1145112254663995e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C11",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01357375,
+              "l_h": 1.3692340371494722e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            }
+          ],
+          "ngspice_analytic_relative_error": 7.805554288910515e-09,
+          "nominal_z_2p4mhz_ohm": 0.007851781580664598,
+          "z_2p4mhz_range_ohm": [
+            0.003685437556553138,
+            0.02192165694355507
+          ],
+          "nominal_effective_c_uf": 14.999999999999998
+        },
+        {
+          "capacitor": "C13",
+          "cases": 81,
+          "parts": [
+            {
+              "ref": "C13",
+              "c_f": 4.9999999999999996e-06,
+              "r_ohm": 0.01349838,
+              "l_h": 1.3474855141759646e-09,
+              "interconnect_provenance": "FastHenry nearest-loop"
+            },
+            {
+              "ref": "C14",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.016971037913124702,
+              "l_h": 2.0894750881356974e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C15",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.022836489808846845,
+              "l_h": 3.342723827880451e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            },
+            {
+              "ref": "C16",
+              "c_f": 1.1e-05,
+              "r_ohm": 0.028703022186639837,
+              "l_h": 4.5962034301090655e-09,
+              "interconnect_provenance": "distance-scaled proxy; not extracted"
+            }
+          ],
+          "ngspice_analytic_relative_error": 5.4573385589957985e-09,
+          "nominal_z_2p4mhz_ohm": 0.007858957709517327,
+          "z_2p4mhz_range_ohm": [
+            0.003942795382587379,
+            0.019719571100286024
+          ],
+          "nominal_effective_c_uf": 38.0
+        }
+      ],
+      "ringing": [
+        {
+          "capacitor": "C3",
+          "pcb_l_nh": 0.6565364219461012,
+          "nominal": {
+            "peak_relative_voltage_v": 1.01333973,
+            "ring_frequency_hz": 196078431.37254906,
+            "last_above_10pct_ns": 10.374999999999998,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0010364737204174837,
+          "independent_analytic_relative_error": 0.0003404910688274577,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15300436739570747,
+            5.315139647633815
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C5",
+          "pcb_l_nh": 0.7477051479974315,
+          "nominal": {
+            "peak_relative_voltage_v": 1.05271114,
+            "ring_frequency_hz": 192307692.30769256,
+            "last_above_10pct_ns": 10.475000000000007,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0006725681652803934,
+          "independent_analytic_relative_error": 0.0007428655141684859,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.1520811294181594,
+            5.465192454362189
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C11",
+          "pcb_l_nh": 0.7692340371494721,
+          "nominal": {
+            "peak_relative_voltage_v": 1.06203005,
+            "ring_frequency_hz": 192307692.3076923,
+            "last_above_10pct_ns": 10.475000000000007,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.000494769427663537,
+          "independent_analytic_relative_error": 0.0006288996852740425,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15351500981969798,
+            5.502069762718575
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        },
+        {
+          "capacitor": "C13",
+          "pcb_l_nh": 0.7474855141759646,
+          "nominal": {
+            "peak_relative_voltage_v": 1.05261513,
+            "ring_frequency_hz": 192307692.30769256,
+            "last_above_10pct_ns": 10.475000000000007,
+            "final_current_a": 1.0,
+            "end_time_s": 4e-07,
+            "timestep_ns": 0.05
+          },
+          "timestep_relative_change": 0.0006763250685938258,
+          "independent_analytic_relative_error": 0.0007440193345597616,
+          "sensitivity_cases": 243,
+          "peak_v_per_a_range": [
+            0.15206682865691284,
+            5.4648139691569835
+          ],
+          "current_scaling_a": [
+            0.5,
+            1.0,
+            2.0
+          ]
+        }
+      ],
+      "conducted": [
+        {
+          "capacitor": "C3",
+          "analytic_relative_error": 7.588419751660164e-09,
+          "harmonics": [
+            {
+              "harmonic": 1,
+              "frequency_hz": 2400000.0,
+              "transfer_ohm": 0.0069372714412887625,
+              "db_ohm": -43.176226242206184
+            },
+            {
+              "harmonic": 2,
+              "frequency_hz": 4800000.0,
+              "transfer_ohm": 0.01624481740241799,
+              "db_ohm": -35.78570331835037
+            },
+            {
+              "harmonic": 5,
+              "frequency_hz": 12000000.0,
+              "transfer_ohm": 0.04375619879608656,
+              "db_ohm": -27.179208264382993
+            },
+            {
+              "harmonic": 10,
+              "frequency_hz": 24000000.0,
+              "transfer_ohm": 0.08847464590995102,
+              "db_ohm": -21.063623336094818
+            }
+          ],
+          "scope": "Differential-mode current-to-receiver transfer; uncalibrated simplified 5uH/50ohm network, no emission level or compliance detector"
+        },
+        {
+          "capacitor": "C11",
+          "analytic_relative_error": 7.375277260158123e-09,
+          "harmonics": [
+            {
+              "harmonic": 1,
+              "frequency_hz": 2400000.0,
+              "transfer_ohm": 0.007850298860499198,
+              "db_ohm": -42.10227618740064
+            },
+            {
+              "harmonic": 2,
+              "frequency_hz": 4800000.0,
+              "transfer_ohm": 0.01818110621664763,
+              "db_ohm": -34.807593919343695
+            },
+            {
+              "harmonic": 5,
+              "frequency_hz": 12000000.0,
+              "transfer_ohm": 0.04854282380907043,
+              "db_ohm": -26.277499274120903
+            },
+            {
+              "harmonic": 10,
+              "frequency_hz": 24000000.0,
+              "transfer_ohm": 0.09802849700098958,
+              "db_ohm": -20.172953120592116
+            }
+          ],
+          "scope": "Differential-mode current-to-receiver transfer; uncalibrated simplified 5uH/50ohm network, no emission level or compliance detector"
+        }
+      ]
+    }
+  },
+  "coupling_estimates": {
+    "current": [
+      {
+        "ic": "U1",
+        "pin": "11",
+        "net": "Net-(U1-L1)",
+        "copper_area_mm2": 3.8633301177739385,
+        "over_ground_mm2": 3.8633301177739385,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8268657949444156,
+        "parallel_plate_pf_spacing_range": [
+          0.5248143630012501,
+          1.9480397541910808
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U1",
+        "pin": "9",
+        "net": "Net-(U1-L2)",
+        "copper_area_mm2": 3.8633301177739376,
+        "over_ground_mm2": 3.8633301177739376,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8268657949444153,
+        "parallel_plate_pf_spacing_range": [
+          0.52481436300125,
+          1.9480397541910799
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U2",
+        "pin": "11",
+        "net": "Net-(U2-L1)",
+        "copper_area_mm2": 3.863330117773998,
+        "over_ground_mm2": 3.863330117773998,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8268657949444282,
+        "parallel_plate_pf_spacing_range": [
+          0.524814363001258,
+          1.9480397541911103
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U2",
+        "pin": "9",
+        "net": "Net-(U2-L2)",
+        "copper_area_mm2": 3.8633301177740034,
+        "over_ground_mm2": 3.8633301177740025,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8268657949444294,
+        "parallel_plate_pf_spacing_range": [
+          0.5248143630012588,
+          1.948039754191113
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      }
+    ],
+    "original": [
+      {
+        "ic": "U1",
+        "pin": "11",
+        "net": "Net-(U1-L1)",
+        "copper_area_mm2": 4.033861617980357,
+        "over_ground_mm2": 4.03386161798036,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8633645305384878,
+        "parallel_plate_pf_spacing_range": [
+          0.5479802271454329,
+          2.034028300760166
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U1",
+        "pin": "9",
+        "net": "Net-(U1-L2)",
+        "copper_area_mm2": 4.0338616179803575,
+        "over_ground_mm2": 4.033861617980358,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8633645305384872,
+        "parallel_plate_pf_spacing_range": [
+          0.5479802271454326,
+          2.0340283007601645
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U2",
+        "pin": "11",
+        "net": "Net-(U2-L1)",
+        "copper_area_mm2": 4.03386161798041,
+        "over_ground_mm2": 4.0338616179804125,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.8633645305384989,
+        "parallel_plate_pf_spacing_range": [
+          0.5479802271454399,
+          2.034028300760192
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      },
+      {
+        "ic": "U2",
+        "pin": "9",
+        "net": "Net-(U2-L2)",
+        "copper_area_mm2": 4.033861617980414,
+        "over_ground_mm2": 4.033861617980413,
+        "dielectric_gap_mm": 0.17375000000000002,
+        "parallel_plate_pf_at_0p2mm": 0.863364530538499,
+        "parallel_plate_pf_spacing_range": [
+          0.54798022714544,
+          2.0340283007601925
+        ],
+        "scope": "Area/dielectric estimate; fringing, package, cables and other conductor coupling omitted"
+      }
+    ]
+  },
+  "gates": {
+    "thermal_energy_conservation": true,
+    "copper_mesh": [
+      {
+        "revision": "current",
+        "capacitor": "C3",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.011194202386807281,
+          "inductance_h": 0.23431325078969825
+        },
+        "passed": false
+      },
+      {
+        "revision": "current",
+        "capacitor": "C5",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.02805224476373228,
+          "inductance_h": 0.21948088513903666
+        },
+        "passed": false
+      },
+      {
+        "revision": "current",
+        "capacitor": "C11",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.01358132598238472,
+          "inductance_h": 0.23800112866561346
+        },
+        "passed": false
+      },
+      {
+        "revision": "current",
+        "capacitor": "C13",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.0302571985510174,
+          "inductance_h": 0.21581905930926723
+        },
+        "passed": false
+      },
+      {
+        "revision": "original",
+        "capacitor": "C3",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.10965084662396188,
+          "inductance_h": 0.31834313502087197
+        },
+        "passed": false
+      },
+      {
+        "revision": "original",
+        "capacitor": "C5",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.05174435705363521,
+          "inductance_h": 0.2734351219782162
+        },
+        "passed": false
+      },
+      {
+        "revision": "original",
+        "capacitor": "C11",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.08062459865657064,
+          "inductance_h": 0.2850448146584899
+        },
+        "passed": false
+      },
+      {
+        "revision": "original",
+        "capacitor": "C13",
+        "relative_changes_10mhz": {
+          "resistance_ohm": 0.0511710293249361,
+          "inductance_h": 0.2724104084026922
+        },
+        "passed": false
+      }
+    ],
+    "copper_boundary": [
+      {
+        "capacitor": "C3",
+        "relative_L_change_10mhz": 0.03076899378843714,
+        "passed": true
+      },
+      {
+        "capacitor": "C5",
+        "relative_L_change_10mhz": 0.03186143375442398,
+        "passed": true
+      },
+      {
+        "capacitor": "C11",
+        "relative_L_change_10mhz": 0.03646119925772155,
+        "passed": true
+      },
+      {
+        "capacitor": "C13",
+        "relative_L_change_10mhz": 0.03382653817642695,
+        "passed": true
+      }
+    ],
+    "thermal_mesh": [
+      {
+        "revision": "current",
+        "peak_rise_relative_change": 0.03219704978951727,
+        "passed": true
+      },
+      {
+        "revision": "original",
+        "peak_rise_relative_change": 0.034021327595751716,
+        "passed": true
+      }
+    ],
+    "not_demonstrated": [
+      "validated TPS63070 startup/control behavior",
+      "measured switching stress/ringing",
+      "radiated or common-mode EMI",
+      "EMC compliance",
+      "junction temperature",
+      "final component bias/loss models"
+    ]
+  }
+}

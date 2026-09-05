@@ -1,0 +1,41 @@
+{
+  "scope": "Schematic-derived functional model; not manufacturer device characterization",
+  "cases": [
+    {
+      "case": "usb_absent",
+      "usb_gpio": 0.0333181,
+      "battery_adc": 4.81e-08,
+      "passed": true
+    },
+    {
+      "case": "usb_present",
+      "usb_gpio": 3.3,
+      "battery_adc": 4.81e-08,
+      "passed": true
+    },
+    {
+      "case": "usb_board_off",
+      "usb_gpio": 1.15529e-09,
+      "battery_adc": 6.01e-08,
+      "passed": true
+    },
+    {
+      "case": "battery_read_3v",
+      "usb_gpio": 0.0333181,
+      "battery_adc": 0.697673,
+      "passed": true
+    },
+    {
+      "case": "battery_read_6v",
+      "usb_gpio": 3.3,
+      "battery_adc": 1.39535,
+      "passed": true
+    },
+    {
+      "case": "battery_off_5uA_leakage",
+      "usb_gpio": 1.15529e-09,
+      "battery_adc": 0.0500001,
+      "passed": true
+    }
+  ]
+}

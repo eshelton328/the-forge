@@ -1,13 +1,44 @@
 # Board validation rules for esp32s3-devkit-5v (rev-2, dual rail)
 # Used by scripts/validate_board.py to verify design intent beyond ERC/DRC.
 #
-# Power path: 3xAA (J1 VBAT) -> Q1 reverse-protection PMOS -> SW1 slide
-# switch -> VBAT_SW -> two TPS63070 buck-boosts:
-#   U1 -> 3.3V (always on: ESP32, RTC, OLED switch, RGB LED, pull-ups)
+# Power path: J1 VBAT -> Q1 reverse-protection PMOS -> PFET -> dual TPS63070.
+# SW1 switches U1 EN only, via R31 10k; OFF throw and R32 pull EN to GND.
+# Input chemistry/load remain provisional; cold start requires >=3V at VIN.
+#   U1 -> 3.3V (SW1 enabled: ESP32, RTC, OLED switch, RGB LED, pull-ups)
 #   U2 -> 5V   (GPIO18-gated via R19 pulldown: MAX98357A amp only)
-# USB-C is data-only (VBUS unconnected) — battery power required to flash.
+# USB-C is data-only (VBUS biases ESD and the isolated presence detector); CC1 and CC2 each have 5.1k to GND.
 
 required_components:
+  Q4:
+    value: "MMBT3904"
+  Q5:
+    value: "MMBT3904"
+  Q6:
+    value: "AO3401A"
+  Q7:
+    value: "MMBT3904"
+  R40:
+    value: "100k"
+  R41:
+    value: "1M"
+  R42:
+    value: "47k"
+  R43:
+    value: "10k"
+  R44:
+    value: "47k"
+  R45:
+    value: "100k"
+  R46:
+    value: "10k"
+  R47:
+    value: "100k"
+  R48:
+    value: "33k"
+  R49:
+    value: "10k"
+  C34:
+    value: "0.1uF"
   # --- regulators / power path ---
   U1:
     value: "TPS63070RNMR"
@@ -20,7 +51,7 @@ required_components:
   L2:
     value: "1.5µH"
   SW1:
-    value: "MK-12C03-G015"
+    value: "MSK12C02"
   # --- MCU / interfaces ---
   U3:
     value: "ESP32-S3-WROOM-1-N16"
@@ -32,14 +63,14 @@ required_components:
   U6:
     value: "MAX98357A"      # I2S class-D amp on the 5V rail
   Q2:
-    value: "AO3401A"        # OLED high-side load switch (GPIO7 via Q3)
+    value: "AO3401A"        # OLED high-side load switch (GPIO41 via Q3)
   Q3:
-    value: "MMBT3904"       # inverts GPIO7 so HIGH = OLED on
-  D4:
-    value: "LED_RGBK"       # status LED, common cathode, GPIO38/39/40
+    value: "MMBT3904"       # inverts GPIO41 so HIGH = OLED on
+  D2:
+    value: "150141M173100"       # status LED, common anode; active LOW, GPIO38/39/40
   # --- U1 3.3V stage ---
   R3:
-    value: "10kΩ"           # U1 EN + PS/SYNC pull-up to VBAT_SW (always on)
+    value: "10kΩ"           # U1 PS/SYNC pull-up to PFET: HIGH enables power save
   R4:
     value: "470kΩ"          # 3.3V FB divider upper
   R5:
@@ -47,7 +78,7 @@ required_components:
   R6:
     value: "100kΩ"          # U1 PG pull-up
   C1:
-    value: "10µF"           # U1 input caps (VBAT_SW)
+    value: "10µF"           # U1 input caps (PFET)
   C2:
     value: "10µF"
   C3:
@@ -56,7 +87,7 @@ required_components:
     value: "0.1µF"          # U1 VAUX cap — datasheet-required, must not be loaded
   # --- U2 5V stage ---
   R7:
-    value: "10kΩ"           # U2 PS/SYNC pull-up (forced PWM — good for amp bursts)
+    value: "10kΩ"           # U2 PS/SYNC pull-up to PFET: HIGH enables power save
   R8:
     value: "680kΩ"          # 5V FB divider upper
   R9:
@@ -66,7 +97,7 @@ required_components:
   R19:
     value: "100kΩ"          # U2 EN pulldown: 5V rail OFF until GPIO18 drives high
   C9:
-    value: "10µF"           # U2 input caps (VBAT_SW)
+    value: "10µF"           # U2 input caps (PFET)
   C10:
     value: "10µF"
   C11:
@@ -88,19 +119,19 @@ required_components:
     value: "5.1kΩ"
   # --- I2C bus + RTC ---
   R16:
-    value: "4.7kΩ"          # SCL pull-up (one pair for the whole bus)
+    value: "4.7kΩ"          # SCL pull-up on main RTC bus
   R17:
     value: "4.7kΩ"          # SDA pull-up
   R18:
     value: "10kΩ"           # RTC /INT pull-up (GPIO1)
   # --- amp control ---
   R20:
-    value: "100kΩ"          # AMP SD_MODE pulldown: amp off until GPIO21 high
+    value: "100kΩ"          # AMP_SD pulldown at U8 output; GPIO21 high = play
   # --- OLED load switch ---
   R21:
     value: "100kΩ"          # Q2 gate pull-up (default off)
   R22:
-    value: "10kΩ"           # Q3 base resistor from GPIO7
+    value: "10kΩ"           # Q3 base resistor from GPIO41
   R23:
     value: "100kΩ"          # Q3 base pulldown (off at boot / deep sleep)
   # --- front panel ---
@@ -128,7 +159,7 @@ required_components:
     value: "150Ω"           # RGB blue series
   # --- misc ---
   R11:
-    value: "1kΩ"            # D3 power LED series
+    value: "1kΩ"            # D1 power LED series; DNP for low sleep current
   C21:
     value: "100µF"          # 3v3 bulk, drawn in the RTC block (1206)
   # --- amp-local caps (draw cluster at U6; place there in layout) ---
@@ -144,25 +175,77 @@ required_components:
   J4: {}                    # OLED header (switched VDD)
   SW2: {}                   # RESET
   SW3: {}                   # BOOT
-  SW4: {}                   # MODE (GPIO4)
-  SW5: {}                   # VOL_UP (GPIO5)
-  SW6: {}                   # VOL_DOWN (GPIO6)
-  SW7: {}                   # BTN4 (GPIO10, RTC-capable for wake)
+  SW4:
+    value: "VOL-"          # left button, GPIO4
+  SW5:
+    value: "MODE"          # center button, GPIO5
+  SW6:
+    value: "VOL+"          # right button, GPIO6
+  SW7:
+    value: "BATTERY"       # battery indication request, GPIO10, RTC-capable for wake
+
+  # September 2026 power-state and USB corrections.
+  U7:
+    value: "SN74LVC2G66DCUR"
+  U8:
+    value: "SN74LVC1T45DBVR"
+  R31:
+    value: "10kΩ"
+  R32:
+    value: "100kΩ"
+  R33:
+    value: "10kΩ"
+  R34:
+    value: "22Ω"
+  R35:
+    value: "22Ω"
+  R36:
+    value: "100kΩ"
+  R37:
+    value: "4.7kΩ"
+  R38:
+    value: "4.7kΩ"
+  R39:
+    value: "100kΩ"
+  C29:
+    value: "0.1µF"
+  C30:
+    value: "0.1µF"
+  C31:
+    value: "1µF"
+  C32:
+    value: "0.1µF"
+  C33:
+    value: "0.1µF"
 
 required_nets:
+  - "GPIO2"
+  - "GPIO7"
+  - "GPIO12"
+  - "GPIO13"
+  - "GPIO15"
   - "GND"
   - "3v3"
   - "5v"
   - "VBAT"
-  - "VBAT_SW"
+  - "EN_3V3"
+  - "USB_VBUS"
+  - "USB_CC1"
+  - "OLED_3V3"
+  - "OLED_SCL"
+  - "OLED_SDA"
+  - "AMP_SD"
+  - "GPIO11"
+  - "RTC_VBACKUP"
   - "PFET"
   - "D+"
   - "D-"
   - "GPIO1"    # RTC /INT
-  - "GPIO7"    # OLED power gate
+  - "GPIO41"    # OLED power gate
   - "GPIO18"   # 5V boost enable
   - "GPIO21"   # amp SD_MODE
 
+# These are nominal bookkeeping sums, not DC-bias-corrected capacitance or stability proof.
 capacitor_budget:
   input_u1:
     min_total_uf: 20
@@ -181,7 +264,7 @@ capacitor_budget:
     min_total_uf: 150
     refs: [C13, C14, C15, C16, C26, C27]
   decoupling:
-    refs: [C4, C12, C18, C20, C28]
+    refs: [C4, C12, C18, C20, C28, C29, C30, C32, C33]
 
 # TPS63070 feedback dividers: V_OUT = V_REF * (1 + R_upper / R_lower),
 # V_REF = 0.8V per datasheet SLVSC58B §7.5. Guards the exact class of bug
@@ -203,4 +286,4 @@ voltage_dividers:
 bom_rules:
   require_footprint: true
   no_duplicate_refs: true
-  require_datasheet_on: [U1]
+  require_datasheet_on: [U1, U2, U3, U4, U5, U6, U7, U8, Q1, Q2, Q3, Q4, Q5, Q6, Q7, L1, L2]

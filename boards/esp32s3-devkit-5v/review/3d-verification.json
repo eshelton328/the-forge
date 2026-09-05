@@ -1,0 +1,34 @@
+{
+  "assembly_step_reimported": true,
+  "solid_count": 245,
+  "assembly_bbox_mm": [
+    65.5,
+    62.25,
+    11.54
+  ],
+  "electrical_footprints": 112,
+  "resolved_model_assignments": 112,
+  "generated_approximation_refs": [
+    "J1",
+    "J3",
+    "U5",
+    "U6"
+  ],
+  "actuator_variant_provisional_refs": [
+    "SW2",
+    "SW3",
+    "SW4",
+    "SW5",
+    "SW6",
+    "SW7"
+  ],
+  "slide_switch_mpn": "MSK12C02",
+  "assembly_step_excludes_dnp": true,
+  "note": "Component placement and model coverage checked; simplified models are not production mechanical certification.",
+  "unique_step_files": 20,
+  "renders_visually_inspected": [
+    "pcb-preview.png",
+    "pcb-3d-perspective.png",
+    "../docs/pcb-bottom.png"
+  ]
+}

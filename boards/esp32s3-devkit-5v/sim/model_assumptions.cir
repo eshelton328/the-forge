@@ -1,0 +1,5 @@
+* Excluding digital ICs leaves passive-only nodes floating. These numerical
+* shunts are 1 teraohm, not physical BOM parts. Seed the ideal feedback model's
+* operating point; nodeset is an initial guess and does not force rail voltage.
+.options rshunt=1e12
+.nodeset v(3v3)=3.3 v(/5v)=0
