@@ -4,7 +4,7 @@ Fully routed **64 × 56 mm, four-layer engineering prototype**, revised 2026-09-
 
 Battery J1 feeds an AO3401A reverse-polarity stage and two TPS63070 buck-boost regulators: 3.307 V for the ESP32-S3/RTC and 4.985 V for the MAX98357A amplifier. GPIO18 enables the audio rail. USB-C is data-only. The RTC, switched OLED bus, wake buttons and common-anode RGB indicator remain.
 
-The revised converter cells turn the nearest input/output capacitor ground pads inward, add explicit quiet feedback/VAUX returns and provide two nearby PGND plane connections per converter. The amplifier sits beside the speaker connector. Both speaker traces are 5.37 mm long, entirely on F.Cu, with 0.6 mm main conductors and short 0.2 mm package escapes; neither uses vias. In1.Cu remains the ground reference.
+The converter cells keep the nearest input/output ceramics beside the power pins, with their ground pads facing north. Their power-pad centers are 1.81 mm from VIN/VOUT, with direct 0.4 mm top-side connections. Explicit quiet feedback/VAUX returns and two nearby PGND plane connections per converter are retained. The amplifier sits beside the speaker connector. Both speaker traces are 5.37 mm long, entirely on F.Cu, with 0.6 mm main conductors and short 0.2 mm package escapes; neither uses vias. In1.Cu remains the ground reference.
 
 New monitoring hardware provides positive USB-presence detection on GPIO7, switched battery-voltage sensing on GPIO2/ADC1 with GPIO12 enable, and converter power-good inputs on GPIO15/13. Both PG pull-ups use 3.3 V. Eight labeled underside test pads expose ground, protected battery, both rails, enables and power-good signals. SW1 now consistently specifies MSK12C02. Board-local overhang footprint variants eliminate the previous library warnings.
 

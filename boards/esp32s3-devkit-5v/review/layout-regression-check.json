@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "negative_control_revision": "77e62ed",
+  "negative_control_pcb_sha256": "38bde79b552e79995e1b7d8a88264242e9d507ebe84f3e65b10235daaacdcfc9",
+  "expected_failure": "local supply ceramic too far from power pin",
+  "observed_failure": true,
+  "current_board_guard_passed": true,
+  "scope": "Geometry regression; no physical parasitic or thermal simulation"
+}

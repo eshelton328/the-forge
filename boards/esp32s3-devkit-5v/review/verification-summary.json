@@ -21,8 +21,8 @@
     "area_reduction_percent": 35.42,
     "electrical_footprints": 112,
     "test_points": 8,
-    "track_segments": 3025,
-    "vias": 220,
+    "track_segments": 3022,
+    "vias": 219,
     "speaker": {
       "/speaker +": {
         "length_mm": 5.3732,
@@ -40,7 +40,34 @@
       }
     },
     "in1_signal_tracks": 0,
-    "button_pitch_mm": 15
+    "button_pitch_mm": 15,
+    "converter_capacitors": {
+      "C3": {
+        "ic": "U1",
+        "power_pad_separation_mm": 1.8085,
+        "direct_supply_track_min_width_mm": 0.4,
+        "ground_pad_to_via_mm": 0.6973
+      },
+      "C5": {
+        "ic": "U1",
+        "power_pad_separation_mm": 1.8085,
+        "direct_supply_track_min_width_mm": 0.4,
+        "ground_pad_to_via_mm": 0.6973
+      },
+      "C11": {
+        "ic": "U2",
+        "power_pad_separation_mm": 1.8085,
+        "direct_supply_track_min_width_mm": 0.4,
+        "ground_pad_to_via_mm": 0.6973
+      },
+      "C13": {
+        "ic": "U2",
+        "power_pad_separation_mm": 1.8085,
+        "direct_supply_track_min_width_mm": 0.4,
+        "ground_pad_to_via_mm": 0.6973
+      }
+    },
+    "scope": "Geometry and connectivity guards; no extracted parasitic, EMI or thermal validation"
   },
   "monitoring_cases_passed": 6,
   "simulation_measures_passed": 25,
@@ -74,8 +101,15 @@
   "source_sha256": {
     "esp32s3-devkit-5v.kicad_sch": "d50864b4f6dba38fa32e1b3fb41f6ad601570cfa2162f0548b070d9ce860e925",
     "power-monitor.kicad_sch": "e9abb107bcb8a53473a6082b1e567d3ebe6c7659cd54707bdab2fc84790ab215",
-    "esp32s3-devkit-5v.kicad_pcb": "38bde79b552e79995e1b7d8a88264242e9d507ebe84f3e65b10235daaacdcfc9",
+    "esp32s3-devkit-5v.kicad_pcb": "0e17f9ad0cf0508d8a53ed51c0b1e6af4423311598bbb03fe811c556e8b1e7d8",
     "esp32s3-devkit-5v.kicad_pro": "9bbcfb2fc28734f15b96460094cc3a6f286152b802282eab614e1d3d4affdcc6",
     "esp32s3-devkit-5v.kicad_dru": "e8805a1c5f4c3e214e6bf811fd20c507147d4f8e711094bced44bfa68cb2af23"
+  },
+  "layout_regression_negative_control_passed": true,
+  "physical_validation": {
+    "extracted_parasitics": false,
+    "switch_node_ringing": false,
+    "EMI": false,
+    "thermal": false
   }
 }

@@ -7,8 +7,8 @@
   "area_reduction_percent": 35.42,
   "electrical_footprints": 112,
   "test_points": 8,
-  "track_segments": 3025,
-  "vias": 220,
+  "track_segments": 3022,
+  "vias": 219,
   "speaker": {
     "/speaker +": {
       "length_mm": 5.3732,
@@ -26,5 +26,32 @@
     }
   },
   "in1_signal_tracks": 0,
-  "button_pitch_mm": 15
+  "button_pitch_mm": 15,
+  "converter_capacitors": {
+    "C3": {
+      "ic": "U1",
+      "power_pad_separation_mm": 1.8085,
+      "direct_supply_track_min_width_mm": 0.4,
+      "ground_pad_to_via_mm": 0.6973
+    },
+    "C5": {
+      "ic": "U1",
+      "power_pad_separation_mm": 1.8085,
+      "direct_supply_track_min_width_mm": 0.4,
+      "ground_pad_to_via_mm": 0.6973
+    },
+    "C11": {
+      "ic": "U2",
+      "power_pad_separation_mm": 1.8085,
+      "direct_supply_track_min_width_mm": 0.4,
+      "ground_pad_to_via_mm": 0.6973
+    },
+    "C13": {
+      "ic": "U2",
+      "power_pad_separation_mm": 1.8085,
+      "direct_supply_track_min_width_mm": 0.4,
+      "ground_pad_to_via_mm": 0.6973
+    }
+  },
+  "scope": "Geometry and connectivity guards; no extracted parasitic, EMI or thermal validation"
 }

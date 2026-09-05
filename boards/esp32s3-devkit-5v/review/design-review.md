@@ -7,7 +7,7 @@ Revised 2026-09-04 for PR #122. This is a routed engineering prototype, with bat
 | Area | Revised implementation |
 |---|---|
 | Board | 64 × 56 mm, four layers; 35.42% less area. Four M3 holes; 15 mm button pitch retained. Module antenna overhang remains beyond the north edge. |
-| Converter cells | U1/U2 retain input-left, output-right orientation and inductors on the north side. Their centers are 23 mm apart. Nearest ceramic ground pads face inward, with local ground vias. VAUX and feedback lower resistors return explicitly on the AGND side. PGND has two nearby plane vias per converter. Inductor connections stay on F.Cu. |
+| Converter cells | U1/U2 retain input-left, output-right orientation and inductors on the north side. Their centers are 23 mm apart. Nearest ceramic ground pads face north, with local ground vias; supply-pad centers are 1.81 mm from their IC power pins, with direct 0.4 mm F.Cu connections. VAUX and feedback lower resistors return explicitly on the AGND side. PGND has two nearby plane vias per converter. Inductor connections stay on F.Cu. |
 | Audio | U6 sits beside J3. Both BTL outputs are 5.373 mm long on F.Cu: 1.673 mm of 0.2 mm package escape, then 0.6 mm main conductors. Zero speaker vias. The prior 0.15 mm paths used different layers and two vias each. KiCad rules and `check_layout.py` now guard this. |
 | USB | Q4/Q5 and R40–R44 produce a positive presence signal on GPIO7. VBUS reaches Q4 through 100 kΩ; GPIO7 is pulled only to 3.3 V. With the board off, there is no direct VBUS-to-GPIO divider or clamp path. Two stages preserve the polarity expected by self-powered TinyUSB configuration. This is presence detection, not a precision VBUS undervoltage comparator. |
 | Battery measurement | Q6/Q7, R45–R49 and C34 provide switched 33 kΩ/10 kΩ sensing on GPIO2, enabled by GPIO12. Default OFF; 0–6 V protected-node envelope. See `battery-sensing.md`. |
@@ -15,6 +15,14 @@ Revised 2026-09-04 for PR #122. This is a routed engineering prototype, with bat
 | Mechanics/library | SW1 consistently selects MSK12C02. The manufacturer drawing agrees with asymmetric 3.0/1.5 mm terminal spacing, 3 mm locating-pin spacing and the selected footprint. USB, module and speaker overhang variants live in `footprints/Board.pretty`; their assembly outlines use F.Fab. Strict DRC no longer reports library mismatches. |
 | Test access | Eight unpopulated underside probe pads: GND, PFET, 3.3 V, 5 V, GPIO15/PG3, GPIO13/PG5, EN_3V3 and GPIO18/EN5. |
 | Simulation | U7/U8 explicitly excluded where no device model exists. Fresh hierarchical exports are handled correctly. Stimuli feed PFET and close SW1 between SW_ON and EN_3V3. Added an actual-schematic dual-rail enabled/load scenario and six monitoring scenarios. |
+
+## Follow-up after the capacitor placement concern
+
+The first compact revision, 77e62ed, rotated C3/C5/C11/C13 to put ground pads inward but increased their explicit VIN/VOUT route length from about 1.91 mm to 4.38 mm. That tradeoff was not adequately covered by the earlier checks, and calling it an unqualified improvement was too strong.
+
+The correction restores north-facing ceramic ground pads and moves the four capacitor centers closer to the IC. Their power-pad center separation is 1.8085 mm, with a direct top-side supply segment at least 0.4 mm wide. Ground pads remain within 0.70 mm of their local ground vias. U2's enable escape was moved away from C11. The compact outline, regulator orientation, inductors, quiet returns and two PGND plane vias remain. `check_layout.py` now checks proximity, the direct supply connection and nearby capacitor ground vias. It passes the corrected PCB and rejects the saved 77e62ed PCB as a negative control.
+
+These are geometry checks, not a PCB parasitic extraction. Complete-loop inductance, ringing, emissions and thermal performance remain unverified. The existing SPICE converter is a behavioral approximation; 25 passing measures must not be interpreted as physical switching or layout validation.
 
 ## Buck-boost placement assessment
 
@@ -74,7 +82,7 @@ Before fabrication:
 
 The JLCPCB four-layer advanced rule profile also passes with zero violations; the fab runner now combines and restores persistent board rules. CI runs the new pin/layout checks and monitoring fixtures.
 
-KiCad 10.0.1: 0 ERC violations, 0 DRC violations including warnings, 0 unconnected items and 0 schematic parity issues. All 342 checked pad nodes across 70 nets have actual saved copper. Layout checks enforce speaker geometry, top-side switching nodes, two PGND plane vias per converter, button pitch and an unrouted In1.Cu ground reference. The final board has 112 electrical footprints, four mounting holes, eight test pads, 3,025 track segments and 220 vias.
+KiCad 10.0.1: 0 ERC violations, 0 DRC violations including warnings, 0 unconnected items and 0 schematic parity issues. All 342 checked pad nodes across 70 nets have actual saved copper. Layout checks enforce speaker geometry, top-side switching nodes, two PGND plane vias per converter, button pitch and an unrouted In1.Cu ground reference. The final board has 112 electrical footprints, four mounting holes, eight test pads, 3,022 track segments and 219 vias.
 
 All 25 configured ngspice measures and six schematic-derived monitoring scenarios pass. All 18 focused board-validator, SPICE-export and fabrication-rule-preservation tests pass, including hierarchical sheet instances, missing/cyclic sheets, multiline root ports and preserved SPICE child definitions. Numerical 1 TΩ shunts regularize passive nodes left floating by excluded digital ICs; nodeset supplies an initial guess for the ideal feedback model. Neither forces a final rail voltage. The TPS63070 model is the repository's behavioral approximation, not TI's switching model. The additional ESP-NOW/battery fixtures are illustrative behavioral load scenarios, not extracted physical power performance. No ripple, EMI, thermal, endurance or USB compliance claim follows from these simulations.
 

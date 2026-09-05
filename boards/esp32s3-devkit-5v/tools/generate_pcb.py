@@ -63,7 +63,7 @@ pos('D1',118,92,0);pos('R11',114.5,92,0)
 # Two identical converter cells; input left, output right, inductor north.
 for ix,(u,base,x,y) in enumerate([('U1',0,113,102),('U2',8,136,102)]):
  pos(u,x,y);pos('L'+str(ix+1),x,y-5.1)
- for c,dx,dy,angle in [(1,-6.5,-6.5,90),(2,-6.5,-2.5,90),(3,-3.8,-2.6,0),(4,.3,2,-90),(5,3.8,-2.6,180),(6,6.5,-3,90),(7,9.7,-3,90),(8,12.9,-3,90)]:
+ for c,dx,dy,angle in [(1,-6.5,-6.5,90),(2,-6.5,-2.5,90),(3,-3.2,-2,90),(4,.3,2,-90),(5,3.2,-2,90),(6,6.5,-3,90),(7,9.7,-3,90),(8,12.9,-3,90)]:
   pos('C'+str(base+c),x+dx,y+dy,angle)
  rbase=0 if ix==0 else 4
  pos('R'+str(3+rbase),x-3.8,y+.7,0)
@@ -132,7 +132,7 @@ for ix,u in enumerate(['U1','U2']):
  for pd in pads(u,'10'):track('GND',[xy(pd.GetPosition()),(x,y-3.8)],.18)
  via('GND',x,y-3.8,.5,.2)
  track('GND',[(x,y-3.8),(x,y-5.1)],.4);via('GND',x,y-5.1,.5,.2)
- # Local capacitor returns point inward into the power-ground pour.
+ # Local capacitor grounds face north into the power-ground pour.
  for cap in [C(3),C(5)]:
   a=pt(cap,2);dest=(a[0],a[1]-.85)
   track('GND',[a,dest],.4);via('GND',*dest,size=.6,drill=.3)
